@@ -81,7 +81,13 @@ const Evein = () => {
   return (
     <>
       <Navbar />
-      <div className={styles.sportsPage}>
+      <div className={styles.sportsPage}
+       style={{
+        backgroundImage: `url(${sportImages[selectedSport]})`, // Set background image dynamically
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        
+      }}>
         <h1 className={styles.title}>Events</h1>
         {/* Section 1: Sports Icons */}
         <div className={styles.sportsIcons}>
