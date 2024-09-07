@@ -1,19 +1,22 @@
 .teamContainer {
   text-align: center;
   padding: 20px;
-  margin-top: 50px;
+  /* border: 2px solid blue; */
   font-family: 'Raleway', sans-serif;
   display: flex;
   flex-direction: column; /* Stack sections vertically */
   align-items: center; /* Center align items */
-  background-color: #9a4325;
+  /* background-color: #9a4325; */
+  background-image: url(./bg2.png);
+  background-size: cover;
+background-position: center;
   color: white;
 }
 
 .heading {
-  margin-top: 25px;
+  margin-top: 45px;
   font-size: 3rem;
-  color: white;
+  color:  #ffffff;;
 }
 
 .roleSection {
