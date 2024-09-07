@@ -11,7 +11,8 @@ const EventTemplate = ({
   structure,
   rules,
   judgingCriteria,
-  prizes
+  prizes,
+  registrationurl
 }) => {
   return (
     <div className={styles.eventDetails}>
@@ -20,12 +21,12 @@ const EventTemplate = ({
       {/* <p className={styles.description}>{description}</p> */}
       <div className={styles.buttons}>
         {isRegistrationOpen ? (
-          <Link to="/" className={`${styles.register} ${styles.open}`}>Register Now</Link>
+          <Link to={registrationurl} className={styles.workButton}>Register Now</Link>
         ) : (
-          <a className={`${styles.register} ${styles.closed}`}>Registrations Opening Soon</a>
+          <a className={styles.workButton}>Registrations Opening Soon</a>
         )}
         {rulebookUrl && (
-          <a href={rulebookUrl} className={styles.rulebook} target="_blank" rel="noopener noreferrer">View Rulebook</a>
+          <a href={rulebookUrl} className={styles.workButton} target="_blank" rel="noopener noreferrer">View Rulebook</a>
         )}
       </div>
       <div className={styles.secondaryContent}>

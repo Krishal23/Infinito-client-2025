@@ -5,12 +5,14 @@ import url from './eventsRuleBook/KabbadiRulebook.pdf'
 const Kabbadi = () => {
   return (
     <EventTemplate
-      name="football"
+      name="kabbadi"
       title="Kabbadi Championship"
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating Kabbadi championship where teams will compete for the ultimate prize."
       isRegistrationOpen={false}
       rulebookUrl={url}
+      registrationurl={'/'}
+
       structure={[
         "Aaditiya Kaswan: 7739962684","Akhilesh Ingole : 9404549742 "
       ]}

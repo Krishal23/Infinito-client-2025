@@ -4,11 +4,14 @@ import rulebook from "./eventsRuleBook/CricketRulebook.pdf";
 const Cricket = () => {
   return (
     <EventTemplate
+      name="cricket"
       title="Cricket Championship"
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating Cricket championship where teams will compete for the ultimate prize."
       isRegistrationOpen={false}
       rulebookUrl={rulebook}
+      registrationurl={'/'}
+
       structure={["Rahul: 7360841005", "Ravindra Bhati: 9351371626 "]}
       rules={[
         "Teams must have eleven players including a goalkeeper.",

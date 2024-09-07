@@ -5,11 +5,13 @@ import url from './eventsRuleBook/BadmintonRulebook.pdf'
 const Badminton = () => {
   return (
     <EventTemplate
-      name="football"
+      name="badminton"
       title="Badminton Championship"
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating Badminton championship where teams will compete for the ultimate prize."
       isRegistrationOpen={false}
+      registrationurl={'/'}
+
       rulebookUrl={url}
       structure={[
         "Prajyot: 9403394000","Shrika Reddy: 6305590331"
