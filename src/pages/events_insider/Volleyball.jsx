@@ -5,12 +5,14 @@ import url from './eventsRuleBook/VolleyballRulebook.pdf'
 const Volleyball = () => {
   return (
     <EventTemplate
-      name="football"
+      name="volleyball"
       title="Volleyball Championship"
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating Table Tennis championship where teams will compete for the ultimate prize."
       isRegistrationOpen={false}
       rulebookUrl={url}
+      registrationurl={'/'}
+
       structure={[
         "Mayank Singh: 9027206586","Abhinav Srivastava: 9204698703"
 

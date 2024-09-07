@@ -5,12 +5,14 @@ import url from './eventsRuleBook/SquashRulebook.pdf';
 const Squash = () => {
   return (
     <EventTemplate
-      name="football"
+      name="squash"
       title="Squash Championship"
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating Squash championship where teams will compete for the ultimate prize."
       isRegistrationOpen={false}
       rulebookUrl={url}
+      registrationurl={'/'}
+
       structure={['Jatin Aggarwal: 7814442765', 'Rishi: 9528755607 ']}
       rules={[
         'Teams must have eleven players including a goalkeeper.',

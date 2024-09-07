@@ -5,11 +5,15 @@ import url from './eventsRuleBook/ChessRulebook.pdf'
 const Chess = () => {
   return (
     <EventTemplate
+      name="chess"
+
       title="Chess Championship"
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating Chess championship where teams will compete for the ultimate prize."
       isRegistrationOpen={false}
       rulebookUrl={url}
+      registrationurl={'/'}
+
       structure={[
         "Ritesh: 8708151519","Akhilesh Ingole : 9404549742 "
 

@@ -14,6 +14,7 @@ import LawnTennis from './LawnTennis';
 import Squash from './Squash';
 import TableTennis from './TableTennis';
 import Weight from './Weight';
+import PowerLift from './PowerLifting';
 
 // Import images
 import footballimg from '../images/football.png';
@@ -30,6 +31,7 @@ import tabletennisimg from '../images/tabletennis.png';
 import weightimg from '../images/weight.png';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
+import powerliftimg from '../images/powerlift.png'
 
 // Mapping for event components
 const eventComponents = {
@@ -43,8 +45,9 @@ const eventComponents = {
   squash: <Squash />,
   'Table Tennis': <TableTennis />,
   volleyball: <Volleyball />,
-  // chess: <Chess />,
-  weight: <Weight />,
+  'Weight Lifting': <Weight />,
+  'Power Lifting':<PowerLift/>,
+
 };
 
 // Mapping for sport images
@@ -59,8 +62,9 @@ const sportImages = {
   squash: squashimg,
   'Table Tennis': tabletennisimg,
   volleyball: volleyballimg,
-  weight: weightimg,
-  // chess: chessimg,
+  'Weight Lifting': weightimg,
+  'Power Lifting': powerliftimg,
+
 };
 
 const Evein = () => {

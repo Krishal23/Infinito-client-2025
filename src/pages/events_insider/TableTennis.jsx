@@ -5,12 +5,14 @@ import url from './eventsRuleBook/TableTennisRulebook.pdf';
 const TableTennis = () => {
   return (
     <EventTemplate
-      name="football"
+      name="tabletennis"
       title="Table Tennis Championship"
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating Table Tennis championship where teams will compete for the ultimate prize."
       isRegistrationOpen={false}
       rulebookUrl={url}
+      registrationurl={'/'}
+
       structure={['Somil Agarwal: 8090872563', 'Anirudh Reddy: 8919450229 ']}
       rules={[
         'Teams must have eleven players including a goalkeeper.',

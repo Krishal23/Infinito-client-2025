@@ -5,12 +5,14 @@ import url from './eventsRuleBook/LawnTennisRulebook.pdf'
 const LawnTennis = () => {
   return (
     <EventTemplate
-      name="football"
+      name="lawntennis"
       title="Lawn Tennis Championship"
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating Lawn Tennis championship where teams will compete for the ultimate prize."
       isRegistrationOpen={false}
       rulebookUrl={url}
+      registrationurl={'/'}
+
       structure={[
         "Pranshu Deep: 8248558408","Shyam Sunder: 9348743979 "
 

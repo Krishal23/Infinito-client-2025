@@ -137,6 +137,85 @@
     font-weight: bold;
     color: #ffcc00; /* Neon yellow */
   }
+
+
+  
+.workButton {
+  padding: 1em 2.4em;
+  border: none;
+  outline: none;
+  margin: 25px;
+  font-weight: bold;
+  font-size: large;
+  font-family: inherit;
+  color: rgb(255, 255, 255);
+  background: #111;
+  cursor: pointer;
+  position: relative;
+  z-index: 0;
+  border-radius: 10px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  background-image: linear-gradient(45deg, #ff9933, #ff3333, #975d22, #ea471f);
+  background-size: 200% 200%;
+  animation: gradient-rotation 5s infinite linear;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.workButton:before {
+  content: "";
+  background: linear-gradient(
+    45deg,
+    #bf660e,
+    #f14005,
+    #d67413b5,
+    #a94608,
+    #c63a13
+  );
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 400%;
+  z-index: -1;
+  filter: blur(5px);
+  -webkit-filter: blur(5px);
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  animation: glowing-button-85 20s linear infinite;
+  transition: opacity 0.3s ease-in-out;
+  border-radius: 10px;
+}
+
+.workButton:after {
+  z-index: -1;
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #222;
+  left: 0;
+  top: 0;
+  border-radius: 10px;
+}
+
+.workButton:hover {
+  transform: scale(1.1); /* Expand the button */
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.5); /* Add a glow effect */
+}
+
+@keyframes glowing-button-85 {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
   
   /* Responsive Styles */
   @media (max-width: 1200px) {
@@ -170,6 +249,10 @@
   
     .structure p, .rules p, .judgingCriteria p, .prizes p {
       font-size: 14px;
+    }
+    .workButton {
+      padding: 8px 30px;
+      font-size: 1.1em;
     }
   }
   
@@ -209,6 +292,10 @@
     .structure p, .rules p, .judgingCriteria p, .prizes p {
       font-size: 12px;
     }
+    .workButton {
+      padding: 8px 30px;
+      font-size: 1em;
+    }
   }
   
   @media (max-width: 480px) {
@@ -244,6 +331,11 @@
   
     .structure p, .rules p, .judgingCriteria p, .prizes p {
       font-size: 10px;
+
+    }
+    .workButton {
+      padding: 5px 20px;
+      font-size: 0.9em;
     }
   }
   

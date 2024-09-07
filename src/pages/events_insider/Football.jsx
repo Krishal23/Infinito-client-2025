@@ -12,6 +12,8 @@ const Football = () => {
       description="Join us for an exhilarating football championship where teams will compete for the ultimate prize."
       isRegistrationOpen={false}
       rulebookUrl={rulebook}
+      registrationurl={'/'}
+
       structure={[
         "Ritesh: 8708151519","Riya Singh: 9598407607 "
       ]}
