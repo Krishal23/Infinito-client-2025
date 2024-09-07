@@ -4,8 +4,8 @@ import url from './eventsRuleBook/AthleticsRulebook.pdf';
 const Atheletic = () => {
   return (
     <EventTemplate
-      name="atheletic"
-      title="Atheletic Championship"
+      name="athletic"
+      title="Athletic Championship"
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating Atheletic championship where teams will compete for the ultimate prize."
       isRegistrationOpen={false}

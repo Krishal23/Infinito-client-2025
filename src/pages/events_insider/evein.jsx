@@ -35,7 +35,7 @@ import powerliftimg from '../images/powerlift.png'
 
 // Mapping for event components
 const eventComponents = {
-  atheletic: <Atheletic />,
+  athletic: <Atheletic />,
   badminton: <Badminton />,
   basketball: <Basketball />,
   cricket: <Cricket />,
@@ -52,7 +52,7 @@ const eventComponents = {
 
 // Mapping for sport images
 const sportImages = {
-  atheletic: atheleteimg,
+  athletic: atheleteimg,
   badminton: badmintonimg,
   basketball: baskimg,
   cricket: crickimg,
