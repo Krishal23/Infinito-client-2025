@@ -3,7 +3,7 @@ import styles from './Team.module.css';
 import pawan from '../assets/pawan.png';
 import ritik from '../assets/ritik sharma.png';
 import aryan from '../assets/aryan.jpg';
-import himanshu from '../assets/himanshu.png';
+import himanshu from '../assets/himanshu.jpg';
 import mayank from '../assets/mayank.png';
 import harsh from '../assets/harsh.png';
 import rudra from '../assets/rudra.png';
@@ -246,13 +246,13 @@ const teamMembers = [
   },
   {
     role: 'E-sports Coordinators',
-    name: 'Sumit Sumhan',
+    name: 'Sumit Suhan',
     position: 'E-sports',
     image: sumit,
   },
   {
     role: 'E-sports Coordinators',
-    name: 'Ritik Sharma',
+    name: 'Rittik Sharma',
     position: 'E-sports',
     image: ritik,
   },

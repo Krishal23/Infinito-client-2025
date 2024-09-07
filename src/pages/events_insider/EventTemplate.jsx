@@ -12,7 +12,7 @@ const EventTemplate = ({
   rules,
   judgingCriteria,
   prizes,
-  registrationurl
+  registrationurl,
 }) => {
   return (
     <div className={styles.eventDetails}>
@@ -21,23 +21,35 @@ const EventTemplate = ({
       {/* <p className={styles.description}>{description}</p> */}
       <div className={styles.buttons}>
         {isRegistrationOpen ? (
-          <Link to={registrationurl} className={styles.workButton}>Register Now</Link>
+          <Link to={registrationurl} className={styles.workButton}>
+            Register Now
+          </Link>
         ) : (
           <a className={styles.workButton}>Registrations Opening Soon</a>
         )}
         {rulebookUrl && (
-          <a href={rulebookUrl} className={styles.workButton} target="_blank" rel="noopener noreferrer">View Rulebook</a>
+          <a
+            href={rulebookUrl}
+            className={styles.workButton}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View Rulebook
+          </a>
         )}
       </div>
       <div className={styles.secondaryContent}>
         {structure && (
-          <div className={styles.structure}>
+          <div className={styles.workButton}>
             <h3>Point of Contacts: </h3>
             <div className={styles.poc}>
-            {structure.map((point, index) => (
-              <p key={index} className={styles.description}>{point}</p>
-            ))}
-          </div></div>
+              {structure.map((point, index) => (
+                <p key={index} className={styles.description}>
+                  {point}
+                </p>
+              ))}
+            </div>
+          </div>
         )}
         {/* {rules && (
           <div className={styles.rules}>

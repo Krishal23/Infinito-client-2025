@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
 @font-face {
   font-family: 'Atmospheric';
   src: url('aAtmospheric.ttf') format('truetype');
@@ -5,141 +7,150 @@
   font-style: normal;
 }
 
+h1 {
+  font-family: 'Raleway', sans-serif;
+}
+
 /* .eventDetails Styles */
 .eventDetails {
-    
-    color: #f0f0f0;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Glowing effect */
-    text-align: center;
-    margin: 20px auto;
-    max-width: 900px;
-  }
-  
-  .date {
-    font-size: 18px;
-    color: #00ff99; /* Neon green */
-    margin: 10px 0;
-  }
-  
-  .description {
-    font-size: 20px;
-    color: #e0e0e0;
-    margin: 10px 0;
-  }
-  
-  .buttons {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-    flex-wrap: wrap;
-  }
-  
-  .register {
-    background: #ff007f; /* Neon pink */
-    color: #000000;
-    padding: 12px 24px;
-    border-radius: 6px;
-    font-family: 'Atmospheric', sans-serif;
+  color: #f0f0f0;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Glowing effect */
+  text-align: center;
+  margin: 20px auto;
+  max-width: 900px;
+}
 
-    text-decoration: none;
-    margin: 0 10px;
-    transition: background 0.3s, transform 0.2s;
-    cursor: pointer;
-    font-size: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 220px;
-    height: 50px;
-  }
-  
-  .register:hover {
-    background: #cc0057; /* Darker neon pink */
-    transform: scale(1.05);
-  }
-  
-  .open {
-    background: #00ff99; /* Neon green */
-  }
-  
-  .closed {
-    background: #ea3434; /* Dark grey */
-    cursor: not-allowed;
-  }
-  
-  .rulebook {
-    background: #fbff23; /* Neon orange */
-    color: #000000;
-    padding: 12px 24px;
-    border-radius: 6px;
-    text-decoration: none;
-    margin: 0 10px;
-    transition: background 0.3s, transform 0.2s;
-    cursor: pointer;
-    font-family: 'Atmospheric', sans-serif;
+.date {
+  font-size: 18px;
+  color: #00ff99; /* Neon green */
+  margin: 10px 0;
+}
 
-    font-size: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 220px;
-    height: 50px;
-  }
-  
-  .rulebook:hover {
-    background: #cc5200; /* Darker neon orange */
-  }
-  
-  .secondaryContent {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .structure, .rules, .judgingCriteria, .prizes {
-    margin-top: 20px;
-    padding: 15px;
-    width: max-content;
-    background: #201b1b6c;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    box-shadow: 0 4px 8px rgba(95, 28, 28, 0.121);
-  }
-  .poc{
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    font-size: xx-large;
-    font-weight: bold;
+.description {
+  font-size: 20px;
+  color: #e0e0e0;
+  margin: 10px 0;
+}
 
-  }
-  
-  .structure h3, .rules h3, .judgingCriteria h3, .prizes h3 {
-    font-size: 22px;
-    color: #00ff99; /* Neon green */
-    margin-bottom: 10px;
-  }
-  
-  .structure p, .rules p, .judgingCriteria p, .prizes p {
-    font-size: 16px;
-    color: #e0e0e0;
-    margin: 5px 0;
-  }
-  
-  .prizes p {
-    font-weight: bold;
-    color: #ffcc00; /* Neon yellow */
-  }
+.buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
 
+.register {
+  background: #ff007f; /* Neon pink */
+  color: #000000;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-family: 'Atmospheric', sans-serif;
 
-  
+  text-decoration: none;
+  margin: 0 10px;
+  transition: background 0.3s, transform 0.2s;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 220px;
+  height: 50px;
+}
+
+.register:hover {
+  background: #cc0057; /* Darker neon pink */
+  transform: scale(1.05);
+}
+
+.open {
+  background: #00ff99; /* Neon green */
+}
+
+.closed {
+  background: #ea3434; /* Dark grey */
+  cursor: not-allowed;
+}
+
+.rulebook {
+  background: #fbff23; /* Neon orange */
+  color: #000000;
+  padding: 12px 24px;
+  border-radius: 6px;
+  text-decoration: none;
+  margin: 0 10px;
+  transition: background 0.3s, transform 0.2s;
+  cursor: pointer;
+  font-family: 'Atmospheric', sans-serif;
+
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 220px;
+  height: 50px;
+}
+
+.rulebook:hover {
+  background: #cc5200; /* Darker neon orange */
+}
+
+.secondaryContent {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.structure,
+.rules,
+.judgingCriteria,
+.prizes {
+  margin-top: 20px;
+  padding: 15px;
+  width: max-content;
+  background: #201b1b6c;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(95, 28, 28, 0.121);
+}
+.poc {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  font-size: xx-large;
+  font-weight: bold;
+}
+
+.structure h3,
+.rules h3,
+.judgingCriteria h3,
+.prizes h3 {
+  font-size: 22px;
+  color: #00ff99; /* Neon green */
+  margin-bottom: 10px;
+}
+
+.structure p,
+.rules p,
+.judgingCriteria p,
+.prizes p {
+  font-size: 16px;
+  color: #e0e0e0;
+  margin: 5px 0;
+}
+
+.prizes p {
+  font-weight: bold;
+  color: #ffcc00; /* Neon yellow */
+}
+
 .workButton {
   padding: 1em 2.4em;
   border: none;
@@ -147,7 +158,7 @@
   margin: 25px;
   font-weight: bold;
   font-size: large;
-  font-family: inherit;
+  font-family: 'Inter', sans-serif;
   color: rgb(255, 255, 255);
   background: #111;
   cursor: pointer;
@@ -165,7 +176,7 @@
 }
 
 .workButton:before {
-  content: "";
+  content: '';
   background: linear-gradient(
     45deg,
     #bf660e,
@@ -190,7 +201,7 @@
 
 .workButton:after {
   z-index: -1;
-  content: "";
+  content: '';
   position: absolute;
   width: 100%;
   height: 100%;
@@ -216,161 +227,181 @@
     background-position: 0% 50%;
   }
 }
-  
-  /* Responsive Styles */
-  @media (max-width: 1200px) {
-    .title{
-        font-size: 2rem;
-    }
-    .eventDetails {
-      padding: 15px;
-      max-width: 750px;
-    }
-  
-    .date {
-      font-size: 16px;
-    }
-  
-    .description {
-      font-size: 18px;
-    }
-  
-    .register {
-      font-size: 16px;
-    }
-  
-    .rulebook {
-      font-size: 16px;
-    }
-  
-    .structure h3, .rules h3, .judgingCriteria h3, .prizes h3 {
-      font-size: 20px;
-    }
-  
-    .structure p, .rules p, .judgingCriteria p, .prizes p {
-      font-size: 14px;
-    }
-    .workButton {
-      padding: 8px 30px;
-      font-size: 1.1em;
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .title{
-        font-size: 1.5rem;
-    }
-    .eventDetails {
-      padding: 10px;
-      max-width: 600px;
-    }
-  
-    .date {
-      font-size: 14px;
-    }
-  
-    .description {
-      font-size: 16px;
-    }
-  
-    .register {
-      font-size: 14px;
-      margin: 4px 22px;
-    }
-  
-    .rulebook {
-      font-size: 14px;
-      margin: 4px 22px;
 
+/* Responsive Styles */
+@media (max-width: 1200px) {
+  .title {
+    font-size: 2rem;
+  }
+  .eventDetails {
+    padding: 15px;
+    max-width: 750px;
+  }
 
-    }
-  
-    .structure h3, .rules h3, .judgingCriteria h3, .prizes h3 {
-      font-size: 18px;
-    }
-  
-    .structure p, .rules p, .judgingCriteria p, .prizes p {
-      font-size: 12px;
-    }
-    .workButton {
-      padding: 8px 30px;
-      font-size: 1em;
-    }
+  .date {
+    font-size: 16px;
   }
-  
-  @media (max-width: 480px) {
-    .title{
-        font-size: 1rem;
-    }
-    .eventDetails {
-      padding: 8px;
-      max-width: 100%;
-    }
-  
-    .date {
-      font-size: 12px;
-    }
-  
-    .description {
-      font-size: 14px;
-    }
-  
-    .register {
-      font-size: 12px;
-      padding: 10px 20px;
-    }
-  
-    .rulebook {
-      font-size: 12px;
-      padding: 8px 16px;
-    }
-  
-    .structure h3, .rules h3, .judgingCriteria h3, .prizes h3 {
-      font-size: 16px;
-    }
-  
-    .structure p, .rules p, .judgingCriteria p, .prizes p {
-      font-size: 10px;
 
-    }
-    .workButton {
-      padding: 5px 20px;
-      font-size: 0.9em;
-    }
+  .description {
+    font-size: 18px;
   }
-  
-  /* iPhone 14 Pro Max Specific Adjustments */
-  @media (max-width: 300px) {
-    .title{
-        font-size: .75rem;
-    }
-    .eventDetails {
-      max-width: 850px;
-      padding: 15px;
-    }
-  
-    .date {
-      font-size: 16px;
-    }
-  
-    .description {
-      font-size: 18px;
-    }
-  
-    .register {
-      font-size: 16px;
-    }
-  
-    .rulebook {
-      font-size: 16px;
-    }
-  
-    .structure h3, .rules h3, .judgingCriteria h3, .prizes h3 {
-      font-size: 20px;
-    }
-  
-    .structure p, .rules p, .judgingCriteria p, .prizes p {
-      font-size: 14px;
-    }
+
+  .register {
+    font-size: 16px;
   }
-  
+
+  .rulebook {
+    font-size: 16px;
+  }
+
+  .structure h3,
+  .rules h3,
+  .judgingCriteria h3,
+  .prizes h3 {
+    font-size: 20px;
+  }
+
+  .structure p,
+  .rules p,
+  .judgingCriteria p,
+  .prizes p {
+    font-size: 14px;
+  }
+  .workButton {
+    padding: 8px 30px;
+    font-size: 1.1em;
+  }
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 1.5rem;
+  }
+  .eventDetails {
+    padding: 10px;
+    max-width: 600px;
+  }
+
+  .date {
+    font-size: 14px;
+  }
+
+  .description {
+    font-size: 16px;
+  }
+
+  .register {
+    font-size: 14px;
+    margin: 4px 22px;
+  }
+
+  .rulebook {
+    font-size: 14px;
+    margin: 4px 22px;
+  }
+
+  .structure h3,
+  .rules h3,
+  .judgingCriteria h3,
+  .prizes h3 {
+    font-size: 18px;
+  }
+
+  .structure p,
+  .rules p,
+  .judgingCriteria p,
+  .prizes p {
+    font-size: 12px;
+  }
+  .workButton {
+    padding: 8px 30px;
+    font-size: 1em;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 1rem;
+  }
+  .eventDetails {
+    padding: 8px;
+    max-width: 100%;
+  }
+
+  .date {
+    font-size: 12px;
+  }
+
+  .description {
+    font-size: 14px;
+  }
+
+  .register {
+    font-size: 12px;
+    padding: 10px 20px;
+  }
+
+  .rulebook {
+    font-size: 12px;
+    padding: 8px 16px;
+  }
+
+  .structure h3,
+  .rules h3,
+  .judgingCriteria h3,
+  .prizes h3 {
+    font-size: 16px;
+  }
+
+  .structure p,
+  .rules p,
+  .judgingCriteria p,
+  .prizes p {
+    font-size: 10px;
+  }
+  .workButton {
+    padding: 5px 20px;
+    font-size: 0.9em;
+  }
+}
+
+/* iPhone 14 Pro Max Specific Adjustments */
+@media (max-width: 300px) {
+  .title {
+    font-size: 0.75rem;
+  }
+  .eventDetails {
+    max-width: 850px;
+    padding: 15px;
+  }
+
+  .date {
+    font-size: 16px;
+  }
+
+  .description {
+    font-size: 18px;
+  }
+
+  .register {
+    font-size: 16px;
+  }
+
+  .rulebook {
+    font-size: 16px;
+  }
+
+  .structure h3,
+  .rules h3,
+  .judgingCriteria h3,
+  .prizes h3 {
+    font-size: 20px;
+  }
+
+  .structure p,
+  .rules p,
+  .judgingCriteria p,
+  .prizes p {
+    font-size: 14px;
+  }
+}

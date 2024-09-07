@@ -85,7 +85,9 @@ const footer = () => {
               <Link to="/event/ins">Events</Link>
             </li>
             <li>
-              <Link to="/">Gallery</Link>
+              <a href="https://drive.google.com/drive/folders/1XoJYQGI3foiN3aX8S87FFJvjLRPHfCOz?usp=sharing">
+                Gallery
+              </a>
             </li>
             <li>
               <Link to="/aboutUs">Our Team</Link>
