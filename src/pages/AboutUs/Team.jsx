@@ -39,7 +39,7 @@ import balwant from '../assets/balwant.jpg';
 
 const teamMembers = [
   {
-    role: 'Overall Head Coordinator',
+    role: 'Overall Fest Coordinator',
     name: 'Balwant Meena',
 
     position: 'Fest Coordinator',
