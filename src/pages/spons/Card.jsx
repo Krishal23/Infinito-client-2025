@@ -1,28 +1,13 @@
-// import React from 'react'
-// import "./Card.css"
-// const Card = (props) => {
-//   return (
-//     <div className='carddiv'>
-//         <div className='cardproptop'>{props.top}</div>
-//         <div className='cardimg'><img src={props.img}/></div>
-//         <div className='cardpropbottom'>{props.bottom}</div>
-      
-//     </div>
-//   )
-// }
 
-// export default Card;
 
 import React, { useEffect, useRef } from 'react';
 import './Card.css';
 import VanillaTilt from 'vanilla-tilt';
 
 const Card = (props) => {
-  // Create a reference for the card element
   const cardRef = useRef(null);
 
   useEffect(() => {
-    // Ensure VanillaTilt is available globally
     if (window.VanillaTilt) {
       // Initialize VanillaTilt on the card element
       window.VanillaTilt.init(cardRef.current, {
