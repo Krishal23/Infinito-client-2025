@@ -1,8 +1,16 @@
+@font-face {
+  font-family: 'Atmospheric';
+  src: url('aAtmospheric.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 .teamContainer {
   text-align: center;
   padding: 20px;
   /* border: 2px solid blue; */
   font-family: 'Raleway', sans-serif;
+  
   display: flex;
   flex-direction: column; /* Stack sections vertically */
   align-items: center; /* Center align items */
@@ -14,9 +22,11 @@ background-position: center;
 }
 
 .heading {
-  margin-top: 45px;
+  margin-top: 5rem;
   font-size: 3rem;
   color:  #ffffff;;
+  font-family: 'Atmospheric', sans-serif;
+
 }
 
 .roleSection {

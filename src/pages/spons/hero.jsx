@@ -8,7 +8,7 @@ const Hero = () => {
     <div className="herodiv">
       <h1 id="heading1" className="heading svelte-1suma1w">
         <span className="heading_inside atmos svelte-1suma1w">
-          INFINITO'24 SPONSORS
+          OUR PREVIOUS SPONSORS
         </span>
       </h1>
       <div id="all1" className="heroinnerdiv svelte-1suma1w">
