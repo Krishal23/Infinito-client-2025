@@ -15,7 +15,7 @@ const Chess = () => {
       registrationurl={'/'}
 
       structure={[
-        "Ritesh: 8708151519","Akhilesh Ingole : 9404549742 "
+        "..."
 
       ]}
       rules={[

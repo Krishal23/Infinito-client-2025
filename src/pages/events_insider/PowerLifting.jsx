@@ -14,7 +14,7 @@ const PowerLift = () => {
       registrationurl={'/'}
 
       structure={[
-        "Mayank Singh: 9027206586","Abhinav Srivastava: 9204698703"
+        "..."
 
       ]}
       rules={[

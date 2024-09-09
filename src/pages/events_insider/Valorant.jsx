@@ -13,7 +13,7 @@ const Valorant = () => {
       rulebookUrl={'/update'}
       registrationurl={'#'}
 
-      structure={['Jatin Aggarwal: 7814442765', 'Rishi: 9528755607 ']}
+      structure={["..."]}
       rules={[
         'Teams must have eleven players including a goalkeeper.',
         'Matches will be played with standard football rules.',
