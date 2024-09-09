@@ -79,7 +79,7 @@ const footer = () => {
           <p>USEFUL LINKS</p>
           <ul>
             <li>
-              <Link to="/">About us</Link>
+              <Link to="/">Home</Link>
             </li>
             <li>
               <Link to="/event/ins">Events</Link>
