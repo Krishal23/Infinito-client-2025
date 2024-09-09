@@ -77,13 +77,14 @@
   display: none;
   flex-direction: column;
   align-items: flex-end;
-  width: 40%;
-  height: 100dvh;
+  border-radius: 10px 0px 0px 10px;
+  width: fit-content;
+  height: fit-content;
   backdrop-filter: blur(12px);
   position: absolute;
   background-color: rgb(10, 6, 6);
   top: 0px;
-  right: 0;
+  right: 0px;
   z-index: 5;
   padding-top: 3rem;
   color: white;
@@ -121,7 +122,7 @@
 
   .mobile-menu {
     display: flex;
-    margin-right: 0;
+    margin-right: 0px;
   }
 
   .nav {

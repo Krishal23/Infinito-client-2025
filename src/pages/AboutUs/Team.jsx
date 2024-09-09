@@ -170,12 +170,6 @@ const teamMembers = [
   },
   {
     role: 'Events & Management Coordinators',
-    name: 'Gaurav Kumar',
-    position: 'Events Lead',
-    image: gaurav,
-  },
-  {
-    role: 'Events & Management Coordinators',
     name: 'Shyam Sundar',
     position: 'Events Lead',
     image: shyam,
@@ -185,6 +179,12 @@ const teamMembers = [
     name: 'Aman Kumar',
     position: 'Events & Management',
     image: aman,
+  },
+  {
+    role: 'Events & Management Coordinators',
+    name: 'Gaurav Verma',
+    position: 'Events & Management',
+    image: gaurav,
   },
 
   {

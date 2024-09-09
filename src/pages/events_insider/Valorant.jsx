@@ -1,6 +1,6 @@
 import React from 'react';
 import EventTemplate from './EventTemplate';
-import url from './eventsRuleBook/SquashRulebook.pdf';
+import url from './eventsRuleBook/Valorant_rulebook.pdf';
 
 const Valorant = () => {
   return (
@@ -10,10 +10,10 @@ const Valorant = () => {
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating Valorant championship where teams will compete for the ultimate prize."
       isRegistrationOpen={false}
-      rulebookUrl={'/update'}
+      rulebookUrl={url}
       registrationurl={'#'}
 
-      structure={["..."]}
+      structure={["Manu Kushwah : 9664391120"]}
       rules={[
         'Teams must have eleven players including a goalkeeper.',
         'Matches will be played with standard football rules.',

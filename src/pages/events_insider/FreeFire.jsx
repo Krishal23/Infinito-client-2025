@@ -1,6 +1,6 @@
 import React from 'react';
 import EventTemplate from './EventTemplate';
-import url from './eventsRuleBook/SquashRulebook.pdf';
+import url from './eventsRuleBook/Freefire_rulebook.pdf';
 
 const FreeFire = () => {
   return (
@@ -10,10 +10,10 @@ const FreeFire = () => {
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating Free Fire championship where teams will compete for the ultimate prize."
       isRegistrationOpen={false}
-      rulebookUrl={'/update'}
+      rulebookUrl={url}
       registrationurl={'#'}
 
-      structure={["..."]}
+      structure={["Saksham Srivastava : 9555899043"]}
       rules={[
         'Teams must have eleven players including a goalkeeper.',
         'Matches will be played with standard football rules.',

@@ -15,7 +15,7 @@ const Football = () => {
       registrationurl={'https://docs.google.com/forms/d/1d7bdGhsw93YWvHmxauiDgvuybm9i6vbn1XM8D4zlL7s/edit?pli=1&pli=1'}
 
       structure={[
-        "Ritesh: 8708151519","Riya Singh: 9598407607 "
+        "Ritesh: 8708151519","Akhilesh Ingole : 9404549742  "
       ]}
       rules={[
         "Teams must have eleven players including a goalkeeper.",
