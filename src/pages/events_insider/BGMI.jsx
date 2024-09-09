@@ -1,5 +1,5 @@
 import EventTemplate from "./EventTemplate";
-import rulebook from "./eventsRuleBook/CricketRulebook.pdf";
+import rulebook from "./eventsRuleBook/BGMI_rulebook.pdf";
 
 const BGMI = () => {
   return (
@@ -9,10 +9,10 @@ const BGMI = () => {
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating BGMI championship where teams will compete for the ultimate prize."
       isRegistrationOpen={false}
-      rulebookUrl={'/update'}
+      rulebookUrl={rulebook}
       registrationurl={'#'}
 
-      structure={["..."]}
+      structure={["Taksh Bhawan : 8107991007"]}
       rules={[
         "Teams must have eleven players including a goalkeeper.",
         "Matches will be played with standard football rules.",

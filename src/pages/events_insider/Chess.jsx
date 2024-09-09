@@ -1,6 +1,6 @@
 import React from 'react';
 import EventTemplate from './EventTemplate';
-// import url from './eventsRuleBook/ChessRulebook.pdf'
+import url from './eventsRuleBook/Chess_rulebook.pdf'
 
 const Chess = () => {
   return (
@@ -10,12 +10,12 @@ const Chess = () => {
       title="Chess Championship"
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating Chess championship where teams will compete for the ultimate prize."
-      isRegistrationOpen={false}
-      rulebookUrl={'/update'}
-      registrationurl={'/'}
+      isRegistrationOpen={true}
+      rulebookUrl={url}
+      registrationurl={'https://forms.gle/Jfkqur1JSLRUvmwz6'}
 
       structure={[
-        "..."
+        "Parth Ganjewar : 8308917584"
 
       ]}
       rules={[
