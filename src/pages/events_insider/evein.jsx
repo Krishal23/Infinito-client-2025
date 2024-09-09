@@ -15,11 +15,16 @@ import Squash from './Squash';
 import TableTennis from './TableTennis';
 import Weight from './Weight';
 import PowerLift from './PowerLifting';
+import BGMI from './BGMI';
+import ClashRoyale from './ClashRoyale';
+import CODM from './CODM';
+import FreeFire from './FreeFire';
+import Valorant from './Valorant';
 
 // Import images
 import footballimg from '../images/football.png';
 import baskimg from '../images/basketball.png';
-// import chessimg from '../images/chess.png';
+import chessimg from '../images/chess.png';
 import crickimg from '../images/cricket.png';
 import atheleteimg from '../images/atheletics.png';
 import volleyballimg from '../images/volleyball.png';
@@ -32,9 +37,21 @@ import weightimg from '../images/weight.png';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import powerliftimg from '../images/powerlift.png'
+import bgmiimg from '../images/bgmi.png'
+import clashroyaleimg from '../images/clashroyale.png'
+import freefireimg from '../images/freefire.png'
+import codmimg from '../images/codm.png'
+import valorantimg from '../images/valorant.png'
+import Chess from './Chess';
+
 
 // Mapping for event components
 const eventComponents = {
+  'Clash Royale':<ClashRoyale/>,
+  'CODM':<CODM/>,
+  'BGMI':<BGMI/>,
+  'Valorant':<Valorant/>,
+  'Free Fire':<FreeFire/>,
   athletic: <Atheletic />,
   badminton: <Badminton />,
   basketball: <Basketball />,
@@ -47,7 +64,7 @@ const eventComponents = {
   volleyball: <Volleyball />,
   'Weight Lifting': <Weight />,
   'Power Lifting':<PowerLift/>,
-
+  'Chess':<Chess/>,
 };
 
 // Mapping for sport images
@@ -64,11 +81,17 @@ const sportImages = {
   volleyball: volleyballimg,
   'Weight Lifting': weightimg,
   'Power Lifting': powerliftimg,
+  'Chess':chessimg,
+  'BGMI':bgmiimg,
+  'Clash Royale':clashroyaleimg,
+  'CODM':codmimg,
+  'Free Fire':freefireimg,
+  'Valorant':valorantimg,
 
 };
 
 const Evein = () => {
-  const [selectedSport, setSelectedSport] = useState('football');
+  const [selectedSport, setSelectedSport] = useState('BGMI');
   const descriptionRef = useRef(null);
 
   const handleIconClick = (sportKey) => {

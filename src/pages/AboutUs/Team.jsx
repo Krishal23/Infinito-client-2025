@@ -21,6 +21,7 @@ import arti from '../assets/arti.png';
 import ansh from '../assets/ansh.png';
 import dolly from '../assets/dolly.png';
 import pullah from '../assets/pulah.png';
+import gaurav from '../assets/GauravKumar.jpg'
 import anirudh from '../assets/anirudh.png';
 import bhavik from '../assets/bhavik.png';
 import rishi from '../assets/rishi.jpg';
@@ -166,6 +167,12 @@ const teamMembers = [
     name: 'Pulah Panara',
     position: 'Events Lead',
     image: pullah,
+  },
+  {
+    role: 'Events & Management Coordinators',
+    name: 'Gaurav Kumar',
+    position: 'Events Lead',
+    image: gaurav,
   },
   {
     role: 'Events & Management Coordinators',

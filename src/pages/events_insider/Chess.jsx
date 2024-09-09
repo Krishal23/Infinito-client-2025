@@ -1,6 +1,6 @@
 import React from 'react';
 import EventTemplate from './EventTemplate';
-import url from './eventsRuleBook/ChessRulebook.pdf'
+// import url from './eventsRuleBook/ChessRulebook.pdf'
 
 const Chess = () => {
   return (
@@ -11,7 +11,7 @@ const Chess = () => {
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating Chess championship where teams will compete for the ultimate prize."
       isRegistrationOpen={false}
-      rulebookUrl={url}
+      rulebookUrl={'/'}
       registrationurl={'/'}
 
       structure={[

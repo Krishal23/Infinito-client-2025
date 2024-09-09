@@ -25,6 +25,10 @@ const router = createBrowserRouter([
     path: "/gallery",
     element: <Update />,
   },
+  {
+    path: "/update",
+    element: <Update />,
+  },
 
   {
     path: "/aboutUs",
