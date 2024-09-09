@@ -7,16 +7,21 @@ import crickimg from "../images/cricket.png";
 import ludoimg from "../images/ludo.png";
 import tennisimg from "../images/tennis.png";
 import { Link } from "react-router-dom";
+import bgmiimg from '../images/bgmi.png'
+import clashroyaleimg from '../images/clashroyale.png'
+import freefireimg from '../images/freefire.png'
+import codmimg from '../images/codm.png'
+import valorantimg from '../images/valorant.png'
 
 const Eve = () => {
   const eventsList = [
-    { id: 1, name: "Football", image: footballimg },
+    { id: 1, name: "freefire", image: freefireimg },
     { id: 2, name: "Basketball", image: baskimg },
-    { id: 3, name: "Tennis", image: tennisimg },
+    { id: 3, name: "bgmi", image: bgmiimg },
     { id: 4, name: "Cricket", image: crickimg },
-    { id: 5, name: "Chess", image: chessimg },
+    { id: 5, name: "valorant", image: valorantimg },
     { id: 6, name: "Ludo", image: ludoimg },
-    { id: 7, name: "Kabaddi", image: footballimg },
+    { id: 7, name: "clashroyale", image: clashroyaleimg },
   ];
 
   const [events, setEvents] = useState(eventsList.slice(0, 6)); // Initially load 6 events
