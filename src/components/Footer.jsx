@@ -86,6 +86,7 @@ const footer = () => {
             </li>
             <li>
             <Link to="/gallery">Gallery</Link>
+            {/* https://drive.google.com/drive/folders/1XoJYQGI3foiN3aX8S87FFJvjLRPHfCOz?usp=sharing */}
             </li>
             <li>
               <Link to="/aboutUs">Our Team</Link>
