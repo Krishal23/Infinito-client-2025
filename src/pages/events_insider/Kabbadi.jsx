@@ -14,7 +14,7 @@ const Kabbadi = () => {
       registrationurl={'https://docs.google.com/forms/d/1nXmseeQm8H7nOsqbstaC4pmxaZ2YpmEpelE0YyfCipQ/edit'}
 
       structure={[
-        "Aaditiya Kaswan: 7739962684","Akhilesh Ingole : 9404549742 "
+        "Aditiya Kaswan: 7739962684","Akhilesh Ingole : 9404549742 "
       ]}
       rules={[
         "Teams must have eleven players including a goalkeeper.",
