@@ -12,7 +12,7 @@ const BGMI = () => {
       rulebookUrl={'/update'}
       registrationurl={'#'}
 
-      structure={["Rahul: 7360841005", "Ravindra Bhati: 9351371626 "]}
+      structure={["..."]}
       rules={[
         "Teams must have eleven players including a goalkeeper.",
         "Matches will be played with standard football rules.",
