@@ -75,6 +75,7 @@ const Navbar = () => {
           {/* <Link to="/">Icon1</Link> */}
 
           <Link to="/">Home</Link>
+          <Link to="/gallery">Gallery</Link>
           <Link to="/event/ins">Events</Link>
           <Link to="/aboutUs">Team</Link>
           <Link to="/sponsor">Sponsors</Link>
@@ -94,6 +95,7 @@ const Navbar = () => {
           {/* <Link to="/aboutUs">About Us</Link> */}
         </div>
         <Link to="/">Home</Link>
+        <Link to="/gallery">Gallery</Link>
         <Link to="/event/ins">Events</Link>
         <Link to="/aboutUs">Team</Link>
         {/* <Link to="/workshops">Workshops</Link> */}
