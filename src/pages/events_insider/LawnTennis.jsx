@@ -9,9 +9,9 @@ const LawnTennis = () => {
       title="Lawn Tennis Championship"
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating Lawn Tennis championship where teams will compete for the ultimate prize."
-      isRegistrationOpen={false}
+      isRegistrationOpen={true}
       rulebookUrl={url}
-      registrationurl={'/'}
+      registrationurl={'https://docs.google.com/forms/d/1K1AUGAZEaZx4DTob2lFqE6EryaV4B-rPKLw-xMfJ7ts/edit'}
 
       structure={[
         "Pranshu Deep: 8248558408","Shyam Sunder: 9348743979 "

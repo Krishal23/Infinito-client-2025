@@ -8,8 +8,8 @@ const Atheletic = () => {
       title="Athletic Championship"
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating Atheletic championship where teams will compete for the ultimate prize."
-      isRegistrationOpen={false}
-      registrationurl={'/'}
+      isRegistrationOpen={true}
+      registrationurl={'https://docs.google.com/forms/d/1V3z7ZYRja-NrmX543z8ltKPDSZocR6ZkWXINdFHiO5I/viewform?edit_requested=true'}
       rulebookUrl={url}
       structure={['Santosh Yadav: 6387548985', 'Ranjeet Maurya : 7985002878 ']}
       rules={[

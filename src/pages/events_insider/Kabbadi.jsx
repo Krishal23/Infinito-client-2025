@@ -5,13 +5,13 @@ import url from './eventsRuleBook/KabbadiRulebook.pdf'
 const Kabbadi = () => {
   return (
     <EventTemplate
-      name="kabbadi"
-      title="Kabbadi Championship"
+      name="kabaddi"
+      title="Kabaddi Championship"
       date="20/2/2024 - 22/2/2024"
-      description="Join us for an exhilarating Kabbadi championship where teams will compete for the ultimate prize."
-      isRegistrationOpen={false}
+      description="Join us for an exhilarating Kabaddi championship where teams will compete for the ultimate prize."
+      isRegistrationOpen={true}
       rulebookUrl={url}
-      registrationurl={'/'}
+      registrationurl={'https://docs.google.com/forms/d/1nXmseeQm8H7nOsqbstaC4pmxaZ2YpmEpelE0YyfCipQ/edit'}
 
       structure={[
         "Aaditiya Kaswan: 7739962684","Akhilesh Ingole : 9404549742 "

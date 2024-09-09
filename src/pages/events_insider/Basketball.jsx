@@ -9,9 +9,9 @@ const Basketball = () => {
       title="Basketball Championship"
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating basketball championship where teams will compete for the ultimate prize."
-      isRegistrationOpen={false}
+      isRegistrationOpen={true}
       rulebookUrl={rulebook}
-      registrationurl={'/'}
+      registrationurl={'https://docs.google.com/forms/d/1jzhrwQ2D_L6Nkz9--GmuszRXYCOennkzOPXa54mslAs/edit'}
 
       structure={[
         "Risabh Singraur : 7764070448",

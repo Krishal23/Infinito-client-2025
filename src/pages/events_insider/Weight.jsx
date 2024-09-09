@@ -9,9 +9,9 @@ const Weight = () => {
       title="Weight Lifting Championship"
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating Weight championship where teams will compete for the ultimate prize."
-      isRegistrationOpen={false}
+      isRegistrationOpen={true}
       rulebookUrl={url}
-      registrationurl={'/'}
+      registrationurl={'https://docs.google.com/forms/d/1T91iaNl8Kawzat8yTIi7Wb7bUfkTI6I07DBTpbBpXm8/edit'}
 
       structure={['Nishant: 7858000576', 'Akhilesh Ingole : 9404549742 ']}
       rules={[
