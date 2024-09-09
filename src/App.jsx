@@ -8,6 +8,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 // import Eve from "./pages/Events/events";
 import Evein from "./pages/events_insider/evein";
 import Spons from "./pages/spons/Spons";
+import Update from "./pages/updates/Update";
+// import Gallery from "./pages/Gallery/components/content";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -17,6 +19,11 @@ const router = createBrowserRouter([
   {
     path: "/event/ins",
     element: <Evein />,
+  },
+
+  {
+    path: "/gallery",
+    element: <Update />,
   },
 
   {

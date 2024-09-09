@@ -1,0 +1,35 @@
+.carddiv{
+    border:1px solid black;
+    background-color: #68686841;
+    border-radius: 1rem;
+    width:200px;
+    height:200px;
+    font-family: "Raleway", sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    padding:1rem;
+    will-change:transform;
+    transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1);
+
+    color:White;
+    background-color: #9a4325;
+}
+.cardproptop{
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+.cardpropbottom{
+    text-align:center;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+.cardimg,img{
+    width:200px;
+    height:200px;
+    border-radius: 1rem;
+
+    
+}
