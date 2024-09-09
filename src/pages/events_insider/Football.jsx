@@ -10,9 +10,9 @@ const Football = () => {
       title="Football Championship"
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating football championship where teams will compete for the ultimate prize."
-      isRegistrationOpen={false}
+      isRegistrationOpen={true}
       rulebookUrl={rulebook}
-      registrationurl={'/'}
+      registrationurl={'https://docs.google.com/forms/d/1d7bdGhsw93YWvHmxauiDgvuybm9i6vbn1XM8D4zlL7s/edit?pli=1&pli=1'}
 
       structure={[
         "Ritesh: 8708151519","Riya Singh: 9598407607 "

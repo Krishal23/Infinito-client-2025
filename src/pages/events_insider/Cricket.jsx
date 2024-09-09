@@ -8,9 +8,9 @@ const Cricket = () => {
       title="Cricket Championship"
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating Cricket championship where teams will compete for the ultimate prize."
-      isRegistrationOpen={false}
+      isRegistrationOpen={true}
       rulebookUrl={rulebook}
-      registrationurl={'/'}
+      registrationurl={'https://docs.google.com/forms/d/1Zv8NkeRkPy60e4HdCahwkp_NyRnVc84fskAPywvl5uk/edit'}
 
       structure={["Rahul: 7360841005", "Ravindra Bhati: 9351371626 "]}
       rules={[

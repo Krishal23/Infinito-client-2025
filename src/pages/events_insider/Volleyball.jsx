@@ -9,9 +9,9 @@ const Volleyball = () => {
       title="Volleyball Championship"
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating Table Tennis championship where teams will compete for the ultimate prize."
-      isRegistrationOpen={false}
+      isRegistrationOpen={true}
       rulebookUrl={url}
-      registrationurl={'/'}
+      registrationurl={'https://docs.google.com/forms/d/1tuZ3IWwAwB2kIJodEOAWqdmiciL8IhKHbz7xgAjQFdM/edit'}
 
       structure={[
         "Mayank Singh: 9027206586","Abhinav Srivastava: 9204698703"
