@@ -37,6 +37,7 @@ import Navbar from '../../components/Navbar';
 import shyam from '../assets/shyam.jpg';
 import raunak from '../assets/raunak.jpg';
 import balwant from '../assets/balwant.jpg';
+import sougata from '../../assets/sougata.jpg'
 
 const teamMembers = [
   {
@@ -269,6 +270,12 @@ const teamMembers = [
     name: 'Bhavik Netam',
     position: 'Hospitality',
     image: bhavik,
+  },
+  {
+    role: 'Hospitality Coordinators',
+    name: 'Sougata',
+    position: 'Hospitality',
+    image: sougata,
   },
   {
     role: 'Hospitality Coordinators',
