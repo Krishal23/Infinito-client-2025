@@ -11,7 +11,7 @@ const Chess = () => {
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating Chess championship where teams will compete for the ultimate prize."
       isRegistrationOpen={true}
-      rulebookUrl={'/update'}
+      rulebookUrl={url}
       registrationurl={'https://forms.gle/Jfkqur1JSLRUvmwz6'}
 
       structure={[
