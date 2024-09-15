@@ -9,9 +9,9 @@ const Valorant = () => {
       title="Valorant Championship"
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating Valorant championship where teams will compete for the ultimate prize."
-      isRegistrationOpen={false}
+      isRegistrationOpen={true}
       rulebookUrl={url}
-      registrationurl={'#'}
+      registrationurl={'https://forms.gle/JCEfCh2vD3UVtrW38'}
 
       structure={["Manu Kushwah : 9664391120"]}
       rules={[

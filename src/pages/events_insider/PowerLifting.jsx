@@ -1,6 +1,8 @@
 import React from 'react';
 import EventTemplate from './EventTemplate';
-import url from './eventsRuleBook/VolleyballRulebook.pdf'
+// import url from './eventsRuleBook/VolleyballRulebook.pdf'
+import url from './eventsRuleBook/WeightliftingRulebook.pdf';
+
 
 const PowerLift = () => {
   return (
@@ -10,11 +12,11 @@ const PowerLift = () => {
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating Power Lifting championship where teams will compete for the ultimate prize."
       isRegistrationOpen={true}
-      rulebookUrl={'/update'}
+      rulebookUrl={url}
       registrationurl={'https://forms.gle/Cur1NZ5jHzKUYGkV7'}
 
       structure={[
-        "..."
+        "Nishant : 7858000576"
 
       ]}
       rules={[
