@@ -8,9 +8,9 @@ const BGMI = () => {
       title="BGMI Championship"
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating BGMI championship where teams will compete for the ultimate prize."
-      isRegistrationOpen={false}
+      isRegistrationOpen={true}
       rulebookUrl={rulebook}
-      registrationurl={'#'}
+      registrationurl={'https://forms.gle/QVdqD7r1RRkX9xkL6'}
 
       structure={["Taksh Bhawan : 8107991007"]}
       rules={[

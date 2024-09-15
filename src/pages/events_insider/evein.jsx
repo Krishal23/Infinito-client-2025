@@ -47,7 +47,7 @@ import Chess from './Chess';
 
 // Mapping for event components
 const eventComponents = {
-  'Clash Royale':<ClashRoyale/>,
+  // 'Clash Royale':<ClashRoyale/>,
   'CODM':<CODM/>,
   'BGMI':<BGMI/>,
   'Valorant':<Valorant/>,
@@ -83,7 +83,7 @@ const sportImages = {
   'Power Lifting': powerliftimg,
   'Chess':chessimg,
   'BGMI':bgmiimg,
-  'Clash Royale':clashroyaleimg,
+  // 'Clash Royale':clashroyaleimg,
   'CODM':codmimg,
   'Free Fire':freefireimg,
   'Valorant':valorantimg,
