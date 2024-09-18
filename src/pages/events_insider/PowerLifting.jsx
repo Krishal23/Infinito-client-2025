@@ -1,7 +1,7 @@
 import React from 'react';
 import EventTemplate from './EventTemplate';
 // import url from './eventsRuleBook/VolleyballRulebook.pdf'
-import url from './eventsRuleBook/WeightliftingRulebook.pdf';
+import url from './eventsRuleBook/PowerLiftingRulebook.pdf';
 
 
 const PowerLift = () => {
