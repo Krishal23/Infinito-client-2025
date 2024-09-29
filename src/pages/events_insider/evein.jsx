@@ -20,6 +20,7 @@ import ClashRoyale from './ClashRoyale';
 import CODM from './CODM';
 import FreeFire from './FreeFire';
 import Valorant from './Valorant';
+import MrInfinito from './MrInfinto';
 
 // Import images
 import footballimg from '../images/football.png';
@@ -42,12 +43,14 @@ import clashroyaleimg from '../images/clashroyale.png'
 import freefireimg from '../images/freefire.png'
 import codmimg from '../images/codm.png'
 import valorantimg from '../images/valorant.png'
+import mrinfinitoimg from '../images/mrinfinito.png'
 import Chess from './Chess';
 
 
 // Mapping for event components
 const eventComponents = {
   // 'Clash Royale':<ClashRoyale/>,
+  'Mr. Infinto':<MrInfinito/>,
   'CODM':<CODM/>,
   'BGMI':<BGMI/>,
   'Valorant':<Valorant/>,
@@ -69,6 +72,7 @@ const eventComponents = {
 
 // Mapping for sport images
 const sportImages = {
+  'Mr. Infinto':mrinfinitoimg,
   athletic: atheleteimg,
   badminton: badmintonimg,
   basketball: baskimg,
