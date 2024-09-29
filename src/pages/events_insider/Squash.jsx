@@ -9,9 +9,9 @@ const Squash = () => {
       title="Squash Championship"
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating Squash championship where teams will compete for the ultimate prize."
-      isRegistrationOpen={false}
+      isRegistrationOpen={true}
       rulebookUrl={url}
-      registrationurl={'/'}
+      registrationurl={'https://docs.google.com/forms/d/e/1FAIpQLSfIqf-xZtZJYPWtFS1Ge_sUpCSuEVYYH85vwsbsKJLQdlQDQQ/viewform'}
 
       structure={['Jatin Aggarwal: 7814442765', 'Rishi: 9528755607 ']}
       rules={[
