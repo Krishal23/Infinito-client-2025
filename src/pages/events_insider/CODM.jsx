@@ -1,6 +1,6 @@
 import React from 'react';
 import EventTemplate from './EventTemplate';
-import url from './eventsRuleBook/CODM_rulebook.pdf';
+import url from './eventsRuleBook/CODM_rulebook1.pdf';
 
 const CODM = () => {
   return (

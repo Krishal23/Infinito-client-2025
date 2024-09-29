@@ -1,6 +1,6 @@
 import React from 'react';
 import EventTemplate from './EventTemplate';
-import url from './eventsRuleBook/Freefirerulebook.pdf';
+import url from './eventsRuleBook/Freefirerulebook1.pdf';
 
 const FreeFire = () => {
   return (

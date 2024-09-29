@@ -1,6 +1,6 @@
 import React from 'react';
 import EventTemplate from './EventTemplate';
-import url from './eventsRuleBook/Valorant_rulebook.pdf';
+import url from './eventsRuleBook/Valorant_rulebook1.pdf';
 
 const Valorant = () => {
   return (

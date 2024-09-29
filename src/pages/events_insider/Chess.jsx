@@ -1,6 +1,6 @@
 import React from 'react';
 import EventTemplate from './EventTemplate';
-import url from './eventsRuleBook/Chess_rulebook.pdf'
+import url from './eventsRuleBook/Chess_rulebook1.pdf'
 
 const Chess = () => {
   return (
