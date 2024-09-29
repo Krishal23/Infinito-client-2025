@@ -163,18 +163,18 @@ const teamMembers = [
   //   image: saumya,
   // },
   // Events & Management Coordinators
-  {
-    role: 'Events & Management Coordinators',
-    name: 'Pulah Panara',
-    position: 'Events Lead',
-    image: pullah,
-  },
-  {
-    role: 'Events & Management Coordinators',
-    name: 'Shyam Sundar',
-    position: 'Events Lead',
-    image: shyam,
-  },
+  // {
+  //   role: 'Events & Management Coordinators',
+  //   name: 'Pulah Panara',
+  //   position: 'Events Lead',
+  //   image: pullah,
+  // },
+  // {
+  //   role: 'Events & Management Coordinators',
+  //   name: 'Shyam Sundar',
+  //   position: 'Events Lead',
+  //   image: shyam,
+  // },
   {
     role: 'Events & Management Coordinators',
     name: 'Aman Kumar',
