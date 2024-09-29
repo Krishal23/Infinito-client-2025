@@ -1,5 +1,5 @@
 import EventTemplate from "./EventTemplate";
-import rulebook from "./eventsRuleBook/BGMI_rulebook.pdf";
+import rulebook from "./eventsRuleBook/BGMI_rulebook1.pdf";
 
 const BGMI = () => {
   return (
