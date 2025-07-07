@@ -22,7 +22,7 @@ const ContactInfo = () => {
           <FaPhoneAlt className={styles.icon} />
           <div>
             <h4>PHONE</h4>
-            <p className={styles.infoText}>+91 9302886207</p>
+            <p className={styles.infoText}>+91 7023740380</p>
           </div>
         </div>
 
@@ -31,7 +31,7 @@ const ContactInfo = () => {
           <FaEnvelope className={styles.icon} />
           <div>
             <h4>EMAIL</h4>
-            <p className={styles.infoText}>iitpsports@gmail.com</p>
+            <p className={styles.infoText}>infinito@iitp.ac.in</p>
           </div>
         </div>
       </div>
