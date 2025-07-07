@@ -59,7 +59,7 @@ const footer = () => {
               <FaPhone />{' '}
             </div>
             <div>
-              <pre className="upperone">+91 9302886207 </pre>
+              <pre className="upperone">+91 7023740380 </pre>
               <p className="bottomone">Give us a call</p>
             </div>
           </div>
@@ -69,7 +69,7 @@ const footer = () => {
               <SlEnvolopeLetter />{' '}
             </div>
             <div>
-              <p className="upperone">iitpsports@gmail.com</p>
+              <p className="upperone">infinito@iitp.ac.in</p>
               <p className="bottomone">Mail us here</p>
             </div>
           </div>
