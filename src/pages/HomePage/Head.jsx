@@ -47,7 +47,8 @@ function Main() {
         <div className={styles.tit}>
           <div>
             <h1 className={styles.atmos}>INFINITO</h1>
-            <h1 className={styles.atmos}>2024</h1>
+            <h1 className={styles.atmos}>2025</h1>
+            <h2 className={styles.bupal}>Coming Soon...</h2>
           </div>
           <div className={styles.bupal}>
             <Link to="/event/ins" className={styles.cool}>

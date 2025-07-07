@@ -313,7 +313,7 @@ const Team = () => {
         <Navbar />
       </div>
       <div className={styles.teamContainer}>
-        <h1 className={styles.heading}>Meet Our Team</h1>
+        <h1 className={styles.heading}>Legacy 2024 Team</h1>
 
         {Object.keys(groupedMembers).map((role, index) => {
           const membersCount = groupedMembers[role].length;
