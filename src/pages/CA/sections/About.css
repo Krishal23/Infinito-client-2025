@@ -1,0 +1,107 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.about-section {
+  min-height: 100vh;
+  /* padding: 30px 20px; */
+  background-image: url("../utils/bg11.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  /* background-attachment: fixed; */
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.about-content,
+.about-vector {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: transparent;
+  padding-left: 80px;
+}
+
+.why {
+  font-size: 60px;
+  font-weight: bold;
+  text-align: center;
+  background: linear-gradient(135deg, #1a1a1a, #333333);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  line-height: 1.6;
+  font-family: 'Cinzel Decorative', serif;
+  margin-bottom: 30px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-top: -120px;
+}
+
+.whyca {
+  font-size: 34px;
+  text-align: center;
+  line-height: 1.5;
+  max-width: 700px;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+   font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+   border: 2px solid rgb(173, 166, 166);
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.15); 
+  backdrop-filter: blur(8px);                  
+  -webkit-backdrop-filter: blur(8px);   
+
+}
+
+.logo-img {
+  width: auto;
+  max-height: 80vh;
+  object-fit: contain;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  cursor: default;
+}
+
+.logo-img:hover {
+  transform: scale(1.05);
+}
+
+
+@media (max-width: 768px) {
+  .about-section {
+    flex-direction: column;
+    padding: 30px 15px;
+  }
+
+  .about-content,
+  .about-vector {
+    width: 100%;
+    padding: 20px 0;
+  }
+
+  .why {
+    font-size: 36px;
+  }
+
+  .whyca {
+    font-size: 20px;
+    max-width: 90%;
+  }
+
+  .logo-img {
+    max-height: 50vh;
+  }
+}
