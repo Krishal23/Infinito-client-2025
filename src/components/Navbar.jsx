@@ -45,6 +45,7 @@ const Navbar = () => {
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+  
 
   return (
     <div className="nav">
@@ -64,7 +65,7 @@ const Navbar = () => {
         &#9776;
       </div>
       {showMobileMenu && (
-        <div className="mobile-menu">
+        <div>
           <div
             className="menu-icon"
             onClick={handleMenuClick}
@@ -73,21 +74,18 @@ const Navbar = () => {
             &#9776;
           </div>
           {/* <Link to="/">Icon1</Link> */}
-
-          <Link to="/">Home</Link>
-          {/* <Link to="/gallery">Gallery</Link> */}
-          <Link to="/event/ins">Events</Link>
-          <Link to="/ca">CA Portal</Link>
-          <Link to="/aboutUs">Team</Link>
-          <Link to="/sponsor">Sponsors</Link>
-
-          {/* <Link to="/accomodation">Accomodation</Link> */}
-
-          <Link to="/merch">Merch</Link>
-          {/* <Link to="/">Icon2</Link> */}
+            <div className={`mobile-menu ${showMobileMenu ? "show" : ""}`}>
+              <Link to="/">Home</Link>
+              <Link to="/event/ins">Events</Link>
+              <Link to="/ca">CA Portal</Link>
+              <Link to="/aboutUs">Team</Link>
+              <Link to="/sponsor">Sponsors</Link>
+              <Link to="/merch">Merch</Link>
+              <Link to="/auth" className="login-btn">Login</Link>
+            </div>
         </div>
       )}
-      <div className="desktop-menu">
+      <div >
         <div
           className="dropdown"
           onMouseEnter={handleMouseEnter}
@@ -95,17 +93,16 @@ const Navbar = () => {
         >
           {/* <Link to="/aboutUs">About Us</Link> */}
         </div>
-        <Link to="/">Home</Link>
-        {/* <Link to="/gallery">Gallery</Link> */}
-        <Link to="/event/ins">Events</Link>
-        <Link to="/ca">CA Portal</Link>
-        <Link to="/aboutUs">Team</Link>
-        {/* <Link to="/workshops">Workshops</Link> */}
-        <Link to="/sponsor">Sponsors</Link>
-        {/* <Link to="/accomodation">Accomodation</Link> */}
+        <div className="desktop-menu">
+          <Link to="/">Home</Link>
+          <Link to="/event/ins">Events</Link>
+          <Link to="/ca">CA Portal</Link>
+          <Link to="/aboutUs">Team</Link>
+          <Link to="/sponsor">Sponsors</Link>
+          <Link to="/merch">Merch</Link>
+          <Link to="/auth" className="login-btn">Login</Link>
+        </div>
 
-        <Link to="/merch">Merch</Link>
-        {/* <Link to="/">Icon2</Link> */}
       </div>
     </div>
   );

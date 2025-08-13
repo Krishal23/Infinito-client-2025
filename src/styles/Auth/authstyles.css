@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Inter:wght@400;500;600&display=swap');
+
+.page-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100vw;
+  position: relative;
+  padding: 20px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #fef6f3, #f2f0eb);
+  font-family: 'Inter', sans-serif;
+}
+
+/* Smoke effect (more subtle) */
+.smoke {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120%;
+  height: 100%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 182, 193, 0.25),
+    transparent 70%
+  );
+  animation: smokeDrift 15s ease-in-out infinite alternate;
+  z-index: 0;
+}
+
+@keyframes smokeDrift {
+  from { transform: translateY(0); opacity: 0.25; }
+  to { transform: translateY(-30px); opacity: 0.4; }
+}
+
+.card {
+  z-index: 2;
+  position: relative;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 30px;
+  max-width: 420px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+}
+
+.glitch-text {
+  font-size: 2rem;
+  font-family: 'Cinzel', serif;
+  color: #d97706; /* warm amber */
+  font-weight: 600;
+  text-shadow: none;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+input {
+  padding: 12px 15px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+  outline: none;
+  background-color: #fff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus {
+  border-color: #d97706;
+  box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.15);
+}
+
+button {
+  padding: 12px;
+  background: #d97706;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+button:hover {
+  background: #b45309;
+  transform: translateY(-1px);
+}
+
+.divider {
+  margin: 15px 0;
+  color: #666;
+  opacity: 0.6;
+  font-size: 0.85rem;
+}
+
+.switch-auth {
+  margin-top: 20px;
+  color: #b45309;
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.3s, transform 0.3s;
+}
+
+.switch-auth:hover {
+  color: #000;
+  transform: scale(1.05);
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .card {
+    padding: 20px;
+  }
+  .glitch-text {
+    font-size: 1.75rem;
+  }
+}

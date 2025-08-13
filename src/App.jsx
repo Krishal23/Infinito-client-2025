@@ -10,7 +10,8 @@ import Evein from "./pages/events_insider/evein";
 import Spons from "./pages/spons/Spons";
 import Update from "./pages/updates/Update";
 import CA from "./pages/CA/CA";
-import Register from "./pages/CA/sections/Register";
+import CARegister from "./pages/CA/sections/Register";
+import Auth from "./pages/Auth/Auth";
 // import Gallery from "./pages/Gallery/components/content";
 const router = createBrowserRouter([
   {
@@ -50,7 +51,11 @@ const router = createBrowserRouter([
   },
    {
     path: "/register",
-    element: <Register/>,
+    element: <CARegister/>,
+  },
+   {
+    path: "/auth",
+    element: <Auth/>,
   },
 ]);
 
