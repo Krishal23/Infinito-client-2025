@@ -96,6 +96,7 @@ const Navbar = () => {
               <Link to="/aboutUs">Team</Link>
               <Link to="/sponsor">Sponsors</Link>
               <Link to="/merch">Merch</Link>
+              <Link to="/Admin">Admin</Link>
               {/* <Link to="/auth" className="login-btn">Login</Link> */}
               {isAuth ? (
                 <button onClick={handleLogout} className="logout-btn">Logout</button>
@@ -119,6 +120,7 @@ const Navbar = () => {
           <Link to="/aboutUs">Team</Link>
           <Link to="/sponsor">Sponsors</Link>
           <Link to="/merch">Merch</Link>
+          <Link to="/Admin">Admin</Link>
           {/* <Link to="/auth" className="login-btn">Login</Link> */}
           {isAuth ? (
             <button onClick={handleLogout} className="logout-btn">Logout</button>
