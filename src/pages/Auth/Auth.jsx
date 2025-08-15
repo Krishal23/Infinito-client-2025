@@ -10,7 +10,6 @@ import { AuthContext } from '../../context/AuthContext';
 import axiosInstance from '../../utils/axios';
 import RegisterForm from './RegisterForm';
 import LoginForm from './LoginForm';
-import VerifyOtpForm from './VerifyOtpForm';
 
 
 
