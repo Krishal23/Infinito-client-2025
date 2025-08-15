@@ -19,12 +19,22 @@ import axiosInstance from "./utils/axios";
 import CADashboard from "./pages/CA/sections/CADashboard";
 import ProtectedRoute from "./components/ProtectedRoutes";
 import MyApplication from "./pages/CA/sections/MyApplication";
+import AdminPage from "./pages/Admin/AdminPage";
 // import Gallery from "./pages/Gallery/components/content";
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
   },
+
+
+
+  {
+    path: "/admin",
+    element: <AdminPage />,
+  },
+
+
 
   {
     path: "/event/ins",
