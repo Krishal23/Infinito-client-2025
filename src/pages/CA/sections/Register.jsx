@@ -91,9 +91,9 @@ const CARegister = () => {
           <p>{message}</p>
         ) : (
           <form className="register-form" onSubmit={handleSubmit}>
-            <p>
-              <b>Username:</b> {user.username}
-            </p>
+            <h3>
+               Hello {user.username.toUpperCase()}!!
+            </h3>
             <p>
               <b>Email:</b> {user.email}
             </p>
