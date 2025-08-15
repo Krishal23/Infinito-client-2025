@@ -20,6 +20,7 @@
     "react-oauth": "^0.0.1",
     "react-parallax-tilt": "^1.7.304",
     "react-router-dom": "^6.26.1",
+    "react-toastify": "^11.0.5",
     "vanilla-tilt": "^1.8.1"
   },
   "devDependencies": {

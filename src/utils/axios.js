@@ -1,8 +1,8 @@
+
 import axios from 'axios';
 
 
 const baseUrl = import.meta.env.VITE_APP_API_URL;
-console.log(baseUrl)
 const axiosInstance = axios.create({
   baseURL:  baseUrl, 
   timeout: 10000,
@@ -34,9 +34,10 @@ axiosInstance.interceptors.response.use(
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       localStorage.removeItem('token');
-      
-      window.location.reload();
-      
+      // toast.error('Session expired. Please login again.');
+      // setTimeout(() => {
+      //   window.location.href = '/auth';
+      // }, 1500);
       return Promise.reject(error);
     }
 
@@ -45,3 +46,4 @@ axiosInstance.interceptors.response.use(
 );
 
 export default axiosInstance;
+

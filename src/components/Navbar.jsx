@@ -1,37 +1,52 @@
 import { useState, useEffect } from "react";
 import "./Navbar.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../pages/assets/infinito-logo.png";
+import axiosInstance from "../utils/axios";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 const Navbar = () => {
-  // const [showDropdown, setShowDropdown] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  // const dropdownRef = useRef(null);
+  const navigate = useNavigate();
   let timeoutId = null;
 
+
+  const { user, logout } = useContext(AuthContext);
+  const isAuth = !!user;
+
+  
+
   const handleMouseEnter = () => {
-    // setShowDropdown(true);
     clearTimeout(timeoutId);
   };
 
   const handleMouseLeave = () => {
     timeoutId = setTimeout(() => {
-      // setShowDropdown(false);
     }, 5000);
   };
 
-  // const handleDropdownContentMouseEnter = () => {
-  //   clearTimeout(timeoutId);
-  // };
-
-  // const handleDropdownContentMouseLeave = () => {
-  //   timeoutId = setTimeout(() => {
-  //     setShowDropdown(false);
-  //   }, 5000);
-  // };
-
   const handleMenuClick = () => {
     setShowMobileMenu((prev) => !prev);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await axiosInstance.post(
+        "auth/logout",
+        {},
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      logout();
+      navigate("/auth");
+    } catch (err) {
+      console.error("Logout failed:", err);
+    }
   };
 
   useEffect(() => {
@@ -81,7 +96,12 @@ const Navbar = () => {
               <Link to="/aboutUs">Team</Link>
               <Link to="/sponsor">Sponsors</Link>
               <Link to="/merch">Merch</Link>
-              <Link to="/auth" className="login-btn">Login</Link>
+              {/* <Link to="/auth" className="login-btn">Login</Link> */}
+              {isAuth ? (
+                <button onClick={handleLogout} className="logout-btn">Logout</button>
+              ) : (
+                <Link to="/auth" className="login-btn">Login</Link>
+              )}
             </div>
         </div>
       )}
@@ -91,7 +111,6 @@ const Navbar = () => {
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
-          {/* <Link to="/aboutUs">About Us</Link> */}
         </div>
         <div className="desktop-menu">
           <Link to="/">Home</Link>
@@ -100,7 +119,12 @@ const Navbar = () => {
           <Link to="/aboutUs">Team</Link>
           <Link to="/sponsor">Sponsors</Link>
           <Link to="/merch">Merch</Link>
-          <Link to="/auth" className="login-btn">Login</Link>
+          {/* <Link to="/auth" className="login-btn">Login</Link> */}
+          {isAuth ? (
+            <button onClick={handleLogout} className="logout-btn">Logout</button>
+          ) : (
+            <Link to="/auth" className="login-btn">Login</Link>
+          )}
         </div>
 
       </div>

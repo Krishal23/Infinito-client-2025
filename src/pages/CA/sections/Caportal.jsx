@@ -1,32 +1,45 @@
-import React, { useEffect, useRef, useState } from 'react';
+
+import React, { useEffect, useRef, useState, useCallback, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Caportal.css';
 import VectorImg from '../utils/Group.png';
+import axiosInstance from '../../../utils/axios';
+import { AuthContext } from '../../../context/AuthContext';
+
 
 const Caportal = () => {
   const [role, setRole] = useState(null);
   const [applicationStatus, setApplicationStatus] = useState(null);
   const navigate = useNavigate();
-
+  const { user } = useContext(AuthContext);
   const leftPanelRef = useRef(null);
   const rightPanelRef = useRef(null);
   const buttonRef = useRef(null);
 
   useEffect(() => {
+    if (!user) {
+      setRole(null);
+      setApplicationStatus(null);
+      return;
+    }
+    let isMounted = true;
     const fetchUserData = async () => {
       try {
-        const response = await fetch('/api/user-role');
-        const data = await response.json();
-        setRole(data.role);
-        setApplicationStatus(data.applicationStatus || 'none');
+        const res = await axiosInstance.get('/user/me');
+        if (isMounted) {
+          setRole(res.data.user.role);
+          setApplicationStatus('accepted');
+        }
       } catch (error) {
-        console.error('Failed to fetch user role:', error);
-        setRole('user');
-        setApplicationStatus('none');
+        if (isMounted) {
+          setRole('user');
+          setApplicationStatus('rejected');
+        }
       }
     };
     fetchUserData();
-  }, []);
+    return () => { isMounted = false; };
+  }, [user]);
 
   useEffect(() => {
     if (window.gsap && window.ScrollTrigger) {
@@ -64,7 +77,6 @@ const Caportal = () => {
           },
         }
       );
-     
       if (buttonRef.current) {
         window.gsap.fromTo(
           buttonRef.current,
@@ -88,8 +100,17 @@ const Caportal = () => {
     }
   }, [role, applicationStatus]);
 
-  const handleApplyClick = () => navigate('/register');
-  const handleDashboardClick = () => navigate('/cadashboard');
+
+  const handleApplyClick = useCallback(() => {
+    if (!user) {
+      alert('Please login first to apply as a Campus Ambassador.');
+      navigate('/auth');
+      return;
+    }
+    navigate('/ca-register');
+  }, [navigate, user]);
+  const handleDashboardClick = useCallback(() => navigate('/ca-dashboard'), [navigate]);
+
 
   return (
     <div className="register-container">
@@ -99,10 +120,12 @@ const Caportal = () => {
       <div className="right-panel" ref={rightPanelRef}>
         <div className="heading">CAMPUS AMBASSADOR</div>
         {role === null || applicationStatus === null ? (
-          <p>Loading...</p>
-        ) : role === 'user' && applicationStatus === 'none' ? (
           <button className="gradient-btn" ref={buttonRef} onClick={handleApplyClick}>
             Apply
+          </button>
+        ) : role === 'ca' ? (
+          <button className="gradient-btn" ref={buttonRef} onClick={handleDashboardClick}>
+            CA Dashboard
           </button>
         ) : applicationStatus === 'pending' ? (
           <p
@@ -114,14 +137,12 @@ const Caportal = () => {
               margin: '40px 0',
             }}
           >
-            Application Pending
+            We have received your application. Thank you!
           </p>
-        ) : applicationStatus === 'accepted' && role === 'ambassador' ? (
-          <button className="gradient-btn" ref={buttonRef} onClick={handleDashboardClick}>
-            Go to Dashboard
-          </button>
         ) : (
-          <p>Please contact support for your application status.</p>
+          <button className="gradient-btn" ref={buttonRef} onClick={handleApplyClick}>
+            Apply
+          </button>
         )}
       </div>
     </div>

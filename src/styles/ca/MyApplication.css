@@ -1,0 +1,73 @@
+.myapp-container {
+  display: flex;
+  justify-content: center;
+  background: #f8f9fb;
+  min-height: 85vh;
+  margin-top: min(15vh,4rem);
+  padding: 8px;
+}
+
+.myapp-card {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+  width: 100%;
+  max-width: 650px;
+  transition: transform 0.2s ease;
+}
+
+.myapp-card:hover {
+  transform: translateY(-4px);
+}
+
+.myapp-title {
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #222;
+}
+
+.myapp-info p {
+  font-size: 15px;
+  margin: 8px 0;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px dashed #eee;
+  padding-bottom: 4px;
+}
+
+.myapp-info span:first-child {
+  font-weight: 500;
+  color: #555;
+}
+
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.status-badge.pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.status-badge.approved {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status-badge.rejected {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.loading-text {
+  text-align: center;
+  padding: 50px;
+  font-size: 18px;
+  color: #777;
+}

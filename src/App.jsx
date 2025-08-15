@@ -12,6 +12,13 @@ import Update from "./pages/updates/Update";
 import CA from "./pages/CA/CA";
 import CARegister from "./pages/CA/sections/Register";
 import Auth from "./pages/Auth/Auth";
+import { AuthProvider } from "./context/AuthContext";
+import { useEffect } from "react";
+import { useState } from "react";
+import axiosInstance from "./utils/axios";
+import CADashboard from "./pages/CA/sections/CADashboard";
+import ProtectedRoute from "./components/ProtectedRoutes";
+import MyApplication from "./pages/CA/sections/MyApplication";
 // import Gallery from "./pages/Gallery/components/content";
 const router = createBrowserRouter([
   {
@@ -49,9 +56,29 @@ const router = createBrowserRouter([
     path: "/ca",
     element: <CA />,
   },
-   {
-    path: "/register",
-    element: <CARegister/>,
+  {
+    path: "/ca-register",
+    element: (
+      <ProtectedRoute allowedRoles={["user"]}>
+        <CARegister />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/ca-application",
+    element: (
+      <ProtectedRoute allowedRoles={["user"]}>
+        <MyApplication />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/ca-dashboard",
+    element: (
+      <ProtectedRoute allowedRoles={["ca"]}>
+        <CADashboard />
+      </ProtectedRoute>
+    ),
   },
    {
     path: "/auth",
@@ -60,7 +87,11 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+   return (
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
+  );
 }
 
 export default App;
