@@ -1,51 +1,71 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card.jsx"
 import { Button } from "./ui/button"
 import { Badge } from "./ui/badge"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table"
+import axiosInstance from "../../utils/axios.js"
+
+// React Icons
+import { FaCheckCircle, FaTimesCircle, FaHourglassHalf, FaEye } from "react-icons/fa"
 
 export function CAApplications() {
-  const [caApplications] = useState([
-    {
-      id: "CA001",
-      applicantName: "John Smith",
-      email: "john.smith@email.com",
-      experience: "3 years",
-      status: "pending",
-      appliedDate: "2024-01-15",
-      specialization: "Corporate Law",
-      qualifications: "LLB, LLM",
-    },
-    {
-      id: "CA002",
-      applicantName: "Sarah Johnson",
-      email: "sarah.j@email.com",
-      experience: "5 years",
-      status: "pending",
-      appliedDate: "2024-01-14",
-      specialization: "Tax Law",
-      qualifications: "CA, CPA",
-    },
-    {
-      id: "CA003",
-      applicantName: "Mike Wilson",
-      email: "mike.w@email.com",
-      experience: "2 years",
-      status: "approved",
-      appliedDate: "2024-01-13",
-      specialization: "Audit",
-      qualifications: "CA",
-    },
-  ])
+  const [applications, setApplications] = useState([])
+  const [loading, setLoading] = useState(false)
 
-  const pendingApplications = caApplications.filter((app) => app.status === "pending")
+  useEffect(() => {
+    fetchApplications()
+  }, [])
+
+  const fetchApplications = async () => {
+    try {
+      setLoading(true)
+      const res = await axiosInstance.get("/ca/all-applications")
+      setApplications(res.data.applications)
+    } catch (error) {
+      console.error("Error fetching applications:", error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleApprove = async (id) => {
+    try {
+      await axiosInstance.put(`/ca/${id}/accept`)
+      fetchApplications() // refresh list
+    } catch (error) {
+      console.error("Error approving application:", error)
+    }
+  }
+
+  const handleReject = async (id) => {
+    try {
+      await axiosInstance.put(`/ca/${id}/reject`)
+      fetchApplications()
+    } catch (error) {
+      console.error("Error rejecting application:", error)
+    }
+  }
+
+  const formatDate = (dateString) => {
+    if (!dateString) return "—"
+    return new Date(dateString).toLocaleDateString("en-GB", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    })
+  }
+
+  const pendingApplications = applications.filter((app) => app.status === "pending")
+  const acceptedApplications = applications.filter((app) => app.status === "accepted")
+  const rejectedApplications = applications.filter((app) => app.status === "rejected")
+
 
   return (
     <div className="space-y-6">
       {/* CA Statistics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card className="bg-blue-50 border-blue-200">
           <CardContent className="p-4 text-center">
             <div className="text-2xl font-bold text-blue-700">{pendingApplications.length}</div>
@@ -54,8 +74,14 @@ export function CAApplications() {
         </Card>
         <Card className="bg-green-50 border-green-200">
           <CardContent className="p-4 text-center">
-            <div className="text-2xl font-bold text-green-700">12</div>
-            <div className="text-sm font-medium text-green-600">Active CAs</div>
+            <div className="text-2xl font-bold text-green-700">{acceptedApplications.length}</div>
+            <div className="text-sm font-medium text-green-600">Accepted Applications</div>
+          </CardContent>
+        </Card>
+        <Card className="bg-red-50 border-red-200">
+          <CardContent className="p-4 text-center">
+            <div className="text-2xl font-bold text-red-700">{rejectedApplications.length}</div>
+            <div className="text-sm font-medium text-red-600">Rejected Applications</div>
           </CardContent>
         </Card>
       </div>
@@ -63,61 +89,82 @@ export function CAApplications() {
       {/* CA Applications */}
       <Card>
         <CardHeader>
-          <CardTitle>🛡️ CA Applications Management</CardTitle>
+          <CardTitle>CA Applications Management</CardTitle>
           <p className="text-sm text-gray-600">Review and manage CA applications</p>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Application ID</TableHead>
-                <TableHead>Applicant Name</TableHead>
-                <TableHead>Email</TableHead>
-                <TableHead>Experience</TableHead>
-                <TableHead>Specialization</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {caApplications.map((app) => (
-                <TableRow key={app.id}>
-                  <TableCell className="font-mono font-medium">{app.id}</TableCell>
-                  <TableCell className="font-medium">{app.applicantName}</TableCell>
-                  <TableCell>{app.email}</TableCell>
-                  <TableCell>{app.experience}</TableCell>
-                  <TableCell>
-                    <Badge variant="outline">{app.specialization}</Badge>
-                  </TableCell>
-                  <TableCell>
-                    <Badge
-                      variant={
-                        app.status === "approved" ? "default" : app.status === "rejected" ? "destructive" : "secondary"
-                      }
-                    >
-                      {app.status === "approved" ? "✅" : app.status === "rejected" ? "❌" : "⏳"} {app.status}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    {app.status === "pending" ? (
-                      <div className="flex gap-2">
-                        <Button size="sm" className="bg-green-600 hover:bg-green-700">
-                          ✅ Approve
-                        </Button>
-                        <Button size="sm" variant="destructive">
-                          ❌ Reject
-                        </Button>
-                      </div>
-                    ) : (
-                      <Button size="sm" variant="outline">
-                        👁️ View
-                      </Button>
-                    )}
-                  </TableCell>
+          {loading ? (
+            <p className="text-center text-gray-500">Loading applications...</p>
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>ID</TableHead>
+                  <TableHead>Name</TableHead>
+                  <TableHead>Email</TableHead>
+                  <TableHead>College</TableHead>
+                  <TableHead>Year</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Applied</TableHead>
+                  <TableHead>Actions</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {applications.map((app) => (
+                  <TableRow key={app._id}>
+                    <TableCell className="font-mono text-xs">{app._id.slice(0, 6)}...</TableCell>
+                    <TableCell className="font-medium">{app.fullName}</TableCell>
+                    <TableCell>{app.email}</TableCell>
+                    <TableCell>{app.collegeName}</TableCell>
+                    <TableCell>{app.collegeYear}</TableCell>
+                    <TableCell>
+                      <Badge
+                        variant={
+                          app.status === "accepted"
+                            ? "default"
+                            : app.status === "rejected"
+                            ? "destructive"
+                            : "secondary"
+                        }
+                        className="flex items-center gap-1"
+                      >
+                        {app.status === "accepted" && <FaCheckCircle className="text-green-600" />}
+                        {app.status === "rejected" && <FaTimesCircle className="text-red-600" />}
+                        {app.status === "pending" && <FaHourglassHalf className="text-yellow-500" />}
+                        {app.status.charAt(0).toUpperCase() + app.status.slice(1)}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>{formatDate(app.applicationDate)}</TableCell>
+                    <TableCell>
+                      {app.status === "pending" ? (
+                        <div className="flex gap-2">
+                          <Button
+                            size="sm"
+                            className="bg-green-600 hover:bg-green-700 flex items-center gap-1"
+                            onClick={() => handleApprove(app._id)}
+                          >
+                            <FaCheckCircle /> Approve
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="destructive"
+                            className="flex items-center gap-1"
+                            onClick={() => handleReject(app._id)}
+                          >
+                            <FaTimesCircle /> Reject
+                          </Button>
+                        </div>
+                      ) : (
+                        <Button size="sm" variant="outline" className="flex items-center gap-1">
+                          <FaEye /> View
+                        </Button>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
         </CardContent>
       </Card>
     </div>

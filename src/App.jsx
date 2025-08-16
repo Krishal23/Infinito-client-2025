@@ -13,9 +13,6 @@ import CA from "./pages/CA/CA";
 import CARegister from "./pages/CA/sections/Register";
 import Auth from "./pages/Auth/Auth";
 import { AuthProvider } from "./context/AuthContext";
-import { useEffect } from "react";
-import { useState } from "react";
-import axiosInstance from "./utils/axios";
 import CADashboard from "./pages/CA/sections/CADashboard";
 import ProtectedRoute from "./components/ProtectedRoutes";
 import MyApplication from "./pages/CA/sections/MyApplication";
@@ -31,7 +28,11 @@ const router = createBrowserRouter([
 
   {
     path: "/admin",
-    element: <AdminPage />,
+    element: (
+      <ProtectedRoute allowedRoles={["admin","moderator"]}>
+        <AdminPage />
+      </ProtectedRoute>
+    ),
   },
 
 
