@@ -18,9 +18,9 @@ const Footer = () => {
           </p>
           <div className="footer-social">
             <p>FOLLOW US</p>
-            <div className="social-icons">
-              <a href="https://www.facebook.com/InfinitoIITPatna/">
-                <i className="fab fa-facebook-f"></i>
+            <div className="social-icons flex">
+              <a href="https://www.facebook.com/InfinitoIITPatna/" >
+                {/* <i className="fab fa-facebook-f border-2 border-red-950"></i> */}
                 <FaSquareFacebook />
               </a>
               <a href="https://x.com/infinito_iitp?lang=en">

@@ -8,8 +8,8 @@ const CADashboard = () => {
     <div className="ca-dashboard">
       <Navbar />
       <main className='ca-dashboard main '>
-        <h1>Welcome to the Campus Ambassador Dashboard</h1>
-        <p>Here you can manage your CA tasks and view notifications.</p>
+        <h1>Welcome to the Campus Ambassador Program</h1>
+        <p>Please join the Whatsapp Channel for further communication.</p>
       </main>
       <Footer/>
     </div>

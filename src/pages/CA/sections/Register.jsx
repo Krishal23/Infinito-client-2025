@@ -11,6 +11,7 @@ const CARegister = () => {
     applicationStatement: "",
     fullName: "",
     collegeName: "",
+    rollno: "",
     collegeYear: "",
     por: "",
     collegeAddress: "",
@@ -114,18 +115,31 @@ const CARegister = () => {
               onChange={handleChange}
               required
             />
+            <select
+              name="collegeYear"
+              value={formData.collegeYear}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Select College Year</option>
+              <option value="First Year">First Year</option>
+              <option value="Second Year">Second Year</option>
+              <option value="Third Year">Third Year</option>
+              <option value="Fourth Year">Fourth Year</option>
+              <option value="Fifth Year">Fifth Year</option>
+            </select>
             <input
               type="text"
-              name="collegeYear"
-              placeholder="College Year"
-              value={formData.collegeYear}
+              name="rollno"
+              placeholder="Roll Number"
+              value={formData.rollno}
               onChange={handleChange}
               required
             />
             <input
               type="text"
               name="por"
-              placeholder="Position of Responsibility (POR)"
+              placeholder="Position of Responsibility (POR if Any)"
               value={formData.por}
               onChange={handleChange}
             />
@@ -135,6 +149,7 @@ const CARegister = () => {
               placeholder="College Address"
               value={formData.collegeAddress}
               onChange={handleChange}
+              required
             />
             <input
               type="text"
@@ -142,6 +157,7 @@ const CARegister = () => {
               placeholder="Phone Number"
               value={formData.phoneNumber}
               onChange={handleChange}
+              required
             />
             <input
               type="email"

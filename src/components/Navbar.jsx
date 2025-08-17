@@ -103,7 +103,7 @@ const Navbar = () => {
               }
               {/* <Link to="/auth" className="login-btn">Login</Link> */}
               {isAuth ? (
-                <button onClick={handleLogout} className="logout-btn">Logout</button>
+                <Link onClick={handleLogout} >Logout</Link>
               ) : (
                 <Link to="/auth" className="login-btn">Login</Link>
               )}
@@ -131,7 +131,7 @@ const Navbar = () => {
           }          
           {/* <Link to="/auth" className="login-btn">Login</Link> */}
           {isAuth ? (
-            <button onClick={handleLogout} className="logout-btn">Logout</button>
+             <Link onClick={handleLogout} >Logout</Link>
           ) : (
             <Link to="/auth" className="login-btn">Login</Link>
           )}
