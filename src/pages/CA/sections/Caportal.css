@@ -5,109 +5,107 @@
 }
 
 .register-container {
+  min-height: 100vh;
   display: flex;
   flex-direction: row;
-  height: 100vh;
-  width: 100%;
-  margin-top: 2rem;
-
-  background-image: url("../utils/bg3.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  /* background-attachment: fixed; */
+  align-items: center;
+  justify-content: center;
+  padding: clamp(20px, 5vw, 40px);
+  background: linear-gradient(135deg, #fff8f0, #92684a);
+  gap: 2rem;
+  overflow-x: hidden;
 }
 
 /* Panels */
-.left-panel, .right-panel {
+.left-panel,
+.right-panel {
   flex: 1;
   display: flex;
-  background-color: transparent;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 80px;
-  flex-direction: column;
 }
 
-.right-panel {
-  margin-right: 80px;
-}
-
-.logo-image {
-  width: auto;
-  max-height: 80vh;
+.left-panel img {
+  width: 100%;
+  max-width: 220px;
+  height: auto;
   object-fit: contain;
-  flex-grow: 1;
 }
 
 /* Heading */
 .heading {
-  font-size: 60px;
-  border-bottom: 3px solid black;
+  font-size: clamp(1.8rem, 6vw, 3.2rem);
+  margin-bottom: 1.5rem;
   font-weight: bold;
-  text-align: center;
   background: linear-gradient(135deg, #1a1a1a, #333333);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: transparent;
-  line-height: 1.6;
-  font-family: 'Cinzel Decorative', serif;
-  margin-bottom: 80px;
-  margin-top: -160px;
+  text-align: center;
 }
 
 /* Buttons */
 .gradient-btn {
-  font-size: 23px;
-  padding: 14px 32px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  color: #fd761c;
-  background: linear-gradient(to right, #000000, #555555);
-  font-family: 'Cinzel Decorative', serif;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-  transition: background 0.3s ease, transform 0.2s ease;
-  font-weight: bold;
-  max-width: 300px;
   width: 100%;
+  max-width: 280px;
+  font-size: clamp(0.95rem, 4vw, 1.2rem);
+  border-radius: 12px;
+  background: linear-gradient(135deg, #ff7e5f, #feb47b);
+  color: white;
+  font-weight: 600;
+  padding: clamp(10px, 3vw, 14px) clamp(14px, 5vw, 20px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.3s ease;
 }
 
 .gradient-btn:hover {
-  background: linear-gradient(135deg, #2c2c2c, #444);
   transform: translateY(-2px);
+  background: linear-gradient(135deg, #ff6a4d, #fd9e72);
 }
 
+/* Tablet and below */
 @media (max-width: 768px) {
   .register-container {
-    flex-direction: column;
+    /* flex-direction: column; */
+    text-align: center;
+    gap: 1.2rem;
+    max-height: 50vh;
   }
 
-  .left-panel, .right-panel {
-    width: 100%;
-    height: 50vh;
-    padding: 30px;
-    margin: 0;
+  .left-panel img {
+    display: auto;
+    margin-top: 4rem;
+    height: 200px;
   }
-
-  .right-panel {
-    margin-right: 0;
-  }
-
-  .heading {
-    font-size: 36px;
-    margin-top: -60px;
-    margin-bottom: 40px;
-  }
-
   .gradient-btn {
-    font-size: 18px;
-    padding: 12px 24px;
-    max-width: 90%;
+    max-width: 220px;  
+    font-size: 1rem;
+    padding: 10px 16px;
+  }
+}
+
+/* Extra small phones */
+@media (max-width: 400px) {
+  .heading {
+    font-size: 1.4rem;
+  }
+  .register-container {
+    /* flex-direction: column; */
+    text-align: center;
+    gap: 1.2rem;
+    height: 50vh;
   }
 
-  .logo-image {
-    max-height: 40vh;
+  .left-panel img {
+    display: auto;
+    margin-top: 4rem;
+    height: 180px;
+  }
+  .gradient-btn {
+    max-width: 100%; 
+    font-size: 0.95rem;
+    padding: 8px 14px;
   }
 }

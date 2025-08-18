@@ -6,102 +6,68 @@
 
 .about-section {
   min-height: 100vh;
-  /* padding: 30px 20px; */
-  background-image: url("../utils/bg11.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  /* background-attachment: fixed; */
-
+  padding: clamp(20px, 5vw, 60px) 20px;
+  background: linear-gradient(135deg, #f9f9f9, #ececec);
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  gap: 2rem;
+  /* overflow-x: hidden; */
 }
 
-.about-content,
-.about-vector {
+.about-content {
   flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  background-color: transparent;
-  padding-left: 80px;
+  text-align: center;
 }
 
 .why {
-  font-size: 60px;
-  font-weight: bold;
-  text-align: center;
-  background: linear-gradient(135deg, #1a1a1a, #333333);
+  font-size: clamp(1.8rem, 5vw, 3.5rem);
+  font-weight: 700;
+  margin-bottom: 1.2rem;
+  background: linear-gradient(135deg, #222, #555);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: transparent;
-  line-height: 1.6;
-  font-family: 'Cinzel Decorative', serif;
-  margin-bottom: 30px;
-  padding-left: 20px;
-  padding-right: 20px;
-  margin-top: -120px;
 }
 
 .whyca {
-  font-size: 34px;
-  text-align: center;
-  line-height: 1.5;
-  max-width: 700px;
-  padding-left: 30px;
-  padding-right: 30px;
-  padding-top: 20px;
-  padding-bottom: 20px;
-   font-family: "Poppins", sans-serif;
-  font-weight: 500;
-  font-style: normal;
-   border: 2px solid rgb(173, 166, 166);
-  border-radius: 20px;
-  background-color: rgba(255, 255, 255, 0.15); 
-  backdrop-filter: blur(8px);                  
-  -webkit-backdrop-filter: blur(8px);   
-
+  font-size: clamp(0.95rem, 3vw, 1.3rem);
+  padding: clamp(12px, 4vw, 20px);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  line-height: 1.6;
 }
 
-.logo-img {
-  width: auto;
-  max-height: 80vh;
-  object-fit: contain;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-  cursor: default;
+.about-vector img {
+  max-width: 90%;
+  height: 320px;
+  border-radius: 12px;
+  transition: transform 0.1s ease-in;
 }
 
-.logo-img:hover {
+.about-vector img:hover {
   transform: scale(1.05);
 }
 
 
+/* Tablet and below */
 @media (max-width: 768px) {
   .about-section {
     flex-direction: column;
-    padding: 30px 15px;
+    text-align: center;
+    gap: 1.5rem;
   }
+}
 
-  .about-content,
-  .about-vector {
-    width: 100%;
-    padding: 20px 0;
-  }
-
+/* Extra small phones */
+@media (max-width: 400px) {
   .why {
-    font-size: 36px;
+    font-size: 1.6rem;
   }
-
   .whyca {
-    font-size: 20px;
-    max-width: 90%;
-  }
-
-  .logo-img {
-    max-height: 50vh;
+    font-size: 0.9rem;
+    padding: 12px;
   }
 }

@@ -11,7 +11,6 @@ import Tasks from './sections/tasks';
 
 const sections = ['caportal', 'about', 'tasks',  'faq', 'contact'];
 // const sections = ['caportal', 'about', 'perks', 'faq', 'contact'];
-
 const CA = () => {
   const [activeSection, setActiveSection] = useState('caportal');
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import "./About.css";
 import VectorImg from "../utils/Coats_Of_Arms_12.png";
+import { FaRocket } from "react-icons/fa";
 
 const About = () => {
   const whyRef = useRef(null);
@@ -69,7 +70,15 @@ const About = () => {
       <div className="about-content">
         <div className="why" ref={whyRef}>Why ca?</div>
         <div className="whyca" ref={whycaRef}>
-          Be the bridge between your college and Infinito. Take up exciting challenges, grow your network, and earn certificates and rewards!
+          <p className="whyca" ref={whycaRef}>
+          Be the face of <span className="highlight">Infinito</span>, IIT Patna’s Sports Fest!{" "}
+          {/* <FaRocket className="rocket-icon" /> */}
+          <br />
+          As a <b>Campus Ambassador</b>, you’ll unlock an internship-like
+          experience in leadership, marketing, and event management — gaining
+          <b> skills, networks, certificates</b>, and <b>exclusive perks</b> while
+          spreading the thrill of sports across campuses.
+        </p>
         </div>
       </div>
       <div className="about-vector" ref={vectorRef}>
