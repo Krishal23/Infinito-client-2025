@@ -12,40 +12,40 @@ const About = () => {
     if (!window.gsap || !window.ScrollTrigger) return;
     const gsap = window.gsap;
     gsap.registerPlugin(window.ScrollTrigger);
-    gsap.fromTo(
-      whyRef.current,
-      { opacity: 0, y: 200, scale: 0.85 },
-      {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        ease: "cubic-bezier(0.4, 0, 0.2, 1)",
-        scrollTrigger: {
-          trigger: whyRef.current,
-          start: "top 80%",
-          end: "top 30%",
-          scrub: true,
-          invalidateOnRefresh: true,
-        }
-      }
-    );
-    gsap.fromTo(
-      whycaRef.current,
-      { opacity: 0, y: 200, scale: 0.85 },
-      {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        ease: "cubic-bezier(0.4, 0, 0.2, 1)",
-        scrollTrigger: {
-          trigger: whycaRef.current,
-          start: "top 85%",
-          end: "top 40%",
-          scrub: true,
-          invalidateOnRefresh: true,
-        }
-      }
-    );
+    // gsap.fromTo(
+    //   whyRef.current,
+    //   { opacity: 0, y: 200, scale: 0.85 },
+    //   {
+    //     opacity: 1,
+    //     y: 0,
+    //     scale: 1,
+    //     ease: "cubic-bezier(0.4, 0, 0.2, 1)",
+    //     scrollTrigger: {
+    //       trigger: whyRef.current,
+    //       start: "top 80%",
+    //       end: "top 30%",
+    //       scrub: true,
+    //       invalidateOnRefresh: true,
+    //     }
+    //   }
+    // );
+    // gsap.fromTo(
+    //   whycaRef.current,
+    //   { opacity: 0, y: 200, scale: 0.85 },
+    //   {
+    //     opacity: 1,
+    //     y: 0,
+    //     scale: 1,
+    //     ease: "cubic-bezier(0.4, 0, 0.2, 1)",
+    //     scrollTrigger: {
+    //       trigger: whycaRef.current,
+    //       start: "top 85%",
+    //       end: "top 40%",
+    //       scrub: true,
+    //       invalidateOnRefresh: true,
+    //     }
+    //   }
+    // );
     gsap.fromTo(
       vectorRef.current,
       { opacity: 0, x: 250, scale: 0.8 },
