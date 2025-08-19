@@ -124,7 +124,7 @@ function Auth() {
     }
   };
 
-  console.log(user)
+  // console.log(user)
   
 
   useEffect(() => {

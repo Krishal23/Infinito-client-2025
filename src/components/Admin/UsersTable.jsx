@@ -34,7 +34,7 @@ export function UsersTable({ users }) {
     })
   }
 
-  console.log(users)
+  // console.log(users)
   const indexOfLastUser = currentPage * usersPerPage
   const indexOfFirstUser = indexOfLastUser - usersPerPage
   const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser)

@@ -43,7 +43,7 @@ export default function AdminPortal() {
 
 
   const handleStatClick = (type) => {
-    console.log(`Clicked on ${type} stat`)
+    // console.log(`Clicked on ${type} stat`)
     if (type === "users") {
       setActiveTab("users")
     } else if (type === "ca") {

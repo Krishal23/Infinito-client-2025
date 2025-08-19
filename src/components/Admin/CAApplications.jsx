@@ -77,7 +77,7 @@ export function CAApplications() {
     setCurrentPage(page)
   }
 
-  console.log(applications)
+  // console.log(applications)
   return (
     <div className="space-y-6">
       {/* CA Statistics */}
