@@ -100,7 +100,7 @@ const router = createBrowserRouter([
 function App() {
    return (
     <AuthProvider>
-      <RouterProvider router={router} />
+      <RouterProvider router={router} />z
     </AuthProvider>
   );
 }

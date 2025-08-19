@@ -64,7 +64,7 @@ const FAQ = () => {
   return (
     <section className="faqs">
       <div className="faq-section">
-        <h2 className="faq-title">INFINITO 2024 – Campus Ambassador FAQ</h2>
+        <h2 className="faq-title">INFINITO 2025 – Campus Ambassador FAQ</h2>
         <div className="faq-list">
           {faqs.map((faq, index) => (
             <div key={index}>
