@@ -12,7 +12,7 @@ const Football = () => {
       description="Join us for an exhilarating football championship where teams will compete for the ultimate prize."
       isRegistrationOpen={true}
       rulebookUrl={rulebook}
-      registrationurl={'https://docs.google.com/forms/d/1d7bdGhsw93YWvHmxauiDgvuybm9i6vbn1XM8D4zlL7s/edit?pli=1&pli=1'}
+      registrationurl= "/events/football"
 
       structure={[
         "Ritesh: 8708151519","Akhilesh Ingole : 9404549742  "

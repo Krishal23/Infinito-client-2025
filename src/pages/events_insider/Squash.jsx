@@ -11,7 +11,7 @@ const Squash = () => {
       description="Join us for an exhilarating Squash championship where teams will compete for the ultimate prize."
       isRegistrationOpen={true}
       rulebookUrl={url}
-      registrationurl={'https://docs.google.com/forms/d/e/1FAIpQLSfIqf-xZtZJYPWtFS1Ge_sUpCSuEVYYH85vwsbsKJLQdlQDQQ/viewform'}
+      registrationurl= "/events/squash"
 
       structure={['Jatin Aggarwal: 7814442765', 'Rishi: 9528755607 ']}
       rules={[

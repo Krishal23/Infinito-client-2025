@@ -1,15 +1,15 @@
 import React from 'react';
 import EventTemplate from './EventTemplate';
 import url from './eventsRuleBook/AthleticsRulebook.pdf';
+
 const Atheletic = () => {
   return (
     <EventTemplate
-      name="athletic"
       title="Athletic Championship"
       date="20/2/2024 - 22/2/2024"
-      description="Join us for an exhilarating Atheletic championship where teams will compete for the ultimate prize."
+      description="Join us for an exhilarating Athletic championship where teams will compete for the ultimate prize."
       isRegistrationOpen={true}
-      registrationurl={'https://docs.google.com/forms/d/1V3z7ZYRja-NrmX543z8ltKPDSZocR6ZkWXINdFHiO5I/viewform?edit_requested=true'}
+      registrationurl="/events/athletics" 
       rulebookUrl={url}
       structure={['Santosh Yadav: 6387548985', 'Ranjeet Maurya : 7985002878 ']}
       rules={[

@@ -17,6 +17,15 @@ import CADashboard from "./pages/CA/sections/CADashboard";
 import ProtectedRoute from "./components/ProtectedRoutes";
 import MyApplication from "./pages/CA/sections/MyApplication";
 import AdminPage from "./pages/Admin/AdminPage";
+import Athletics from "./pages/Events/event-forms/athletics";
+import Badminton_ from "./pages/Events/event-forms/badminton";
+import Basketball_ from "./pages/Events/event-forms/basketball";
+import Football_ from "./pages/Events/event-forms/football";
+import Kabbadi_ from "./pages/Events/event-forms/kabbadi";
+import Lawn_ from "./pages/Events/event-forms/lawn";
+import Squash_ from "./pages/Events/event-forms/squash";
+import Tt_ from "./pages/Events/event-forms/tt";
+import Volleyball_ from "./pages/Events/event-forms/volley";
 // import Gallery from "./pages/Gallery/components/content";
 const router = createBrowserRouter([
   {
@@ -94,6 +103,51 @@ const router = createBrowserRouter([
    {
     path: "/auth",
     element: <Auth/>,
+  },
+
+  {
+    path: "/events/athletics",
+    element: <Athletics/>,
+  },
+
+  {
+    path: "/events/badminton",
+    element: <Badminton_/>,
+  },
+
+   {
+    path: "/events/basketball",
+    element: <Basketball_/>,
+  },
+
+  {
+    path: "/events/football",
+    element: <Football_/>,
+  },
+
+  {
+    path: "/events/kabbadi",
+    element: <Kabbadi_/>,
+  },
+
+  {
+    path: "/events/lawn-tennis",
+    element: <Lawn_/>,
+  },
+
+  {
+    path: "/events/squash",
+    element: <Squash_/>,
+  },
+
+  {
+    path: "/events/table-tennis",
+    element: <Tt_/>,
+  },
+
+  {
+    path: "/events/volleyball",
+    element: <Volleyball_/>,
   },
 ]);
 

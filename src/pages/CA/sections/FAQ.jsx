@@ -50,7 +50,7 @@ const faqs = [
   {
     question: "Who can I contact for queries about the program?",
     answer:
-      "You can reach out to our official team by: (+91 87703 XXXXX) or  (+91 96954 XXXXX).",
+      "You can reach out to our official team by: (+91 79033 26354) or  (+91 92050 36301).",
   },
 ];
 
