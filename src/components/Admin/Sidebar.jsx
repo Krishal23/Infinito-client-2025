@@ -6,7 +6,7 @@ export function Sidebar({ activeTab, onTabChange }) {
     { id: "home", label: "Home" },
     { id: "users", label: "USERS" },
     { id: "ca", label: "CA" },
-    { id: "concerns", label: "CONCERNS" },
+    { id: "events", label: "Events" },
   ]
 
   return (
