@@ -16,10 +16,11 @@ import { AuthProvider } from "./context/AuthContext";
 import { useEffect } from "react";
 import { useState } from "react";
 import axiosInstance from "./utils/axios";
-import CADashboard from "./pages/CA/sections/CADashboard";
+// import CADashboard from "./pages/CA/sections/CADashboard";
 import ProtectedRoute from "./components/ProtectedRoutes";
 import MyApplication from "./pages/CA/sections/MyApplication";
 import AdminPage from "./pages/Admin/AdminPage";
+import CADashboard from "./pages/CA/dashboard/dashboard";
 // import Gallery from "./pages/Gallery/components/content";
 const router = createBrowserRouter([
   {
@@ -28,7 +29,10 @@ const router = createBrowserRouter([
   },
 
 
-
+  // {
+  //   path: "/ca-profile",
+  //   element: <Evein />,
+  // }
   {
     path: "/admin",
     element: <AdminPage />,
@@ -86,7 +90,7 @@ const router = createBrowserRouter([
     path: "/ca-dashboard",
     element: (
       <ProtectedRoute allowedRoles={["ca"]}>
-        <CADashboard />
+         <CADashboard />
       </ProtectedRoute>
     ),
   },

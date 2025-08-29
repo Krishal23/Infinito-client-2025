@@ -6,7 +6,7 @@ export function Button({ children, className = "", variant = "default", size = "
 
   const variants = {
     default: "bg-blue-600 text-white hover:bg-blue-700",
-    destructive: "bg-red-600 text-white hover:bg-red-700",
+    destructive: "bg-red-600 text-White hover:bg-red-700",
     outline: "border border-gray-300 hover:bg-gray-100",
     secondary: "bg-gray-200 text-gray-900 hover:bg-gray-300",
     ghost: "hover:bg-gray-100",

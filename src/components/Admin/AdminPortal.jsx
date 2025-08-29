@@ -1,12 +1,6 @@
 "use client"
 
 import { useState } from "react"
-// import { AdminHeader } from "./components/AdminHeader"
-// import { Sidebar } from "./components/Sidebar"
-// import { UsersTable } from "./components/UsersTable"
-// import { Card, CardContent, CardHeader, CardTitle } from "./components/ui/card"
-// import { CAApplications } from "./components/CAApplications"
-// import { HomeDashboard } from "./components/HomeDashboard"
 
 import { AdminHeader } from "./AdminHeader"
 import { Sidebar } from "./Sidebar"
@@ -14,6 +8,7 @@ import { UsersTable } from "./UsersTable"
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card.jsx"
 import { CAApplications } from "./CAApplications"
 import { HomeDashboard } from "./HomeDashboard"
+import { Events } from "./Events.jsx"
 
 export default function AdminPortal() {
   const [activeTab, setActiveTab] = useState("home")
@@ -38,17 +33,8 @@ export default function AdminPortal() {
       case "ca":
         return <CAApplications />
 
-      case "concerns":
-        return (
-          <Card>
-            <CardHeader>
-              <CardTitle>⚠️ Concerns & Issues</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600">Concerns management interface - Coming soon...</p>
-            </CardContent>
-          </Card>
-        )
+      case "events":
+        return <Events />
 
       default:
         return <div>Select a section from the sidebar</div>
