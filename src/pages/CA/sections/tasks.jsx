@@ -12,31 +12,25 @@ const Tasks = () => {
     window.gsap.registerPlugin(window.ScrollTrigger);
 
     const sections = rootRef.current.querySelectorAll(".hori");
-    sections.forEach((hori) => {
-      const panels = hori.querySelectorAll(".panel, .panel1, .panel2");
-      if (panels.length > 1) {
-        const scrollWidth = hori.scrollWidth;
-        const clientWidth = document.documentElement.clientWidth;
-        window.gsap.timeline({
-          scrollTrigger: {
-            trigger: hori,
-            pin: true,
-            scrub: 1,
-            end: () => "+=" + (scrollWidth - clientWidth - 2),
-            invalidateOnRefresh: true,
-          },
-        })
-        .to(
-          panels,
-          {
-            x: () => -(scrollWidth - clientWidth) + "px",
-            duration: 1,
-            ease: "none",
-          },
-          0.05
-        );
-      }
+sections.forEach((hori) => {
+  const panels = gsap.utils.toArray(".panel, .panel1, .panel2", hori);
+
+  if (panels.length > 1) {
+    gsap.to(panels, {
+      xPercent: -100 * (panels.length - 1),
+      ease: "none",
+      scrollTrigger: {
+        trigger: hori,
+        pin: true,
+        scrub: 1,
+        end: () => "+=" + hori.offsetWidth * (panels.length - 1), 
+        invalidateOnRefresh: true,
+      },
     });
+  }
+});
+
+
 
     return () => {
       window.ScrollTrigger && window.ScrollTrigger.getAll().forEach((t) => t.kill());

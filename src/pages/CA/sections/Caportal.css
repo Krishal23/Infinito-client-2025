@@ -24,12 +24,13 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: 90vh;
 }
 
 .left-panel img {
-  width: 100%;
-  max-width: 220px;
-  height: auto;
+  /* width: 100%; */
+  /* max-width: 220px; */
+  height: 70vh;
   object-fit: contain;
 }
 
@@ -42,6 +43,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-align: center;
+  margin-top: 0.5rem;
 }
 
 /* Buttons */
@@ -101,11 +103,16 @@
   .left-panel img {
     display: auto;
     margin-top: 4rem;
-    height: 180px;
+    height: 50vh;
   }
   .gradient-btn {
     max-width: 100%; 
     font-size: 0.95rem;
     padding: 8px 14px;
   }
+}
+
+.unstop{
+  width: 30vh;
+  margin-left: -10rem;
 }

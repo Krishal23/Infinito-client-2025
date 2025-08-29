@@ -11,7 +11,7 @@ const Basketball = () => {
       description="Join us for an exhilarating basketball championship where teams will compete for the ultimate prize."
       isRegistrationOpen={true}
       rulebookUrl={rulebook}
-      registrationurl={'https://docs.google.com/forms/d/1jzhrwQ2D_L6Nkz9--GmuszRXYCOennkzOPXa54mslAs/edit'}
+      registrationurl="/events/basketball"
 
       structure={[
         "Risabh Singraur : 7764070448",

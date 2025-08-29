@@ -11,7 +11,7 @@ const Kabbadi = () => {
       description="Join us for an exhilarating Kabaddi championship where teams will compete for the ultimate prize."
       isRegistrationOpen={true}
       rulebookUrl={url}
-      registrationurl={'https://docs.google.com/forms/d/1nXmseeQm8H7nOsqbstaC4pmxaZ2YpmEpelE0YyfCipQ/edit'}
+      registrationurl="/events/kabbadi"
 
       structure={[
         "Aaditya Kaswan: 7739962684","Akhilesh Ingole : 9404549742 "
