@@ -4,14 +4,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 85vh;
-  width: 100vw;
-  margin-top: 15vh;
+  min-height: 90vh;
+  width: 100%;
+  margin-top: 10vh;
   overflow: hidden;
   background: linear-gradient(135deg, #fef6f3, #f2f0eb);
   font-family: 'Inter', sans-serif;
-  padding: 10px;
+  padding: clamp(8px, 3vw, 20px);
   box-sizing: border-box;
+  position: relative;
 }
 
 /* Soft smoke background effect */
@@ -19,7 +20,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 150%;
+  width: 180%;
   height: 100%;
   background: radial-gradient(
     ellipse at center,
@@ -39,10 +40,10 @@
   z-index: 2;
   position: relative;
   border-radius: 18px;
-  padding: 15px 28px;
-  min-width: 420px;
+  padding: clamp(16px, 4vw, 28px);
   width: 100%;
   max-width: 520px;
+  min-width: min(90%, 320px); /* fluid min width */
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.1);
@@ -57,7 +58,7 @@
 }
 
 .glitch-text {
-  font-size: 2.1rem;
+  font-size: clamp(1.4rem, 4vw, 2.1rem);
   font-family: 'Cinzel', serif;
   color: #d97706;
   font-weight: 600;
@@ -66,18 +67,19 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: clamp(10px, 2.5vw, 14px);
   margin-top: 12px;
 }
 
 input {
-  padding: 8px 15px;
+  padding: clamp(10px, 2.5vw, 13px) clamp(12px, 3vw, 15px);
   border-radius: 8px;
   border: 1px solid #ddd;
-  font-size: 1rem;
+  font-size: clamp(0.85rem, 2.5vw, 1rem);
   outline: none;
   background-color: #fff;
   transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+  width: 100%;
 }
 
 input:focus {
@@ -86,30 +88,27 @@ input:focus {
   transform: translateY(-1px);
 }
 
-.verify-otp {
-  margin-top: 2px;
-  text-align: center;
+.verify-otp,
+.resend-otp {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 8px;
-}
-.resend-otp {
-  text-align: center;
-  display: flex;
-  justify-content: end;
-  align-items: center;
+  font-size: clamp(0.8rem, 2.5vw, 0.95rem);
+  margin-top: 4px;
+  gap: 6px;
 }
 
 button {
-  padding: 13px;
+  padding: clamp(11px, 3vw, 13px);
   background: linear-gradient(135deg, #d97706, #b45309);
   color: #fff;
   font-weight: 600;
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  font-size: clamp(0.9rem, 2.8vw, 1rem);
   transition: background 0.3s, transform 0.2s;
+  width: 100%;
 }
 
 button:hover {
@@ -118,10 +117,10 @@ button:hover {
 }
 
 .divider {
-  margin: 15px 0;
+  margin: clamp(10px, 3vw, 18px) 0;
   color: #666;
   opacity: 0.6;
-  font-size: 0.85rem;
+  font-size: clamp(0.75rem, 2.5vw, 0.85rem);
   position: relative;
 }
 
@@ -130,23 +129,19 @@ button:hover {
   content: '';
   position: absolute;
   top: 50%;
-  width: 40%;
+  width: 35%;
   height: 1px;
   background: rgba(0,0,0,0.1);
 }
 
-.divider::before {
-  left: 0;
-}
-.divider::after {
-  right: 0;
-}
+.divider::before { left: 0; }
+.divider::after { right: 0; }
 
 .switch-auth {
-  margin-top: 18px;
+  margin-top: clamp(12px, 3vw, 18px);
   color: #b45309;
   text-align: center;
-  font-size: 0.95rem;
+  font-size: clamp(0.85rem, 2.8vw, 0.95rem);
   font-weight: 500;
   cursor: pointer;
   transition: color 0.3s, transform 0.3s;
@@ -158,39 +153,27 @@ button:hover {
   text-decoration: underline;
 }
 
-/* Media Queries */
+/* Breakpoints */
+
+/* Tablet */
 @media (max-width: 768px) {
-  .glitch-text {
-    font-size: 1.8rem;
+  .card {
+    max-width: 90%;
   }
 }
 
+/* Small Phones */
 @media (max-width: 480px) {
   .card {
-    padding: 24px 18px;
-  }
-  .glitch-text {
-    font-size: 1.6rem;
-  }
-  input, button {
-    font-size: 0.95rem;
-    padding: 11px;
+    padding: 18px 15px;
   }
 }
 
-@media (max-width: 360px) {
+/* Extra Small Devices */
+@media (max-width: 340px) {
   .card {
-    padding: 20px 15px;
-    border-radius: 14px;
-  }
-  .glitch-text {
-    font-size: 1.45rem;
-  }
-  .form {
-    gap: 12px;
-  }
-  input, button {
-    font-size: 0.9rem;
-    padding: 10px;
+    padding: 15px 12px;
+    border-radius: 12px;
+    min-width: 95%;
   }
 }

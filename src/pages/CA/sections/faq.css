@@ -1,124 +1,118 @@
-.faqs{
-     padding: 60px 20px;
-  background-image: url("../utils/bg8.png");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  /* background-attachment: fixed; */
-   height: 100vh;
+.faqs {
+  padding: clamp(40px, 8vw, 80px) 20px;
+  background: linear-gradient(135deg, #f6f5f1, #e8e6df); /* matte grey-gold */
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 }
-
 
 .faq-section {
-  max-width: 800px;
-  /* margin: 3rem auto 5rem auto; */
-  padding: 0 1.5rem;
-  font-family: 'Poppins', sans-serif;
-  color: #1f2937;
-  margin-left: 90px;
-  /* padding: 60px 20px; */
-  /* background-image: url("../components/gouache-with-orange-splashes-background321 2.png");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-attachment: fixed; */
-
-  /* display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center; */
+  max-width: 850px;
+  width: 100%;
+  font-family: "Poppins", sans-serif;
+  color: #2f2f2f;
 }
 
-
-
+/* Title */
 .faq-title {
- font-size: 60px;
-  border-bottom: 3px solid black;
-  font-weight: bold;
+  font-size: clamp(1.6rem, 5vw, 2.6rem);
+  font-weight: 700;
   text-align: center;
-  background: linear-gradient(135deg, #1a1a1a, #333333);
+  margin-bottom: 2rem;
+
+  background: linear-gradient(135deg, #bfa46f, #d8c08d);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: transparent;
-  line-height: 1.6;
-  font-family: 'Cinzel Decorative', serif;
-  padding-left: 20px;
-  padding-right: 20px;
-  margin-bottom: 80px;
-  /* margin-top: px; */
 }
 
+/* Container */
 .faq-list {
-  border-top: 2px solid #e4af37;
-  margin-right: 50px;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
+
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  border: 1px solid rgba(191, 164, 111, 0.25);
 }
 
-
- .faq-question {
-  background-color: rgba(255, 255, 255, 0.15); 
-  backdrop-filter: blur(8px);                  
-  -webkit-backdrop-filter: blur(8px);          
-
-  padding: 1rem 1.5rem;
+/* Question */
+.faq-question {
+  padding: clamp(0.9rem, 3vw, 1.2rem) clamp(1rem, 4vw, 1.6rem);
   font-weight: 600;
-  font-size: 1.25rem;
+  font-size: clamp(0.95rem, 4vw, 1.2rem);
   cursor: pointer;
-  border-bottom: 1px solid #e4af37;
+  border-bottom: 1px solid rgba(191, 164, 111, 0.3);
+  background: rgba(255, 255, 255, 0.7);
+  transition: background 0.3s ease;
   position: relative;
-  transition: background-color 0.3s;
-  outline: none;
-  
+  color: #3a3a3a;
 }
 
-.faq-question.open,
-.faq-question:focus {
-  background-color: #e0e7ff;
+.faq-question:hover {
+  background: rgba(255, 255, 255, 0.95);
 }
 
+/* Toggle Icons */
 .faq-question::after {
   content: "+";
   position: absolute;
-  right: 1.5rem;
-  top: 50%;
-  transform: translateY(-50%);
-  font-weight: 700;
-  font-size: 1.5rem;
-  color: #2563eb;
-  transition: transform 0.25s;
-}
-.faq-question.open::after {
-  content: "-";
-  transform: translateY(-50%) rotate(180deg);
+  right: 1.2rem;
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #bfa46f;
+  transition: transform 0.25s ease, color 0.25s ease;
 }
 
+.faq-question.open::after {
+  content: "-";
+  transform: rotate(180deg);
+  color: #8c7547;
+}
+
+/* Answer */
 .faq-answer {
-  padding: 0 1.5rem;
-  font-size: 1.1rem;
-  font-weight: 400;
-  line-height: 1.6;
-  color: #4b5563;
-  border-bottom: 1px solid #e5e7eb;
-  background-color: #fff;
-  
+  font-size: clamp(0.85rem, 3vw, 1rem);
+  line-height: 1.65;
+  color: #444;
+  padding: 0 1.4rem;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease, opacity 0.25s ease;
 }
 
 .faq-answer.expanded {
-  padding-top: 1rem;
-  padding-bottom: 2rem;
+  padding-top: 0.9rem;
+  padding-bottom: 0.9rem;
+  max-height: 600px;
+  opacity: 1;
 }
 
-/* Responsive */
-@media (max-width: 600px) {
+/* Tablet */
+@media (max-width: 768px) {
   .faq-title {
     font-size: 2rem;
   }
+  .faq-section {
+    max-width: 95%;
+  }
+}
+
+/* Small Phones */
+@media (max-width: 420px) {
+  .faq-title {
+    font-size: 1.4rem;
+  }
   .faq-question {
-    font-size: 1.1rem;
-    padding: 1rem;
+    font-size: 0.9rem;
+    padding: 0.75rem 1rem;
   }
   .faq-answer {
-    font-size: 1rem;
+    font-size: 0.8rem;
     padding: 0 1rem;
   }
 }

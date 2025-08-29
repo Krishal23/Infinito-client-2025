@@ -2,9 +2,9 @@
 import axios from 'axios';
 
 
-const baseUrl = import.meta.env.VITE_APP_API_URL;
+const baseUrl = import.meta.env.VITE_APP_API_URL || 'http://localhost:5000/api/v1';
 const axiosInstance = axios.create({
-  baseURL:  baseUrl, 
+  baseURL: baseUrl,
   timeout: 10000,
   withCredentials: true,
   headers: {
@@ -46,4 +46,3 @@ axiosInstance.interceptors.response.use(
 );
 
 export default axiosInstance;
-

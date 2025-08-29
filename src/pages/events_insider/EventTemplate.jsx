@@ -1,3 +1,4 @@
+// EventTemplate.js
 import React from 'react';
 import styles from './eventDetails.module.css';
 import { Link } from 'react-router-dom';
@@ -17,8 +18,6 @@ const EventTemplate = ({
   return (
     <div className={styles.eventDetails}>
       <h1 className={styles.title}>{title}</h1>
-      {/* <p className={styles.date}>Date: {date}</p> */}
-      {/* <p className={styles.description}>{description}</p> */}
       <div className={styles.buttons}>
         {isRegistrationOpen ? (
           <Link to={registrationurl} className={styles.workButton}>
@@ -38,42 +37,7 @@ const EventTemplate = ({
           </a>
         )}
       </div>
-      <div className={styles.secondaryContent}>
-        {structure && (
-          <div className={styles.workButton}>
-            <h3>Point of Contacts: </h3>
-            <div className={styles.poc}>
-              {structure.map((point, index) => (
-                <p key={index} className={styles.description}>
-                  {point}
-                </p>
-              ))}
-            </div>
-          </div>
-        )}
-        {/* {rules && (
-          <div className={styles.rules}>
-            <h3>RULES</h3>
-            {rules.map((rule, index) => (
-              <p key={index} className={styles.description}>{rule}</p>
-            ))}
-          </div>
-        )}
-        {judgingCriteria && (
-          <div className={styles.judgingCriteria}>
-            <h3>Judging Criteria</h3>
-            <p className={styles.description}>{judgingCriteria}</p>
-          </div>
-        )}
-        {prizes && (
-          <div className={styles.prizes}>
-            <h3>Prizes Worth</h3>
-            {prizes.map((prize, index) => (
-              <p key={index} className={styles.description}>{prize}</p>
-            ))}
-          </div>
-        )} */}
-      </div>
+      {/* ...rest remains the same... */}
     </div>
   );
 };

@@ -5,12 +5,14 @@ import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
 import axiosInstance from "../../../utils/axios";
 import { AuthContext } from "../../../context/AuthContext";
+import { toast } from "react-toastify";
 
 const CARegister = () => {
   const [formData, setFormData] = useState({
     applicationStatement: "",
     fullName: "",
     collegeName: "",
+    rollno: "",
     collegeYear: "",
     por: "",
     collegeAddress: "",
@@ -21,6 +23,7 @@ const CARegister = () => {
 
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
@@ -66,16 +69,20 @@ const CARegister = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axiosInstance.post("/ca/apply", {
+      setSubmitting(true);
+      const payload = {
         username: user.username,
         email: user.email,
         ...formData,
-      });
-      alert("Application submitted!");
-      navigate("/");
+      };
+      const res = await axiosInstance.post("/ca/apply", payload);
+      toast.success(res.data?.message || "Application submitted successfully!");
+      setTimeout(() => navigate("/ca-application"), 1000);
     } catch (err) {
-      alert(err.response?.data?.msg || "Error submitting");
+      toast.error(err.response?.data?.message || "Error submitting application");
       console.error(err);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -91,9 +98,9 @@ const CARegister = () => {
           <p>{message}</p>
         ) : (
           <form className="register-form" onSubmit={handleSubmit}>
-            <p>
-              <b>Username:</b> {user.username}
-            </p>
+            <h3>
+               Hello {user.username.toUpperCase()}!!
+            </h3>
             <p>
               <b>Email:</b> {user.email}
             </p>
@@ -114,18 +121,31 @@ const CARegister = () => {
               onChange={handleChange}
               required
             />
+            <select
+              name="collegeYear"
+              value={formData.collegeYear}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Select College Year</option>
+              <option value="First Year">First Year</option>
+              <option value="Second Year">Second Year</option>
+              <option value="Third Year">Third Year</option>
+              <option value="Fourth Year">Fourth Year</option>
+              <option value="Fifth Year">Fifth Year</option>
+            </select>
             <input
               type="text"
-              name="collegeYear"
-              placeholder="College Year"
-              value={formData.collegeYear}
+              name="rollno"
+              placeholder="Roll Number"
+              value={formData.rollno}
               onChange={handleChange}
               required
             />
             <input
               type="text"
               name="por"
-              placeholder="Position of Responsibility (POR)"
+              placeholder="Position of Responsibility (POR if Any)"
               value={formData.por}
               onChange={handleChange}
             />
@@ -135,6 +155,7 @@ const CARegister = () => {
               placeholder="College Address"
               value={formData.collegeAddress}
               onChange={handleChange}
+              required
             />
             <input
               type="text"
@@ -142,6 +163,7 @@ const CARegister = () => {
               placeholder="Phone Number"
               value={formData.phoneNumber}
               onChange={handleChange}
+              required
             />
             <input
               type="email"
@@ -175,7 +197,9 @@ const CARegister = () => {
               onChange={handleChange}
               required
             />
-            <button type="submit">Register</button>
+            <button type="submit" disabled={submitting}>
+              {submitting ? 'Submitting...' : 'Register'}
+            </button>
           </form>
         )}
       </section>

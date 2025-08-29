@@ -1,8 +1,10 @@
-
 import React, { useEffect, useRef, useState, useCallback, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './Caportal.css';
 import VectorImg from '../utils/Group.png';
+import Unstop from '../utils/unstop.png';
 import axiosInstance from '../../../utils/axios';
 import { AuthContext } from '../../../context/AuthContext';
 
@@ -103,8 +105,10 @@ const Caportal = () => {
 
   const handleApplyClick = useCallback(() => {
     if (!user) {
-      alert('Please login first to apply as a Campus Ambassador.');
-      navigate('/auth');
+      // show toast first, then navigate when it closes
+      toast.info('Please login first to apply as a Campus Ambassador.', {
+        onClose: () => navigate('/auth'),
+      });
       return;
     }
     navigate('/ca-register');
@@ -114,10 +118,13 @@ const Caportal = () => {
 
   return (
     <div className="register-container">
+      <ToastContainer position="top-center" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick pauseOnFocusLoss draggable pauseOnHover />
+     
       <div className="left-panel" ref={leftPanelRef}>
         <img src={VectorImg} alt="Logo" className="logo-image" />
       </div>
       <div className="right-panel" ref={rightPanelRef}>
+        <img src={Unstop} alt="Logo" className="unstop" />
         <div className="heading">CAMPUS AMBASSADOR</div>
         {role === null || applicationStatus === null ? (
           <button className="gradient-btn" ref={buttonRef} onClick={handleApplyClick}>

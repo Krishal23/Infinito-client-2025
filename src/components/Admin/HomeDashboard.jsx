@@ -55,7 +55,7 @@ export function HomeDashboard({ onStatClick }) {
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-3xl font-bold mb-2">Welcome to Admin Dashboard</h2>
-            <p className="text-blue-100 text-lg">CA INFINITY 2025 - Administrative Control Center</p>
+            <p className="text-blue-100 text-lg">CA INFINITO 2025 - Administrative Control Center</p>
             <div className="flex items-center mt-4 space-x-4">
               <Badge className="bg-white/20 text-white border-white/30">🟢 System Online</Badge>
               <Badge className="bg-white/20 text-white border-white/30">📅 {new Date().toLocaleDateString()}</Badge>

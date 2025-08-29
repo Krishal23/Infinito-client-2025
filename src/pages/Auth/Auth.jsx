@@ -68,9 +68,9 @@ function Auth() {
 
       if (res?.data?.success === false && res?.data?.timeLeft) {
         toast.info(res.data.message || 'OTP already sent. Please check your inbox.');
-        setOtpSent(true); 
-        setSignupStep(2); 
-        return; 
+        setOtpSent(true);
+        setSignupStep(2);
+        return;
       }
 
       if (res?.data?.success) {
@@ -101,7 +101,7 @@ function Auth() {
       return false;
     } finally {
       setFormLoading(false);
-      setSignupStep(1); 
+      setSignupStep(1);
     }
   };
 
@@ -109,7 +109,7 @@ function Auth() {
     e.preventDefault();
     try {
       setFormLoading(true);
-      const res = await axiosInstance.post("auth/login", formData);
+      const res = await axiosInstance.post("/auth/login", formData);
       if (res?.data && res.data.success === false) {
         toast.error(res.data.message || 'Login failed');
       } else {
@@ -124,7 +124,8 @@ function Auth() {
     }
   };
 
-  
+  // console.log(user)
+
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -165,17 +166,17 @@ function Auth() {
               <h1 className="glitch-text">{isSignup ? 'Register' : 'Login'}</h1>
               {isSignup ? (
                 <>
-                    <RegisterForm
-                      formData={formData}
-                      handleChange={handleChange}
-                      sendOtp={sendOtp}
-                      formLoading={formLoading}
-                      handleGoogleSuccess={handleGoogleSuccess}
-                      otpSent={otpSent}
-                      setOtpSent={setOtpSent}
-                      verifyOtp={verifyOtp}
-                    />
-                  
+                  <RegisterForm
+                    formData={formData}
+                    handleChange={handleChange}
+                    sendOtp={sendOtp}
+                    formLoading={formLoading}
+                    handleGoogleSuccess={handleGoogleSuccess}
+                    otpSent={otpSent}
+                    setOtpSent={setOtpSent}
+                    verifyOtp={verifyOtp}
+                  />
+
                 </>
               ) : (
                 <LoginForm
