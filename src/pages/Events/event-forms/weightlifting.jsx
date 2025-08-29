@@ -34,9 +34,47 @@ const Weightlifting = () => {
     const [submitting, setSubmitting] = useState(false);
     const navigate = useNavigate();
 
+    const weightCategories = [
+        { value: "under_55", label: "Under 55kg" },
+        { value: "55_61", label: "55-61kg" },
+        { value: "61_67", label: "61-67kg" },
+        { value: "67_73", label: "67-73kg" },
+        { value: "73_81", label: "73-81kg" },
+        { value: "81_96", label: "81-96kg" },
+        { value: "96_109", label: "96-109kg" },
+        { value: "over_109", label: "Over 109kg" }
+    ];
+
+    const competitionTypes = [
+        { value: "powerlifting", label: "Powerlifting" },
+        { value: "olympic_weightlifting", label: "Olympic Weightlifting" },
+        { value: "bodybuilding", label: "Bodybuilding" }
+    ];
+
+    const experienceLevels = [
+        { value: "beginner", label: "Beginner" },
+        { value: "intermediate", label: "Intermediate" },
+        { value: "advanced", label: "Advanced" },
+        { value: "professional", label: "Professional" }
+    ];
+
+    const powerliftingEvents = ["squat", "bench_press", "deadlift"];
+    const olympicEvents = ["snatch", "clean_jerk"];
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setForm({ ...form, [name]: value });
+
+        // Reset events when competition type changes
+        if (name === 'competitionType') {
+            const defaultEvents = value === 'powerlifting' ? powerliftingEvents :
+                value === 'olympic_weightlifting' ? olympicEvents : [];
+            setForm(prev => ({
+                ...prev,
+                [name]: value,
+                events: defaultEvents
+            }));
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -125,13 +163,25 @@ const Weightlifting = () => {
                 </div>
 
                 <div className="rules">
-                    Welcome to the Weightlifting Championship! Test your strength and technique in this ultimate display of power.
+                    🏋️‍♂️ Welcome to the Ultimate Test of Strength! 💪
                     <br />
+                    Join us at Infinito 2024 for an exhilarating display of power and technique.
                     <br />
-                    Note: Participants should fill in details correctly, and the participants will be solely responsible for any incorrect information submitted.
+                    <strong>Events Include:</strong> Powerlifting (Squat, Bench Press, Deadlift) & Olympic Weightlifting (Snatch, Clean & Jerk)
+                    <br /><br />
+                    <strong>Categories:</strong> Multiple weight divisions for both men and women
                     <br />
+                    <strong>Registration Fee:</strong> ₹500 per participant
+                    <br /><br />
+                    <strong>Important Notes:</strong>
                     <br />
-                    For any queries, kindly contact our event coordinators
+                    • All participants must follow proper form and safety guidelines
+                    <br />
+                    • Equipment will be provided, but you may bring your own belt and accessories
+                    <br />
+                    • Please ensure accurate weight category selection
+                    <br /><br />
+                    For complete rules and guidelines, visit our official website or contact the event coordinators.
                 </div>
 
                 <form className="form" onSubmit={handleSubmit}>
@@ -152,154 +202,145 @@ const Weightlifting = () => {
                         </label>
                     </div>
 
-                    <select name="competitionType" value={form.competitionType} onChange={handleChange} required>
-                        <option value="">Select Competition Type</option>
-                        <option value="powerlifting">Powerlifting</option>
-                        <option value="olympic_weightlifting">Olympic Weightlifting</option>
-                        <option value="bodybuilding">Bodybuilding</option>
-                    </select>
+                    <div className="form-section">
+                        <strong>Competition Details</strong>
+                        <select name="competitionType" value={form.competitionType} onChange={handleChange} required>
+                            <option value="">Select Competition Type</option>
+                            <option value="powerlifting">Powerlifting</option>
+                            <option value="olympic_weightlifting">Olympic Weightlifting</option>
+                            <option value="bodybuilding">Bodybuilding</option>
+                        </select>
 
-                    <select name="weightCategory" value={form.weightCategory} onChange={handleChange} required>
-                        <option value="">Select Weight Category</option>
-                        <option value="under_55">Under 55kg</option>
-                        <option value="55_61">55-61kg</option>
-                        <option value="61_67">61-67kg</option>
-                        <option value="67_73">67-73kg</option>
-                        <option value="73_81">73-81kg</option>
-                        <option value="81_96">81-96kg</option>
-                        <option value="96_109">96-109kg</option>
-                        <option value="over_109">Over 109kg</option>
-                    </select>
+                        <select name="weightCategory" value={form.weightCategory} onChange={handleChange} required>
+                            <option value="">Select Weight Category</option>
+                            {weightCategories.map(category => (
+                                <option key={category.value} value={category.value}>{category.label}</option>
+                            ))}
+                        </select>
 
-                    <input
-                        type="number"
-                        name="currentWeight"
-                        placeholder="Current Weight (in kg)"
-                        value={form.currentWeight || ''}
-                        onChange={(e) => setForm({ ...form, currentWeight: parseFloat(e.target.value) || 0 })}
-                        required
-                        min="30"
-                        max="200"
-                    />
-
-                    <div className="events-checkboxes" style={{ margin: '10px 0' }}>
-                        <p style={{ marginBottom: '5px' }}>Select Events (at least one required):</p>
-                        <label>
-                            <input
-                                type="checkbox"
-                                name="events"
-                                value="squat"
-                                checked={form.events.includes('squat')}
-                                onChange={(e) => {
-                                    if (e.target.checked) {
-                                        setForm({ ...form, events: [...form.events, 'squat'] })
-                                    } else {
-                                        setForm({ ...form, events: form.events.filter(ev => ev !== 'squat') })
-                                    }
-                                }}
-                            /> Squat
-                        </label>
-                        <label>
-                            <input
-                                type="checkbox"
-                                name="events"
-                                value="bench_press"
-                                checked={form.events.includes('bench_press')}
-                                onChange={(e) => {
-                                    if (e.target.checked) {
-                                        setForm({ ...form, events: [...form.events, 'bench_press'] })
-                                    } else {
-                                        setForm({ ...form, events: form.events.filter(ev => ev !== 'bench_press') })
-                                    }
-                                }}
-                            /> Bench Press
-                        </label>
-                        <label>
-                            <input
-                                type="checkbox"
-                                name="events"
-                                value="deadlift"
-                                checked={form.events.includes('deadlift')}
-                                onChange={(e) => {
-                                    if (e.target.checked) {
-                                        setForm({ ...form, events: [...form.events, 'deadlift'] })
-                                    } else {
-                                        setForm({ ...form, events: form.events.filter(ev => ev !== 'deadlift') })
-                                    }
-                                }}
-                            /> Deadlift
-                        </label>
-                        <label>
-                            <input
-                                type="checkbox"
-                                name="events"
-                                value="snatch"
-                                checked={form.events.includes('snatch')}
-                                onChange={(e) => {
-                                    if (e.target.checked) {
-                                        setForm({ ...form, events: [...form.events, 'snatch'] })
-                                    } else {
-                                        setForm({ ...form, events: form.events.filter(ev => ev !== 'snatch') })
-                                    }
-                                }}
-                            /> Snatch
-                        </label>
-                        <label>
-                            <input
-                                type="checkbox"
-                                name="events"
-                                value="clean_jerk"
-                                checked={form.events.includes('clean_jerk')}
-                                onChange={(e) => {
-                                    if (e.target.checked) {
-                                        setForm({ ...form, events: [...form.events, 'clean_jerk'] })
-                                    } else {
-                                        setForm({ ...form, events: form.events.filter(ev => ev !== 'clean_jerk') })
-                                    }
-                                }}
-                            /> Clean & Jerk
-                        </label>
+                        <input
+                            type="number"
+                            name="currentWeight"
+                            placeholder="Current Weight (in kg)"
+                            value={form.currentWeight || ''}
+                            onChange={(e) => setForm({ ...form, currentWeight: parseFloat(e.target.value) || 0 })}
+                            required
+                            min="30"
+                            max="200"
+                        />
                     </div>
 
-                    <div className="personal-best" style={{ margin: '10px 0' }}>
-                        <p style={{ marginBottom: '5px' }}>Personal Best (in kg):</p>
-                        {form.events.map(event => (
-                            <input
-                                key={event}
-                                type="number"
-                                name={`personalBest.${event}`}
-                                placeholder={`${event.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())} PB (kg)`}
-                                value={form.personalBest[event] || ''}
-                                onChange={(e) => {
-                                    setForm({
-                                        ...form,
-                                        personalBest: {
-                                            ...form.personalBest,
-                                            [event]: parseFloat(e.target.value) || 0
+                    <div className="checkbox-group">
+                        <strong>Select Events:</strong>
+                        {form.competitionType === 'powerlifting' && powerliftingEvents.map(event => (
+                            <label key={event}>
+                                <input
+                                    type="checkbox"
+                                    name="events"
+                                    value={event}
+                                    checked={form.events.includes(event)}
+                                    onChange={(e) => {
+                                        if (e.target.checked) {
+                                            setForm(prev => ({
+                                                ...prev,
+                                                events: [...prev.events, event],
+                                                personalBest: {
+                                                    ...prev.personalBest,
+                                                    [event]: 0
+                                                }
+                                            }));
+                                        } else {
+                                            setForm(prev => ({
+                                                ...prev,
+                                                events: prev.events.filter(ev => ev !== event),
+                                                personalBest: {
+                                                    ...prev.personalBest,
+                                                    [event]: 0
+                                                }
+                                            }));
                                         }
-                                    })
-                                }}
-                                min="0"
-                                max="500"
-                            />
+                                    }}
+                                />
+                                {event.replace('_', ' ').replace(/\\b\\w/g, l => l.toUpperCase())}
+                            </label>
+                        ))}
+                        {form.competitionType === 'olympic_weightlifting' && olympicEvents.map(event => (
+                            <label key={event}>
+                                <input
+                                    type="checkbox"
+                                    name="events"
+                                    value={event}
+                                    checked={form.events.includes(event)}
+                                    onChange={(e) => {
+                                        if (e.target.checked) {
+                                            setForm(prev => ({
+                                                ...prev,
+                                                events: [...prev.events, event],
+                                                personalBest: {
+                                                    ...prev.personalBest,
+                                                    [event]: 0
+                                                }
+                                            }));
+                                        } else {
+                                            setForm(prev => ({
+                                                ...prev,
+                                                events: prev.events.filter(ev => ev !== event),
+                                                personalBest: {
+                                                    ...prev.personalBest,
+                                                    [event]: 0
+                                                }
+                                            }));
+                                        }
+                                    }}
+                                />
+                                {event.replace('_', ' ').replace(/\\b\\w/g, l => l.toUpperCase())}
+                            </label>
                         ))}
                     </div>
 
-                    <select name="experience" value={form.experience} onChange={handleChange} required>
-                        <option value="">Select Experience Level</option>
-                        <option value="beginner">Beginner</option>
-                        <option value="intermediate">Intermediate</option>
-                        <option value="advanced">Advanced</option>
-                        <option value="professional">Professional</option>
-                    </select>
+                    <div className="personal-best">
+                        <strong>Personal Best Records (in kg):</strong>
+                        <div className="personal-best-inputs">
+                            {form.events.map(event => (
+                                <input
+                                    key={event}
+                                    type="number"
+                                    name={`personalBest.${event}`}
+                                    placeholder={`${event.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())} PB (kg)`}
+                                    value={form.personalBest[event] || ''}
+                                    onChange={(e) => {
+                                        setForm({
+                                            ...form,
+                                            personalBest: {
+                                                ...form.personalBest,
+                                                [event]: parseFloat(e.target.value) || 0
+                                            }
+                                        })
+                                    }}
+                                    min="0"
+                                    max="500"
+                                />
+                            ))}
+                        </div>
+                    </div>
 
-                    <input
-                        type="text"
-                        name="previousCompetitions"
-                        placeholder="Previous Competitions (Optional)"
-                        value={form.previousCompetitions}
-                        onChange={handleChange}
-                    />
+                    <div className="form-section">
+                        <strong>Experience Level</strong>
+                        <select name="experience" value={form.experience} onChange={handleChange} required>
+                            <option value="">Select Experience Level</option>
+                            {experienceLevels.map(level => (
+                                <option key={level.value} value={level.value}>{level.label}</option>
+                            ))}
+                        </select>
+
+                        <input
+                            type="text"
+                            name="previousCompetitions"
+                            placeholder="Previous Competitions (Optional)"
+                            value={form.previousCompetitions}
+                            onChange={handleChange}
+                        />
+                    </div>
 
                     <input type="text" name="collegeName" placeholder="College Name" value={form.collegeName} onChange={handleChange} required />
                     <input type="text" name="collegeAddress" placeholder="College Address" value={form.collegeAddress} onChange={handleChange} required />

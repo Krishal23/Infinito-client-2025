@@ -7,11 +7,19 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const Athletics = () => {
+  const individualOptions = [
+    "100m race",
+    "200m race",
+    "400m race",
+    "800m race",
+    "Shot put",
+  ];
+
+  const relayOptions = ["4x100m", "4x200m", "4x50m"];
+
   const [form, setForm] = useState({
-    firstName: "",
-    lastName: "",
+    name: "",
     email: "",
-    userId: "",
     whatsapp: "",
     gender: "male",
     collegeName: "",
@@ -19,64 +27,118 @@ const Athletics = () => {
     coach: "no",
     coachName: "",
     coachPhone: "",
-    category: "men",
-    events: [],
-    experience: "beginner",
-    personalBest: "",
-    tShirtSize: "M"
+    queries: "",
   });
+
+  const [individualEvents, setIndividualEvents] = useState([]);
+  const [relayEvents, setRelayEvents] = useState([]);
+  const [relayPlayers, setRelayPlayers] = useState({});
   const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
-  const handleEventChange = (e) => {
-    const { value, checked } = e.target;
+  const handleIndividualChange = (event) => {
+    const { value, checked } = event.target;
     if (checked) {
-      setForm(prev => ({ ...prev, events: [...prev.events, value] }));
+      if (individualEvents.length < 3) {
+        setIndividualEvents([...individualEvents, value]);
+      } else {
+        toast.warning("You can select maximum 3 individual events");
+      }
     } else {
-      setForm(prev => ({ ...prev, events: prev.events.filter(event => event !== value) }));
+      setIndividualEvents(individualEvents.filter((e) => e !== value));
     }
+  };
+
+  const handleRelayChange = (event) => {
+    const { value, checked } = event.target;
+    if (checked) {
+      if (relayEvents.length < 2) {
+        setRelayEvents([...relayEvents, value]);
+      } else {
+        toast.warning("You can select maximum 2 relay events");
+      }
+    } else {
+      setRelayEvents(relayEvents.filter((e) => e !== value));
+      setRelayPlayers((prev) => {
+        const newPlayers = { ...prev };
+        delete newPlayers[value];
+        return newPlayers;
+      });
+    }
+  };
+
+  const handleRelayPlayersChange = (relay, index, name) => {
+    setRelayPlayers((prev) => {
+      const updated = { ...prev };
+      if (!updated[relay]) updated[relay] = ["", "", ""];
+      updated[relay][index] = name;
+      return updated;
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (form.events.length === 0) {
+    if (individualEvents.length === 0 && relayEvents.length === 0) {
       toast.error("Please select at least one event");
       return;
     }
-    
+
+    // Validate relay players if relay events are selected
+    for (const relay of relayEvents) {
+      const players = relayPlayers[relay] || [];
+      if (players.some(player => !player.trim())) {
+        toast.error(`Please fill in all player names for ${relay}`);
+        return;
+      }
+    }
+
     try {
       setSubmitting(true);
       const payload = {
-        fullname: `${form.firstName} ${form.lastName}`.trim(),
+        fullname: form.name.trim(),
         email: form.email,
         phoneNumber: form.whatsapp,
+        gender: form.gender,
         collegeName: form.collegeName,
-        category: form.category,
-        events: form.events,
-        experience: form.experience,
-        personalBest: form.personalBest,
-        coachName: form.coachName || undefined,
-        tShirtSize: form.tShirtSize
+        collegeAddress: form.collegeAddress,
+        coachDetails: form.coach === 'yes' ? {
+          name: form.coachName,
+          phone: form.coachPhone
+        } : undefined,
+        individualEvents,
+        relayEvents,
+        relayTeams: relayPlayers,
+        queries: form.queries || undefined
       };
+
       const res = await axiosInstance.post('/events/athletics/register', payload);
       toast.success(res.data?.message || 'Registered successfully!');
       setTimeout(() => navigate('/event/ins'), 800);
-      setForm({ firstName: "", lastName: "", email: "", userId: "", whatsapp: "", gender: "male", collegeName: "", collegeAddress: "", coach: "no", coachName: "", coachPhone: "", category: "men", events: [], experience: "beginner", personalBest: "", tShirtSize: "M" });
+
+      // Reset form
+      setForm({
+        name: "",
+        email: "",
+        whatsapp: "",
+        gender: "male",
+        collegeName: "",
+        collegeAddress: "",
+        coach: "no",
+        coachName: "",
+        coachPhone: "",
+        queries: "",
+      });
+      setIndividualEvents([]);
+      setRelayEvents([]);
+      setRelayPlayers({});
     } catch (err) {
       toast.error(err?.response?.data?.message || 'Registration failed');
     } finally {
       setSubmitting(false);
     }
   };
-
-  const athleticsEvents = [
-    { category: "Track Events", events: ["100m", "200m", "400m", "800m", "1500m", "3000m", "5000m", "10000m", "110m_hurdles", "400m_hurdles", "3000m_steeplechase"] },
-    { category: "Field Events", events: ["high_jump", "pole_vault", "long_jump", "triple_jump", "shot_put", "discus_throw", "hammer_throw", "javelin_throw"] },
-    { category: "Combined Events", events: ["decathlon", "heptathlon"] },
-    { category: "Relay Events", events: ["4x100m_relay", "4x400m_relay"] }
-  ];
 
   return (
     <div className="div">
@@ -132,83 +194,187 @@ const Athletics = () => {
         </div>
 
         <form className="form" onSubmit={handleSubmit}>
-          <input type="text" name="firstName" placeholder="First Name" value={form.firstName} onChange={handleChange} required />
-          <input type="text" name="lastName" placeholder="Last Name" value={form.lastName} onChange={handleChange} required />
-          <input type="email" name="email" placeholder="Email" value={form.email} onChange={handleChange} required />
-          <input type="tel" name="whatsapp" placeholder="WhatsApp Number" value={form.whatsapp} onChange={handleChange} required />
-          <input type="text" name="collegeName" placeholder="College Name" value={form.collegeName} onChange={handleChange} required />
-          <input type="text" name="collegeAddress" placeholder="College Address" value={form.collegeAddress} onChange={handleChange} required />
-          
-          <div className="radio">
-            Category:
-            <label>
-              <input type="radio" name="category" value="men" checked={form.category === 'men'} onChange={handleChange} /> Men
-            </label>
-            <label>
-              <input type="radio" name="category" value="women" checked={form.category === 'women'} onChange={handleChange} /> Women
-            </label>
+          <div className="form-section">
+            <strong>Personal Information</strong>
+            <input
+              type="text"
+              name="name"
+              placeholder="Full Name"
+              value={form.name}
+              onChange={handleChange}
+              required
+            />
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={form.email}
+              onChange={handleChange}
+              required
+            />
+            <input
+              type="tel"
+              name="whatsapp"
+              placeholder="WhatsApp Number"
+              value={form.whatsapp}
+              onChange={handleChange}
+              required
+            />
+            <div className="radio">
+              Gender:
+              <label>
+                <input
+                  type="radio"
+                  name="gender"
+                  value="male"
+                  checked={form.gender === 'male'}
+                  onChange={handleChange}
+                  required
+                /> Male
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="gender"
+                  value="female"
+                  checked={form.gender === 'female'}
+                  onChange={handleChange}
+                /> Female
+              </label>
+            </div>
           </div>
 
-          <select name="experience" value={form.experience} onChange={handleChange} required>
-            <option value="">Select Experience Level</option>
-            <option value="beginner">Beginner</option>
-            <option value="intermediate">Intermediate</option>
-            <option value="advanced">Advanced</option>
-            <option value="professional">Professional</option>
-          </select>
-
-          <select name="tShirtSize" value={form.tShirtSize} onChange={handleChange} required>
-            <option value="">Select T-Shirt Size</option>
-            <option value="XS">XS</option>
-            <option value="S">S</option>
-            <option value="M">M</option>
-            <option value="L">L</option>
-            <option value="XL">XL</option>
-            <option value="XXL">XXL</option>
-          </select>
-
-          <input type="text" name="personalBest" placeholder="Personal Best (Optional)" value={form.personalBest} onChange={handleChange} />
-          
-          <div className="radio">
-            Do you have a coach?
-            <label>
-              <input type="radio" name="coach" value="yes" checked={form.coach === 'yes'} onChange={handleChange} /> Yes
-            </label>
-            <label>
-              <input type="radio" name="coach" value="no" checked={form.coach === 'no'} onChange={handleChange} /> No
-            </label>
+          <div className="form-section">
+            <strong>College Details</strong>
+            <input
+              type="text"
+              name="collegeName"
+              placeholder="College Name"
+              value={form.collegeName}
+              onChange={handleChange}
+              required
+            />
+            <input
+              type="text"
+              name="collegeAddress"
+              placeholder="College Address"
+              value={form.collegeAddress}
+              onChange={handleChange}
+              required
+            />
           </div>
 
-          {form.coach === 'yes' && (
-            <>
-              <input type="text" name="coachName" placeholder="Coach Name" value={form.coachName} onChange={handleChange} />
-              <input type="tel" name="coachPhone" placeholder="Coach Phone Number" value={form.coachPhone} onChange={handleChange} />
-            </>
-          )}
+          <div className="checkbox-group">
+            <strong>Select Individual Events (Max 3):</strong>
+            {individualOptions.map((event, idx) => (
+              <label key={idx}>
+                <span>{event}</span>
+                <input
+                  type="checkbox"
+                  value={event}
+                  checked={individualEvents.includes(event)}
+                  onChange={handleIndividualChange}
+                />
+              </label>
+            ))}
+          </div>
 
-          <div className="events-section">
-            <h4>Select Events (Choose at least one):</h4>
-            {athleticsEvents.map((category, idx) => (
-              <div key={idx} className="event-category">
-                <h5>{category.category}</h5>
-                <div className="event-checkboxes">
-                  {category.events.map(event => (
-                    <label key={event} className="event-checkbox">
+          <div className="checkbox-group">
+            <strong>Select Relay Events (Max 2):</strong>
+            {relayOptions.map((event, idx) => (
+              <div key={idx}>
+                <label>
+                  <span>{event}</span>
+                  <input
+                    type="checkbox"
+                    value={event}
+                    checked={relayEvents.includes(event)}
+                    onChange={handleRelayChange}
+                  />
+                </label>
+
+                {relayEvents.includes(event) && (
+                  <div className="relay-inputs">
+                    <p>Enter names of other 3 players for {event}:</p>
+                    {[0, 1, 2].map((i) => (
                       <input
-                        type="checkbox"
-                        value={event}
-                        checked={form.events.includes(event)}
-                        onChange={handleEventChange}
+                        key={i}
+                        type="text"
+                        placeholder={`Player ${i + 2} Name`}
+                        value={relayPlayers[event]?.[i] || ""}
+                        onChange={(e) =>
+                          handleRelayPlayersChange(event, i, e.target.value)
+                        }
+                        required
                       />
-                      {event.replace(/_/g, ' ').toUpperCase()}
-                    </label>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                )}
               </div>
             ))}
           </div>
 
-          <button type="submit" disabled={submitting}>{submitting ? 'Submitting...' : 'Register'}</button>
+          <div className="form-section">
+            <strong>Coach Information</strong>
+            <div className="radio">
+              Will the coach be accompanying the player?
+              <label>
+                <input
+                  type="radio"
+                  name="coach"
+                  value="yes"
+                  checked={form.coach === 'yes'}
+                  onChange={handleChange}
+                  required
+                /> Yes
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="coach"
+                  value="no"
+                  checked={form.coach === 'no'}
+                  onChange={handleChange}
+                /> No
+              </label>
+            </div>
+
+            {form.coach === 'yes' && (
+              <>
+                <input
+                  type="text"
+                  name="coachName"
+                  placeholder="Name of the coach"
+                  value={form.coachName}
+                  onChange={handleChange}
+                  required
+                />
+                <input
+                  type="tel"
+                  name="coachPhone"
+                  placeholder="Mobile number of coach"
+                  value={form.coachPhone}
+                  onChange={handleChange}
+                  required
+                />
+              </>
+            )}
+
+            <input
+              type="text"
+              name="queries"
+              placeholder="Any queries (optional)"
+              value={form.queries}
+              onChange={handleChange}
+            />
+          </div>
+
+          <button
+            type="submit"
+            disabled={submitting || (individualEvents.length === 0 && relayEvents.length === 0)}
+          >
+            {submitting ? 'Submitting...' : 'Register'}
+          </button>
         </form>
       </section>
       <Footer />
