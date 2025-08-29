@@ -80,7 +80,7 @@ const Weightlifting = () => {
                 }
             };
 
-            const res = await axiosInstance.post('/events/weightlifting/register', payload);
+            const res = await axiosInstance.post('/events/weight_lifting/register', payload);
             toast.success(res.data?.message || 'Registered successfully!');
             setTimeout(() => navigate('/event/ins'), 800);
             setForm({
