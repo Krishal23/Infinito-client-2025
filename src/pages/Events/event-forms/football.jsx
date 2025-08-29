@@ -6,86 +6,18 @@ import axiosInstance from "../../../utils/axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
-const PlayerModal = ({ onClose, onAdd }) => {
-  const [player, setPlayer] = useState({
-    name: "",
-    aadharId: "",
-    collegeId: "",
-    phoneNumber: "",
-    email: "",
-  });
-
-  const handleChange = (e) => {
-    setPlayer({ ...player, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onAdd(player);
-    onClose();
-  };
-
-  return (
-    <div className="modal-overlay">
-      <div className="modal-content">
-        <h3>Add Team Member</h3>
-        <form onSubmit={handleSubmit} className="modal-form">
-          <input
-            type="text"
-            name="name"
-            placeholder="Player Name"
-            value={player.name}
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="text"
-            name="aadharId"
-            placeholder="Aadhar ID"
-            value={player.aadharId}
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="text"
-            name="collegeId"
-            placeholder="College ID (if any)"
-            value={player.collegeId}
-            onChange={handleChange}
-          />
-          <input
-            type="tel"
-            name="phoneNumber"
-            placeholder="Phone Number"
-            value={player.phoneNumber}
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={player.email}
-            onChange={handleChange}
-            required
-          />
-          <div className="modal-buttons">
-            <button type="button" onClick={onClose}>Cancel</button>
-            <button type="submit">Add Player</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
-};
-
 const Football_ = () => {
   const [form, setForm] = useState({
     captainName: "",
-    viceCaptainName: "",
-    email: "",
+    captainEmail: "",
     captainPhone: "",
+    captainAadharId: "",
+    captainCollegeId: "",
+    viceCaptainName: "",
+    viceCaptainEmail: "",
     viceCaptainPhone: "",
+    viceCaptainAadharId: "",
+    viceCaptainCollegeId: "",
     category: "men",
     position: "any",
     preferredFoot: "right",
@@ -94,54 +26,70 @@ const Football_ = () => {
     shoeSize: "",
     experience: "beginner",
     collegeName: "",
-    collegeAddress: ""
+    collegeAddress: "",
+    players: []
+  });
+
+  const [playerForm, setPlayerForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    aadharId: "",
+    collegeId: "",
+    position: "any"
   });
   const [submitting, setSubmitting] = useState(false);
-  const [showPlayerModal, setShowPlayerModal] = useState(false);
-  const [members, setMembers] = useState([]);
   const navigate = useNavigate();
-
-  const handleAddPlayer = (player) => {
-    setMembers([...members, { ...player, role: "Player" }]);
-  };
-
-  const handleRemovePlayer = (index) => {
-    setMembers(members.filter((_, i) => i !== index));
-  };
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handlePlayerChange = (e) => {
+    setPlayerForm({ ...playerForm, [e.target.name]: e.target.value });
+  };
+
+  const handleAddPlayer = () => {
+    if (!playerForm.name || !playerForm.aadharId) {
+      toast.error("Player name and Aadhar ID are required");
+      return;
+    }
+
+    setForm(prev => ({
+      ...prev,
+      players: [...prev.players, { ...playerForm, role: "Player" }]
+    }));
+
+    // Reset player form
+    setPlayerForm({
+      name: "",
+      email: "",
+      phone: "",
+      aadharId: "",
+      collegeId: "",
+      position: "any"
+    });
+  };
+
+  const handleRemovePlayer = (index) => {
+    setForm(prev => ({
+      ...prev,
+      players: prev.players.filter((_, i) => i !== index)
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       setSubmitting(true);
-      const allMembers = [
-        {
-          name: form.captainName,
-          email: form.email,
-          phoneNumber: form.captainPhone,
-          role: "Captain"
-        },
-        {
-          name: form.viceCaptainName,
-          email: form.email,
-          phoneNumber: form.viceCaptainPhone,
-          role: "Vice Captain"
-        },
-        ...members
-      ];
-
-      if (allMembers.length < 11) {
-        toast.error("A football team needs at least 11 players including captain and vice captain");
+      if (form.players.length < 9) { // Minimum 11 players including captain and vice-captain
+        toast.error("Please add at least 9 more players");
         return;
       }
 
       const payload = {
-        event: "football",
-        captainName: form.captainName,
-        email: form.email,
+        fullname: form.captainName,
+        email: form.captainEmail,
         phoneNumber: form.captainPhone,
         collegeName: form.collegeName,
         category: form.category,
@@ -152,22 +100,58 @@ const Football_ = () => {
         shoeSize: form.shoeSize,
         experience: form.experience,
         teamName: `${form.collegeName} FC`.replace(/\s+/g, " ").trim(),
-        captain: {
-          name: form.captainName,
-          email: form.email,
-          phoneNumber: form.captainPhone
-        },
-        viceCaptain: {
-          name: form.viceCaptainName,
-          email: form.email,
-          phoneNumber: form.viceCaptainPhone
-        },
-        members: allMembers
+        team: {
+          teamName: `${form.collegeName} FC`.replace(/\s+/g, " ").trim(),
+          teamSize: 11,
+          members: [
+            {
+              fullname: form.captainName,
+              email: form.captainEmail,
+              phoneNumber: form.captainPhone,
+              aadharId: form.captainAadharId,
+              collegeId: form.captainCollegeId,
+              role: "Captain"
+            },
+            {
+              fullname: form.viceCaptainName,
+              email: form.viceCaptainEmail,
+              phoneNumber: form.viceCaptainPhone,
+              aadharId: form.viceCaptainAadharId,
+              collegeId: form.viceCaptainCollegeId,
+              role: "Vice Captain"
+            },
+            ...form.players.map(player => ({
+              ...player,
+              fullname: player.name
+            }))
+          ]
+        }
       };
       const res = await axiosInstance.post('/events/football/register', payload);
       toast.success(res.data?.message || 'Registered successfully!');
       setTimeout(() => navigate('/event/ins'), 800);
-      setForm({ captainName: "", viceCaptainName: "", email: "", captainPhone: "", viceCaptainPhone: "", category: "men", position: "any", preferredFoot: "right", teamPreference: "create_new", jerseySize: "M", shoeSize: "", experience: "beginner", collegeName: "", collegeAddress: "" });
+      setForm({
+        captainName: "",
+        captainEmail: "",
+        captainPhone: "",
+        captainAadharId: "",
+        captainCollegeId: "",
+        viceCaptainName: "",
+        viceCaptainEmail: "",
+        viceCaptainPhone: "",
+        viceCaptainAadharId: "",
+        viceCaptainCollegeId: "",
+        category: "men",
+        position: "any",
+        preferredFoot: "right",
+        teamPreference: "create_new",
+        jerseySize: "M",
+        shoeSize: "",
+        experience: "beginner",
+        collegeName: "",
+        collegeAddress: "",
+        players: []
+      });
     } catch (err) {
       const msg = err?.response?.data?.message || 'Registration failed';
       toast.error(msg);
@@ -223,11 +207,19 @@ const Football_ = () => {
         </div>
 
         <form className="form" onSubmit={handleSubmit}>
+          <h3>Captain Details</h3>
           <input type="text" name="captainName" placeholder="Team captain name" value={form.captainName} onChange={handleChange} required />
-          <input type="text" name="viceCaptainName" placeholder="Team vice-captain name" value={form.viceCaptainName} onChange={handleChange} required />
-          <input type="email" name="email" placeholder="Email" value={form.email} onChange={handleChange} required />
+          <input type="email" name="captainEmail" placeholder="Captain email" value={form.captainEmail} onChange={handleChange} required />
           <input type="tel" name="captainPhone" placeholder="Captain phone (WhatsApp)" value={form.captainPhone} onChange={handleChange} required />
+          <input type="text" name="captainAadharId" placeholder="Captain Aadhar ID" value={form.captainAadharId} onChange={handleChange} required />
+          <input type="text" name="captainCollegeId" placeholder="Captain College ID (if any)" value={form.captainCollegeId} onChange={handleChange} />
+
+          <h3>Vice-Captain Details</h3>
+          <input type="text" name="viceCaptainName" placeholder="Team vice-captain name" value={form.viceCaptainName} onChange={handleChange} required />
+          <input type="email" name="viceCaptainEmail" placeholder="Vice-captain email" value={form.viceCaptainEmail} onChange={handleChange} required />
           <input type="tel" name="viceCaptainPhone" placeholder="Vice-captain phone (WhatsApp)" value={form.viceCaptainPhone} onChange={handleChange} required />
+          <input type="text" name="viceCaptainAadharId" placeholder="Vice-captain Aadhar ID" value={form.viceCaptainAadharId} onChange={handleChange} required />
+          <input type="text" name="viceCaptainCollegeId" placeholder="Vice-captain College ID (if any)" value={form.viceCaptainCollegeId} onChange={handleChange} />
 
           <div className="radio">
             Category:
@@ -285,49 +277,38 @@ const Football_ = () => {
           <input type="text" name="collegeName" placeholder="College Name" value={form.collegeName} onChange={handleChange} required />
           <input type="text" name="collegeAddress" placeholder="College Address" value={form.collegeAddress} onChange={handleChange} required />
 
-          <div className="team-members-section">
-            <h3>Team Members ({members.length + 2}/11)</h3>
-            <div className="members-list">
-              <div className="member-item">
-                <span>Captain: {form.captainName}</span>
+          <h3>Add Players</h3>
+          <div className="player-form">
+            <input type="text" name="name" placeholder="Player name" value={playerForm.name} onChange={handlePlayerChange} />
+            <input type="email" name="email" placeholder="Player email" value={playerForm.email} onChange={handlePlayerChange} />
+            <input type="tel" name="phone" placeholder="Player phone" value={playerForm.phone} onChange={handlePlayerChange} />
+            <input type="text" name="aadharId" placeholder="Player Aadhar ID" value={playerForm.aadharId} onChange={handlePlayerChange} />
+            <input type="text" name="collegeId" placeholder="Player College ID (if any)" value={playerForm.collegeId} onChange={handlePlayerChange} />
+            <select name="position" value={playerForm.position} onChange={handlePlayerChange}>
+              <option value="any">Any Position</option>
+              <option value="goalkeeper">Goalkeeper</option>
+              <option value="defender">Defender</option>
+              <option value="midfielder">Midfielder</option>
+              <option value="forward">Forward</option>
+            </select>
+            <button type="button" onClick={handleAddPlayer}>Add Player</button>
+          </div>
+
+          <h3>Team Players ({form.players.length}/9 minimum required)</h3>
+          <div className="player-list">
+            {form.players.map((player, index) => (
+              <div key={index} className="player-item">
+                <span>{player.name} - {player.position} - Aadhar: {player.aadharId}</span>
+                <button type="button" onClick={() => handleRemovePlayer(index)}>Remove</button>
               </div>
-              <div className="member-item">
-                <span>Vice Captain: {form.viceCaptainName}</span>
-              </div>
-              {members.map((member, index) => (
-                <div key={index} className="member-item">
-                  <span>{member.name}</span>
-                  <button
-                    type="button"
-                    onClick={() => handleRemovePlayer(index)}
-                    className="remove-btn"
-                  >
-                    Remove
-                  </button>
-                </div>
-              ))}
-            </div>
-            <button
-              type="button"
-              onClick={() => setShowPlayerModal(true)}
-              className="add-player-btn"
-            >
-              Add Player
-            </button>
+            ))}
           </div>
 
           <button type="submit" disabled={submitting}>{submitting ? 'Submitting...' : 'Register'}</button>
         </form>
       </section>
-
-      {showPlayerModal && (
-        <PlayerModal
-          onClose={() => setShowPlayerModal(false)}
-          onAdd={handleAddPlayer}
-        />
-      )}
       <Footer />
-    </div>
+    </div >
   );
 };
 
