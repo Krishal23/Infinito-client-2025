@@ -19,6 +19,7 @@ import CADashboard from "./pages/CA/sections/CADashboard";
 import ProtectedRoute from "./components/ProtectedRoutes";
 import MyApplication from "./pages/CA/sections/MyApplication";
 import AdminPage from "./pages/Admin/AdminPage";
+import Merch from "./pages/SampleMerch/Merch";
 import Athletics from "./pages/Events/event-forms/athletics";
 import Badminton_ from "./pages/Events/event-forms/badminton";
 import Basketball_ from "./pages/Events/event-forms/basketball";
@@ -169,6 +170,10 @@ const router = createBrowserRouter([
     path: "/events/weightlifting",
     element: <Weightlifting_ />,
   },
+  {
+    path: "/merchandise",
+    element: <Merch />,
+  }
 ]);
 
 function App() {
