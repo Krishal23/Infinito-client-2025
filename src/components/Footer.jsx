@@ -7,7 +7,7 @@ import { FaSquareYoutube } from 'react-icons/fa6';
 import { SlEnvolopeLetter } from 'react-icons/sl';
 import { FaPhone } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
-const footer = () => {
+const Footer = () => {
   return (
     <footer className="footer">
       <div className="footer-content">
@@ -18,9 +18,9 @@ const footer = () => {
           </p>
           <div className="footer-social">
             <p>FOLLOW US</p>
-            <div className="social-icons">
-              <a href="https://www.facebook.com/InfinitoIITPatna/">
-                <i className="fab fa-facebook-f"></i>
+            <div className="social-icons flex">
+              <a href="https://www.facebook.com/InfinitoIITPatna/" >
+                {/* <i className="fab fa-facebook-f border-2 border-red-950"></i> */}
                 <FaSquareFacebook />
               </a>
               <a href="https://x.com/infinito_iitp?lang=en">
@@ -101,4 +101,4 @@ const footer = () => {
   );
 };
 
-export default footer;
+export default Footer;

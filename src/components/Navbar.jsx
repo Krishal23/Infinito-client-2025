@@ -1,37 +1,52 @@
 import { useState, useEffect } from "react";
 import "./Navbar.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../pages/assets/infinito-logo.png";
+import axiosInstance from "../utils/axios";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 const Navbar = () => {
-  // const [showDropdown, setShowDropdown] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  // const dropdownRef = useRef(null);
+  const navigate = useNavigate();
   let timeoutId = null;
 
+
+  const { user, logout } = useContext(AuthContext);
+  const isAuth = !!user;
+
+  
+
   const handleMouseEnter = () => {
-    // setShowDropdown(true);
     clearTimeout(timeoutId);
   };
 
   const handleMouseLeave = () => {
     timeoutId = setTimeout(() => {
-      // setShowDropdown(false);
     }, 5000);
   };
 
-  // const handleDropdownContentMouseEnter = () => {
-  //   clearTimeout(timeoutId);
-  // };
-
-  // const handleDropdownContentMouseLeave = () => {
-  //   timeoutId = setTimeout(() => {
-  //     setShowDropdown(false);
-  //   }, 5000);
-  // };
-
   const handleMenuClick = () => {
     setShowMobileMenu((prev) => !prev);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await axiosInstance.post(
+        "auth/logout",
+        {},
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      logout();
+      navigate("/auth");
+    } catch (err) {
+      console.error("Logout failed:", err);
+    }
   };
 
   useEffect(() => {
@@ -45,6 +60,7 @@ const Navbar = () => {
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+  
 
   return (
     <div className="nav">
@@ -64,7 +80,7 @@ const Navbar = () => {
         &#9776;
       </div>
       {showMobileMenu && (
-        <div className="mobile-menu">
+        <div>
           <div
             className="menu-icon"
             onClick={handleMenuClick}
@@ -73,39 +89,54 @@ const Navbar = () => {
             &#9776;
           </div>
           {/* <Link to="/">Icon1</Link> */}
-
-          <Link to="/">Home</Link>
-          {/* <Link to="/gallery">Gallery</Link> */}
-          <Link to="/event/ins">Events</Link>
-          <Link to="/ca">CA Portal</Link>
-          <Link to="/aboutUs">Team</Link>
-          <Link to="/sponsor">Sponsors</Link>
-
-          {/* <Link to="/accomodation">Accomodation</Link> */}
-
-          <Link to="/merch">Merch</Link>
-          {/* <Link to="/">Icon2</Link> */}
+            <div className={`mobile-menu ${showMobileMenu ? "show" : ""}`}>
+              <Link to="/">Home</Link>
+              <Link to="/event/ins">Events</Link>
+              <Link to="/ca">CA Portal</Link>
+              <Link to="/aboutUs">Team</Link>
+              <Link to="/sponsor">Sponsors</Link>
+              <Link to="/merch">Merch</Link>
+              {
+                user?.role ==="admin" && (
+                  <Link to="/admin">Admin</Link>
+                )
+              }
+              {/* <Link to="/auth" className="login-btn">Login</Link> */}
+              {isAuth ? (
+                <Link onClick={handleLogout} >Logout</Link>
+              ) : (
+                <Link to="/auth" className="login-btn">Login</Link>
+              )}
+            </div>
         </div>
       )}
-      <div className="desktop-menu">
+      <div >
         <div
           className="dropdown"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
-          {/* <Link to="/aboutUs">About Us</Link> */}
         </div>
-        <Link to="/">Home</Link>
-        {/* <Link to="/gallery">Gallery</Link> */}
-        <Link to="/event/ins">Events</Link>
-        <Link to="/ca">CA Portal</Link>
-        <Link to="/aboutUs">Team</Link>
-        {/* <Link to="/workshops">Workshops</Link> */}
-        <Link to="/sponsor">Sponsors</Link>
-        {/* <Link to="/accomodation">Accomodation</Link> */}
+        <div className="desktop-menu">
+          <Link to="/">Home</Link>
+          <Link to="/event/ins">Events</Link>
+          <Link to="/ca">CA Portal</Link>
+          <Link to="/aboutUs">Team</Link>
+          <Link to="/sponsor">Sponsors</Link>
+          <Link to="/merch">Merch</Link>
+          {
+            user?.role ==="admin" && (
+              <Link to="/admin">Admin</Link>
+            )
+          }          
+          {/* <Link to="/auth" className="login-btn">Login</Link> */}
+          {isAuth ? (
+             <Link onClick={handleLogout} >Logout</Link>
+          ) : (
+            <Link to="/auth" className="login-btn">Login</Link>
+          )}
+        </div>
 
-        <Link to="/merch">Merch</Link>
-        {/* <Link to="/">Icon2</Link> */}
       </div>
     </div>
   );

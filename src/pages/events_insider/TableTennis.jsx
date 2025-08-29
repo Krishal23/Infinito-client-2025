@@ -11,7 +11,7 @@ const TableTennis = () => {
       description="Join us for an exhilarating Table Tennis championship where teams will compete for the ultimate prize."
       isRegistrationOpen={true}
       rulebookUrl={url}
-      registrationurl={'https://docs.google.com/forms/d/1j86nECM33AblrmKjicS74LZKoWLKpvUCYXFVgafgrVY/edit'}
+      registrationurl= "/events/table-tennis"
 
       structure={['Somil Agarwal: 8090872563', 'Anirudh Reddy: 8919450229 ']}
       rules={[

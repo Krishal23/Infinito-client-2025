@@ -1,8 +1,8 @@
-
 body {
-  font-weight: 300;
   margin: 0;
-  overflow-x: hidden;
+  font-family: "Poppins", sans-serif;
+  background: #faf7f2; /* soft ivory background */
+  color: #333;
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
@@ -10,13 +10,11 @@ body::-webkit-scrollbar {
   display: none;
 }
 
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-
 
 .hori {
   display: flex;
@@ -24,194 +22,162 @@ body::-webkit-scrollbar {
   flex-wrap: nowrap;
   overscroll-behavior: none;
   overflow-x: hidden;
-}
-
-
-.panel, .panel1, .panel2 {
-  min-width: 100vw;
-  height: 100vh;
-  text-align: center;
-  font-size: 28px;
-  padding-top: 50px;
-  box-sizing: border-box;
-  display: flex;
-  align-items: stretch;
-  justify-content: center;
   overflow: hidden;
 }
 
-
-.panel1 {
-  position: relative;
-  width: 100vw;
+/* Panels */
+.panel,
+.panel1,
+.panel2 {
+  flex: 0 0 100%;   
+  max-width: 100%;  
   height: 100vh;
-  background-image: url("../utils/gouache-with-orange-splashes-background321 1.png");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-attachment: fixed;
-  color: black;
-  overflow: hidden;
+
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0;
+  text-align: center;
 }
 
+/* === Responsibilities Section (Matte Gold) === */
+.panel1 {
+  background: linear-gradient(135deg, #fdfcf7, #f6e7d7);
+  color: #4a3b2d;
+  padding: 40px 20px;
+}
 
 .inner-panel {
   width: 100%;
-  height: 100%;
-  padding: 60px 20px;
+  max-width: 1100px;
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  gap: 2rem;
 }
-
-
-
-.inner-panel > * {
-  min-width: 0;
-}
-
-.left-vector {
-  /* flex: 1; */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: transparent;
-  /* padding-top: 500px;
-  padding-bottom: 500px; */
-  width: 25%;
-  padding-left: 50px;
-}
-
-
 
 .respo {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  background-color: transparent;
-  /* padding: 40px; */
-  font-size: 60px;
-  /* max-width: 100%; */
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
   text-align: center;
-  font-family: 'Cinzel Decorative', serif;
-  /* font-size: 60px; */
-  font-weight: bold;
+  background: linear-gradient(135deg, #bfa46f, #d8c08d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-/* 
-.infi {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  max-width: 1000px;
+/* Responsibility Cards */
+.task-card {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 18px;
+  border: 1px solid rgba(191, 164, 111, 0.25);
+  box-shadow: 0 8px 24px rgba(191, 164, 111, 0.15);
+
+  padding: 25px 20px;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #4a3b2d;
   width: 100%;
-  height: auto;
-  pointer-events: none;
-  z-index: 1;
-  opacity: 1;
-} */
+  max-width: 450px;
 
-.panel2 {
-  background-image: url("../utils/bg10.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  /* background-attachment: fixed; */
-  color: black;
-  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.task-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 38px rgba(191, 164, 111, 0.25);
+}
+.task-icon {
+  font-size: 2rem;
+  margin-bottom: 12px;
+  color: #c9a86a;
 }
 
+/* === Perks Section (Grey Matte Theme) === */
+.panel2 {
+  background: linear-gradient(135deg, #f4f4f4, #e3e3e3); /* soft grey matte */
+  color: #2f2f2f;
+  padding: 40px 20px;
+}
 
 .dark {
-  flex: 1;
-  height: 100%;
-  padding: 60px 20px;
- 
+  width: 100%;
+  max-width: 1000px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  text-align: center;
-  box-sizing: border-box;
-  overflow-y: auto;
+  gap: 2rem;
 }
 
-
-.dark > * {
-  margin-top: 0;
-  margin-bottom: 0;
+.reward {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: bold;
+  text-align: center;
+  background: linear-gradient(135deg, #606060, #9e9e9e); /* matte grey metallic */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .perks-list {
   list-style: none;
-  padding: 0;
-  margin-top: 1rem;
-  padding: 20px;
-  border: 2px solid rgb(173, 166, 166);
+  padding: 25px;
+  margin: 0;
+  width: 100%;
+  max-width: 600px;
+
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+
   border-radius: 20px;
-  background-color: rgba(255, 255, 255, 0.15); 
-  backdrop-filter: blur(8px);                  
-  -webkit-backdrop-filter: blur(8px);   
+  border: 1px solid rgba(160, 160, 160, 0.3);
+
+  box-shadow: 0 8px 24px rgba(100, 100, 100, 0.15);
 }
+
 .perks-list li {
-  margin: 0.75rem 0;
-  
-font-family: "Poppins", sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 1rem 0;
+  font-size: 1.1rem;
   font-weight: 500;
-  font-style: normal;
-
-
+  color: #2f2f2f;
 }
 
-.reward {
-  font-size: 60px;
-  border-bottom: 3px solid black;
-  font-weight: bold;
-  text-align: center;
-  background: linear-gradient(135deg, #1a1a1a, #333333);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: transparent;
-  line-height: 1.6;
-  font-family: 'Cinzel Decorative', serif;
-  padding-left: 20px;
-  padding-right: 20px;
-  margin-bottom: 80px;
-  margin-top: -160px;
+.perk-icon {
+  font-size: 1.5rem;
+  color: #8d8d8d;
 }
 
+/* === Responsive === */
 @media (max-width: 768px) {
   .inner-panel {
-    flex-direction: column;
-    padding: 40px 20px;
+    gap: 1.5rem;
   }
-
-  .left-vector,
-  .respo {
-    width: 100%;
-    flex: none;
+  .task-card {
+    max-width: 90%;
+    font-size: 1rem;
     padding: 20px;
   }
-
-  .left-vector img {
-    width: 200px;
+  .perks-list {
+    padding: 18px;
   }
-
-  .respo {
-    font-size: 28px;
+  .perks-list li {
+    font-size: 0.95rem;
   }
+}
 
-  .reward {
-    font-size: 40px;
-    margin-top: -100px;
+@media (max-width: 420px) {
+  .task-card {
+    font-size: 0.9rem;
+    padding: 15px;
+  }
+  .perks-list li {
+    font-size: 0.85rem;
+  }
+  .task-icon,
+  .perk-icon {
+    font-size: 1.3rem;
   }
 }

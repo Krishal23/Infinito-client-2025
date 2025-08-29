@@ -10,7 +10,7 @@ const Badminton = () => {
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating Badminton championship where teams will compete for the ultimate prize."
       isRegistrationOpen={true}
-      registrationurl={'https://docs.google.com/forms/d/1Zl_YUoTvmdc0AgJUDSQ9RSH31DyvhyuerlA6FKNMttI/edit'}
+      registrationurl="/events/badminton"
 
       rulebookUrl={url}
       structure={[

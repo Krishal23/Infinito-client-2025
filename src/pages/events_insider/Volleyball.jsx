@@ -11,7 +11,7 @@ const Volleyball = () => {
       description="Join us for an exhilarating Table Tennis championship where teams will compete for the ultimate prize."
       isRegistrationOpen={true}
       rulebookUrl={url}
-      registrationurl={'https://docs.google.com/forms/d/1tuZ3IWwAwB2kIJodEOAWqdmiciL8IhKHbz7xgAjQFdM/edit'}
+      registrationurl="/events/volleyball"
 
       structure={[
         "Mayank Singh: 9027206586","Abhinav Srivastava: 9204698703"

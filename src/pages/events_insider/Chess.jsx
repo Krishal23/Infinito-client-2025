@@ -12,16 +12,19 @@ const Chess = () => {
       description="Join us for an exhilarating Chess championship where teams will compete for the ultimate prize."
       isRegistrationOpen={true}
       rulebookUrl={url}
-      registrationurl={'https://forms.gle/Jfkqur1JSLRUvmwz6'}
+      registrationurl={'/events/chess'}
 
       structure={[
         "Parth Ganjewar : 8308917584"
 
       ]}
       rules={[
-        "Teams must have eleven players including a goalkeeper.",
-        "Matches will be played with standard football rules.",
-        "Any form of unsporting behavior will lead to penalties."
+        "Participants can register for singles or doubles category",
+        "Singles category is individual participation",
+        "Doubles category requires two players from the same college",
+        "All participants must provide valid Aadhar ID",
+        "College ID is optional but recommended",
+        "Standard chess rules and FIDE regulations apply"
       ]}
       judgingCriteria="Matches will be judged based on team performance, sportsmanship, and adherence to rules."
       prizes={[

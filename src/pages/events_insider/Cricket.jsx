@@ -10,13 +10,16 @@ const Cricket = () => {
       description="Join us for an exhilarating Cricket championship where teams will compete for the ultimate prize."
       isRegistrationOpen={true}
       rulebookUrl={rulebook}
-      registrationurl={'https://docs.google.com/forms/d/1Zv8NkeRkPy60e4HdCahwkp_NyRnVc84fskAPywvl5uk/edit'}
+      registrationurl={'/events/cricket'}
 
       structure={["Rahul: 7360841005", "Ravindra Bhati: 9351371626 "]}
       rules={[
-        "Teams must have eleven players including a goalkeeper.",
-        "Matches will be played with standard football rules.",
-        "Any form of unsporting behavior will lead to penalties.",
+        "Teams must have a minimum of 11 players and can include up to 16 players",
+        "Each team must have a designated captain and vice-captain",
+        "All players must provide valid Aadhar ID",
+        "College ID is optional but recommended",
+        "Teams must follow standard cricket regulations",
+        "Players can be registered as batsmen, bowlers, all-rounders, or wicket-keepers",
       ]}
       judgingCriteria="Matches will be judged based on team performance, sportsmanship, and adherence to rules."
       prizes={[

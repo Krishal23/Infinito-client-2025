@@ -1,145 +1,116 @@
+/* Navbar */
 .nav {
   width: 100%;
-  background-color: rgba(39, 39, 42, 0.415);
+  background: rgba(39, 39, 42, 0.8);
+  backdrop-filter: blur(10px);
   display: flex;
-  justify-content: space-between; /* Align items horizontally */
+  justify-content: space-between;
   align-items: center;
-  height: 4rem;
+  height: min(15vh,4rem);
   font-family: 'Raleway', sans-serif;
   color: white;
   position: fixed;
   top: 0;
-  z-index: 4;
-  cursor: pointer;
-  user-select: none;
-  padding: 0 1rem;
-  /* overflow: hidden; */
+  z-index: 1000;
+  padding: 0 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Logo Styles */
+/* Logo */
 .logo {
-  max-height: 37px;
-  max-width: 207px;
-  margin-left: -2rem; /* Position the logo on the left side */
+  height: 35px;
+  transition: transform 0.3s ease;
 }
 
-/* Mobile Menu Icon */
-.menu-icon {
-  display: none;
-  cursor: pointer;
-  font-size: 2rem;
-  margin-right: 1rem;
+.logo:hover {
+  transform: scale(1.05);
 }
 
-/* Desktop Menu */
+/* Desktop links */
 .desktop-menu {
   display: flex;
-  justify-content: space-evenly;
   align-items: center;
-  width: 70%;
+  gap: 1rem;
 }
 
-/* Style for links */
 .nav a {
   color: white;
   text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  transition: color 0.3s ease, background 0.3s ease;
+  border-radius: 6px;
 }
 
-/* Dropdown menu styles */
-.dropdown-content {
+.nav a:hover {
+  color: #ffb347;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Login button */
+.login-btn {
+  background: linear-gradient(135deg, #ff7e5f, #feb47b);
+  color: white !important;
+  font-weight: bold;
+  padding: 0.4rem 1rem;
+  border-radius: 8px;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 126, 95, 0.4);
+}
+
+/* Mobile menu */
+.menu-icon {
   display: none;
-  position: absolute;
-  background-color: #3d3d3d74;
-  border-radius: 5px;
-  top: 100%;
-  left: 0;
-  z-index: 10;
+  font-size: 2rem;
+  cursor: pointer;
+  color: #f77f0e;
 }
 
-.dropdown-content a {
-  display: block;
-  padding: 1rem;
-  color: white;
-  text-decoration: none;
-}
-
-.dropdown-content a:hover {
-  background-color: #2d2d2d;
-}
-
-/* Show dropdown content on hover */
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-
-/* Mobile menu styles */
 .mobile-menu {
-  display: none;
-  flex-direction: column;
-  align-items: flex-end;
-  border-radius: 10px 0px 0px 10px;
-  width: fit-content;
+  position: fixed;
+  top: 0;
+  right: 0;
   height: fit-content;
-  backdrop-filter: blur(12px);
-  position: absolute;
-  background-color: rgb(10, 6, 6);
-  top: 0px;
-  right: 0px;
-  z-index: 5;
-  padding-top: 3rem;
-  color: white;
+  width: 75%;
+  max-width: 240px;
+  background: rgba(10, 6, 6, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 4px 0px 0px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 2rem 1.5rem;
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+  z-index: 9999;
+  overflow-y: auto;
+}
+
+.mobile-menu.show {
+  transform: translateX(0);
 }
 
 .mobile-menu a {
-  padding: 1.5rem;
-  text-align: end;
-  color: rgb(255, 255, 255);
-  text-decoration: none;
-  display: block;
+  padding: 1rem 0;
+  font-size: 1.1rem;
   width: 100%;
 }
 
 .mobile-menu a:hover {
-  background-color: #a38b8b;
-  font-size: 20px;
-  transition: all 0.4s;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
 }
 
-/* Show the mobile menu when the menu icon is clicked */
+/* Hide desktop menu on small screens */
 @media (max-width: 980px) {
-  .menu-icon {
-    display: flex;
-    color: rgb(247, 127, 14);
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    z-index: 6;
-  }
-
   .desktop-menu {
     display: none;
   }
-
-  .mobile-menu {
-    display: flex;
-    margin-right: 0px;
-  }
-
-  .nav {
-    display: flex;
-    justify-content: space-between;
-    padding: 0 1rem;
-    background: none;
-    backdrop-filter: blur(0);
-    background-color: #2d2d2d;
-  }
-
-  .logo {
+  .menu-icon {
     display: block;
-    max-height: 30px;
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    margin-left: -3.5rem;
   }
 }
