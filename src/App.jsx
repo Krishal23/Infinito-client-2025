@@ -17,6 +17,7 @@ import CADashboard from "./pages/CA/sections/CADashboard";
 import ProtectedRoute from "./components/ProtectedRoutes";
 import MyApplication from "./pages/CA/sections/MyApplication";
 import AdminPage from "./pages/Admin/AdminPage";
+import Merch from "./pages/SampleMerch/Merch";
 // import Gallery from "./pages/Gallery/components/content";
 const router = createBrowserRouter([
   {
@@ -95,6 +96,10 @@ const router = createBrowserRouter([
     path: "/auth",
     element: <Auth/>,
   },
+  {
+    path: "/merchandise",
+    element: <Merch />,
+  }
 ]);
 
 function App() {
