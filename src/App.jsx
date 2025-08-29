@@ -22,12 +22,15 @@ import AdminPage from "./pages/Admin/AdminPage";
 import Athletics from "./pages/Events/event-forms/athletics";
 import Badminton_ from "./pages/Events/event-forms/badminton";
 import Basketball_ from "./pages/Events/event-forms/basketball";
+import Chess_ from "./pages/Events/event-forms/chess";
+import Cricket_ from "./pages/Events/event-forms/cricket";
 import Football_ from "./pages/Events/event-forms/football";
 import Kabbadi_ from "./pages/Events/event-forms/kabbadi";
 import Lawn_ from "./pages/Events/event-forms/lawn";
 import Squash_ from "./pages/Events/event-forms/squash";
 import Tt_ from "./pages/Events/event-forms/tt";
 import Volleyball_ from "./pages/Events/event-forms/volley";
+import Weightlifting_ from "./pages/Events/event-forms/weightlifting";
 // import Gallery from "./pages/Gallery/components/content";
 const router = createBrowserRouter([
   {
@@ -150,6 +153,21 @@ const router = createBrowserRouter([
   {
     path: "/events/volleyball",
     element: <Volleyball_ />,
+  },
+
+  {
+    path: "/events/chess",
+    element: <Chess_ />,
+  },
+
+  {
+    path: "/events/cricket",
+    element: <Cricket_ />,
+  },
+
+  {
+    path: "/events/weightlifting",
+    element: <Weightlifting_ />,
   },
 ]);
 
