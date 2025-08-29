@@ -1,10 +1,10 @@
+
 import axios from 'axios';
 
 
-const baseUrl = import.meta.env.VITE_APP_API_URL;
-console.log(baseUrl)
+const baseUrl = import.meta.env.VITE_APP_API_URL || 'http://localhost:5000/api/v1';
 const axiosInstance = axios.create({
-  baseURL:  baseUrl, 
+  baseURL: baseUrl,
   timeout: 10000,
   withCredentials: true,
   headers: {
@@ -34,9 +34,10 @@ axiosInstance.interceptors.response.use(
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       localStorage.removeItem('token');
-      
-      window.location.reload();
-      
+      // toast.error('Session expired. Please login again.');
+      // setTimeout(() => {
+      //   window.location.href = '/auth';
+      // }, 1500);
       return Promise.reject(error);
     }
 

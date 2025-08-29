@@ -4,113 +4,144 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  width: 100vw;
-  position: relative;
-  padding: 20px;
+  min-height: 90vh;
+  width: 100%;
+  margin-top: 10vh;
   overflow: hidden;
   background: linear-gradient(135deg, #fef6f3, #f2f0eb);
   font-family: 'Inter', sans-serif;
+  padding: clamp(8px, 3vw, 20px);
+  box-sizing: border-box;
+  position: relative;
 }
 
-/* Smoke effect (more subtle) */
+/* Soft smoke background effect */
 .smoke {
   position: absolute;
   top: 0;
   left: 0;
-  width: 120%;
+  width: 180%;
   height: 100%;
   background: radial-gradient(
     ellipse at center,
-    rgba(255, 182, 193, 0.25),
+    rgba(255, 182, 193, 0.2),
     transparent 70%
   );
-  animation: smokeDrift 15s ease-in-out infinite alternate;
+  animation: smokeDrift 25s ease-in-out infinite alternate;
   z-index: 0;
 }
 
 @keyframes smokeDrift {
-  from { transform: translateY(0); opacity: 0.25; }
-  to { transform: translateY(-30px); opacity: 0.4; }
+  from { transform: translateY(0) scale(1); opacity: 0.25; }
+  to { transform: translateY(-15px) scale(1.05); opacity: 0.4; }
 }
 
 .card {
   z-index: 2;
   position: relative;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 16px;
-  padding: 30px;
-  max-width: 420px;
+  border-radius: 18px;
+  padding: clamp(16px, 4vw, 28px);
   width: 100%;
-  background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  max-width: 520px;
+  min-width: min(90%, 320px); /* fluid min width */
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.1);
   text-align: center;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid rgba(80, 74, 74, 0.2);
 }
 
 .card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.12);
 }
 
 .glitch-text {
-  font-size: 2rem;
+  font-size: clamp(1.4rem, 4vw, 2.1rem);
   font-family: 'Cinzel', serif;
-  color: #d97706; /* warm amber */
+  color: #d97706;
   font-weight: 600;
-  text-shadow: none;
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  margin-top: 20px;
+  gap: clamp(10px, 2.5vw, 14px);
+  margin-top: 12px;
 }
 
 input {
-  padding: 12px 15px;
+  padding: clamp(10px, 2.5vw, 13px) clamp(12px, 3vw, 15px);
   border-radius: 8px;
   border: 1px solid #ddd;
-  font-size: 1rem;
+  font-size: clamp(0.85rem, 2.5vw, 1rem);
   outline: none;
   background-color: #fff;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+  width: 100%;
 }
 
 input:focus {
   border-color: #d97706;
   box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.15);
+  transform: translateY(-1px);
+}
+
+.verify-otp,
+.resend-otp {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: clamp(0.8rem, 2.5vw, 0.95rem);
+  margin-top: 4px;
+  gap: 6px;
 }
 
 button {
-  padding: 12px;
-  background: #d97706;
+  padding: clamp(11px, 3vw, 13px);
+  background: linear-gradient(135deg, #d97706, #b45309);
   color: #fff;
   font-weight: 600;
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  font-size: clamp(0.9rem, 2.8vw, 1rem);
   transition: background 0.3s, transform 0.2s;
+  width: 100%;
 }
 
 button:hover {
-  background: #b45309;
-  transform: translateY(-1px);
+  background: linear-gradient(135deg, #b45309, #92400e);
+  transform: translateY(-2px);
 }
 
 .divider {
-  margin: 15px 0;
+  margin: clamp(10px, 3vw, 18px) 0;
   color: #666;
   opacity: 0.6;
-  font-size: 0.85rem;
+  font-size: clamp(0.75rem, 2.5vw, 0.85rem);
+  position: relative;
 }
 
+.divider::before,
+.divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 35%;
+  height: 1px;
+  background: rgba(0,0,0,0.1);
+}
+
+.divider::before { left: 0; }
+.divider::after { right: 0; }
+
 .switch-auth {
-  margin-top: 20px;
+  margin-top: clamp(12px, 3vw, 18px);
   color: #b45309;
   text-align: center;
-  font-size: 0.95rem;
+  font-size: clamp(0.85rem, 2.8vw, 0.95rem);
   font-weight: 500;
   cursor: pointer;
   transition: color 0.3s, transform 0.3s;
@@ -122,12 +153,27 @@ button:hover {
   text-decoration: underline;
 }
 
-/* Responsive */
+/* Breakpoints */
+
+/* Tablet */
+@media (max-width: 768px) {
+  .card {
+    max-width: 90%;
+  }
+}
+
+/* Small Phones */
 @media (max-width: 480px) {
   .card {
-    padding: 20px;
+    padding: 18px 15px;
   }
-  .glitch-text {
-    font-size: 1.75rem;
+}
+
+/* Extra Small Devices */
+@media (max-width: 340px) {
+  .card {
+    padding: 15px 12px;
+    border-radius: 12px;
+    min-width: 95%;
   }
 }

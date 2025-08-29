@@ -12,12 +12,53 @@ import Update from "./pages/updates/Update";
 import CA from "./pages/CA/CA";
 import CARegister from "./pages/CA/sections/Register";
 import Auth from "./pages/Auth/Auth";
+import { AuthProvider } from "./context/AuthContext";
+import { useEffect } from "react";
+import { useState } from "react";
+import axiosInstance from "./utils/axios";
+// import CADashboard from "./pages/CA/sections/CADashboard";
+import ProtectedRoute from "./components/ProtectedRoutes";
+import MyApplication from "./pages/CA/sections/MyApplication";
+import AdminPage from "./pages/Admin/AdminPage";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import CADashboard from "./pages/CA/sections/CADashboard";
+import Merch from "./pages/SampleMerch/Merch";
+import Athletics from "./pages/Events/event-forms/athletics";
+import Badminton_ from "./pages/Events/event-forms/badminton";
+import Basketball_ from "./pages/Events/event-forms/basketball";
+import Chess_ from "./pages/Events/event-forms/chess";
+import Cricket_ from "./pages/Events/event-forms/cricket";
+import Football_ from "./pages/Events/event-forms/football";
+import Kabbadi_ from "./pages/Events/event-forms/kabbadi";
+import Lawn_ from "./pages/Events/event-forms/lawn";
+import Squash_ from "./pages/Events/event-forms/squash";
+import Tt_ from "./pages/Events/event-forms/tt";
+import Volleyball_ from "./pages/Events/event-forms/volley";
+import Weightlifting_ from "./pages/Events/event-forms/weightlifting";
+
 // import Gallery from "./pages/Gallery/components/content";
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
   },
+
+
+  // {
+  //   path: "/ca-profile",
+  //   element: <Evein />,
+  // }
+  {
+    path: "/admin",
+    element: (
+      <ProtectedRoute allowedRoles={["admin", "moderator"]}>
+        <AdminPage />
+      </ProtectedRoute>
+    ),
+  },
+
+
 
   {
     path: "/event/ins",
@@ -49,18 +90,107 @@ const router = createBrowserRouter([
     path: "/ca",
     element: <CA />,
   },
-   {
-    path: "/register",
-    element: <CARegister/>,
+  {
+    path: "/ca-register",
+    element: (
+      <ProtectedRoute allowedRoles={["user"]}>
+        <CARegister />
+      </ProtectedRoute>
+    ),
   },
-   {
+  {
+    path: "/ca-application",
+    element: (
+      <ProtectedRoute allowedRoles={["user"]}>
+        <MyApplication />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/ca-dashboard",
+    element: (
+      <ProtectedRoute allowedRoles={["ca"]}>
+        <CADashboard />
+      </ProtectedRoute>
+    ),
+  },
+  {
     path: "/auth",
-    element: <Auth/>,
+    element: <Auth />,
   },
+
+  {
+    path: "/events/athletics",
+    element: <Athletics />,
+  },
+
+  {
+    path: "/events/badminton",
+    element: <Badminton_ />,
+  },
+
+  {
+    path: "/events/basketball",
+    element: <Basketball_ />,
+  },
+
+  {
+    path: "/events/football",
+    element: <Football_ />,
+  },
+
+  {
+    path: "/events/kabbadi",
+    element: <Kabbadi_ />,
+  },
+
+  {
+    path: "/events/lawn-tennis",
+    element: <Lawn_ />,
+  },
+
+  {
+    path: "/events/squash",
+    element: <Squash_ />,
+  },
+
+  {
+    path: "/events/table-tennis",
+    element: <Tt_ />,
+  },
+
+  {
+    path: "/events/volleyball",
+    element: <Volleyball_ />,
+  },
+
+  {
+    path: "/events/chess",
+    element: <Chess_ />,
+  },
+
+  {
+    path: "/events/cricket",
+    element: <Cricket_ />,
+  },
+
+  {
+    path: "/events/weightlifting",
+    element: <Weightlifting_ />,
+  },
+  {
+    path: "/merchandise",
+    element: <Merch />,
+  }
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <AuthProvider>
+      <RouterProvider router={router} />
+      <ToastContainer position="top-center" autoClose={3000} newestOnTop pauseOnHover />
+    </AuthProvider>
+  );
 }
 
 export default App;
