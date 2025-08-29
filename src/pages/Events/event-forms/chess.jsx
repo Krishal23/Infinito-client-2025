@@ -18,7 +18,7 @@ const Chess = () => {
         viceCaptainPhone: "",
         viceCaptainAadharId: "",
         viceCaptainCollegeId: "",
-        category: "singles",
+        category: "open",
         skillLevel: "beginner",
         rating: "",
         collegeName: "",
@@ -52,19 +52,11 @@ const Chess = () => {
             return;
         }
 
-        // For singles, only captain is needed
-        if (form.category === "singles" && form.players.length >= 1) {
-            toast.error("Singles category can only have 1 player");
+        // For all categories, max 1 player since chess is an individual game
+        if (form.players.length >= 1) {
+            toast.error("Chess is an individual sport, only one player allowed");
             return;
-        }
-
-        // For doubles, max 2 players including captain
-        if (form.category === "doubles" && form.players.length >= 1) {
-            toast.error("Doubles category can only have 2 players");
-            return;
-        }
-
-        setForm(prev => ({
+        } setForm(prev => ({
             ...prev,
             players: [...prev.players, { ...playerForm, role: "Player" }]
         }));
@@ -92,24 +84,19 @@ const Chess = () => {
         try {
             setSubmitting(true);
 
-            // Validation for minimum players
-            if (form.category === "doubles" && form.players.length < 1) {
-                toast.error("Please add at least 1 more player for doubles category");
-                return;
-            }
-
             const payload = {
                 fullname: form.captainName,
                 email: form.captainEmail,
                 phoneNumber: form.captainPhone,
+                aadharId: form.captainAadharId,
                 collegeName: form.collegeName,
                 category: form.category,
-                skillLevel: form.skillLevel,
-                rating: form.rating || undefined,
-                teamPreference: "create_new",
+                experience: form.skillLevel,
+                fideRating: form.rating ? parseInt(form.rating) : undefined,
+                preferredTimeControl: "rapid",
                 team: {
                     teamName: `${form.collegeName} Chess`.replace(/\s+/g, " ").trim(),
-                    teamSize: form.category === "singles" ? 1 : 2,
+                    teamSize: 1,
                     members: [
                         {
                             fullname: form.captainName,
@@ -141,7 +128,7 @@ const Chess = () => {
                 viceCaptainPhone: "",
                 viceCaptainAadharId: "",
                 viceCaptainCollegeId: "",
-                category: "singles",
+                category: "open",
                 skillLevel: "beginner",
                 rating: "",
                 collegeName: "",
@@ -186,10 +173,16 @@ const Chess = () => {
                     <div className="radio">
                         Category:
                         <label>
-                            <input type="radio" name="category" value="singles" checked={form.category === 'singles'} onChange={handleChange} /> Singles
+                            <input type="radio" name="category" value="open" checked={form.category === 'open'} onChange={handleChange} /> Open
                         </label>
                         <label>
-                            <input type="radio" name="category" value="doubles" checked={form.category === 'doubles'} onChange={handleChange} /> Doubles
+                            <input type="radio" name="category" value="women" checked={form.category === 'women'} onChange={handleChange} /> Women
+                        </label>
+                        <label>
+                            <input type="radio" name="category" value="under_18" checked={form.category === 'under_18'} onChange={handleChange} /> Under 18
+                        </label>
+                        <label>
+                            <input type="radio" name="category" value="under_16" checked={form.category === 'under_16'} onChange={handleChange} /> Under 16
                         </label>
                     </div>
 
@@ -205,7 +198,7 @@ const Chess = () => {
                     <input type="text" name="collegeName" placeholder="College Name" value={form.collegeName} onChange={handleChange} required />
                     <input type="text" name="collegeAddress" placeholder="College Address" value={form.collegeAddress} onChange={handleChange} required />
 
-                    {form.category === 'doubles' && (
+                    {false && (
                         <>
                             <h3>Add Players</h3>
                             <div className="player-form">

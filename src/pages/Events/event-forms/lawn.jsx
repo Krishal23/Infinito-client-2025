@@ -7,11 +7,16 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 const Lawn_ = () => {
   const [form, setForm] = useState({
+    fullname: "",
     email: "",
     phone: "",
-    team: "men",
+    aadharId: "",
+    category: "men_singles",
+    playingHand: "right",
+    skillLevel: "beginner",
     collegeName: "",
-    collegeAddress: ""
+    collegeAddress: "",
+    previousTournaments: ""
   });
   const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
@@ -23,20 +28,24 @@ const Lawn_ = () => {
     try {
       setSubmitting(true);
       const payload = {
-        fullname: "Captain",
+        fullname: form.fullname,
         email: form.email,
         phoneNumber: form.phone,
+        aadharId: form.aadharId,
         collegeName: form.collegeName,
-        category: form.team,
-        teamName: `${form.collegeName} Lawn Tennis`.replace(/\s+/g, " ").trim(),
+        category: form.category,
+        skillLevel: form.skillLevel,
+        playingHand: form.playingHand,
+        previousTournaments: form.previousTournaments || undefined,
         team: {
           teamName: `${form.collegeName} Lawn Tennis`.replace(/\s+/g, " ").trim(),
-          teamSize: 2,
+          teamSize: form.category.includes('doubles') ? 2 : 1,
           members: [
             {
-              fullname: "Captain",
+              fullname: form.fullname,
               email: form.email,
               phoneNumber: form.phone,
+              aadharId: form.aadharId,
               role: "Captain"
             }
           ]
@@ -45,7 +54,18 @@ const Lawn_ = () => {
       const res = await axiosInstance.post('/events/lawn-tennis/register', payload);
       toast.success(res.data?.message || 'Registered');
       setTimeout(() => navigate('/event/ins'), 800);
-      setForm({ email: "", phone: "", team: "men", collegeName: "", collegeAddress: "" });
+      setForm({
+        fullname: "",
+        email: "",
+        phone: "",
+        aadharId: "",
+        category: "men_singles",
+        playingHand: "right",
+        skillLevel: "beginner",
+        collegeName: "",
+        collegeAddress: "",
+        previousTournaments: ""
+      });
     } catch (err) {
       toast.error(err?.response?.data?.message || 'Registration failed');
     } finally {
@@ -100,19 +120,52 @@ const Lawn_ = () => {
         </div>
 
         <form className="form" onSubmit={handleSubmit}>
+          <input type="text" name="fullname" placeholder="Full Name" value={form.fullname} onChange={handleChange} required />
           <input type="email" name="email" placeholder="Email" value={form.email} onChange={handleChange} required />
           <input type="tel" name="phone" placeholder="Contact (WhatsApp)" value={form.phone} onChange={handleChange} required />
           <input type="text" name="collegeName" placeholder="College Name" value={form.collegeName} onChange={handleChange} required />
           <input type="text" name="collegeAddress" placeholder="College Address" value={form.collegeAddress} onChange={handleChange} required />
           <div className="radio">
-            Team:
+            Category:
             <label>
-              <input type="radio" name="team" value="men" checked={form.team === 'men'} onChange={handleChange} /> Men
+              <input type="radio" name="category" value="men_singles" checked={form.category === 'men_singles'} onChange={handleChange} /> Men's Singles
             </label>
             <label>
-              <input type="radio" name="team" value="women" checked={form.team === 'women'} onChange={handleChange} /> Women
+              <input type="radio" name="category" value="women_singles" checked={form.category === 'women_singles'} onChange={handleChange} /> Women's Singles
+            </label>
+            <label>
+              <input type="radio" name="category" value="men_doubles" checked={form.category === 'men_doubles'} onChange={handleChange} /> Men's Doubles
+            </label>
+            <label>
+              <input type="radio" name="category" value="women_doubles" checked={form.category === 'women_doubles'} onChange={handleChange} /> Women's Doubles
+            </label>
+            <label>
+              <input type="radio" name="category" value="mixed_doubles" checked={form.category === 'mixed_doubles'} onChange={handleChange} /> Mixed Doubles
             </label>
           </div>
+
+          <select name="playingHand" value={form.playingHand} onChange={handleChange} required>
+            <option value="">Select Playing Hand</option>
+            <option value="right">Right</option>
+            <option value="left">Left</option>
+            <option value="ambidextrous">Ambidextrous</option>
+          </select>
+
+          <select name="skillLevel" value={form.skillLevel} onChange={handleChange} required>
+            <option value="">Select Skill Level</option>
+            <option value="beginner">Beginner</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="advanced">Advanced</option>
+            <option value="professional">Professional</option>
+          </select>
+
+          <input
+            type="text"
+            name="previousTournaments"
+            placeholder="Previous Tournaments (Optional)"
+            value={form.previousTournaments}
+            onChange={handleChange}
+          />
           <button type="submit" disabled={submitting}>{submitting ? 'Submitting...' : 'Register'}</button>
         </form>
       </section>

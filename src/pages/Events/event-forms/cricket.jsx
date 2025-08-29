@@ -45,8 +45,20 @@ const Cricket = () => {
     };
 
     const handleAddPlayer = () => {
-        if (!playerForm.name || !playerForm.aadharId) {
-            toast.error("Player name and Aadhar ID are required");
+        if (!playerForm.name || !playerForm.aadharId || !playerForm.phone || !playerForm.email) {
+            toast.error("Player name, email, phone, and Aadhar ID are required");
+            return;
+        }
+
+        // Validate phone number format
+        if (!/^\d{10}$/.test(playerForm.phone)) {
+            toast.error("Phone number must be exactly 10 digits");
+            return;
+        }
+
+        // Validate Aadhar ID format
+        if (!/^\d{12}$/.test(playerForm.aadharId)) {
+            toast.error("Aadhar ID must be exactly 12 digits");
             return;
         }
 
@@ -77,6 +89,27 @@ const Cricket = () => {
         e.preventDefault();
         try {
             setSubmitting(true);
+
+            // Validate captain details
+            if (!/^\d{10}$/.test(form.captainPhone)) {
+                toast.error("Captain's phone number must be exactly 10 digits");
+                return;
+            }
+            if (!/^\d{12}$/.test(form.captainAadharId)) {
+                toast.error("Captain's Aadhar ID must be exactly 12 digits");
+                return;
+            }
+
+            // Validate vice-captain details
+            if (!/^\d{10}$/.test(form.viceCaptainPhone)) {
+                toast.error("Vice-captain's phone number must be exactly 10 digits");
+                return;
+            }
+            if (!/^\d{12}$/.test(form.viceCaptainAadharId)) {
+                toast.error("Vice-captain's Aadhar ID must be exactly 12 digits");
+                return;
+            }
+
             if (form.players.length < 9) { // Minimum 11 players including captain and vice-captain
                 toast.error("Please add at least 9 more players");
                 return;

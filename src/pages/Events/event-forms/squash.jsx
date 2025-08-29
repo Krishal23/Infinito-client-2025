@@ -7,12 +7,13 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const Squash_ = () => {
-  const [form, setForm] = useState({ 
-    name: "", 
-    email: "", 
-    phone: "", 
-    collegeName: "", 
-    collegeAddress: "", 
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    aadharId: "",
+    collegeName: "",
+    collegeAddress: "",
     gender: "male",
     category: "men_singles",
     skillLevel: "beginner",
@@ -24,12 +25,12 @@ const Squash_ = () => {
   });
   const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
-  
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setForm(prev => ({ 
-      ...prev, 
-      [name]: type === 'checkbox' ? checked : value 
+    setForm(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
     }));
   };
 
@@ -41,6 +42,7 @@ const Squash_ = () => {
         fullname: form.name,
         email: form.email,
         phoneNumber: form.phone,
+        aadharId: form.aadharId,
         collegeName: form.collegeName,
         category: form.category,
         skillLevel: form.skillLevel,
@@ -53,7 +55,22 @@ const Squash_ = () => {
       const res = await axiosInstance.post('/events/squash/register', payload);
       toast.success(res.data?.message || 'Registered successfully!');
       setTimeout(() => navigate('/event/ins'), 800);
-      setForm({ name: "", email: "", phone: "", collegeName: "", collegeAddress: "", gender: "male", category: "men_singles", skillLevel: "beginner", playingHand: "right", racketBrand: "", previousTournaments: "", eyewearRequired: false, tShirtSize: "M" });
+      setForm({
+        name: "",
+        email: "",
+        phone: "",
+        aadharId: "",
+        collegeName: "",
+        collegeAddress: "",
+        gender: "male",
+        category: "men_singles",
+        skillLevel: "beginner",
+        playingHand: "right",
+        racketBrand: "",
+        previousTournaments: "",
+        eyewearRequired: false,
+        tShirtSize: "M"
+      });
     } catch (err) {
       toast.error(err?.response?.data?.message || 'Registration failed');
     } finally {
@@ -113,9 +130,10 @@ const Squash_ = () => {
           <input type="text" name="name" placeholder="Name" value={form.name} onChange={handleChange} required />
           <input type="email" name="email" placeholder="Email" value={form.email} onChange={handleChange} required />
           <input type="tel" name="phone" placeholder="Contact number (WhatsApp)" value={form.phone} onChange={handleChange} required />
+          <input type="text" name="aadharId" placeholder="Aadhar ID" value={form.aadharId} onChange={handleChange} required pattern="\d{12}" title="Aadhar ID must be exactly 12 digits" />
           <input type="text" name="collegeName" placeholder="College Name" value={form.collegeName} onChange={handleChange} required />
           <input type="text" name="collegeAddress" placeholder="College Address" value={form.collegeAddress} onChange={handleChange} required />
-          
+
           <select name="category" value={form.category} onChange={handleChange} required>
             <option value="">Select Category</option>
             <option value="men_singles">Men Singles</option>
@@ -149,7 +167,7 @@ const Squash_ = () => {
 
           <input type="text" name="racketBrand" placeholder="Racket Brand (Optional)" value={form.racketBrand} onChange={handleChange} />
           <input type="text" name="previousTournaments" placeholder="Previous Tournaments (Optional)" value={form.previousTournaments} onChange={handleChange} />
-          
+
           <div className="radio">
             <label>
               <input type="checkbox" name="eyewearRequired" checked={form.eyewearRequired} onChange={handleChange} /> I require protective eyewear
