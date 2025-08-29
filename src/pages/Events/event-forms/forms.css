@@ -1,4 +1,3 @@
-
 .event-forms {
   max-width: 700px;
   margin: 100px auto;
@@ -17,7 +16,7 @@
 }
 
 .form-heading h2 {
- font-size: clamp(1.8rem, 5vw, 3.5rem);
+  font-size: clamp(1.8rem, 5vw, 3.5rem);
   font-weight: 700;
   margin-bottom: 1.2rem;
   background: linear-gradient(135deg, #222, #555);
@@ -61,8 +60,8 @@
   border-radius: 10px;
   font-size: 15px;
   transition: all 0.2s ease;
- width: 65%;
- margin: auto;
+  width: 65%;
+  margin: auto;
 }
 
 .form input:focus {
@@ -71,7 +70,7 @@
   outline: none;
 }
 
-/* Gender Input */
+
 .radio {
   display: flex;
   justify-content: flex-start;
@@ -88,7 +87,7 @@
   margin-right: 6px;
 }
 
-/* Submit Button */
+
 .form button {
   padding: 14px;
   background: #161c22;
@@ -106,4 +105,80 @@
 .form button:hover {
   background: #565657;
   transform: scale(1.05);
+}
+
+/* Modal styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* Team members section styles */
+.team-members-section {
+  margin: 20px auto;
+  width: 70%;
+}
+
+.team-members-section h3 {
+  margin-bottom: 15px;
+  color: #333;
+  font-size: 1.2em;
+}
+
+.members-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.member-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background: #f5f5f5;
+  border-radius: 8px;
+}
+
+.remove-btn {
+  padding: 5px 10px !important;
+  background: #ff4444 !important;
+  width: auto !important;
+  font-size: 14px !important;
+}
+
+.add-player-btn {
+  margin-top: 10px !important;
+  background: #4CAF50 !important;
+  width: 200px !important;
 }

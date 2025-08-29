@@ -13,6 +13,8 @@ import CA from "./pages/CA/CA";
 import CARegister from "./pages/CA/sections/Register";
 import Auth from "./pages/Auth/Auth";
 import { AuthProvider } from "./context/AuthContext";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import CADashboard from "./pages/CA/sections/CADashboard";
 import ProtectedRoute from "./components/ProtectedRoutes";
 import MyApplication from "./pages/CA/sections/MyApplication";
@@ -38,7 +40,7 @@ const router = createBrowserRouter([
   {
     path: "/admin",
     element: (
-      <ProtectedRoute allowedRoles={["admin","moderator"]}>
+      <ProtectedRoute allowedRoles={["admin", "moderator"]}>
         <AdminPage />
       </ProtectedRoute>
     ),
@@ -100,61 +102,62 @@ const router = createBrowserRouter([
       </ProtectedRoute>
     ),
   },
-   {
+  {
     path: "/auth",
-    element: <Auth/>,
+    element: <Auth />,
   },
 
   {
     path: "/events/athletics",
-    element: <Athletics/>,
+    element: <Athletics />,
   },
 
   {
     path: "/events/badminton",
-    element: <Badminton_/>,
+    element: <Badminton_ />,
   },
 
-   {
+  {
     path: "/events/basketball",
-    element: <Basketball_/>,
+    element: <Basketball_ />,
   },
 
   {
     path: "/events/football",
-    element: <Football_/>,
+    element: <Football_ />,
   },
 
   {
     path: "/events/kabbadi",
-    element: <Kabbadi_/>,
+    element: <Kabbadi_ />,
   },
 
   {
     path: "/events/lawn-tennis",
-    element: <Lawn_/>,
+    element: <Lawn_ />,
   },
 
   {
     path: "/events/squash",
-    element: <Squash_/>,
+    element: <Squash_ />,
   },
 
   {
     path: "/events/table-tennis",
-    element: <Tt_/>,
+    element: <Tt_ />,
   },
 
   {
     path: "/events/volleyball",
-    element: <Volleyball_/>,
+    element: <Volleyball_ />,
   },
 ]);
 
 function App() {
-   return (
+  return (
     <AuthProvider>
       <RouterProvider router={router} />
+      <ToastContainer position="top-center" autoClose={3000} newestOnTop pauseOnHover />
     </AuthProvider>
   );
 }

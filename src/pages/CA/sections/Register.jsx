@@ -5,6 +5,7 @@ import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
 import axiosInstance from "../../../utils/axios";
 import { AuthContext } from "../../../context/AuthContext";
+import { toast } from "react-toastify";
 
 const CARegister = () => {
   const [formData, setFormData] = useState({
@@ -22,6 +23,7 @@ const CARegister = () => {
 
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
@@ -67,16 +69,20 @@ const CARegister = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axiosInstance.post("/ca/apply", {
+      setSubmitting(true);
+      const payload = {
         username: user.username,
         email: user.email,
         ...formData,
-      });
-      alert("Application submitted!");
-      navigate("/");
+      };
+      const res = await axiosInstance.post("/ca/apply", payload);
+      toast.success(res.data?.message || "Application submitted successfully!");
+      setTimeout(() => navigate("/ca-application"), 1000);
     } catch (err) {
-      alert(err.response?.data?.msg || "Error submitting");
+      toast.error(err.response?.data?.message || "Error submitting application");
       console.error(err);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -191,7 +197,9 @@ const CARegister = () => {
               onChange={handleChange}
               required
             />
-            <button type="submit">Register</button>
+            <button type="submit" disabled={submitting}>
+              {submitting ? 'Submitting...' : 'Register'}
+            </button>
           </form>
         )}
       </section>
