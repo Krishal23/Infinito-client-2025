@@ -20,14 +20,9 @@ import axiosInstance from "./utils/axios";
 import ProtectedRoute from "./components/ProtectedRoutes";
 import MyApplication from "./pages/CA/sections/MyApplication";
 import AdminPage from "./pages/Admin/AdminPage";
-import CADashboard from "./pages/CA/dashboard/dashboard";
-
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CADashboard from "./pages/CA/sections/CADashboard";
-import ProtectedRoute from "./components/ProtectedRoutes";
-import MyApplication from "./pages/CA/sections/MyApplication";
-import AdminPage from "./pages/Admin/AdminPage";
 import Merch from "./pages/SampleMerch/Merch";
 import Athletics from "./pages/Events/event-forms/athletics";
 import Badminton_ from "./pages/Events/event-forms/badminton";
@@ -115,7 +110,7 @@ const router = createBrowserRouter([
     path: "/ca-dashboard",
     element: (
       <ProtectedRoute allowedRoles={["ca"]}>
-         <CADashboard />
+        <CADashboard />
       </ProtectedRoute>
     ),
   },

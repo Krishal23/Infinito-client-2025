@@ -74,13 +74,15 @@ const Weightlifting = () => {
                             phoneNumber: form.phone,
                             aadharId: form.aadharId,
                             collegeId: form.collegeId,
-                            role: "Individual"
+                            role: "Player"
                         }
                     ]
                 }
             };
 
-            const res = await axiosInstance.post('/events/weight_lifting/register', payload);
+            console.log('Submitting payload:', payload);
+            const res = await axiosInstance.post('/events/weight-lifting/register', payload);
+            console.log('Response:', res.data);
             toast.success(res.data?.message || 'Registered successfully!');
             setTimeout(() => navigate('/event/ins'), 800);
             setForm({
@@ -107,6 +109,7 @@ const Weightlifting = () => {
                 previousCompetitions: ""
             });
         } catch (err) {
+            console.error('Error response:', err.response?.data);
             toast.error(err?.response?.data?.message || 'Registration failed');
         } finally {
             setSubmitting(false);
