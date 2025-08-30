@@ -36,6 +36,7 @@ import Squash_ from "./pages/Events/event-forms/squash";
 import Tt_ from "./pages/Events/event-forms/tt";
 import Volleyball_ from "./pages/Events/event-forms/volley";
 import Weightlifting_ from "./pages/Events/event-forms/weightlifting";
+import Codm_ from "./pages/Events/event-forms/codm"
 
 // import Gallery from "./pages/Gallery/components/content";
 const router = createBrowserRouter([
@@ -177,6 +178,10 @@ const router = createBrowserRouter([
   {
     path: "/events/weightlifting",
     element: <Weightlifting_ />,
+  },
+  {
+    path: "/events/codm",
+    element: <Codm_ />,
   },
   {
     path: "/merchandise",

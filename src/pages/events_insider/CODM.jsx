@@ -11,7 +11,7 @@ const CODM = () => {
       description="Join us for an exhilarating Squash championship where teams will compete for the ultimate prize."
       isRegistrationOpen={true}
       rulebookUrl={url}
-      registrationurl={'https://forms.gle/p5JE2C58oWWhGfsNA'}
+      registrationurl={'/events/codm'}
 
       structure={["Ayush : 95082260050"]}
       rules={[
