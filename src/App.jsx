@@ -43,6 +43,8 @@ import VALORANT_ from "./pages/Events/event-forms/valorant";
 import FREEFIRE_ from "./pages/Events/event-forms/freefire";
 import Powerlifting_ from "./pages/Events/event-forms/powerLifting";
 import MrInfinito_ from "./pages/Events/event-forms/mr_infinito";
+import Response from "./components/Admin/Response";
+import JsonViewer from "./utils/JsonViewer";
 
 // import Gallery from "./pages/Gallery/components/content";
 const router = createBrowserRouter([
@@ -70,6 +72,18 @@ const router = createBrowserRouter([
   {
     path: "/event/ins",
     element: <Evein />,
+  },
+  {
+    path: "/events/response/:event",
+    element: <Response />,
+  },
+  {
+    path: "/events/all-responses",
+    element: <JsonViewer apiUrl={`/events/all-registrations`} />,
+  },
+  {
+    path: "/events/my-responses",
+    element: <JsonViewer apiUrl={`/events/my-registrations`} />,
   },
 
   {
@@ -128,90 +142,166 @@ const router = createBrowserRouter([
 
   {
     path: "/events/athletics",
-    element: <Athletics />,
+    element:(
+       <ProtectedRoute allowedRoles={["user"]}>
+         <Athletics />
+       </ProtectedRoute>
+    ),
   },
 
   {
     path: "/events/badminton",
-    element: <Badminton_ />,
+    element:(
+       <ProtectedRoute allowedRoles={["user"]}>
+         <Badminton_ />
+       </ProtectedRoute>
+    ),
   },
 
   {
     path: "/events/basketball",
-    element: <Basketball_ />,
+    element:(
+       <ProtectedRoute allowedRoles={["user"]}>
+         <Basketball_ />
+       </ProtectedRoute>
+    ),
   },
 
   {
     path: "/events/football",
-    element: <Football_ />,
+    element:(
+       <ProtectedRoute allowedRoles={["user"]}>
+         <Football_ />
+       </ProtectedRoute>
+    ),
   },
 
   {
     path: "/events/kabbadi",
-    element: <Kabbadi_ />,
+    element:(
+       <ProtectedRoute allowedRoles={["user"]}>
+         <Kabbadi_ />
+       </ProtectedRoute>
+    ),
   },
 
   {
     path: "/events/lawn-tennis",
-    element: <Lawn_ />,
+    element:(
+       <ProtectedRoute allowedRoles={["user"]}>
+         <Lawn_ />
+       </ProtectedRoute>
+    ),
   },
 
   {
     path: "/events/squash",
-    element: <Squash_ />,
+    element:(
+       <ProtectedRoute allowedRoles={["user"]}>
+         <Squash_ />
+       </ProtectedRoute>
+    ),
   },
 
   {
     path: "/events/table_tennis",
-    element: <Tt_ />,
+    element:(
+       <ProtectedRoute allowedRoles={["user"]}>
+         <Tt_ />
+       </ProtectedRoute>
+    ),
   },
 
   {
     path: "/events/volleyball",
-    element: <Volleyball_ />,
+    element:(
+       <ProtectedRoute allowedRoles={["user"]}>
+         <Volleyball_ />
+       </ProtectedRoute>
+    ),
   },
   {
     path: "/events/mr-infinito",
-    element: <MrInfinito_ />,
+    element:(
+       <ProtectedRoute allowedRoles={["user"]}>
+         <MrInfinito_ />
+       </ProtectedRoute>
+    ),
   },
 
   {
     path: "/events/chess",
-    element: <Chess_ />,
+    element:(
+       <ProtectedRoute allowedRoles={["user"]}>
+         <Chess_ />
+       </ProtectedRoute>
+    ),
   },
 
   {
     path: "/events/cricket",
-    element: <Cricket_ />,
+    element:(
+       <ProtectedRoute allowedRoles={["user"]}>
+         <Cricket_ />
+       </ProtectedRoute>
+    ),
   },
 
   {
     path: "/events/weightlifting",
-    element: <Weightlifting_ />,
+    element:(
+       <ProtectedRoute allowedRoles={["user"]}>
+         <Weightlifting_ />
+       </ProtectedRoute>
+    ),
   },
   {
     path: "/events/powerlifting",
-    element: <Powerlifting_ />,
+    element:(
+       <ProtectedRoute allowedRoles={["user"]}>
+         <Powerlifting_ />
+       </ProtectedRoute>
+    ),
   },
   {
     path: "/events/codm",
-    element: <Codm_ />,
+    element:(
+       <ProtectedRoute allowedRoles={["user"]}>
+         <Codm_ />
+       </ProtectedRoute>
+    ),
   },
   {
     path: "/events/bgmi",
-    element: <BGMI_ />,
+    element:(
+       <ProtectedRoute allowedRoles={["user"]}>
+         <BGMI_ />
+       </ProtectedRoute>
+    ),
   },
   {
     path: "/events/clash_royale",
-    element: <ClashRoyale_/>,
+    element:(
+       <ProtectedRoute allowedRoles={["user"]}>
+         <ClashRoyale_/>
+       </ProtectedRoute>
+    ),
   },
   {
     path: "/events/valorant",
-    element: <VALORANT_/>,
+    element:(
+       <ProtectedRoute allowedRoles={["user"]}>
+         <VALORANT_/>
+       </ProtectedRoute>
+    ),
   },
   {
     path: "/events/freefire",
-    element: <FREEFIRE_/>,
+    element:(
+       <ProtectedRoute allowedRoles={["user"]}>
+         <FREEFIRE_/>
+       </ProtectedRoute>
+    ),
   },
   {
     path: "/merchandise",
