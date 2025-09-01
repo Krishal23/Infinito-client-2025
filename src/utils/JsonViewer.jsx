@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import ReactJson from "react-json-view";
 import axiosInstance from "./axios";
+import { JsonViewer } from "@textea/json-viewer";
 
-const JsonViewer = ({ apiUrl, token }) => {
+const JsonViewer_ = ({ apiUrl, token }) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -35,10 +35,10 @@ const JsonViewer = ({ apiUrl, token }) => {
 
       {data && (
         <div className="bg-gray-100 p-4 rounded overflow-auto">
-          <ReactJson
-            src={data}
-            name={false}        // hides root name
-            collapsed={1}       // collapsed by default
+          <JsonViewer
+            value={data}        
+            name={false}
+            collapsed={1}     
             enableClipboard={true}
             displayDataTypes={true}
             displayObjectSize={true}
@@ -50,4 +50,4 @@ const JsonViewer = ({ apiUrl, token }) => {
   );
 };
 
-export default JsonViewer;
+export default JsonViewer_;
