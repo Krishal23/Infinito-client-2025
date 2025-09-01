@@ -27,7 +27,6 @@ const FormStyles = () => (
     .receipt p { margin: 0.5rem 0; }
   `}</style>
 );
-// --- End Mocks and Styles ---
 
 const createInitialState = (config) => {
   const state = {

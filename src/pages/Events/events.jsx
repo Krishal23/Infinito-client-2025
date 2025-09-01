@@ -24,16 +24,16 @@ const Eve = () => {
     { id: 7, name: "clashroyale", image: clashroyaleimg },
   ];
 
-  const [events, setEvents] = useState(eventsList.slice(0, 6)); // Initially load 6 events
-  const [page, setPage] = useState(1); // To keep track of the current page
+  const [events, setEvents] = useState(eventsList.slice(0, 6)); 
+  const [page, setPage] = useState(1); 
   const observer = useRef();
   const cardSectionRef = useRef(null);
   let scrollInterval;
-  let scrollDirection = 1; // 1 for right, -1 for left
+  let scrollDirection = 1; 
 
   const loadMoreEvents = () => {
     const nextPage = page + 1;
-    const newEvents = eventsList.slice(0, nextPage * 6); // Load 6 more events each time
+    const newEvents = eventsList.slice(0, nextPage * 6);
     setEvents(newEvents);
     setPage(nextPage);
   };

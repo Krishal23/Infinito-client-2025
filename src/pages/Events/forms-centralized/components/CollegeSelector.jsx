@@ -21,7 +21,6 @@ const CollegeSelector = ({ form, setForm, handleTopLevelChange }) => {
 
   return (
     <FormSection title="College Details">
-      {/* Dropdown */}
       <label className="flex flex-col gap-1">
         <span className="text-sm text-gray-600">Select College</span>
         <select
