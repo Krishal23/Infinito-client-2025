@@ -11,7 +11,7 @@ const ClashRoyale = () => {
       description="Join us for an exhilarating Clash Royale championship where teams will compete for the ultimate prize."
       isRegistrationOpen={false}
       rulebookUrl={'/update'}
-      registrationurl={'#'}
+      registrationurl={'/events/clash_royale'}
 
       structure={["..."]}
       rules={[

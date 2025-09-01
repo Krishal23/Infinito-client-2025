@@ -10,7 +10,7 @@ const BGMI = () => {
       description="Join us for an exhilarating BGMI championship where teams will compete for the ultimate prize."
       isRegistrationOpen={true}
       rulebookUrl={rulebook}
-      registrationurl={''}
+      registrationurl={'/events/bgmi'}
 
       structure={["Taksh Bhawan : 8107991007"]}
       rules={[

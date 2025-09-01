@@ -13,7 +13,7 @@ const PowerLift = () => {
       description="Join us for an exhilarating Power Lifting championship where teams will compete for the ultimate prize."
       isRegistrationOpen={true}
       rulebookUrl={url}
-      registrationurl={'https://forms.gle/Cur1NZ5jHzKUYGkV7'}
+      registrationurl={'/events/powerlifting'}
 
       structure={[
         "Nishant : 7858000576"

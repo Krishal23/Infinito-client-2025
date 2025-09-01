@@ -2,162 +2,90 @@ import React, { useState } from "react";
 import './forms.css';
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
-import axiosInstance from "../../../utils/axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useEventRegistration } from "../../../utils/useEventRegistration";
 
 const Football_ = () => {
+  const navigate = useNavigate();
+  const initialPlayer = { fullname: "", email: "", phoneNumber: "", aadharId: "", collegeId: ""};
+
   const [form, setForm] = useState({
-    captainName: "",
-    captainEmail: "",
-    captainPhone: "",
-    captainAadharId: "",
-    captainCollegeId: "",
-    viceCaptainName: "",
-    viceCaptainEmail: "",
-    viceCaptainPhone: "",
-    viceCaptainAadharId: "",
-    viceCaptainCollegeId: "",
-    category: "men",
-    position: "any",
-    preferredFoot: "right",
-    teamPreference: "create_new",
-    jerseySize: "M",
-    shoeSize: "",
-    experience: "beginner",
+    category: "Men",
     collegeName: "",
     collegeAddress: "",
-    players: []
+    captain: { ...initialPlayer },
+    viceCaptain: { ...initialPlayer },
+    players: Array(14).fill(0).map(() => ({ ...initialMember })),
+    coach: { fullname: "", email: "", phoneNumber: "", aadharId: "" }
   });
 
-  const [playerForm, setPlayerForm] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    aadharId: "",
-    collegeId: "",
-    position: "any"
+  const { registerEvent, submitting } = useEventRegistration({
+    endpoint: "/events/football",
+    redirectUrl: "/event/ins",
+    payment: true,
   });
-  const [submitting, setSubmitting] = useState(false);
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setForm(prev => ({ ...prev, [name]: value }));
   };
 
-  const handlePlayerChange = (e) => {
-    setPlayerForm({ ...playerForm, [e.target.name]: e.target.value });
+  const handleCaptainChange = (e) => {
+    const { name, value } = e.target;
+    setForm(prev => ({ ...prev, captain: { ...prev.captain, [name]: value } }));
   };
 
-  const handleAddPlayer = () => {
-    if (!playerForm.name || !playerForm.aadharId) {
-      toast.error("Player name and Aadhar ID are required");
-      return;
-    }
+  const handleViceCaptainChange = (e) => {
+    const { name, value } = e.target;
+    setForm(prev => ({ ...prev, viceCaptain: { ...prev.viceCaptain, [name]: value } }));
+  };
 
-    setForm(prev => ({
-      ...prev,
-      players: [...prev.players, { ...playerForm, role: "Player" }]
-    }));
-
-    // Reset player form
-    setPlayerForm({
-      name: "",
-      email: "",
-      phone: "",
-      aadharId: "",
-      collegeId: "",
-      position: "any"
+  const handlePlayerChange = (index, e) => {
+    const { name, value } = e.target;
+    setForm(prev => {
+      const updatedPlayers = [...prev.players];
+      updatedPlayers[index] = { ...updatedPlayers[index], [name]: value };
+      return { ...prev, players: updatedPlayers };
     });
   };
 
-  const handleRemovePlayer = (index) => {
-    setForm(prev => ({
-      ...prev,
-      players: prev.players.filter((_, i) => i !== index)
-    }));
+  const handleCoachChange = (e) => {
+    const { name, value } = e.target;
+    setForm(prev => ({ ...prev, coach: { ...prev.coach, [name]: value } }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      setSubmitting(true);
-      if (form.players.length < 9) { // Minimum 11 players including captain and vice-captain
-        toast.error("Please add at least 9 more players");
-        return;
-      }
 
-      const payload = {
-        fullname: form.captainName,
-        email: form.captainEmail,
-        phoneNumber: form.captainPhone,
-        collegeName: form.collegeName,
-        category: form.category,
-        position: form.position,
-        preferredFoot: form.preferredFoot,
-        teamPreference: form.teamPreference,
-        jerseySize: form.jerseySize,
-        shoeSize: form.shoeSize,
-        experience: form.experience,
-        teamName: `${form.collegeName} FC`.replace(/\s+/g, " ").trim(),
-        team: {
-          teamName: `${form.collegeName} FC`.replace(/\s+/g, " ").trim(),
-          teamSize: 11,
-          members: [
-            {
-              fullname: form.captainName,
-              email: form.captainEmail,
-              phoneNumber: form.captainPhone,
-              aadharId: form.captainAadharId,
-              collegeId: form.captainCollegeId,
-              role: "Captain"
-            },
-            {
-              fullname: form.viceCaptainName,
-              email: form.viceCaptainEmail,
-              phoneNumber: form.viceCaptainPhone,
-              aadharId: form.viceCaptainAadharId,
-              collegeId: form.viceCaptainCollegeId,
-              role: "Vice Captain"
-            },
-            ...form.players.map(player => ({
-              ...player,
-              fullname: player.name
-            }))
-          ]
-        }
-      };
-      const res = await axiosInstance.post('/events/football/register', payload);
-      toast.success(res.data?.message || 'Registered successfully!');
-      setTimeout(() => navigate('/event/ins'), 800);
-      setForm({
-        captainName: "",
-        captainEmail: "",
-        captainPhone: "",
-        captainAadharId: "",
-        captainCollegeId: "",
-        viceCaptainName: "",
-        viceCaptainEmail: "",
-        viceCaptainPhone: "",
-        viceCaptainAadharId: "",
-        viceCaptainCollegeId: "",
-        category: "men",
-        position: "any",
-        preferredFoot: "right",
-        teamPreference: "create_new",
-        jerseySize: "M",
-        shoeSize: "",
-        experience: "beginner",
-        collegeName: "",
-        collegeAddress: "",
-        players: []
-      });
-    } catch (err) {
-      const msg = err?.response?.data?.message || 'Registration failed';
-      toast.error(msg);
-    } finally {
-      setSubmitting(false);
+    const isValidPhone = (num) => /^\d{10}$/.test(num);
+    const isValidAadhaar = (num) => /^\d{12}$/.test(num);
+
+    if (!isValidPhone(form.captain.phoneNumber)) return toast.error("Captain's phone must be 10 digits");
+    if (!isValidAadhaar(form.captain.aadharId)) return toast.error("Captain's Aadhaar must be 12 digits");
+
+    if (!isValidPhone(form.viceCaptain.phoneNumber)) return toast.error("Vice-Captain's phone must be 10 digits");
+    if (!isValidAadhaar(form.viceCaptain.aadharId)) return toast.error("Vice-Captain's Aadhaar must be 12 digits");
+
+    for (let i = 0; i < form.players.length; i++) {
+      const p = form.players[i];
+      if (!p.fullname || !p.email || !p.phoneNumber || !p.aadharId) {
+        return toast.error(`Player ${i + 1} details are incomplete`);
+      }
+      if (!isValidPhone(p.phoneNumber)) return toast.error(`Player ${i + 1} phone must be 10 digits`);
+      if (!isValidAadhaar(p.aadharId)) return toast.error(`Player ${i + 1} Aadhaar must be 12 digits`);
     }
+
+    const payload = {
+      collegeName: form.collegeName,
+      collegeAddress: form.collegeAddress,
+      captain: form.captain,
+      viceCaptain: form.viceCaptain,
+      players: form.players,
+      coach: form.coach
+    };
+
+    registerEvent(payload, navigate);
   };
 
   return (
@@ -165,150 +93,56 @@ const Football_ = () => {
       <Navbar />
       <section className="event-forms">
         <div className="form-heading">
-          <h2>Register for Football</h2>
-        </div>
-
-        <div className="rules">
-
-          Lace up your boots, put those shin guards on and take the pitch. While you try to put the ball in the back of the net, your opponents push towards a clean sheet. With a multitude of exciting talent participating, do you think you got what it takes to survive the group of death?
-          <br />
-          <br />
-          Note: Participants should fill in details correctly, and the participants will be solely responsible for any incorrect information submitted.
-          <br />
-          <br />
-          <strong>Participation Fees</strong> Rs. 5000/- per team
-          <br />
-          <br />
-          <strong>Rulebook</strong> -{" "}
-          <a
-            href="infinito.iitp.ac.in"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Infinito 2024 Football rulebook
-          </a>
-          <br />
-          <br />
-          <strong>Registration Guidelines</strong> -{" "}
-          <a
-            href="infinito.iitp.ac.in"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Infinito 2k24 Guidelines
-          </a>
-          <br />
-          <br />
-          For any queries, kindly contact -
-          <br />
-          Ritesh Kumar - +91 8708151519
-          <br />
-          Riya Singh - +91 9598407607540
+          <h2>Register for Cricket</h2>
         </div>
 
         <form className="form" onSubmit={handleSubmit}>
           <h3>Captain Details</h3>
-          <input type="text" name="captainName" placeholder="Team captain name" value={form.captainName} onChange={handleChange} required />
-          <input type="email" name="captainEmail" placeholder="Captain email" value={form.captainEmail} onChange={handleChange} required />
-          <input type="tel" name="captainPhone" placeholder="Captain phone (WhatsApp)" value={form.captainPhone} onChange={handleChange} required />
-          <input type="text" name="captainAadharId" placeholder="Captain Aadhar ID" value={form.captainAadharId} onChange={handleChange} required />
-          <input type="text" name="captainCollegeId" placeholder="Captain College ID (if any)" value={form.captainCollegeId} onChange={handleChange} />
+          <input type="text" name="fullname" placeholder="Full Name" value={form.captain.fullname} onChange={handleCaptainChange} required />
+          <input type="email" name="email" placeholder="Email" value={form.captain.email} onChange={handleCaptainChange} required />
+          <input type="tel" name="phoneNumber" placeholder="Phone Number" value={form.captain.phoneNumber} onChange={handleCaptainChange} required />
+          <input type="text" name="aadharId" placeholder="Aadhaar ID" value={form.captain.aadharId} onChange={handleCaptainChange} required />
+          <input type="text" name="collegeId" placeholder="College ID (optional)" value={form.captain.collegeId} onChange={handleCaptainChange} />
 
           <h3>Vice-Captain Details</h3>
-          <input type="text" name="viceCaptainName" placeholder="Team vice-captain name" value={form.viceCaptainName} onChange={handleChange} required />
-          <input type="email" name="viceCaptainEmail" placeholder="Vice-captain email" value={form.viceCaptainEmail} onChange={handleChange} required />
-          <input type="tel" name="viceCaptainPhone" placeholder="Vice-captain phone (WhatsApp)" value={form.viceCaptainPhone} onChange={handleChange} required />
-          <input type="text" name="viceCaptainAadharId" placeholder="Vice-captain Aadhar ID" value={form.viceCaptainAadharId} onChange={handleChange} required />
-          <input type="text" name="viceCaptainCollegeId" placeholder="Vice-captain College ID (if any)" value={form.viceCaptainCollegeId} onChange={handleChange} />
+          <input type="text" name="fullname" placeholder="Full Name" value={form.viceCaptain.fullname} onChange={handleViceCaptainChange} required />
+          <input type="email" name="email" placeholder="Email" value={form.viceCaptain.email} onChange={handleViceCaptainChange} required />
+          <input type="tel" name="phoneNumber" placeholder="Phone Number" value={form.viceCaptain.phoneNumber} onChange={handleViceCaptainChange} required />
+          <input type="text" name="aadharId" placeholder="Aadhaar ID" value={form.viceCaptain.aadharId} onChange={handleViceCaptainChange} required />
+          <input type="text" name="collegeId" placeholder="College ID (optional)" value={form.viceCaptain.collegeId} onChange={handleViceCaptainChange} />
 
-          <div className="radio">
-            Category:
-            <label>
-              <input type="radio" name="category" value="men" checked={form.category === 'men'} onChange={handleChange} /> Men
-            </label>
-            <label>
-              <input type="radio" name="category" value="women" checked={form.category === 'women'} onChange={handleChange} /> Women
-            </label>
-          </div>
+          <input type="text" name="collegeName" placeholder="College Name" value={form.collegeName} onChange={handleChange} />
+          <input type="text" name="collegeAddress" placeholder="College Address" value={form.collegeAddress} onChange={handleChange} />
 
-          <select name="position" value={form.position} onChange={handleChange} required>
-            <option value="">Select Position</option>
-            <option value="goalkeeper">Goalkeeper</option>
-            <option value="defender">Defender</option>
-            <option value="midfielder">Midfielder</option>
-            <option value="forward">Forward</option>
-            <option value="any">Any Position</option>
-          </select>
+          <h3>Players</h3>
+          {form.players.map((player, index) => (
+            <div key={index} className="player-form">
+              <h4>Player {index + 1}</h4>
+              <input type="text" name="fullname" placeholder="Full Name" value={player.fullname} onChange={e => handlePlayerChange(index, e)} required />
+              <input type="email" name="email" placeholder="Email" value={player.email} onChange={e => handlePlayerChange(index, e)} required />
+              <input type="tel" name="phoneNumber" placeholder="Phone Number" value={player.phoneNumber} onChange={e => handlePlayerChange(index, e)} required />
+              <input type="text" name="aadharId" placeholder="Aadhaar ID" value={player.aadharId} onChange={e => handlePlayerChange(index, e)} required />
+              <input type="text" name="collegeId" placeholder="College ID (optional)" value={player.collegeId} onChange={e => handlePlayerChange(index, e)} />
+              {/* <select name="role" value={player.role} onChange={e => handlePlayerChange(index, e)}>
+                <option value="batsman">Batsman</option>
+                <option value="bowler">Bowler</option>
+                <option value="all_rounder">All Rounder</option>
+                <option value="wicket_keeper">Wicket Keeper</option>
+              </select> */}
+            </div>
+          ))}
 
-          <select name="preferredFoot" value={form.preferredFoot} onChange={handleChange} required>
-            <option value="">Select Preferred Foot</option>
-            <option value="right">Right</option>
-            <option value="left">Left</option>
-            <option value="both">Both</option>
-          </select>
+          <h3>Coach Details (optional)</h3>
+          <input type="text" name="fullname" placeholder="Full Name" value={form.coach.fullname} onChange={handleCoachChange} />
+          <input type="email" name="email" placeholder="Email" value={form.coach.email} onChange={handleCoachChange} />
+          <input type="tel" name="phoneNumber" placeholder="Phone Number" value={form.coach.phoneNumber} onChange={handleCoachChange} />
+          <input type="text" name="aadharId" placeholder="Aadhaar ID" value={form.coach.aadharId} onChange={handleCoachChange} />
 
-          <select name="teamPreference" value={form.teamPreference} onChange={handleChange} required>
-            <option value="">Select Team Preference</option>
-            <option value="create_new">Create New Team</option>
-            <option value="join_existing">Join Existing Team</option>
-            <option value="no_preference">No Preference</option>
-          </select>
-
-          <select name="jerseySize" value={form.jerseySize} onChange={handleChange} required>
-            <option value="">Select Jersey Size</option>
-            <option value="XS">XS</option>
-            <option value="S">S</option>
-            <option value="M">M</option>
-            <option value="L">L</option>
-            <option value="XL">XL</option>
-            <option value="XXL">XXL</option>
-          </select>
-
-          <input type="text" name="shoeSize" placeholder="Shoe Size (e.g., 8, 9, 10)" value={form.shoeSize} onChange={handleChange} required />
-
-          <select name="experience" value={form.experience} onChange={handleChange} required>
-            <option value="">Select Experience Level</option>
-            <option value="beginner">Beginner</option>
-            <option value="intermediate">Intermediate</option>
-            <option value="advanced">Advanced</option>
-            <option value="professional">Professional</option>
-          </select>
-
-          <input type="text" name="collegeName" placeholder="College Name" value={form.collegeName} onChange={handleChange} required />
-          <input type="text" name="collegeAddress" placeholder="College Address" value={form.collegeAddress} onChange={handleChange} required />
-
-          <h3>Add Players</h3>
-          <div className="player-form">
-            <input type="text" name="name" placeholder="Player name" value={playerForm.name} onChange={handlePlayerChange} />
-            <input type="email" name="email" placeholder="Player email" value={playerForm.email} onChange={handlePlayerChange} />
-            <input type="tel" name="phone" placeholder="Player phone" value={playerForm.phone} onChange={handlePlayerChange} />
-            <input type="text" name="aadharId" placeholder="Player Aadhar ID" value={playerForm.aadharId} onChange={handlePlayerChange} />
-            <input type="text" name="collegeId" placeholder="Player College ID (if any)" value={playerForm.collegeId} onChange={handlePlayerChange} />
-            <select name="position" value={playerForm.position} onChange={handlePlayerChange}>
-              <option value="any">Any Position</option>
-              <option value="goalkeeper">Goalkeeper</option>
-              <option value="defender">Defender</option>
-              <option value="midfielder">Midfielder</option>
-              <option value="forward">Forward</option>
-            </select>
-            <button type="button" onClick={handleAddPlayer}>Add Player</button>
-          </div>
-
-          <h3>Team Players ({form.players.length}/9 minimum required)</h3>
-          <div className="player-list">
-            {form.players.map((player, index) => (
-              <div key={index} className="player-item">
-                <span>{player.name} - {player.position} - Aadhar: {player.aadharId}</span>
-                <button type="button" onClick={() => handleRemovePlayer(index)}>Remove</button>
-              </div>
-            ))}
-          </div>
-
-          <button type="submit" disabled={submitting}>{submitting ? 'Submitting...' : 'Register'}</button>
+          <button type="submit" disabled={submitting}>{submitting ? 'Submitting...' : 'Register & Pay'}</button>
         </form>
       </section>
       <Footer />
-    </div >
+    </div>
   );
 };
 

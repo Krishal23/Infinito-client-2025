@@ -2,75 +2,112 @@ import React, { useState } from "react";
 import './forms.css';
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
-import axiosInstance from "../../../utils/axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useEventRegistration } from "../../../utils/useEventRegistration";
 
-const Badminton_ = () => {
-  const [form, setForm] = useState({
-    captainName: "",
-    viceCaptainName: "",
-    email: "",
-    captainPhone: "",
-    viceCaptainPhone: "",
-    category: "men_singles",
-    skillLevel: "beginner",
-    playingHand: "right",
-    racketBrand: "",
-    previousTournaments: "",
-    tShirtSize: "M",
-    collegeName: "",
-    collegeAddress: ""
-  });
-  const [submitting, setSubmitting] = useState(false);
+const Badminton = () => {
   const navigate = useNavigate();
 
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  const [form, setForm] = useState({
+    category: "Men", // default
+    captainName: "",
+    captainEmail: "",
+    captainPhone: "",
+    captainAadhaar: "",
+    viceName: "",
+    viceEmail: "",
+    vicePhone: "",
+    viceAadhaar: "",
+    players: [
+      { name: "", email: "", phoneNumber: "", aadhaar: "" },
+      { name: "", email: "", phoneNumber: "", aadhaar: "" },
+      { name: "", email: "", phoneNumber: "", aadhaar: "" }
+    ],
+    collegeName: "",
+    collegeAddress: "",
+    coachName: "",
+    coachEmail: "",
+    coachPhone: ""
+  });
+
+  const { registerEvent, submitting } = useEventRegistration({
+    endpoint: "/events/badminton",
+    redirectUrl: "/event/ins",
+    payment: true,
+  });
+
+  const isValidAadhaar = (val) => /^\d{12}$/.test(val.trim());
+  const isValidPhone = (val) => /^\d{10}$/.test(val.trim());
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handlePlayerChange = (index, field, value) => {
+    setForm((prev) => {
+      const updated = [...prev.players];
+      updated[index][field] = value;
+      return { ...prev, players: updated };
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      setSubmitting(true);
-      const payload = {
-        fullname: form.captainName,
-        email: form.email,
-        phoneNumber: form.captainPhone,
-        collegeName: form.collegeName,
-        category: form.category,
-        skillLevel: form.skillLevel,
-        playingHand: form.playingHand,
-        racketBrand: form.racketBrand || undefined,
-        previousTournaments: form.previousTournaments || undefined,
-        tShirtSize: form.tShirtSize,
-        teamName: `${form.collegeName} Badminton`.replace(/\s+/g, " ").trim(),
-        team: {
-          teamName: `${form.collegeName} Badminton`.replace(/\s+/g, " ").trim(),
-          teamSize: 2,
-          members: [
-            {
-              fullname: form.captainName,
-              email: form.email,
-              phoneNumber: form.captainPhone,
-              role: "Captain"
-            },
-            {
-              fullname: form.viceCaptainName,
-              email: form.email,
-              phoneNumber: form.viceCaptainPhone,
-              role: "Vice Captain"
-            }
-          ]
-        }
-      };
-      const res = await axiosInstance.post('/events/badminton/register', payload);
-      toast.success(res.data?.message || 'Registered successfully!');
-      setTimeout(() => navigate('/event/ins'), 800);
-      setForm({ captainName: "", viceCaptainName: "", email: "", captainPhone: "", viceCaptainPhone: "", category: "men_singles", skillLevel: "beginner", playingHand: "right", racketBrand: "", previousTournaments: "", tShirtSize: "M", collegeName: "", collegeAddress: "" });
-    } catch (err) {
-      toast.error(err?.response?.data?.message || 'Registration failed');
-    } finally {
-      setSubmitting(false);
+
+    if (!isValidAadhaar(form.captainAadhaar) || !isValidPhone(form.captainPhone)) {
+      toast.error("Please enter valid Aadhaar & phoneNumber for Captain");
+      return;
     }
+    if (!isValidAadhaar(form.viceAadhaar) || !isValidPhone(form.vicePhone)) {
+      toast.error("Please enter valid Aadhaar & phoneNumber for Vice-Captain");
+      return;
+    }
+    for (let i = 0; i < 3; i++) {
+      if (
+        !form.players[i].name.trim() ||
+        !form.players[i].email.trim() ||
+        !isValidPhone(form.players[i].phoneNumber) ||
+        !isValidAadhaar(form.players[i].aadhaar)
+      ) {
+        toast.error(`Please fill valid details for all Player`);
+        return;
+      }
+    }
+    
+
+    const payload = {
+      category: form.category,
+      captain: {
+        fullname: form.captainName,
+        email: form.captainEmail,
+        phoneNumber: form.captainPhone,
+        aadharId: form.captainAadhaar,
+      },
+      viceCaptain: {
+        fullname: form.viceName,
+        email: form.viceEmail,
+        phoneNumber: form.vicePhone,
+        aadharId: form.viceAadhaar,
+      },
+      players: form.players.map((p, idx) => ({
+        fullname: p.name,
+        email: p.email,
+        phoneNumber: p.phoneNumber,
+        aadharId: p.aadhaar,
+      })),
+      collegeName: form.collegeName,
+      collegeAddress: form.collegeAddress,
+      coach: {
+        name: form.coachName,
+        email: form.coachEmail,
+        phoneNumber: form.coachPhone,
+      },
+    };
+    
+
+    registerEvent(payload, navigate);
   };
 
   return (
@@ -82,95 +119,77 @@ const Badminton_ = () => {
         </div>
 
         <div className="rules">
-
-          As of 2024, with eight amazing editions to its name, Infinito has earned its place as the the biggest and most awaited sports fest of Bihar, India.
-          <br />
-          <br />
-          Note: Participants should fill in details correctly, and the participants will be solely responsible for any incorrect information submitted
-          <br />
-          <br />
+          🏸 Welcome to Infinito 2024 Badminton Tournament! 🏸
+          <br /><br />
           <strong>Participation Fees</strong> - Rs. 1000/- per team
-          <br />
-          <br />
-          <strong>Rulebook</strong> -{" "}
-          <a
-            href="infinito.iitp.ac.in"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Infinito 2024 Badminton rulebook
-          </a>
-          <br />
-          <br />
-          <strong>Registration Guidelines</strong> -{" "}
-          <a
-            href="infinito.iitp.ac.in"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Infinito 2k24 Guidelines
-          </a>
-          <br />
-          <br />
-          For any queries, kindly contact -
-          <br />
-          Prajyot -  +91 9403394000
-          <br />
-          Shrika Reddy - +91 6305590331
+          <br /><br />
+          <strong>Rulebook</strong> - <a href="infinito.iitp.ac.in" target="_blank" rel="noopener noreferrer">Infinito 2024 Badminton rulebook</a>
         </div>
 
         <form className="form" onSubmit={handleSubmit}>
-          <input type="text" name="captainName" placeholder="Team captain name" value={form.captainName} onChange={handleChange} required />
-          <input type="text" name="viceCaptainName" placeholder="Team vice-captain name" value={form.viceCaptainName} onChange={handleChange} required />
-          <input type="email" name="email" placeholder="Email" value={form.email} onChange={handleChange} required />
-          <input type="tel" name="captainPhone" placeholder="Captain phone (WhatsApp)" value={form.captainPhone} onChange={handleChange} required />
-          <input type="tel" name="viceCaptainPhone" placeholder="Vice-captain phone (WhatsApp)" value={form.viceCaptainPhone} onChange={handleChange} required />
-          
-          <select name="category" value={form.category} onChange={handleChange} required>
-            <option value="">Select Category</option>
-            <option value="men_singles">Men Singles</option>
-            <option value="women_singles">Women Singles</option>
-            <option value="men_doubles">Men Doubles</option>
-            <option value="women_doubles">Women Doubles</option>
-            <option value="mixed_doubles">Mixed Doubles</option>
-          </select>
+          {/* Category */}
+          <div className="form-section">
+            <strong>Category</strong>
+            <select name="category" value={form.category} onChange={handleChange} required>
+              <option value="Men">Men</option>
+              <option value="Women">Women</option>
+            </select>
+          </div>
 
-          <select name="skillLevel" value={form.skillLevel} onChange={handleChange} required>
-            <option value="">Select Skill Level</option>
-            <option value="beginner">Beginner</option>
-            <option value="intermediate">Intermediate</option>
-            <option value="advanced">Advanced</option>
-            <option value="professional">Professional</option>
-          </select>
+          {/* Captain */}
+          <div className="form-section">
+            <strong>Captain Details</strong>
+            <input type="text" name="captainName" placeholder="Captain Name" value={form.captainName} onChange={handleChange} required />
+            <input type="email" name="captainEmail" placeholder="Captain Email" value={form.captainEmail} onChange={handleChange} required />
+            <input type="text" name="captainPhone" placeholder="Captain phoneNumber (10 digits)" value={form.captainPhone} onChange={handleChange} required />
+            <input type="text" name="captainAadhaar" placeholder="Captain Aadhaar (12 digits)" value={form.captainAadhaar} onChange={handleChange} required />
+          </div>
 
-          <select name="playingHand" value={form.playingHand} onChange={handleChange} required>
-            <option value="">Select Playing Hand</option>
-            <option value="right">Right</option>
-            <option value="left">Left</option>
-            <option value="ambidextrous">Ambidextrous</option>
-          </select>
+          {/* Vice-Captain */}
+          <div className="form-section">
+            <strong>Vice-Captain Details</strong>
+            <input type="text" name="viceName" placeholder="Vice-Captain Name" value={form.viceName} onChange={handleChange} required />
+            <input type="email" name="viceEmail" placeholder="Vice-Captain Email" value={form.viceEmail} onChange={handleChange} required />
+            <input type="text" name="vicePhone" placeholder="Vice-Captain phoneNumber (10 digits)" value={form.vicePhone} onChange={handleChange} required />
+            <input type="text" name="viceAadhaar" placeholder="Vice-Captain Aadhaar (12 digits)" value={form.viceAadhaar} onChange={handleChange} required />
+          </div>
 
-          <select name="tShirtSize" value={form.tShirtSize} onChange={handleChange} required>
-            <option value="">Select T-Shirt Size</option>
-            <option value="XS">XS</option>
-            <option value="S">S</option>
-            <option value="M">M</option>
-            <option value="L">L</option>
-            <option value="XL">XL</option>
-            <option value="XXL">XXL</option>
-          </select>
+          {/* Players */}
+          <div className="form-section">
+            <strong>Other 3 Players</strong>
+            {form.players.map((player, idx) => (
+              <div key={idx} className="player-inputs">
+                <input type="text" placeholder={`Player ${idx + 1} Name`} value={player.name} onChange={(e) => handlePlayerChange(idx, "name", e.target.value)} required />
+                <input type="email" placeholder={`Player ${idx + 1} Email`} value={player.email} onChange={(e) => handlePlayerChange(idx, "email", e.target.value)} required />
+                <input type="text" placeholder={`Player ${idx + 1} phoneNumber`} value={player.phoneNumber} onChange={(e) => handlePlayerChange(idx, "phoneNumber", e.target.value)} required />
+                <input type="text" placeholder={`Player ${idx + 1} Aadhaar`} value={player.aadhaar} onChange={(e) => handlePlayerChange(idx, "aadhaar", e.target.value)} required />
+              </div>
+            ))}
+          </div>
 
-          <input type="text" name="racketBrand" placeholder="Racket Brand (Optional)" value={form.racketBrand} onChange={handleChange} />
-          <input type="text" name="previousTournaments" placeholder="Previous Tournaments (Optional)" value={form.previousTournaments} onChange={handleChange} />
-          
-          <input type="text" name="collegeName" placeholder="College Name" value={form.collegeName} onChange={handleChange} required />
-          <input type="text" name="collegeAddress" placeholder="College Address" value={form.collegeAddress} onChange={handleChange} required />
-          <button type="submit" disabled={submitting}>{submitting ? 'Submitting...' : 'Register'}</button>
+          {/* College */}
+          <div className="form-section">
+            <strong>College Details</strong>
+            <input type="text" name="collegeName" placeholder="College Name" value={form.collegeName} onChange={handleChange}  />
+            <input type="text" name="collegeAddress" placeholder="College Address" value={form.collegeAddress} onChange={handleChange}  />
+          </div>
+
+          {/* Coach */}
+          <div className="form-section">
+            <strong>Coach Details</strong>
+            <input type="text" name="coachName" placeholder="Coach Name" value={form.coachName} onChange={handleChange}  />
+            <input type="email" name="coachEmail" placeholder="Coach Email" value={form.coachEmail} onChange={handleChange}  />
+            <input type="text" name="coachPhone" placeholder="Coach phoneNumber (10 digits)" value={form.coachPhone} onChange={handleChange}  />
+          </div>
+
+          <button type="submit" disabled={submitting}>
+            {submitting ? "Submitting..." : "Register & Pay"}
+          </button>
         </form>
       </section>
       <Footer />
-    </div >
+    </div>
   );
 };
 
-export default Badminton_;
+export default Badminton;

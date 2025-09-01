@@ -37,6 +37,11 @@ import Tt_ from "./pages/Events/event-forms/tt";
 import Volleyball_ from "./pages/Events/event-forms/volley";
 import Weightlifting_ from "./pages/Events/event-forms/weightlifting";
 import Codm_ from "./pages/Events/event-forms/codm"
+import BGMI_ from "./pages/Events/event-forms/bgmi"
+import ClashRoyale_ from "./pages/Events/event-forms/clash_royale";
+import VALORANT_ from "./pages/Events/event-forms/valorant";
+import FREEFIRE_ from "./pages/Events/event-forms/freefire";
+import Powerlifting_ from "./pages/Events/event-forms/powerLifting";
 
 // import Gallery from "./pages/Gallery/components/content";
 const router = createBrowserRouter([
@@ -156,7 +161,7 @@ const router = createBrowserRouter([
   },
 
   {
-    path: "/events/table-tennis",
+    path: "/events/table_tennis",
     element: <Tt_ />,
   },
 
@@ -180,8 +185,28 @@ const router = createBrowserRouter([
     element: <Weightlifting_ />,
   },
   {
+    path: "/events/powerlifting",
+    element: <Powerlifting_ />,
+  },
+  {
     path: "/events/codm",
     element: <Codm_ />,
+  },
+  {
+    path: "/events/bgmi",
+    element: <BGMI_ />,
+  },
+  {
+    path: "/events/clash_royale",
+    element: <ClashRoyale_/>,
+  },
+  {
+    path: "/events/valorant",
+    element: <VALORANT_/>,
+  },
+  {
+    path: "/events/freefire",
+    element: <FREEFIRE_/>,
   },
   {
     path: "/merchandise",

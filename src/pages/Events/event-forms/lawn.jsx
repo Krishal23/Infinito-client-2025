@@ -2,75 +2,82 @@ import React, { useState } from "react";
 import './forms.css';
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
-import axiosInstance from "../../../utils/axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-const Lawn_ = () => {
-  const [form, setForm] = useState({
-    fullname: "",
-    email: "",
-    phone: "",
-    aadharId: "",
-    category: "men_singles",
-    playingHand: "right",
-    skillLevel: "beginner",
-    collegeName: "",
-    collegeAddress: "",
-    previousTournaments: ""
-  });
-  const [submitting, setSubmitting] = useState(false);
+import { useEventRegistration } from "../../../utils/useEventRegistration";
+
+const LawnTennis = () => {
   const navigate = useNavigate();
 
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  const [form, setForm] = useState({
+    category: "Men", // default
+    players: [
+      { name: "", email: "", phoneNumber: "", aadhaar: "" },
+      { name: "", email: "", phoneNumber: "", aadhaar: "" },
+    ],
+    collegeName: "",
+    collegeAddress: "",
+    coachName: "",
+    coachEmail: "",
+    coachPhone: "",
+  });
+
+  const { registerEvent, submitting } = useEventRegistration({
+    endpoint: "/events/lawn_tennis",
+    redirectUrl: "/event/ins",
+    payment: true,
+  });
+
+  const isValidAadhaar = (val) => /^\d{12}$/.test(val.trim());
+  const isValidPhone = (val) => /^\d{10}$/.test(val.trim());
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handlePlayerChange = (index, field, value) => {
+    setForm((prev) => {
+      const updated = [...prev.players];
+      updated[index][field] = value;
+      return { ...prev, players: updated };
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      setSubmitting(true);
-      const payload = {
-        fullname: form.fullname,
-        email: form.email,
-        phoneNumber: form.phone,
-        aadharId: form.aadharId,
-        collegeName: form.collegeName,
-        category: form.category,
-        skillLevel: form.skillLevel,
-        playingHand: form.playingHand,
-        previousTournaments: form.previousTournaments || undefined,
-        team: {
-          teamName: `${form.collegeName} Lawn Tennis`.replace(/\s+/g, " ").trim(),
-          teamSize: form.category.includes('doubles') ? 2 : 1,
-          members: [
-            {
-              fullname: form.fullname,
-              email: form.email,
-              phoneNumber: form.phone,
-              aadharId: form.aadharId,
-              role: "Captain"
-            }
-          ]
-        }
-      };
-      const res = await axiosInstance.post('/events/lawn-tennis/register', payload);
-      toast.success(res.data?.message || 'Registered');
-      setTimeout(() => navigate('/event/ins'), 800);
-      setForm({
-        fullname: "",
-        email: "",
-        phone: "",
-        aadharId: "",
-        category: "men_singles",
-        playingHand: "right",
-        skillLevel: "beginner",
-        collegeName: "",
-        collegeAddress: "",
-        previousTournaments: ""
-      });
-    } catch (err) {
-      toast.error(err?.response?.data?.message || 'Registration failed');
-    } finally {
-      setSubmitting(false);
+
+    for (let i = 0; i < 2; i++) {
+      const p = form.players[i];
+      if (!p.name.trim() || !p.email.trim() || !isValidPhone(p.phoneNumber) || !isValidAadhaar(p.aadhaar)) {
+        toast.error(`Please fill valid details for Player ${i + 1}`);
+        return;
+      }
     }
+
+    if (form.coachPhone && !isValidPhone(form.coachPhone)) {
+      toast.error("Please enter a valid Coach phoneNumber number");
+      return;
+    }
+
+    const payload = {
+      category: form.category,
+      players: form.players.map((p) => ({
+        fullname: p.name,
+        email: p.email,
+        phoneNumber: p.phoneNumber,
+        aadharId: p.aadhaar,
+      })),
+      collegeName: form.collegeName,
+      collegeAddress: form.collegeAddress,
+      coach: {
+        name: form.coachName,
+        email: form.coachEmail,
+        phoneNumber: form.coachPhone,
+      },
+    };
+
+    registerEvent(payload, navigate);
   };
 
   return (
@@ -78,100 +85,79 @@ const Lawn_ = () => {
       <Navbar />
       <section className="event-forms">
         <div className="form-heading">
-          <h2>Register for Lawn Tennis   </h2>
-        </div>
-
-        <div className="rules">
-
-          🎾💥 Serve, Smash, and Ace Your Way to Glory! 💥🎾
-          <br />
-          Welcome to the Lawn Tennis Tournament at Infinito, IIT Patna's premier sports fest! Get ready to step onto the court, feel the thrill of each serve, and battle it out in intense matches under the sun. Whether you're a seasoned player or just love the game, this is your chance to rally, lob, and volley your way to victory! 🌟
-          <br />
-          <br />
-          Note: Participants should fill in details correctly, and the participants will be solely responsible for any incorrect information submitted.
-          <br />
-          <br />
-          <strong>Participation Fees</strong> Rs 800/- per team
-          <br />
-          <br />
-          <strong>Rulebook</strong> -{" "}
-          <a
-            href="infinito.iitp.ac.in"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Infinito 2024 Lawn Tennis rulebook
-          </a>
-          <br />
-          <br />
-          <strong>Registration Guidelines</strong> -{" "}
-          <a
-            href="infinito.iitp.ac.in"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Infinito 2k24 Guidelines
-          </a>
-          <br />
-          <br />
-          For any queries, kindly contact -
-          <br />
-          Pranshu Deep - 8248558408
+          <h2>Register for Lawn Tennis</h2>
         </div>
 
         <form className="form" onSubmit={handleSubmit}>
-          <input type="text" name="fullname" placeholder="Full Name" value={form.fullname} onChange={handleChange} required />
-          <input type="email" name="email" placeholder="Email" value={form.email} onChange={handleChange} required />
-          <input type="tel" name="phone" placeholder="Contact (WhatsApp)" value={form.phone} onChange={handleChange} required />
-          <input type="text" name="collegeName" placeholder="College Name" value={form.collegeName} onChange={handleChange} required />
-          <input type="text" name="collegeAddress" placeholder="College Address" value={form.collegeAddress} onChange={handleChange} required />
-          <div className="radio">
-            Category:
-            <label>
-              <input type="radio" name="category" value="men_singles" checked={form.category === 'men_singles'} onChange={handleChange} /> Men's Singles
-            </label>
-            <label>
-              <input type="radio" name="category" value="women_singles" checked={form.category === 'women_singles'} onChange={handleChange} /> Women's Singles
-            </label>
-            <label>
-              <input type="radio" name="category" value="men_doubles" checked={form.category === 'men_doubles'} onChange={handleChange} /> Men's Doubles
-            </label>
-            <label>
-              <input type="radio" name="category" value="women_doubles" checked={form.category === 'women_doubles'} onChange={handleChange} /> Women's Doubles
-            </label>
-            <label>
-              <input type="radio" name="category" value="mixed_doubles" checked={form.category === 'mixed_doubles'} onChange={handleChange} /> Mixed Doubles
-            </label>
+          {/* Category */}
+          <div className="form-section">
+            <strong>Category</strong>
+            <select name="category" value={form.category} onChange={handleChange} required>
+              <option value="Men">Men</option>
+              <option value="Women">Women</option>
+            </select>
           </div>
 
-          <select name="playingHand" value={form.playingHand} onChange={handleChange} required>
-            <option value="">Select Playing Hand</option>
-            <option value="right">Right</option>
-            <option value="left">Left</option>
-            <option value="ambidextrous">Ambidextrous</option>
-          </select>
+          {/* Players */}
+          <div className="form-section">
+            <strong>Players (2)</strong>
+            {form.players.map((player, idx) => (
+              <div key={idx} className="player-inputs">
+                <input
+                  type="text"
+                  placeholder={`Player ${idx + 1} Name`}
+                  value={player.name}
+                  onChange={(e) => handlePlayerChange(idx, "name", e.target.value)}
+                  required
+                />
+                <input
+                  type="email"
+                  placeholder={`Player ${idx + 1} Email`}
+                  value={player.email}
+                  onChange={(e) => handlePlayerChange(idx, "email", e.target.value)}
+                  required
+                />
+                <input
+                  type="text"
+                  placeholder={`Player ${idx + 1} phoneNumber`}
+                  value={player.phoneNumber}
+                  onChange={(e) => handlePlayerChange(idx, "phoneNumber", e.target.value)}
+                  required
+                />
+                <input
+                  type="text"
+                  placeholder={`Player ${idx + 1} Aadhaar`}
+                  value={player.aadhaar}
+                  onChange={(e) => handlePlayerChange(idx, "aadhaar", e.target.value)}
+                  required
+                />
+              </div>
+            ))}
+          </div>
 
-          <select name="skillLevel" value={form.skillLevel} onChange={handleChange} required>
-            <option value="">Select Skill Level</option>
-            <option value="beginner">Beginner</option>
-            <option value="intermediate">Intermediate</option>
-            <option value="advanced">Advanced</option>
-            <option value="professional">Professional</option>
-          </select>
+          {/* College */}
+          <div className="form-section">
+            <strong>College Details</strong>
+            <input type="text" name="collegeName" placeholder="College Name" value={form.collegeName} onChange={handleChange} />
+            <input type="text" name="collegeAddress" placeholder="College Address" value={form.collegeAddress} onChange={handleChange} />
+          </div>
 
-          <input
-            type="text"
-            name="previousTournaments"
-            placeholder="Previous Tournaments (Optional)"
-            value={form.previousTournaments}
-            onChange={handleChange}
-          />
-          <button type="submit" disabled={submitting}>{submitting ? 'Submitting...' : 'Register'}</button>
+          {/* Coach */}
+          <div className="form-section">
+            <strong>Coach Details (optional)</strong>
+            <input type="text" name="coachName" placeholder="Coach Name" value={form.coachName} onChange={handleChange} />
+            <input type="email" name="coachEmail" placeholder="Coach Email" value={form.coachEmail} onChange={handleChange} />
+            <input type="text" name="coachPhone" placeholder="Coach phoneNumber (10 digits)" value={form.coachPhone} onChange={handleChange} />
+          </div>
+
+          <button type="submit" disabled={submitting}>
+            {submitting ? "Submitting..." : "Register & Pay"}
+          </button>
         </form>
       </section>
       <Footer />
-    </div >
+    </div>
   );
 };
 
-export default Lawn_;
+export default LawnTennis;

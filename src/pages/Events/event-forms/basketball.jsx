@@ -2,305 +2,171 @@ import React, { useState } from "react";
 import './forms.css';
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
-import axiosInstance from "../../../utils/axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useEventRegistration } from "../../../utils/useEventRegistration";
 
 const Basketball_ = () => {
+  const navigate = useNavigate();
+  const { registerEvent, submitting } = useEventRegistration({
+    endpoint: "/events/basketball",
+    redirectUrl: "/event/ins",
+    payment: true,
+  });
+
+  const initialMember = { name: "", email: "", phoneNumber: "", aadharId: "" };
+
   const [form, setForm] = useState({
-    captainName: "",
-    captainEmail: "",
-    captainPhone: "",
-    captainAadharId: "",
-    captainCollegeId: "",
-    viceCaptainName: "",
-    viceCaptainEmail: "",
-    viceCaptainPhone: "",
-    viceCaptainAadharId: "",
-    viceCaptainCollegeId: "",
-    category: "men",
-    position: "any",
-    height: "",
-    teamPreference: "create_new",
-    jerseySize: "M",
-    experience: "beginner",
+    captain: { ...initialMember },
+    viceCaptain: { ...initialMember },
+    category: "Men",
     collegeName: "",
     collegeAddress: "",
-    players: []
+    coach: { name: "", email: "", phoneNumber: "", aadharId: "" },
+    players: Array(5).fill({ ...initialMember }),
+    substitutes: Array(7).fill({ ...initialMember }),
   });
 
-  const [playerForm, setPlayerForm] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    aadharId: "",
-    collegeId: "",
-    position: "any"
-  });
-  const [submitting, setSubmitting] = useState(false);
-  const navigate = useNavigate();
+  // Helpers for validation
+  const isValidAadhaar = (val) => /^\d{12}$/.test(val.trim());
+  const isValidPhone = (val) => /^\d{10}$/.test(val.trim());
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  const handleChange = (e, section, index) => {
+    const { name, value } = e.target;
 
-  const handlePlayerChange = (e) => {
-    setPlayerForm({ ...playerForm, [e.target.name]: e.target.value });
-  };
+    // prevent non-digit input for Aadhaar/phoneNumber
+    if (["phoneNumber", "aadharId"].includes(name) && value !== "" && !/^\d*$/.test(value)) return;
 
-  const handleAddPlayer = () => {
-    if (!playerForm.name || !playerForm.aadharId) {
-      toast.error("Player name and Aadhar ID are required");
-      return;
+    if (section === "players" || section === "substitutes") {
+      const updated = [...form[section]];
+      updated[index][name] = value;
+      setForm((prev) => ({ ...prev, [section]: updated }));
+    } else if (section) {
+      setForm((prev) => ({ ...prev, [section]: { ...prev[section], [name]: value } }));
+    } else {
+      setForm((prev) => ({ ...prev, [name]: value }));
     }
-
-    setForm(prev => ({
-      ...prev,
-      players: [...prev.players, { ...playerForm, role: "Player" }]
-    }));
-
-    // Reset player form
-    setPlayerForm({
-      name: "",
-      email: "",
-      phone: "",
-      aadharId: "",
-      collegeId: "",
-      position: "any"
-    });
-  };
-
-  const handleRemovePlayer = (index) => {
-    setForm(prev => ({
-      ...prev,
-      players: prev.players.filter((_, i) => i !== index)
-    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      setSubmitting(true);
-      if (form.players.length < 3) { // Minimum 5 players including captain and vice-captain
-        toast.error("Please add at least 3 more players");
-        return;
-      }
 
-      const payload = {
-        fullname: form.captainName,
-        email: form.captainEmail,
-        phoneNumber: form.captainPhone,
-        collegeName: form.collegeName,
-        category: form.category,
-        position: form.position,
-        height: form.height,
-        teamPreference: form.teamPreference,
-        jerseySize: form.jerseySize,
-        experience: form.experience,
-        teamName: `${form.collegeName} Basketball`.replace(/\s+/g, " ").trim(),
-        team: {
-          teamName: `${form.collegeName} Basketball`.replace(/\s+/g, " ").trim(),
-          teamSize: 5,
-          members: [
-            {
-              fullname: form.captainName,
-              email: form.captainEmail,
-              phoneNumber: form.captainPhone,
-              aadharId: form.captainAadharId,
-              collegeId: form.captainCollegeId,
-              role: "Captain"
-            },
-            {
-              fullname: form.viceCaptainName,
-              email: form.viceCaptainEmail,
-              phoneNumber: form.viceCaptainPhone,
-              aadharId: form.viceCaptainAadharId,
-              collegeId: form.viceCaptainCollegeId,
-              role: "Vice Captain"
-            },
-            ...form.players.map(player => ({
-              ...player,
-              fullname: player.name
-            }))
-          ]
+    // Validate mandatory fields
+    const checkMembers = (members, label) => {
+      for (let i = 0; i < members.length; i++) {
+        const m = members[i];
+        if (!m.name.trim() || !isValidPhone(m.phoneNumber) || !isValidAadhaar(m.aadharId) || !m.email.trim()) {
+          toast.error(`Please fill valid details for ${label} ${i + 1}`);
+          return false;
         }
-      };
-      const res = await axiosInstance.post('/events/basketball/register', payload);
-      toast.success(res.data?.message || 'Registered successfully!');
-      setTimeout(() => navigate('/event/ins'), 800);
-      setForm({
-        captainName: "",
-        captainEmail: "",
-        captainPhone: "",
-        captainAadharId: "",
-        captainCollegeId: "",
-        viceCaptainName: "",
-        viceCaptainEmail: "",
-        viceCaptainPhone: "",
-        viceCaptainAadharId: "",
-        viceCaptainCollegeId: "",
-        category: "men",
-        position: "any",
-        height: "",
-        teamPreference: "create_new",
-        jerseySize: "M",
-        experience: "beginner",
-        collegeName: "",
-        collegeAddress: "",
-        players: []
-      });
-    } catch (err) {
-      toast.error(err?.response?.data?.message || 'Registration failed');
-    } finally {
-      setSubmitting(false);
+      }
+      return true;
+    };
+
+    if (!form.captain.name || !form.captain.email || !isValidPhone(form.captain.phoneNumber) || !isValidAadhaar(form.captain.aadharId)) {
+      toast.error("Please fill valid Captain details");
+      return;
     }
+    if (!form.viceCaptain.name || !form.viceCaptain.email || !isValidPhone(form.viceCaptain.phoneNumber) || !isValidAadhaar(form.viceCaptain.aadharId)) {
+      toast.error("Please fill valid Vice-Captain details");
+      return;
+    }
+    if (!checkMembers(form.players, "Player") || !checkMembers(form.substitutes, "Substitute")) return;
+
+    // Coach validation if any field is filled
+    const coach = form.coach;
+    const coachFilled = coach.name || coach.email || coach.phoneNumber || coach.aadharId;
+    if (coachFilled && (!coach.name || !coach.email || !isValidPhone(coach.phoneNumber) || !isValidAadhaar(coach.aadharId))) {
+      toast.error("Please fill valid coach details or leave all fields empty");
+      return;
+    }
+
+    // Prepare payload
+    const payload = {
+      category: form.category,
+      collegeName: form.collegeName || "",
+      collegeAddress: form.collegeAddress || "",
+      coach: form.coach.name || form.coach.email || form.coach.phoneNumber || form.coach.aadharId 
+        ? { 
+            name: form.coach.name, 
+            email: form.coach.email, 
+            phoneNumber: form.coach.phoneNumber 
+          } 
+        : undefined,
+      captain: { ...form.captain, fullname: form.captain.name },   
+      viceCaptain: { ...form.viceCaptain, fullname: form.viceCaptain.name },
+      players: form.players.map(p => ({ ...p, fullname: p.name })),  
+      substitutes: form.substitutes.map(s => ({ ...s, fullname: s.name }))
+    };
+    
+
+    // Register with payment
+    registerEvent(payload, navigate);
   };
 
   return (
     <div className="div">
       <Navbar />
       <section className="event-forms">
-        <div className="form-heading">
-          <h2>Register for Basketball</h2>
-        </div>
-
-        <div className="rules">
-
-          The ref calls for a jump ball. You are now in possession, guarded by three, with nowhere to go you attempt a fadeaway. Did it go through the hoop, rebound of the backboard or was it just an airball?
-          There's only one way to figure that out - Register in the latest edition of INFINITO and bring out the MJ in you with those alley-oops and dunks.
-          <br />
-          <br />
-          Note: Participants should fill in details correctly, and the participants will be solely responsible for any incorrect information submitted.
-          <br />
-          <br />
-          <strong>Participation Fees</strong> Boys -  Rs. 3600/- per team , Girls - Rs Rs. 3000/- per team
-          <br />
-          <br />
-          <strong>Rulebook</strong> -{" "}
-          <a
-            href="infinito.iitp.ac.in"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Infinito 2024 Basketball rulebook
-          </a>
-          <br />
-          <br />
-          <strong>Registration Guidelines</strong> -{" "}
-          <a
-            href="infinito.iitp.ac.in"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Infinito 2k24 Guidelines
-          </a>
-          <br />
-          <br />
-          For any queries, kindly contact -
-          <br />
-          Rishabh Singraur - 7764070448
-          <br />
-          Abhimanyu - 8969195838
-        </div>
-
+        <h2>Register for Basketball</h2>
         <form className="form" onSubmit={handleSubmit}>
           <h3>Captain Details</h3>
-          <input type="text" name="captainName" placeholder="Team captain name" value={form.captainName} onChange={handleChange} required />
-          <input type="email" name="captainEmail" placeholder="Captain email" value={form.captainEmail} onChange={handleChange} required />
-          <input type="tel" name="captainPhone" placeholder="Captain phone (WhatsApp)" value={form.captainPhone} onChange={handleChange} required />
-          <input type="text" name="captainAadharId" placeholder="Captain Aadhar ID" value={form.captainAadharId} onChange={handleChange} required />
-          <input type="text" name="captainCollegeId" placeholder="Captain College ID (if any)" value={form.captainCollegeId} onChange={handleChange} />
+          <input name="name" placeholder="Captain Name" value={form.captain.name} onChange={(e) => handleChange(e, "captain")} required />
+          <input type="email" name="email" placeholder="Captain Email" value={form.captain.email} onChange={(e) => handleChange(e, "captain")} required />
+          <input type="tel" name="phoneNumber" placeholder="Captain phoneNumber" value={form.captain.phoneNumber} onChange={(e) => handleChange(e, "captain")} required />
+          <input name="aadharId" placeholder="Captain Aadhar ID" value={form.captain.aadharId} onChange={(e) => handleChange(e, "captain")} required />
 
           <h3>Vice-Captain Details</h3>
-          <input type="text" name="viceCaptainName" placeholder="Team vice-captain name" value={form.viceCaptainName} onChange={handleChange} required />
-          <input type="email" name="viceCaptainEmail" placeholder="Vice-captain email" value={form.viceCaptainEmail} onChange={handleChange} required />
-          <input type="tel" name="viceCaptainPhone" placeholder="Vice-captain phone (WhatsApp)" value={form.viceCaptainPhone} onChange={handleChange} required />
-          <input type="text" name="viceCaptainAadharId" placeholder="Vice-captain Aadhar ID" value={form.viceCaptainAadharId} onChange={handleChange} required />
-          <input type="text" name="viceCaptainCollegeId" placeholder="Vice-captain College ID (if any)" value={form.viceCaptainCollegeId} onChange={handleChange} />
+          <input name="name" placeholder="Vice-Captain Name" value={form.viceCaptain.name} onChange={(e) => handleChange(e, "viceCaptain")} required />
+          <input type="email" name="email" placeholder="Vice-Captain Email" value={form.viceCaptain.email} onChange={(e) => handleChange(e, "viceCaptain")} required />
+          <input type="tel" name="phoneNumber" placeholder="Vice-Captain phoneNumber" value={form.viceCaptain.phoneNumber} onChange={(e) => handleChange(e, "viceCaptain")} required />
+          <input name="aadharId" placeholder="Vice-Captain Aadhar ID" value={form.viceCaptain.aadharId} onChange={(e) => handleChange(e, "viceCaptain")} required />
 
-          <div className="radio">
-            Category:
-            <label>
-              <input type="radio" name="category" value="men" checked={form.category === 'men'} onChange={handleChange} /> Men
-            </label>
-            <label>
-              <input type="radio" name="category" value="women" checked={form.category === 'women'} onChange={handleChange} /> Women
-            </label>
-          </div>
+          <h3>Category</h3>
+          <label>
+            <input type="radio" name="category" value="Men" checked={form.category === "Men"} onChange={handleChange} /> Men
+          </label>
+          <label>
+            <input type="radio" name="category" value="Women" checked={form.category === "Women"} onChange={handleChange} /> Women
+          </label>
 
-          <select name="position" value={form.position} onChange={handleChange} required>
-            <option value="">Select Position</option>
-            <option value="point_guard">Point Guard</option>
-            <option value="shooting_guard">Shooting Guard</option>
-            <option value="small_forward">Small Forward</option>
-            <option value="power_forward">Power Forward</option>
-            <option value="center">Center</option>
-            <option value="any">Any Position</option>
-          </select>
+          <h3>College Details (Optional)</h3>
+          <input name="collegeName" placeholder="College Name" value={form.collegeName} onChange={handleChange} />
+          <input name="collegeAddress" placeholder="College Address" value={form.collegeAddress} onChange={handleChange} />
 
-          <input type="text" name="height" placeholder="Height (e.g., 5'8&quot;)" value={form.height} onChange={handleChange} required />
+          <h3>Coach Details (Optional)</h3>
+          <input name="name" placeholder="Coach Name" value={form.coach.name} onChange={(e) => handleChange(e, "coach")} />
+          <input type="email" name="email" placeholder="Coach Email" value={form.coach.email} onChange={(e) => handleChange(e, "coach")} />
+          <input type="tel" name="phoneNumber" placeholder="Coach phoneNumber" value={form.coach.phoneNumber} onChange={(e) => handleChange(e, "coach")} />
+          <input name="aadharId" placeholder="Coach Aadhar ID" value={form.coach.aadharId} onChange={(e) => handleChange(e, "coach")} />
 
-          <select name="teamPreference" value={form.teamPreference} onChange={handleChange} required>
-            <option value="">Select Team Preference</option>
-            <option value="create_new">Create New Team</option>
-            <option value="join_existing">Join Existing Team</option>
-            <option value="no_preference">No Preference</option>
-          </select>
+          <h3>Players (5)</h3>
+          {form.players.map((p, i) => (
+            <div key={i}>
+              <h4>Player {i + 1}</h4>
+              <input name="name" placeholder="Name" value={p.name} onChange={(e) => handleChange(e, "players", i)} required />
+              <input type="email" name="email" placeholder="Email" value={p.email} onChange={(e) => handleChange(e, "players", i)} required />
+              <input type="tel" name="phoneNumber" placeholder="phoneNumber" value={p.phoneNumber} onChange={(e) => handleChange(e, "players", i)} required />
+              <input name="aadharId" placeholder="Aadhar ID" value={p.aadharId} onChange={(e) => handleChange(e, "players", i)} required />
+            </div>
+          ))}
 
-          <select name="jerseySize" value={form.jerseySize} onChange={handleChange} required>
-            <option value="">Select Jersey Size</option>
-            <option value="XS">XS</option>
-            <option value="S">S</option>
-            <option value="M">M</option>
-            <option value="L">L</option>
-            <option value="XL">XL</option>
-            <option value="XXL">XXL</option>
-          </select>
+          <h3>Substitutes (7)</h3>
+          {form.substitutes.map((s, i) => (
+            <div key={i}>
+              <h4>Substitute {i + 1}</h4>
+              <input name="name" placeholder="Name" value={s.name} onChange={(e) => handleChange(e, "substitutes", i)} required />
+              <input type="email" name="email" placeholder="Email" value={s.email} onChange={(e) => handleChange(e, "substitutes", i)} required />
+              <input type="tel" name="phoneNumber" placeholder="phoneNumber" value={s.phoneNumber} onChange={(e) => handleChange(e, "substitutes", i)} required />
+              <input name="aadharId" placeholder="Aadhar ID" value={s.aadharId} onChange={(e) => handleChange(e, "substitutes", i)} required />
+            </div>
+          ))}
 
-          <select name="experience" value={form.experience} onChange={handleChange} required>
-            <option value="">Select Experience Level</option>
-            <option value="beginner">Beginner</option>
-            <option value="intermediate">Intermediate</option>
-            <option value="advanced">Advanced</option>
-            <option value="professional">Professional</option>
-          </select>
-
-          <input type="text" name="collegeName" placeholder="College Name" value={form.collegeName} onChange={handleChange} required />
-          <input type="text" name="collegeAddress" placeholder="College Address" value={form.collegeAddress} onChange={handleChange} required />
-
-          <h3>Add Players</h3>
-          <div className="player-form">
-            <input type="text" name="name" placeholder="Player name" value={playerForm.name} onChange={handlePlayerChange} />
-            <input type="email" name="email" placeholder="Player email" value={playerForm.email} onChange={handlePlayerChange} />
-            <input type="tel" name="phone" placeholder="Player phone" value={playerForm.phone} onChange={handlePlayerChange} />
-            <input type="text" name="aadharId" placeholder="Player Aadhar ID" value={playerForm.aadharId} onChange={handlePlayerChange} />
-            <input type="text" name="collegeId" placeholder="Player College ID (if any)" value={playerForm.collegeId} onChange={handlePlayerChange} />
-            <select name="position" value={playerForm.position} onChange={handlePlayerChange}>
-              <option value="any">Any Position</option>
-              <option value="point_guard">Point Guard</option>
-              <option value="shooting_guard">Shooting Guard</option>
-              <option value="small_forward">Small Forward</option>
-              <option value="power_forward">Power Forward</option>
-              <option value="center">Center</option>
-            </select>
-            <button type="button" onClick={handleAddPlayer}>Add Player</button>
-          </div>
-
-          <h3>Team Players ({form.players.length}/3 minimum required)</h3>
-          <div className="player-list">
-            {form.players.map((player, index) => (
-              <div key={index} className="player-item">
-                <span>{player.name} - {player.position} - Aadhar: {player.aadharId}</span>
-                <button type="button" onClick={() => handleRemovePlayer(index)}>Remove</button>
-              </div>
-            ))}
-          </div>
-
-          <button type="submit" disabled={submitting}>{submitting ? 'Submitting...' : 'Register'}</button>
+          <button type="submit" disabled={submitting}>{submitting ? "Submitting..." : "Register & Pay"}</button>
         </form>
       </section>
       <Footer />
-    </div >
+    </div>
   );
 };
 

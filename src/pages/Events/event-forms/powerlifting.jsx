@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useEventRegistration } from "../../../utils/useEventRegistration";
 
-const Weightlifting_ = () => {
+const Powerlifting_ = () => {
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
@@ -19,7 +19,7 @@ const Weightlifting_ = () => {
   });
 
   const { registerEvent, submitting } = useEventRegistration({
-    endpoint: "/events/weight_lifting",
+    endpoint: "/events/power_lifting",
     redirectUrl: "/event/ins",
     payment: true,
   });
@@ -76,7 +76,7 @@ const Weightlifting_ = () => {
     <div className="div">
       <Navbar />
       <section className="event-forms">
-        <h2>Register for Weight Lifting</h2>
+        <h2>Register for Power Lifting</h2>
         <form className="form" onSubmit={handleSubmit}>
 
           <h3>Player Detail</h3>
@@ -128,4 +128,4 @@ const Weightlifting_ = () => {
   );
 };
 
-export default Weightlifting_;
+export default Powerlifting_;

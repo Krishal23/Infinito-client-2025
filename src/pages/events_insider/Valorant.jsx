@@ -11,7 +11,7 @@ const Valorant = () => {
       description="Join us for an exhilarating Valorant championship where teams will compete for the ultimate prize."
       isRegistrationOpen={true}
       rulebookUrl={url}
-      registrationurl={'https://forms.gle/JCEfCh2vD3UVtrW38'}
+      registrationurl={'/events/valorant'}
 
       structure={["Manu Kushwah : 9664391120"]}
       rules={[

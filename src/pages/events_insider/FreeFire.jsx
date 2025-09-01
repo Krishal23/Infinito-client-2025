@@ -11,7 +11,7 @@ const FreeFire = () => {
       description="Join us for an exhilarating Free Fire championship where teams will compete for the ultimate prize."
       isRegistrationOpen={true}
       rulebookUrl={url}
-      registrationurl={'https://forms.gle/HUFmzKz7YtKLmSp17'}
+      registrationurl={'/events/freefire'}
 
       structure={["Saksham Srivastava : 9555899043"]}
       rules={[

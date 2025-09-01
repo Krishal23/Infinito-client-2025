@@ -5,8 +5,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import './Caportal.css';
 import VectorImg from '../utils/Group.png';
 import Unstop from '../utils/unstop.png';
+import Infinito from '../utils/Group 48095427.png';
 import axiosInstance from '../../../utils/axios';
 import { AuthContext } from '../../../context/AuthContext';
+import { AiOutlineClose } from 'react-icons/ai';
 
 
 const Caportal = () => {
@@ -124,7 +126,17 @@ const Caportal = () => {
         <img src={VectorImg} alt="Logo" className="logo-image" />
       </div>
       <div className="right-panel" ref={rightPanelRef}>
-        <img src={Unstop} alt="Logo" className="unstop" />
+      <div className="flex justify-between items-center p-4">
+      {/* First Image */}
+      <img src={Infinito} alt="Infinito Logo" className="w-32 h-auto" />
+
+      {/* X Icon placed between the two images */}
+      <AiOutlineClose className="text-bold cursor-pointer hover:text-red-500 mx-4" size={30}  />
+
+      {/* Second Image */}
+      <img src={Unstop} alt="Unstop Logo" className="w-32 h-auto" />
+    </div>
+    presents
         <div className="heading">CAMPUS AMBASSADOR</div>
         {role === null || applicationStatus === null ? (
           <button className="gradient-btn" ref={buttonRef} onClick={handleApplyClick}>

@@ -2,107 +2,159 @@ import React, { useState } from "react";
 import './forms.css';
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
-import axiosInstance from "../../../utils/axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useEventRegistration } from "../../../utils/useEventRegistration";
+
 const Tt_ = () => {
-  const [form, setForm] = useState({ name: "", email: "", phone: "", collegeName: "", collegeAddress: "", gender: "male" });
-  const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  const { registerEvent, submitting } = useEventRegistration({
+    endpoint: "/events/table_tennis",
+    redirectUrl: "/event/ins",
+    payment: true,
+  });
+
+  const initialMember = { name: "", email: "", phoneNumber: "", aadharId: "" };
+
+  const [form, setForm] = useState({
+    captain: { ...initialMember },
+    category: "Men",
+    collegeName: "",
+    collegeAddress: "",
+    coach: { name: "", email: "", phoneNumber: "", aadharId: "" },
+    players: Array(3).fill(0).map(() => ({ ...initialMember })),
+  });
+
+  // Helpers for validation
+  const isValidAadhaar = (val) => /^\d{12}$/.test(val.trim());
+  const isValidPhone = (val) => /^\d{10}$/.test(val.trim());
+
+  const handleChange = (e, section, index) => {
+    const { name, value } = e.target;
+
+    // prevent non-digit input for Aadhaar/phoneNumber
+    if (["phoneNumber", "aadharId"].includes(name) && value !== "" && !/^\d*$/.test(value)) return;
+
+    if (section === "players" || section === "substitutes") {
+      const updated = [...form[section]];
+      updated[index][name] = value;
+      setForm((prev) => ({ ...prev, [section]: updated }));
+    } else if (section) {
+      setForm((prev) => ({ ...prev, [section]: { ...prev[section], [name]: value } }));
+    } else {
+      setForm((prev) => ({ ...prev, [name]: value }));
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      setSubmitting(true);
-      const payload = {
-        event: "table_tennis",
-        name: form.name,
-        email: form.email,
-        phoneNumber: form.phone,
-        collegeName: form.collegeName,
-        collegeAddress: form.collegeAddress,
-        gender: form.gender
-      };
-      const res = await axiosInstance.post('/events/table-tennis/register', payload);
-      toast.success(res.data?.message || 'Registered');
-      setTimeout(() => navigate('/event/ins'), 800);
-      setForm({ name: "", email: "", phone: "", collegeName: "", collegeAddress: "", gender: "male" });
-    } catch (err) {
-      toast.error(err?.response?.data?.message || 'Registration failed');
-    } finally {
-      setSubmitting(false);
+
+    // Validate mandatory fields
+    const checkMembers = (members, label) => {
+      for (let i = 0; i < members.length; i++) {
+        const m = members[i];
+        if (!m.name.trim() || !isValidPhone(m.phoneNumber) || !isValidAadhaar(m.aadharId) || !m.email.trim()) {
+          toast.error(`Please fill valid details for ${label} ${i + 1}`);
+          return false;
+        }
+      }
+      return true;
+    };
+
+    if (!form.captain.name || !form.captain.email || !isValidPhone(form.captain.phoneNumber) || !isValidAadhaar(form.captain.aadharId)) {
+      toast.error("Please fill valid Captain details");
+      return;
     }
+    // if (!checkMembers(form.players, "Player") ) return;
+
+    // Coach validation if any field is filled
+    const coach = form.coach;
+    const coachFilled = coach.name || coach.email || coach.phoneNumber || coach.aadharId;
+    if (coachFilled && (!coach.name || !coach.email || !isValidPhone(coach.phoneNumber) || !isValidAadhaar(coach.aadharId))) {
+      toast.error("Please fill valid coach details or leave all fields empty");
+      return;
+    }
+
+    // Prepare payload
+    const payload = {
+      category: form.category,
+      collegeName: form.collegeName,
+      collegeAddress: form.collegeAddress,
+      captain: {
+        fullname: form.captain.name,
+        email: form.captain.email,
+        phoneNumber: form.captain.phoneNumber,
+        aadharId: form.captain.aadharId
+      },
+      players: form.players.map(p => ({
+        fullname: p.name,
+        email: p.email,
+        phoneNumber: p.phoneNumber,
+        aadharId: p.aadharId
+      })),
+      coach: form.coach.name || form.coach.email || form.coach.phoneNumber || form.coach.aadharId
+        ? {
+            name: form.coach.name,
+            email: form.coach.email,
+            phoneNumber: form.coach.phoneNumber
+          }
+        : undefined
+    };
+    
+    
+
+    // Register with payment
+    registerEvent(payload, navigate);
   };
 
   return (
     <div className="div">
       <Navbar />
       <section className="event-forms">
-        <div className="form-heading">
-          <h2>Register for Table Tennis   </h2>
-        </div>
-
-        <div className="rules">
-
-
-          As of 2024, with five amazing editions to its name, Infinito has earned its place as the the biggest and most awaited sports fest of Bihar, India.
-          <br />
-          <br />
-
-          Note: Participants should fill in details correctly, and the participants will be solely responsible for any incorrect information submitted.
-          <br />
-          <br />
-          Note: BRING YOUR KIT WITH YOU
-          <br />
-          <br />
-          <strong>Participation Fees</strong> Rs 1200/-
-          <br />
-          <br />
-          <strong>Rulebook</strong> -{" "}
-          <a
-            href="infinito.iitp.ac.in"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Infinito 2024 Table Tennis rulebook
-          </a>
-          <br />
-          <br />
-          <strong>Registration Guidelines</strong> -{" "}
-          <a
-            href="infinito.iitp.ac.in"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Infinito 2k24 Guidelines
-          </a>
-          <br />
-          <br />
-          For any queries, kindly contact -
-          <br />
-          Anirudh Reddy - 8919450229
-        </div>
-
+        <h2>Register for Table Tennis</h2>
         <form className="form" onSubmit={handleSubmit}>
-          <input type="text" name="name" placeholder="Name" value={form.name} onChange={handleChange} required />
-          <input type="email" name="email" placeholder="Email" value={form.email} onChange={handleChange} required />
-          <input type="tel" name="phone" placeholder="Contact number (WhatsApp)" value={form.phone} onChange={handleChange} required />
-          <input type="text" name="collegeName" placeholder="College Name" value={form.collegeName} onChange={handleChange} required />
-          <input type="text" name="collegeAddress" placeholder="College Address" value={form.collegeAddress} onChange={handleChange} required />
-          <div className="radio">
-            Gender:
-            <label>
-              <input type="radio" name="gender" value="male" checked={form.gender === 'male'} onChange={handleChange} /> Male
-            </label>
-            <label>
-              <input type="radio" name="gender" value="female" checked={form.gender === 'female'} onChange={handleChange} /> Female
-            </label>
-          </div>
-          <button type="submit" disabled={submitting}>{submitting ? 'Submitting...' : 'Register'}</button>
+
+          <h3>Category</h3>
+          <label>
+            <input type="radio" name="category" value="Men" checked={form.category === "Men"} onChange={handleChange} /> Men
+          </label>
+          <label>
+            <input type="radio" name="category" value="Women" checked={form.category === "Women"} onChange={handleChange} /> Women
+          </label>
+
+          <h3>College Details (Optional)</h3>
+          <input name="collegeName" placeholder="College Name" value={form.collegeName} onChange={handleChange} />
+          <input name="collegeAddress" placeholder="College Address" value={form.collegeAddress} onChange={handleChange} />
+
+          <h3>Captain Details</h3>
+          <input name="name" placeholder="Captain Name" value={form.captain.name} onChange={(e) => handleChange(e, "captain")} required />
+          <input type="email" name="email" placeholder="Captain Email" value={form.captain.email} onChange={(e) => handleChange(e, "captain")} required />
+          <input type="tel" name="phoneNumber" placeholder="Captain phoneNumber" value={form.captain.phoneNumber} onChange={(e) => handleChange(e, "captain")} required />
+          <input name="aadharId" placeholder="Captain Aadhar ID" value={form.captain.aadharId} onChange={(e) => handleChange(e, "captain")} required />
+
+          <h3>Players (3)</h3>
+          {form.players.map((p, i) => (
+            <div key={i}>
+              <h4>Player {i + 1}</h4>
+              <input name="name" placeholder="Name" value={p.name} onChange={(e) => handleChange(e, "players", i)} />
+              <input type="email" name="email" placeholder="Email" value={p.email} onChange={(e) => handleChange(e, "players", i)} />
+              <input type="tel" name="phoneNumber" placeholder="phoneNumber" value={p.phoneNumber} onChange={(e) => handleChange(e, "players", i)} />
+              <input name="aadharId" placeholder="Aadhar ID" value={p.aadharId} onChange={(e) => handleChange(e, "players", i)} />
+            </div>
+          ))}
+
+          
+          <h3>Coach Details (Optional)</h3>
+          <input name="name" placeholder="Coach Name" value={form.coach.name} onChange={(e) => handleChange(e, "coach")} />
+          <input type="email" name="email" placeholder="Coach Email" value={form.coach.email} onChange={(e) => handleChange(e, "coach")} />
+          <input type="tel" name="phoneNumber" placeholder="Coach phoneNumber" value={form.coach.phoneNumber} onChange={(e) => handleChange(e, "coach")} />
+          <input name="aadharId" placeholder="Coach Aadhar ID" value={form.coach.aadharId} onChange={(e) => handleChange(e, "coach")} />
+
+          <button type="submit" disabled={submitting}>{submitting ? "Submitting..." : "Register & Pay"}</button>
         </form>
       </section>
       <Footer />
-    </div >
+    </div>
   );
 };
 

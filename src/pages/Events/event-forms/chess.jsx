@@ -2,235 +2,165 @@ import React, { useState } from "react";
 import './forms.css';
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
-import axiosInstance from "../../../utils/axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useEventRegistration } from "../../../utils/useEventRegistration";
 
-const Chess = () => {
-    const [form, setForm] = useState({
-        captainName: "",
-        captainEmail: "",
-        captainPhone: "",
-        captainAadharId: "",
-        captainCollegeId: "",
-        viceCaptainName: "",
-        viceCaptainEmail: "",
-        viceCaptainPhone: "",
-        viceCaptainAadharId: "",
-        viceCaptainCollegeId: "",
-        category: "open",
-        skillLevel: "beginner",
-        rating: "",
-        collegeName: "",
-        collegeAddress: "",
-        players: []
+const Badminton = () => {
+  const navigate = useNavigate();
+
+  const [form, setForm] = useState({
+    captainName: "",
+    captainEmail: "",
+    captainPhone: "",
+    captainAadhaar: "",
+    players: [
+      { name: "", email: "", phoneNumber: "", aadhaar: "" },
+      { name: "", email: "", phoneNumber: "", aadhaar: "" },
+      { name: "", email: "", phoneNumber: "", aadhaar: "" },
+      { name: "", email: "", phoneNumber: "", aadhaar: "" },
+      { name: "", email: "", phoneNumber: "", aadhaar: "" }
+    ],
+    collegeName: "",
+    collegeAddress: "",
+    coachName: "",
+    coachEmail: "",
+    coachPhone: ""
+  });
+
+  const { registerEvent, submitting } = useEventRegistration({
+    endpoint: "/events/chess",
+    redirectUrl: "/event/ins",
+    payment: true,
+  });
+
+  const isValidAadhaar = (val) => /^\d{12}$/.test(val.trim());
+  const isValidPhone = (val) => /^\d{10}$/.test(val.trim());
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handlePlayerChange = (index, field, value) => {
+    setForm((prev) => {
+      const updated = [...prev.players];
+      updated[index][field] = value;
+      return { ...prev, players: updated };
     });
+  };
 
-    const [playerForm, setPlayerForm] = useState({
-        name: "",
-        email: "",
-        phone: "",
-        aadharId: "",
-        collegeId: "",
-        rating: ""
-    });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    const [submitting, setSubmitting] = useState(false);
-    const navigate = useNavigate();
+    if (!isValidAadhaar(form.captainAadhaar) || !isValidPhone(form.captainPhone)) {
+      toast.error("Please enter valid Aadhaar & phoneNumber for Captain");
+      return;
+    }
+    for (let i = 0; i < 4; i++) {
+      if (
+        !form.players[i].name.trim() ||
+        !form.players[i].email.trim() ||
+        !isValidPhone(form.players[i].phoneNumber) ||
+        !isValidAadhaar(form.players[i].aadhaar)
+      ) {
+        toast.error(`Please fill valid details for all Player`);
+        return;
+      }
+    }
+    
 
-    const handleChange = (e) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
+    const payload = {
+      captain: {
+        fullname: form.captainName,
+        email: form.captainEmail,
+        phoneNumber: form.captainPhone,
+        aadharId: form.captainAadhaar,
+      },
+      players: form.players.map((p, idx) => ({
+        fullname: p.name,
+        email: p.email,
+        phoneNumber: p.phoneNumber,
+        aadharId: p.aadhaar,
+      })),
+      collegeName: form.collegeName,
+      collegeAddress: form.collegeAddress,
+      coach: {
+        name: form.coachName,
+        email: form.coachEmail,
+        phoneNumber: form.coachPhone,
+      },
     };
+    
 
-    const handlePlayerChange = (e) => {
-        setPlayerForm({ ...playerForm, [e.target.name]: e.target.value });
-    };
+    registerEvent(payload, navigate);
+  };
 
-    const handleAddPlayer = () => {
-        if (!playerForm.name || !playerForm.aadharId) {
-            toast.error("Player name and Aadhar ID are required");
-            return;
-        }
-
-        // For all categories, max 1 player since chess is an individual game
-        if (form.players.length >= 1) {
-            toast.error("Chess is an individual sport, only one player allowed");
-            return;
-        } setForm(prev => ({
-            ...prev,
-            players: [...prev.players, { ...playerForm, role: "Player" }]
-        }));
-
-        // Reset player form
-        setPlayerForm({
-            name: "",
-            email: "",
-            phone: "",
-            aadharId: "",
-            collegeId: "",
-            rating: ""
-        });
-    };
-
-    const handleRemovePlayer = (index) => {
-        setForm(prev => ({
-            ...prev,
-            players: prev.players.filter((_, i) => i !== index)
-        }));
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            setSubmitting(true);
-
-            const payload = {
-                fullname: form.captainName,
-                email: form.captainEmail,
-                phoneNumber: form.captainPhone,
-                aadharId: form.captainAadharId,
-                collegeName: form.collegeName,
-                category: form.category,
-                experience: form.skillLevel,
-                fideRating: form.rating ? parseInt(form.rating) : undefined,
-                preferredTimeControl: "rapid",
-                team: {
-                    teamName: `${form.collegeName} Chess`.replace(/\s+/g, " ").trim(),
-                    teamSize: 1,
-                    members: [
-                        {
-                            fullname: form.captainName,
-                            email: form.captainEmail,
-                            phoneNumber: form.captainPhone,
-                            aadharId: form.captainAadharId,
-                            collegeId: form.captainCollegeId,
-                            role: "Captain"
-                        },
-                        ...form.players.map(player => ({
-                            ...player,
-                            fullname: player.name
-                        }))
-                    ]
-                }
-            };
-
-            const res = await axiosInstance.post('/events/chess/register', payload);
-            toast.success(res.data?.message || 'Registered successfully!');
-            setTimeout(() => navigate('/event/ins'), 800);
-            setForm({
-                captainName: "",
-                captainEmail: "",
-                captainPhone: "",
-                captainAadharId: "",
-                captainCollegeId: "",
-                viceCaptainName: "",
-                viceCaptainEmail: "",
-                viceCaptainPhone: "",
-                viceCaptainAadharId: "",
-                viceCaptainCollegeId: "",
-                category: "open",
-                skillLevel: "beginner",
-                rating: "",
-                collegeName: "",
-                collegeAddress: "",
-                players: []
-            });
-        } catch (err) {
-            toast.error(err?.response?.data?.message || 'Registration failed');
-        } finally {
-            setSubmitting(false);
-        }
-    };
-
-    return (
-        <div className="div">
-            <Navbar />
-            <section className="event-forms">
-                <div className="form-heading">
-                    <h2>Register for Chess</h2>
-                </div>
-
-                <div className="rules">
-                    Welcome to the Chess Championship! Test your strategic prowess and tactical brilliance in this battle of minds.
-                    <br />
-                    <br />
-                    Note: Participants should fill in details correctly, and the participants will be solely responsible for any incorrect information submitted.
-                    <br />
-                    <br />
-                    For any queries, kindly contact -
-                    <br />
-                    Parth Ganjewar - 8308917584
-                </div>
-
-                <form className="form" onSubmit={handleSubmit}>
-                    <h3>Captain Details</h3>
-                    <input type="text" name="captainName" placeholder="Name" value={form.captainName} onChange={handleChange} required />
-                    <input type="email" name="captainEmail" placeholder="Email" value={form.captainEmail} onChange={handleChange} required />
-                    <input type="tel" name="captainPhone" placeholder="Phone (WhatsApp)" value={form.captainPhone} onChange={handleChange} required />
-                    <input type="text" name="captainAadharId" placeholder="Aadhar ID" value={form.captainAadharId} onChange={handleChange} required />
-                    <input type="text" name="captainCollegeId" placeholder="College ID (if any)" value={form.captainCollegeId} onChange={handleChange} />
-
-                    <div className="radio">
-                        Category:
-                        <label>
-                            <input type="radio" name="category" value="open" checked={form.category === 'open'} onChange={handleChange} /> Open
-                        </label>
-                        <label>
-                            <input type="radio" name="category" value="women" checked={form.category === 'women'} onChange={handleChange} /> Women
-                        </label>
-                        <label>
-                            <input type="radio" name="category" value="under_18" checked={form.category === 'under_18'} onChange={handleChange} /> Under 18
-                        </label>
-                        <label>
-                            <input type="radio" name="category" value="under_16" checked={form.category === 'under_16'} onChange={handleChange} /> Under 16
-                        </label>
-                    </div>
-
-                    <select name="skillLevel" value={form.skillLevel} onChange={handleChange} required>
-                        <option value="">Select Skill Level</option>
-                        <option value="beginner">Beginner</option>
-                        <option value="intermediate">Intermediate</option>
-                        <option value="advanced">Advanced</option>
-                        <option value="expert">Expert</option>
-                    </select>
-
-                    <input type="text" name="rating" placeholder="Chess Rating (if any)" value={form.rating} onChange={handleChange} />
-                    <input type="text" name="collegeName" placeholder="College Name" value={form.collegeName} onChange={handleChange} required />
-                    <input type="text" name="collegeAddress" placeholder="College Address" value={form.collegeAddress} onChange={handleChange} required />
-
-                    {false && (
-                        <>
-                            <h3>Add Players</h3>
-                            <div className="player-form">
-                                <input type="text" name="name" placeholder="Player name" value={playerForm.name} onChange={handlePlayerChange} />
-                                <input type="email" name="email" placeholder="Player email" value={playerForm.email} onChange={handlePlayerChange} />
-                                <input type="tel" name="phone" placeholder="Player phone" value={playerForm.phone} onChange={handlePlayerChange} />
-                                <input type="text" name="aadharId" placeholder="Player Aadhar ID" value={playerForm.aadharId} onChange={handlePlayerChange} />
-                                <input type="text" name="collegeId" placeholder="Player College ID (if any)" value={playerForm.collegeId} onChange={handlePlayerChange} />
-                                <input type="text" name="rating" placeholder="Chess Rating (if any)" value={playerForm.rating} onChange={handlePlayerChange} />
-                                <button type="button" onClick={handleAddPlayer}>Add Player</button>
-                            </div>
-
-                            {form.players.length > 0 && (
-                                <div className="players-list">
-                                    <h4>Added Players:</h4>
-                                    {form.players.map((player, index) => (
-                                        <div key={index} className="player-item">
-                                            <span>{player.name}</span>
-                                            <button type="button" onClick={() => handleRemovePlayer(index)}>Remove</button>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-                        </>
-                    )}
-
-                    <button type="submit" disabled={submitting}>{submitting ? 'Submitting...' : 'Register'}</button>
-                </form>
-            </section>
-            <Footer />
+  return (
+    <div className="div">
+      <Navbar />
+      <section className="event-forms">
+        <div className="form-heading">
+          <h2>Register for Badminton</h2>
         </div>
-    );
+
+        <div className="rules">
+          🏸 Welcome to Infinito 2024 Badminton Tournament! 🏸
+          <br /><br />
+          <strong>Participation Fees</strong> - Rs. 1000/- per team
+          <br /><br />
+          <strong>Rulebook</strong> - <a href="infinito.iitp.ac.in" target="_blank" rel="noopener noreferrer">Infinito 2024 Badminton rulebook</a>
+        </div>
+
+        <form className="form" onSubmit={handleSubmit}>
+
+          {/* Captain */}
+          <div className="form-section">
+            <strong>Captain Details</strong>
+            <input type="text" name="captainName" placeholder="Captain Name" value={form.captainName} onChange={handleChange} required />
+            <input type="email" name="captainEmail" placeholder="Captain Email" value={form.captainEmail} onChange={handleChange} required />
+            <input type="text" name="captainPhone" placeholder="Captain phoneNumber (10 digits)" value={form.captainPhone} onChange={handleChange} required />
+            <input type="text" name="captainAadhaar" placeholder="Captain Aadhaar (12 digits)" value={form.captainAadhaar} onChange={handleChange} required />
+          </div>
+
+
+          {/* Players */}
+          <div className="form-section">
+            <strong>Other 5 Players</strong>
+            {form.players.map((player, idx) => (
+              <div key={idx} className="player-inputs">
+                {idx==4 && <div>Additional Player</div>}
+                <input type="text" placeholder={`Player ${idx + 1} Name`} value={player.name} onChange={(e) => handlePlayerChange(idx, "name", e.target.value)} required={idx !== 4}  />
+                <input type="email" placeholder={`Player ${idx + 1} Email`} value={player.email} onChange={(e) => handlePlayerChange(idx, "email", e.target.value)} required={idx !== 4}  />
+                <input type="text" placeholder={`Player ${idx + 1} phoneNumber`} value={player.phoneNumber} onChange={(e) => handlePlayerChange(idx, "phoneNumber", e.target.value)} required={idx !== 4}  />
+                <input type="text" placeholder={`Player ${idx + 1} Aadhaar`} value={player.aadhaar} onChange={(e) => handlePlayerChange(idx, "aadhaar", e.target.value)} required={idx !== 4}  />
+              </div>
+            ))}
+          </div>
+
+          {/* College */}
+          <div className="form-section">
+            <strong>College Details</strong>
+            <input type="text" name="collegeName" placeholder="College Name" value={form.collegeName} onChange={handleChange}  />
+            <input type="text" name="collegeAddress" placeholder="College Address" value={form.collegeAddress} onChange={handleChange}  />
+          </div>
+
+          {/* Coach */}
+          <div className="form-section">
+            <strong>Coach Details</strong>
+            <input type="text" name="coachName" placeholder="Coach Name" value={form.coachName} onChange={handleChange}  />
+            <input type="email" name="coachEmail" placeholder="Coach Email" value={form.coachEmail} onChange={handleChange}  />
+            <input type="text" name="coachPhone" placeholder="Coach phoneNumber (10 digits)" value={form.coachPhone} onChange={handleChange}  />
+          </div>
+
+          <button type="submit" disabled={submitting}>
+            {submitting ? "Submitting..." : "Register & Pay"}
+          </button>
+        </form>
+      </section>
+      <Footer />
+    </div>
+  );
 };
 
-export default Chess;
+export default Badminton;
