@@ -1,5 +1,8 @@
-import EsportsForm from "./ESportsForm";
+import { esportsConfigs } from "../forms-centralized/esports/esportsConfig";
+import EsportsForm from "../forms-centralized/esports/EsportsForm";
 
-export default function VALORANT_() {
-  return <EsportsForm gameName="VALORANT" />;
-}
+const Valorant = () => {
+  return <EsportsForm config={esportsConfigs.valorant} />;
+};
+
+export default Valorant;

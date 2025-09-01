@@ -1,5 +1,7 @@
-import EsportsForm from "./ESportsForm";
+import { esportsConfigs } from "../forms-centralized/esports/esportsConfig";
+import EsportsForm from "../forms-centralized/esports/EsportsForm";
 
-export default function FREEFIRE_() {
-  return <EsportsForm gameName="FREEFIRE" />;
-}
+const FREEFIRE_ = () => {
+  return <EsportsForm config={esportsConfigs.freefire} />;
+};
+export default FREEFIRE_;

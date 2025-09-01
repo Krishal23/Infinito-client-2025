@@ -5,9 +5,7 @@ import { useEventRegistration } from "../../../utils/useEventRegistration";
 import CollegeSelector from "../forms-centralized/components/CollegeSelector";
 import FormSection from "../forms-centralized/components/FormSection";
 import PersonInputGroup from "../forms-centralized/components/PersonInputGroup";
-import Navbar from "../../../components/Navbar";
-import Footer from "../../../components/Footer";
-import { toast } from "react-toastify";
+
 
 const FormStyles = () => (
   <style>{`
@@ -29,31 +27,21 @@ const FormStyles = () => (
 
 const EMPTY_PERSON = { fullname: "", email: "", phoneNumber: "", aadharId: "" };
 
-const Athletics = () => {
+const AthleticsComp = () => {
   const config = eventConfigs.athletics;
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
-    collegeSelect: "",
-    collegeName: "",
-    collegeAddress: "",
-    category: "Men",
-    accompanyingCoach: "No",
-    coach: { ...EMPTY_PERSON },
-    captain: { ...EMPTY_PERSON },
-    selectedIndividualEvents: [],
-    selectedRelayEvents: [],
-    relayTeams: {},
+    collegeName: "", collegeAddress: "", category: "Men", accompanyingCoach: "No",
+    coach: { ...EMPTY_PERSON }, captain: { ...EMPTY_PERSON },
+    selectedIndividualEvents: [], selectedRelayEvents: [], relayTeams: {},
   });
   const [currentStep, setCurrentStep] = useState(0);
   const { registerEvent, submitting } = useEventRegistration({
     endpoint: config.endpoint, redirectUrl: "/event/ins", payment: true,
   });
 
-  const handleTopLevelChange = (e) => {
-    const { name, value } = e.target;
-    setForm(prev => ({ ...prev, [name]: value }));
-  };
+  const handleTopLevelChange = (e) => setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
   const handleCaptainChange = (field, value) => setForm(prev => ({ ...prev, captain: { ...prev.captain, [field]: value } }));
   const handleCoachChange = (field, value) => setForm(prev => ({ ...prev, coach: { ...prev.coach, [field]: value } }));
 
@@ -90,11 +78,11 @@ const Athletics = () => {
       return { ...prev, selectedRelayEvents: newSelected, relayTeams: newRelayTeams };
     });
   };
-
+  
   const handleRelayPlayerChange = (eventName, playerIndex, field, value) => {
     setForm(prev => {
       const updatedTeams = { ...prev.relayTeams };
-      const updatedPlayers = [...(updatedTeams[eventName] || [])];
+      const updatedPlayers = [...updatedTeams[eventName]];
       updatedPlayers[playerIndex] = { ...updatedPlayers[playerIndex], [field]: value };
       updatedTeams[eventName] = updatedPlayers;
       return { ...prev, relayTeams: updatedTeams };
@@ -106,7 +94,7 @@ const Athletics = () => {
     const isValidPhone = num => /^\d{10}$/.test(num);
     const isValidAadhaar = num => /^\d{12}$/.test(num);
     const validatePerson = (person, label) => {
-        if (!person || !person.fullname?.trim() || !person.email?.trim() || !isValidPhone(person.phoneNumber) || !isValidAadhaar(person.aadharId)) {
+        if (!person.fullname.trim() || !person.email.trim() || !isValidPhone(person.phoneNumber) || !isValidAadhaar(person.aadharId)) {
             toast.error(`Please fill all valid details for ${label}.`);
             return false;
         }
@@ -149,7 +137,7 @@ const Athletics = () => {
       case 'college':
         return <>
           {currentStepConfig.hasCategory && <FormSection title="Category"><select name="category" value={form.category} onChange={handleTopLevelChange}><option value="Men">Men</option><option value="Women">Women</option></select></FormSection>}
-          <CollegeSelector form={form} setForm={setForm} handleTopLevelChange={handleTopLevelChange} />
+          <CollegeSelector form={form} handleTopLevelChange={handleTopLevelChange} />
         </>;
       case 'coach':
         return <FormSection title="Coach Details"><p>Will a coach be accompanying the team?</p><label><input type="radio" name="accompanyingCoach" value="Yes" checked={form.accompanyingCoach === 'Yes'} onChange={handleTopLevelChange}/> Yes</label><label style={{marginLeft: '1rem'}}><input type="radio" name="accompanyingCoach" value="No" checked={form.accompanyingCoach === 'No'} onChange={handleTopLevelChange}/> No</label>{form.accompanyingCoach === 'Yes' && <PersonInputGroup title="Coach Information" personData={form.coach} onChange={handleCoachChange} isRequired={true} />}</FormSection>;
@@ -158,7 +146,7 @@ const Athletics = () => {
       case 'individual_events':
         return <FormSection title="Individual Events"><div className="checkbox-group">{config.individualEventOptions.map(event => (<label key={event}><input type="checkbox" checked={form.selectedIndividualEvents.includes(event)} onChange={() => handleIndividualEventToggle(event)} /> {event}</label>))}</div></FormSection>;
       case 'relay_events':
-        return <FormSection title="Relay Events"><div className="checkbox-group">{config.relayEventOptions.map(event => (<div key={event}><label><input type="checkbox" checked={form.selectedRelayEvents.includes(event)} onChange={() => handleRelayEventToggle(event)} /> <strong>{event}</strong></label>{form.selectedRelayEvents.includes(event) && (<div style={{ marginLeft: '2rem', marginTop: '1rem' }}><h4>Team for {event} (4 Players)</h4>{(form.relayTeams[event] || []).map((player, index) => (<PersonInputGroup key={index} title={`Player ${index + 1}`} personData={player} onChange={(f, v) => handleRelayPlayerChange(event, index, f, v)} isRequired={true} />))}</div>)}</div>))}</div></FormSection>;
+        return <FormSection title="Relay Events"><div className="checkbox-group">{config.relayEventOptions.map(event => (<div key={event}><label><input type="checkbox" checked={form.selectedRelayEvents.includes(event)} onChange={() => handleRelayEventToggle(event)} /> <strong>{event}</strong></label>{form.selectedRelayEvents.includes(event) && (<div style={{ marginLeft: '2rem', marginTop: '1rem' }}><h4>Team for {event} (4 Players)</h4>{form.relayTeams[event]?.map((player, index) => (<PersonInputGroup key={index} title={`Player ${index + 1}`} personData={player} onChange={(f, v) => handleRelayPlayerChange(event, index, f, v)} isRequired={true} />))}</div>)}</div>))}</div></FormSection>;
       case 'receipt':
         return <FormSection title="Registration Summary"><div className="receipt"><p><strong>College:</strong> {form.collegeName}</p><p><strong>Lead Athlete:</strong> {form.captain.fullname}</p><p><strong>Individual Events:</strong> {form.selectedIndividualEvents.join(', ') || 'None'}</p><p><strong>Relay Events:</strong> {form.selectedRelayEvents.join(', ') || 'None'}</p><hr/><h3>Payment Details</h3><p><strong>Fee:</strong> {config.paymentDetails.fee}</p></div></FormSection>;
       default: return null;
@@ -189,4 +177,5 @@ const Athletics = () => {
   );
 };
 
-export default Athletics;
+export default AthleticsComp;
+

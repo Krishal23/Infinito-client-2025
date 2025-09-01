@@ -1,5 +1,8 @@
-import EsportsForm from "./ESportsForm";
+import { esportsConfigs } from "../forms-centralized/esports/esportsConfig";
+import EsportsForm from "../forms-centralized/esports/EsportsForm";
 
-export default function Codm() {
-  return <EsportsForm gameName="CODM" />;
-}
+const Codm = () => {
+  return <EsportsForm config={esportsConfigs.codm} />;
+};
+
+export default Codm;

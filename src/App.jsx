@@ -42,6 +42,7 @@ import ClashRoyale_ from "./pages/Events/event-forms/clash_royale";
 import VALORANT_ from "./pages/Events/event-forms/valorant";
 import FREEFIRE_ from "./pages/Events/event-forms/freefire";
 import Powerlifting_ from "./pages/Events/event-forms/powerLifting";
+import MrInfinito_ from "./pages/Events/event-forms/mr_infinito";
 
 // import Gallery from "./pages/Gallery/components/content";
 const router = createBrowserRouter([
@@ -168,6 +169,10 @@ const router = createBrowserRouter([
   {
     path: "/events/volleyball",
     element: <Volleyball_ />,
+  },
+  {
+    path: "/events/mr-infinito",
+    element: <MrInfinito_ />,
   },
 
   {

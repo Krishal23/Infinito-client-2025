@@ -1,5 +1,7 @@
-import EsportsForm from "./ESportsForm";
+import { esportsConfigs } from "../forms-centralized/esports/esportsConfig";
+import EsportsForm from "../forms-centralized/esports/EsportsForm";
 
-export default function ClashRoyale_() {
-  return <EsportsForm gameName="CLASH_ROYALE" />;
-}
+const ClashRoyale_ = () => {
+  return <EsportsForm config={esportsConfigs.clash_royale} />;
+};
+export default ClashRoyale_;

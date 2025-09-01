@@ -8,8 +8,8 @@ const MrInfinito = () => {
       title="Mr. Infinito"
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating Atheletic championship where teams will compete for the ultimate prize."
-      isRegistrationOpen={true}
-      registrationurl={'https://forms.gle/SBo8fnWUBZAm9nnG9'}
+      isRegistrationOpen={false}
+      registrationurl={'/events/mr-infinito'}
       rulebookUrl={'/update'}
       structure={''}
       rules={[
