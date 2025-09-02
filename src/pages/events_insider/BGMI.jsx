@@ -1,7 +1,7 @@
 import EventTemplate from "./EventTemplate";
 import rulebook from "./eventsRuleBook/BGMI_rulebook1.pdf";
 
-const BGMI = () => {
+const BGMI = ({isAlreadyRegistered}) => {
   return (
     <EventTemplate
       name="bgmi"
@@ -24,6 +24,7 @@ const BGMI = () => {
         "2nd Place: Rs. 3000",
         "3rd Place: Rs. 2000",
       ]}
+      isAlreadyRegistered={isAlreadyRegistered}
     />
   );
 };

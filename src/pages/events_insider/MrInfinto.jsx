@@ -1,7 +1,7 @@
 import React from 'react';
 import EventTemplate from './EventTemplate';
 import url from './eventsRuleBook/AthleticsRulebook.pdf';
-const MrInfinito = () => {
+const MrInfinito = ({isAlreadyRegistered}) => {
   return (
     <EventTemplate
       name="infinito"
@@ -23,6 +23,7 @@ const MrInfinito = () => {
         '2nd Place: Rs. 3000',
         '3rd Place: Rs. 2000',
       ]}
+      isAlreadyRegistered={isAlreadyRegistered}
     />
   );
 };

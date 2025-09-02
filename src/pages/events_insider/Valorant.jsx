@@ -2,7 +2,7 @@ import React from 'react';
 import EventTemplate from './EventTemplate';
 import url from './eventsRuleBook/Valorant_rulebook1.pdf';
 
-const Valorant = () => {
+const Valorant = ({isAlreadyRegistered}) => {
   return (
     <EventTemplate
       name="valorant"
@@ -25,6 +25,7 @@ const Valorant = () => {
         '2nd Place: Rs. 3000',
         '3rd Place: Rs. 2000',
       ]}
+      isAlreadyRegistered={isAlreadyRegistered}
     />
   );
 };

@@ -3,7 +3,7 @@ import EventTemplate from './EventTemplate';
 import rulebook from './eventsRuleBook/FootballRulebook.pdf'
 
 
-const Football = () => {
+const Football = ({isAlreadyRegistered}) => {
   return (
     <EventTemplate
       name="football"
@@ -28,6 +28,7 @@ const Football = () => {
         "2nd Place: Rs. 3000",
         "3rd Place: Rs. 2000"
       ]}
+      isAlreadyRegistered={isAlreadyRegistered}
     />
   );
 };

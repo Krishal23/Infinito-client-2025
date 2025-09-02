@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styles from './evein.module.css';
 
 // Import event components
@@ -45,6 +45,7 @@ import codmimg from '../images/codm.png'
 import valorantimg from '../images/valorant.png'
 import mrinfinitoimg from '../images/mrinfinito.png'
 import Chess from './Chess';
+import axiosInstance from '../../utils/axios';
 
 
 // Mapping for event components
@@ -98,6 +99,23 @@ const Evein = () => {
   const [selectedSport, setSelectedSport] = useState('BGMI');
   const descriptionRef = useRef(null);
 
+  const [registeredEvents, setRegisteredEvents] = useState([]);
+
+
+  useEffect(() => {
+    const fetchRegisteredEvents = async () => {
+      try {
+        const res = await axiosInstance.get("/events/registered-events-name");
+        setRegisteredEvents(res.data.events.map(e => e.event)); // just store event keys
+      } catch (err) {
+        console.error("Error fetching registered events:", err);
+      }
+    };
+    fetchRegisteredEvents();
+  }, []);
+
+
+
   const handleIconClick = (sportKey) => {
     setSelectedSport(sportKey);
     if (descriptionRef.current) {
@@ -140,7 +158,11 @@ const Evein = () => {
         <div className={styles.eventDescription} ref={descriptionRef}>
           {selectedSport ? (
             <div className={styles.descriptionBox}>
-              {eventComponents[selectedSport]}
+              {React.cloneElement(eventComponents[selectedSport], {
+                isAlreadyRegistered: registeredEvents.includes(
+                  selectedSport.toLowerCase().replace(/\s+/g, "_")
+                ),
+              })}
             </div>
           ) : (
             <div className={styles.placeholder}>

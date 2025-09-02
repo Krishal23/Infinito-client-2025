@@ -2,7 +2,7 @@ import React from 'react';
 import EventTemplate from './EventTemplate';
 import url from './eventsRuleBook/Chess_rulebook1.pdf'
 
-const Chess = () => {
+const Chess = ({isAlreadyRegistered}) => {
   return (
     <EventTemplate
       name="chess"
@@ -32,6 +32,7 @@ const Chess = () => {
         "2nd Place: Rs. 3000",
         "3rd Place: Rs. 2000"
       ]}
+      isAlreadyRegistered={isAlreadyRegistered}
     />
   );
 };

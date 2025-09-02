@@ -2,7 +2,7 @@ import React from 'react';
 import EventTemplate from './EventTemplate';
 import url from './eventsRuleBook/WeightliftingRulebook.pdf';
 
-const Weight = () => {
+const Weight = ({isAlreadyRegistered}) => {
   return (
     <EventTemplate
       name="weightlifting"
@@ -28,6 +28,7 @@ const Weight = () => {
         '2nd Place: Rs. 3000',
         '3rd Place: Rs. 2000',
       ]}
+      isAlreadyRegistered={isAlreadyRegistered}
     />
   );
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import EventTemplate from './EventTemplate';
 import url from './eventsRuleBook/CODM_rulebook1.pdf';
 
-const CODM = () => {
+const CODM = ({isAlreadyRegistered}) => {
   return (
     <EventTemplate
       name="codm"
@@ -25,6 +25,7 @@ const CODM = () => {
         '2nd Place: Rs. 3000',
         '3rd Place: Rs. 2000',
       ]}
+      isAlreadyRegistered={isAlreadyRegistered}
     />
   );
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import EventTemplate from './EventTemplate';
 import url from './eventsRuleBook/KabbadiRulebook.pdf'
 
-const Kabbadi = () => {
+const Kabbadi = ({isAlreadyRegistered}) => {
   return (
     <EventTemplate
       name="kabaddi"
@@ -27,6 +27,7 @@ const Kabbadi = () => {
         "2nd Place: Rs. 3000",
         "3rd Place: Rs. 2000"
       ]}
+      isAlreadyRegistered={isAlreadyRegistered}
     />
   );
 };

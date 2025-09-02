@@ -2,7 +2,7 @@ import React from 'react';
 import EventTemplate from './EventTemplate';
 import url from './eventsRuleBook/Freefirerulebook1.pdf';
 
-const FreeFire = () => {
+const FreeFire = ({isAlreadyRegistered}) => {
   return (
     <EventTemplate
       name="freefire"
@@ -25,6 +25,7 @@ const FreeFire = () => {
         '2nd Place: Rs. 3000',
         '3rd Place: Rs. 2000',
       ]}
+      isAlreadyRegistered={isAlreadyRegistered}
     />
   );
 };

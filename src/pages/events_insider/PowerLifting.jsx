@@ -4,7 +4,7 @@ import EventTemplate from './EventTemplate';
 import url from './eventsRuleBook/PowerLiftingRulebook.pdf';
 
 
-const PowerLift = () => {
+const PowerLift = ({isAlreadyRegistered}) => {
   return (
     <EventTemplate
       name="powerlifting"
@@ -30,6 +30,7 @@ const PowerLift = () => {
         "2nd Place: Rs. 3000",
         "3rd Place: Rs. 2000"
       ]}
+      isAlreadyRegistered={isAlreadyRegistered}
     />
   );
 };

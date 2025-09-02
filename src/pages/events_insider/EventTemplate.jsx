@@ -14,12 +14,17 @@ const EventTemplate = ({
   judgingCriteria,
   prizes,
   registrationurl,
+  isAlreadyRegistered, 
 }) => {
   return (
     <div className={styles.eventDetails}>
-      <h1 className={styles.title}>{title}</h1>
+      <div className="font-bold text-lg ">{title}</div>
       <div className={styles.buttons}>
-        {isRegistrationOpen ? (
+        {isAlreadyRegistered ? (
+          <button className={styles.workButton} disabled>
+            Already Applied
+          </button>
+        ) : isRegistrationOpen ? (
           <Link to={registrationurl} className={styles.workButton}>
             Register Now
           </Link>
@@ -37,7 +42,6 @@ const EventTemplate = ({
           </a>
         )}
       </div>
-      {/* ...rest remains the same... */}
     </div>
   );
 };

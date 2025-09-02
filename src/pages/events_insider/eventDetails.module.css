@@ -156,6 +156,7 @@ h1 {
 }
 
 .workButton {
+  width: fit-content;
   padding: 1em 2.4em;
   border: none;
   outline: none;
