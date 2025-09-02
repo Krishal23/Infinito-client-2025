@@ -101,18 +101,24 @@ const Evein = () => {
 
   const [registeredEvents, setRegisteredEvents] = useState([]);
 
+  const normalizeEventMap = {
+  athletics:"athletic", 
+};
+
+const normalizeEvent = (event) => normalizeEventMap[event] || event;
 
   useEffect(() => {
     const fetchRegisteredEvents = async () => {
       try {
         const res = await axiosInstance.get("/events/registered-events-name");
-        setRegisteredEvents(res.data.events.map(e => e.event)); // just store event keys
+        setRegisteredEvents(res.data.events.map(e => normalizeEvent(e.event)));
       } catch (err) {
         console.error("Error fetching registered events:", err);
       }
     };
     fetchRegisteredEvents();
   }, []);
+
 
 
 
@@ -128,7 +134,7 @@ const Evein = () => {
       <Navbar />
       <div className={styles.sportsPage}
        style={{
-        backgroundImage: `url(${sportImages[selectedSport]})`, // Set background image dynamically
+        backgroundImage: `url(${sportImages[selectedSport]})`, 
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         
@@ -159,9 +165,7 @@ const Evein = () => {
           {selectedSport ? (
             <div className={styles.descriptionBox}>
               {React.cloneElement(eventComponents[selectedSport], {
-                isAlreadyRegistered: registeredEvents.includes(
-                  selectedSport.toLowerCase().replace(/\s+/g, "_")
-                ),
+                isAlreadyRegistered: registeredEvents.includes(selectedSport.toLowerCase().replace(/\s+/g, "_")),
               })}
             </div>
           ) : (
