@@ -26,14 +26,13 @@ export default function CADashboard() {
       );
   }, []);
 
-
   return (
     <>
-        <Navbar/>
-        <CAProfile data={data} setData={setData}/>
-
+      <Navbar />
+      {/* 👇 Add padding so CAProfile is not hidden under Navbar */}
+      <div > 
+        <CAProfile data={data} setData={setData} />
+      </div>
     </>
-
   );
 }
-

@@ -5,11 +5,14 @@ import { useState } from "react"
 import { AdminHeader } from "./AdminHeader"
 
 import { Sidebar } from "./Sidebar"
-import { UsersTable } from "./UsersTable"
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card.jsx"
+import { UsersTable } from "./UsersTable"   
+// import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
 import { CAApplications } from "./CAApplications"
 import { HomeDashboard } from "./HomeDashboard"
 import { Events } from "./Events.jsx"
+import CA_Tasks from "./CA_Tasks.jsx" // ✅ correct
+
+
 import { useContext } from "react"
 import { AuthContext } from "../../context/AuthContext.jsx"
 import { useEffect } from "react"
@@ -58,6 +61,11 @@ export default function AdminPortal() {
 
       case "events":
         return <Events />
+
+      case "CA_Tasks":
+        return <CA_Tasks />
+
+
 
       default:
         return <div>Select a section from the sidebar</div>

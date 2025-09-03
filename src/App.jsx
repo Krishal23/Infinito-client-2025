@@ -13,20 +13,21 @@ import CA from "./pages/CA/CA";
 import CARegister from "./pages/CA/sections/Register";
 import Auth from "./pages/Auth/Auth";
 import { AuthProvider } from "./context/AuthContext";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useState } from "react";
 import axiosInstance from "./utils/axios";
-
-// ✅ Only keep this CADashboard import (remove duplicate)
-import CADashboard from "./pages/CA/sections/CADashboard";  
-
-// ✅ Keep only one set of these imports
+// import CADashboard from "./pages/CA/sections/CADashboard";
 import ProtectedRoute from "./components/ProtectedRoutes";
 import MyApplication from "./pages/CA/sections/MyApplication";
 import AdminPage from "./pages/Admin/AdminPage";
+import CADashboard from "./pages/CA/dashboard/dashboard";
 
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+// import CADashboard from "./pages/CA/sections/CADashboard";
+// import ProtectedRoute from "./components/ProtectedRoutes";
+// import MyApplication from "./pages/CA/sections/MyApplication";
+// import AdminPage from "./pages/Admin/AdminPage";
 import Merch from "./pages/SampleMerch/Merch";
 import Athletics from "./pages/Events/event-forms/athletics";
 import Badminton_ from "./pages/Events/event-forms/badminton";
@@ -42,9 +43,6 @@ import Volleyball_ from "./pages/Events/event-forms/volley";
 import Weightlifting_ from "./pages/Events/event-forms/weightlifting";
 
 // import Gallery from "./pages/Gallery/components/content";
-
-
-// import Gallery from "./pages/Gallery/components/content";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -52,16 +50,13 @@ const router = createBrowserRouter([
   },
 
 
-  // {
-  //   path: "/ca-profile",
-  //   element: <Evein />,
-  // }
+ 
   {
     path: "/admin",
     element: (
-      <ProtectedRoute allowedRoles={["admin", "moderator"]}>
+      // <ProtectedRoute allowedRoles={["admin", "moderator"]}>
         <AdminPage />
-      </ProtectedRoute>
+      // </ProtectedRoute>
     ),
   },
 
@@ -116,9 +111,9 @@ const router = createBrowserRouter([
   {
     path: "/ca-dashboard",
     element: (
-      <ProtectedRoute allowedRoles={["ca"]}>
+      // <ProtectedRoute allowedRoles={["ca"]}>
          <CADashboard />
-      </ProtectedRoute>
+      // </ProtectedRoute>
     ),
   },
   {
