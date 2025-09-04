@@ -1,0 +1,89 @@
+.person-card {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 1rem;
+  padding-top: 60px;
+  margin-top: 4rem;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.person-title {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.row-2 {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.row-1 {
+  margin-bottom: 1rem;
+}
+
+.field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.field label {
+  font-weight: 500;
+  margin-bottom: 0.4rem;
+  color: #4a5568;
+}
+
+.input {
+  padding: 0.7rem;
+  border: 1px solid #cbd5e0;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input:focus {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 1px #4f46e5;
+}
+
+.input.invalid {
+  border-color: #e53e3e;
+  background: #fff5f5;
+}
+
+.req {
+  color: #e53e3e;
+  margin-left: 0.2rem;
+}
+
+.error-text {
+  color: #e53e3e;
+  font-size: 0.8rem;
+  margin-top: 0.3rem;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .row-2 {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 400px) {
+  .person-card {
+    padding: 0.8rem;
+  }
+  .input {
+    font-size: 0.85rem;
+    padding: 0.6rem;
+  }
+  .person-title {
+    font-size: 1rem;
+  }
+}

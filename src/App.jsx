@@ -75,11 +75,19 @@ const router = createBrowserRouter([
   },
   {
     path: "/events/response/:event",
-    element: <Response />,
+    element: (
+      <ProtectedRoute allowedRoles={["user"]}>
+        <Response />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/events/all-responses",
-    element: <JsonViewer apiUrl={`/events/all-registrations`} />,
+    element: (
+      <ProtectedRoute allowedRoles={["user"]}>
+        <JsonViewer apiUrl={`/events/all-registrations`} />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/events/my-responses",

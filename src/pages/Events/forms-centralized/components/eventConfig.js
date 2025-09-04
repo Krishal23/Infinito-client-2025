@@ -58,7 +58,7 @@ export const eventConfigs = {
   cricket: {
     title: "Cricket Registration",
     endpoint: "/events/cricket",
-    paymentDetails: { fee: "₹ 5000" },
+    paymentDetails: { fee:{open: "6500"} },
     steps: [
       { type: 'college', title: 'General Information', hasCategory: true },
       {
@@ -80,7 +80,7 @@ export const eventConfigs = {
   football: {
     title: "Football Registration",
     endpoint: "/events/football",
-    paymentDetails: { fee: "₹ 4500" },
+    paymentDetails: { fee: {men:"6500",women:"3000"} },
     steps: [
       { type: 'college', title: 'General Information', hasCategory: true },
       {
@@ -102,7 +102,7 @@ export const eventConfigs = {
   basketball: {
     title: "Basketball Registration",
     endpoint: "/events/basketball",
-    paymentDetails: { fee: "₹ 3500" },
+    paymentDetails: { fee: {men:"4800",women:"4200"} },
     steps: [
       { type: 'college', title: 'General Information', hasCategory: true },
       {
@@ -125,7 +125,7 @@ export const eventConfigs = {
   volleyball: {
     title: "Volleyball Registration",
     endpoint: "/events/volleyball",
-    paymentDetails: { fee: "₹ 3000" },
+    paymentDetails: { fee: {men:"4800",women:"4500"} },
     steps: [
       { type: 'college', title: 'General Information', hasCategory: true },
       {
@@ -148,7 +148,7 @@ export const eventConfigs = {
   kabaddi: {
     title: "Kabaddi Registration",
     endpoint: "/events/kabaddi",
-    paymentDetails: { fee: "₹ 3000" },
+    paymentDetails: { fee: {men:"4000",women:"2000"} },
     steps: [
       { type: 'college', title: 'General Information', hasCategory: true },
       {
@@ -171,7 +171,7 @@ export const eventConfigs = {
   badminton: {
     title: "Badminton Registration",
     endpoint: "/events/badminton",
-    paymentDetails: { fee: "₹ 1500" },
+    paymentDetails: { fee: {men:"2500",women:"1500"} },
     steps: [
       { type: 'college', title: 'General Information', hasCategory: true },
       {
@@ -195,7 +195,7 @@ export const eventConfigs = {
   table_tennis: {
     title: "Table Tennis Registration",
     endpoint: "/events/table_tennis",
-    paymentDetails: { fee: "₹ 1200" },
+    paymentDetails: { fee: {men:"1500",women:"1000"} },
     steps: [
       { type: 'college', title: 'General Information', hasCategory: true },
       {
@@ -212,12 +212,12 @@ export const eventConfigs = {
   lawn_tennis: {
     title: "Lawn Tennis Registration",
     endpoint: "/events/lawn_tennis",
-    paymentDetails: { fee: "₹ 1000" },
+    paymentDetails: { fee: {men:"1000",women:"800"} },
     steps: [
       { type: 'college', title: 'General Information', hasCategory: true },
       {
         type: 'team', title: 'Team Roster', fields: [
-          { name: "players", title: "Player", min: 2, max: 2, initialData: EMPTY_PERSON },
+          { name: "players", title: "Player", min: 2, max:4, initialData: EMPTY_PERSON },
         ]
       },
       { type: 'coach', title: 'Coach Details' },
@@ -228,7 +228,7 @@ export const eventConfigs = {
   squash: {
     title: "Squash Registration",
     endpoint: "/events/squash",
-    paymentDetails: { fee: "₹ 800" },
+    paymentDetails: { fee: {men:"800",women:"600"} },
     steps: [
       { type: 'college', title: 'General Information', hasCategory: true },
       {
@@ -244,7 +244,7 @@ export const eventConfigs = {
   chess: {
     title: "Chess Registration",
     endpoint: "/events/chess",
-    paymentDetails: { fee: "₹ 1000" },
+    paymentDetails: { fee: {open:"249" }},
     steps: [
       { type: 'college', title: 'General Information', hasCategory: false },
       {
@@ -261,7 +261,7 @@ export const eventConfigs = {
   powerlifting: {
     title: "Powerlifting Registration",
     endpoint: "/events/power_lifting",
-    paymentDetails: { fee: "₹ 500" },
+    paymentDetails: { fee: {open:"999" }},
     steps: [
       { type: 'college', title: 'General Information', hasCategory: false },
       {
@@ -277,7 +277,7 @@ export const eventConfigs = {
   weightlifting: {
     title: "Weightlifting Registration",
     endpoint: "/events/weight_lifting",
-    paymentDetails: { fee: "₹ 500" },
+    paymentDetails: { fee: {open:"999" }},
     steps: [
       { type: 'college', title: 'General Information', hasCategory: false },
       {
@@ -291,11 +291,12 @@ export const eventConfigs = {
     buildPayload: defaultTeamPayloadBuilder,
   },
 
+
   // == UNIQUE CASE: ATHLETICS ==
   athletics: {
     title: "Athletics Registration",
     endpoint: "/events/athletics",
-    paymentDetails: { fee: "₹ 500 per head" },
+    paymentDetails: { fee: "₹ 700 per head" },
     individualEventOptions: ["100m", "200m", "400m", "800m", "1500m", "5000m", "Long Jump", "Discuss Throw", "Shot put"],
     relayEventOptions: ["4x100m", "4x400m", "4x100m (Mixed)"],
     steps: [
@@ -313,7 +314,7 @@ export const eventConfigs = {
   mr_infinito: {
     title: "Mr. Infinito Registration",
     endpoint: "/events/mr_infinito", 
-    paymentDetails: { fee: "₹ 500" },
+    paymentDetails: { fee: "₹ 599" },
     steps: [
       { type: 'college', title: 'General Information', hasCategory: true }, 
       {

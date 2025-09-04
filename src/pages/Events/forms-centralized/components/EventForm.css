@@ -1,0 +1,399 @@
+/* Container */
+.page-wrap {
+  background: #f5f7fb;
+  min-height: 100vh;
+  padding-top: 60px;
+}
+
+.event-forms {
+  max-width: 920px;
+  min-height: 100vh;
+  margin: 1.5rem auto 3rem;
+  padding: 1.5rem;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(16, 24, 40, 0.08);
+}
+
+@media (max-width: 640px) {
+  .event-forms {
+    margin: 0.75rem 0.75rem 2rem;
+    padding: 1rem;
+  }
+}
+
+/* Headings */
+.form-heading .title {
+  margin: 0 0 0.25rem 0;
+  font-size: 1.6rem;
+  line-height: 1.2;
+  color: #0f172a;
+  text-align: center;
+  font-weight: 700;
+}
+
+.step-indicator {
+  text-align: center;
+  color: #475569;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+}
+
+/* Sections */
+.form-section {
+  margin-bottom: 1.75rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.form-section:last-child {
+  border-bottom: 0;
+}
+
+.form-section h3 {
+  margin: 0 0 0.75rem;
+  font-size: 1.15rem;
+  color: #111827;
+}
+
+/* Inputs & fields */
+.input {
+  width: 100%;
+  padding: 0.75rem 0.85rem;
+  margin-top: 0.35rem;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  box-sizing: border-box;
+  font-size: 0.98rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  background: #fff;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.input.invalid {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
+}
+
+.label {
+  color: #0f172a;
+  font-weight: 600;
+}
+
+.req {
+  color: #ef4444;
+  margin-left: 4px;
+  font-weight: 700;
+}
+
+/* Grid helpers */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 680px) {
+  .row-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Person card */
+.person-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 1rem;
+  background: #fafafa;
+}
+
+.person-title {
+  margin: 0 0 0.6rem 0;
+  font-size: 1rem;
+  color: #111827;
+  font-weight: 700;
+}
+
+/* Radio */
+.radio-group {
+  display: flex;
+  gap: 1rem;
+  margin: 0.75rem 0 1rem;
+  flex-wrap: wrap;
+}
+
+.radio {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.radio input {
+  transform: scale(1.05);
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.2rem;
+  border: none;
+  border-radius: 12px;
+  color: white;
+  background-color: #2563eb;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 700;
+  transition: transform 0.05s ease, box-shadow 0.15s ease, background 0.2s ease;
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.25);
+}
+
+.btn:hover {
+  background-color: #1d4ed8;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn:disabled {
+  background-color: #94a3b8;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background-color: #64748b;
+  box-shadow: 0 6px 16px rgba(100, 116, 139, 0.25);
+}
+
+.btn-secondary:hover {
+  background-color: #475569;
+}
+
+.btn-success {
+  background-color: #16a34a;
+  box-shadow: 0 6px 16px rgba(22, 163, 74, 0.25);
+}
+
+.btn-success:hover {
+  background-color: #15803d;
+}
+
+.form-navigation {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 1.25rem;
+  flex-wrap: wrap;
+}
+
+/* Receipt */
+.receipt {
+  background-color: #f8fafc;
+  padding: 1rem;
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+}
+
+.receipt p {
+  margin: 0.4rem 0;
+}
+
+.fee-block {
+  margin-top: 0.75rem;
+}
+
+.fee-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.25rem 0 0;
+}
+
+.fee-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.4rem 0.5rem;
+  border-radius: 8px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  margin-bottom: 6px;
+}
+
+.fee-key {
+  color: #0f172a;
+  font-weight: 600;
+}
+
+.fee-value {
+  color: #111827;
+  font-weight: 700;
+}
+
+.fee-single {
+  font-weight: 700;
+  color: #111827;
+}
+
+/* Errors */
+.error-text {
+  color: #b91c1c;
+  font-size: 0.85rem;
+  margin-top: 6px;
+}
+
+
+/* Ultra-small screens (<= 400px) */
+@media (max-width: 400px) {
+  .event-forms {
+    margin: 0.5rem;
+    padding: 0.75rem;
+    border-radius: 10px;
+  }
+
+  .form-heading .title {
+    font-size: 1.25rem;
+    line-height: 1.3;
+  }
+
+  .step-indicator {
+    font-size: 0.9rem;
+  }
+
+  .person-card {
+    padding: 0.75rem;
+    border-radius: 10px;
+  }
+
+  .person-title {
+    font-size: 0.95rem;
+  }
+
+  .input {
+    font-size: 0.9rem;
+    padding: 0.65rem 0.75rem;
+  }
+
+  .btn {
+    width: 100%;         /* buttons take full width */
+    font-size: 0.95rem;
+    padding: 0.65rem 0.75rem;
+  }
+
+  .form-navigation {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .fee-list li {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .fee-key, .fee-value {
+    font-size: 0.9rem;
+  }
+
+  .error-text {
+    font-size: 0.8rem;
+  }
+}
+
+
+.person-card {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1rem;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.person-title {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.row-2 {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.field label {
+  font-weight: 500;
+  margin-bottom: 0.4rem;
+  color: #4a5568;
+}
+
+.input {
+  padding: 0.7rem;
+  border: 1px solid #cbd5e0;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input:focus {
+  border-color: #3182ce;
+  box-shadow: 0 0 0 1px #3182ce;
+}
+
+.input.invalid {
+  border-color: #e53e3e;
+  background: #fff5f5;
+}
+
+.req {
+  color: #e53e3e;
+  margin-left: 0.2rem;
+}
+
+.error-text {
+  color: #e53e3e;
+  font-size: 0.8rem;
+  margin-top: 0.3rem;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .row-2 {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 400px) {
+  .person-card {
+    padding: 0.8rem;
+  }
+  .input {
+    font-size: 0.85rem;
+    padding: 0.6rem;
+  }
+  .person-title {
+    font-size: 1rem;
+  }
+}

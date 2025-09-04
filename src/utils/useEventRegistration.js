@@ -16,25 +16,26 @@ export const useEventRegistration = ({ endpoint, redirectUrl, payment = false })
     });
 
   const registerEvent = async (payload, navigate) => {
+    console.log(payload)
     setSubmitting(true);
     try {
       if (payment) {
         await loadRazorpay();
 
-        const orderRes = await axiosInstance.post(`${endpoint}/create-order`);
+        const orderRes = await axiosInstance.post(`${endpoint}/create-order`,payload);
         const { order, key } = orderRes.data;
 
         const options = {
           key,
           amount: order.amount,
           currency: order.currency,
-          name: "Infinito 2024",
+          name: "Infinito 2025",
           description: payload.team ? payload.team.teamName : "Event Registration",
           order_id: order.id,
           prefill: {
             name: payload.fullname,
             email: payload.email,
-            contact: payload.phoneNumber,
+            // contact: payload.phoneNumber,
           },
           handler: async (response) => {
             try {
