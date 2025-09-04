@@ -43,6 +43,7 @@ export const useEventRegistration = ({ endpoint, redirectUrl, payment = false })
                 razorpay_signature: response.razorpay_signature,
                 registrationData: payload,
               });
+              alert("Payment successful! Registration confirmed.")
               toast.success("Payment successful! Registration confirmed.");
               navigate(redirectUrl);
             } catch (err) {
