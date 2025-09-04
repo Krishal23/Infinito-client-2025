@@ -16,12 +16,10 @@ export const useEventRegistration = ({ endpoint, redirectUrl, payment = false })
     });
 
   const registerEvent = async (payload, navigate) => {
-    console.log(payload)
     setSubmitting(true);
     try {
       if (payment) {
         await loadRazorpay();
-
         const orderRes = await axiosInstance.post(`${endpoint}/create-order`,payload);
         const { order, key } = orderRes.data;
 

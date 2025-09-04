@@ -20,7 +20,7 @@ import axiosInstance from "./utils/axios";
 import ProtectedRoute from "./components/ProtectedRoutes";
 import MyApplication from "./pages/CA/sections/MyApplication";
 import AdminPage from "./pages/Admin/AdminPage";
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CADashboard from "./pages/CA/sections/CADashboard";
 import Merch from "./pages/SampleMerch/Merch";
@@ -150,179 +150,180 @@ const router = createBrowserRouter([
 
   {
     path: "/events/athletics",
-    element:(
-       <ProtectedRoute allowedRoles={["user"]}>
-         <Athletics />
-       </ProtectedRoute>
+    element: (
+      <ProtectedRoute allowedRoles={["user"]}>
+        <Athletics />
+      </ProtectedRoute>
     ),
   },
 
   {
     path: "/events/badminton",
-    element:(
-       <ProtectedRoute allowedRoles={["user"]}>
-         <Badminton_ />
-       </ProtectedRoute>
+    element: (
+      <ProtectedRoute allowedRoles={["user"]}>
+        <Badminton_ />
+      </ProtectedRoute>
     ),
   },
 
   {
     path: "/events/basketball",
-    element:(
-       <ProtectedRoute allowedRoles={["user"]}>
-         <Basketball_ />
-       </ProtectedRoute>
+    element: (
+      <ProtectedRoute allowedRoles={["user"]}>
+        <Basketball_ />
+      </ProtectedRoute>
     ),
   },
 
   {
     path: "/events/football",
-    element:(
-       <ProtectedRoute allowedRoles={["user"]}>
-         <Football_ />
-       </ProtectedRoute>
+    element: (
+      <ProtectedRoute allowedRoles={["user"]}>
+        <Football_ />
+      </ProtectedRoute>
     ),
   },
 
   {
     path: "/events/kabbadi",
-    element:(
-       <ProtectedRoute allowedRoles={["user"]}>
-         <Kabbadi_ />
-       </ProtectedRoute>
+    element: (
+      <ProtectedRoute allowedRoles={["user"]}>
+        <Kabbadi_ />
+      </ProtectedRoute>
     ),
   },
 
   {
     path: "/events/lawn-tennis",
-    element:(
-       <ProtectedRoute allowedRoles={["user"]}>
-         <Lawn_ />
-       </ProtectedRoute>
+    element: (
+      <ProtectedRoute allowedRoles={["user"]}>
+        <Lawn_ />
+      </ProtectedRoute>
     ),
   },
 
   {
     path: "/events/squash",
-    element:(
-       <ProtectedRoute allowedRoles={["user"]}>
-         <Squash_ />
-       </ProtectedRoute>
+    element: (
+      <ProtectedRoute allowedRoles={["user"]}>
+        <Squash_ />
+      </ProtectedRoute>
     ),
   },
 
   {
     path: "/events/table_tennis",
-    element:(
-       <ProtectedRoute allowedRoles={["user"]}>
-         <Tt_ />
-       </ProtectedRoute>
+    element: (
+      <ProtectedRoute allowedRoles={["user"]}>
+        <Tt_ />
+      </ProtectedRoute>
     ),
   },
 
   {
     path: "/events/volleyball",
-    element:(
-       <ProtectedRoute allowedRoles={["user"]}>
-         <Volleyball_ />
-       </ProtectedRoute>
+    element: (
+      <ProtectedRoute allowedRoles={["user"]}>
+        <Volleyball_ />
+      </ProtectedRoute>
     ),
   },
   {
     path: "/events/mr-infinito",
-    element:(
-       <ProtectedRoute allowedRoles={["user"]}>
-         <MrInfinito_ />
-       </ProtectedRoute>
+    element: (
+      <ProtectedRoute allowedRoles={["user"]}>
+        <MrInfinito_ />
+      </ProtectedRoute>
     ),
   },
 
   {
     path: "/events/chess",
-    element:(
-       <ProtectedRoute allowedRoles={["user"]}>
-         <Chess_ />
-       </ProtectedRoute>
+    element: (
+      <ProtectedRoute allowedRoles={["user"]}>
+        <Chess_ />
+      </ProtectedRoute>
     ),
   },
 
   {
     path: "/events/cricket",
-    element:(
-       <ProtectedRoute allowedRoles={["user"]}>
-         <Cricket_ />
-       </ProtectedRoute>
+    element: (
+      <ProtectedRoute allowedRoles={["user"]}>
+        <Cricket_ />
+      </ProtectedRoute>
     ),
   },
 
   {
     path: "/events/weightlifting",
-    element:(
-       <ProtectedRoute allowedRoles={["user"]}>
-         <Weightlifting_ />
-       </ProtectedRoute>
+    element: (
+      <ProtectedRoute allowedRoles={["user"]}>
+        <Weightlifting_ />
+      </ProtectedRoute>
     ),
   },
   {
     path: "/events/powerlifting",
-    element:(
-       <ProtectedRoute allowedRoles={["user"]}>
-         <Powerlifting_ />
-       </ProtectedRoute>
+    element: (
+      <ProtectedRoute allowedRoles={["user"]}>
+        <Powerlifting_ />
+      </ProtectedRoute>
     ),
   },
   {
     path: "/events/codm",
-    element:(
-       <ProtectedRoute allowedRoles={["user"]}>
-         <Codm_ />
-       </ProtectedRoute>
+    element: (
+      <ProtectedRoute allowedRoles={["user"]}>
+        <Codm_ />
+      </ProtectedRoute>
     ),
   },
   {
     path: "/events/bgmi",
-    element:(
-       <ProtectedRoute allowedRoles={["user"]}>
-         <BGMI_ />
-       </ProtectedRoute>
+    element: (
+      <ProtectedRoute allowedRoles={["user"]}>
+        <BGMI_ />
+      </ProtectedRoute>
     ),
   },
   {
     path: "/events/clash_royale",
-    element:(
-       <ProtectedRoute allowedRoles={["user"]}>
-         <ClashRoyale_/>
-       </ProtectedRoute>
+    element: (
+      <ProtectedRoute allowedRoles={["user"]}>
+        <ClashRoyale_ />
+      </ProtectedRoute>
     ),
   },
   {
     path: "/events/valorant",
-    element:(
-       <ProtectedRoute allowedRoles={["user"]}>
-         <VALORANT_/>
-       </ProtectedRoute>
+    element: (
+      <ProtectedRoute allowedRoles={["user"]}>
+        <VALORANT_ />
+      </ProtectedRoute>
     ),
   },
   {
     path: "/events/freefire",
-    element:(
-       <ProtectedRoute allowedRoles={["user"]}>
-         <FREEFIRE_/>
-       </ProtectedRoute>
+    element: (
+      <ProtectedRoute allowedRoles={["user"]}>
+        <FREEFIRE_ />
+      </ProtectedRoute>
     ),
   },
   {
     path: "/merchandise",
     element: <Merch />,
-  }
+  },
 ]);
 
 function App() {
   return (
     <AuthProvider>
-      <RouterProvider router={router} />
       <ToastContainer position="top-center" autoClose={3000} newestOnTop pauseOnHover />
+      <RouterProvider router={router} />
     </AuthProvider>
+
   );
 }
 

@@ -48,11 +48,14 @@ function Main() {
           <div>
             <h1 className={styles.atmos}>INFINITO</h1>
             <h1 className={styles.atmos}>2025</h1>
-            <h2 className={styles.bupal}>Coming Soon...</h2>
+            {/* <h2 className={styles.bupal}>Coming Soon...</h2> */}
           </div>
           <div className={styles.bupal}>
             <Link to="/event/ins" className={styles.cool}>
               <span style={{ zIndex: "1" }}>Explore Now</span>
+            </Link>
+            <Link to="/ca" className={styles.cool}>
+              <span style={{ zIndex: "1" }}>CA Portal</span>
             </Link>
             {/* <a href="#" className={styles.cool}>
               <span style={{ zIndex: "1" }}>Sign Up</span>

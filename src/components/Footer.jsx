@@ -16,9 +16,9 @@ const Footer = () => {
             Everyone has the <strong>FIRE</strong> but the{' '}
             <strong>CHAMPIONS</strong> know when to ignite the spark
           </p>
-          <div className="footer-social">
+          <div className="footer-social ">
             <p>FOLLOW US</p>
-            <div className="social-icons flex">
+            <div className="social-icons flex justify-center">
               <a href="https://www.facebook.com/InfinitoIITPatna/" >
                 {/* <i className="fab fa-facebook-f border-2 border-red-950"></i> */}
                 <FaSquareFacebook />

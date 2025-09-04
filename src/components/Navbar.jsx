@@ -1,30 +1,17 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import "./Navbar.css";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../pages/assets/infinito-logo.png";
 import axiosInstance from "../utils/axios";
-import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 
 const Navbar = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const navigate = useNavigate();
-  let timeoutId = null;
-
+  const menuRef = useRef(null);
 
   const { user, logout } = useContext(AuthContext);
   const isAuth = !!user;
-
-  
-
-  const handleMouseEnter = () => {
-    clearTimeout(timeoutId);
-  };
-
-  const handleMouseLeave = () => {
-    timeoutId = setTimeout(() => {
-    }, 5000);
-  };
 
   const handleMenuClick = () => {
     setShowMobileMenu((prev) => !prev);
@@ -50,17 +37,28 @@ const Navbar = () => {
   };
 
   useEffect(() => {
+    // Close menu on resize
     const handleResize = () => {
       if (window.innerWidth >= 980) {
         setShowMobileMenu(false);
       }
     };
 
-    window.addEventListener("resize", handleResize);
+    // Close menu on outside click
+    const handleClickOutside = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setShowMobileMenu(false);
+      }
+    };
 
-    return () => window.removeEventListener("resize", handleResize);
+    window.addEventListener("resize", handleResize);
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
-  
 
   return (
     <div className="nav">
@@ -72,71 +70,54 @@ const Navbar = () => {
           style={{ marginTop: "5px" }}
         />
       </Link>
-      <div
-        className="menu-icon"
-        onClick={handleMenuClick}
-        aria-label="Toggle Menu"
-      >
-        &#9776;
-      </div>
-      {showMobileMenu && (
-        <div>
-          <div
-            className="menu-icon"
-            onClick={handleMenuClick}
-            aria-label="Toggle Menu"
-          >
-            &#9776;
-          </div>
-          {/* <Link to="/">Icon1</Link> */}
-            <div className={`mobile-menu ${showMobileMenu ? "show" : ""}`}>
-              <Link to="/">Home</Link>
-              <Link to="/event/ins">Events</Link>
-              <Link to="/ca">CA Portal</Link>
-              <Link to="/aboutUs">Team</Link>
-              <Link to="/sponsor">Sponsors</Link>
-              <Link to="/merch">Merch</Link>
-              {
-                user?.role ==="admin" && (
-                  <Link to="/admin">Admin</Link>
-                )
-              }
-              {/* <Link to="/auth" className="login-btn">Login</Link> */}
-              {isAuth ? (
-                <Link onClick={handleLogout} >Logout</Link>
-              ) : (
-                <Link to="/auth" className="login-btn">Login</Link>
-              )}
-            </div>
+
+      {/* Show hamburger only when menu is closed */}
+      {!showMobileMenu && (
+        <div
+          className="menu-icon"
+          onClick={handleMenuClick}
+          aria-label="Toggle Menu"
+        >
+          &#9776;
         </div>
       )}
-      <div >
-        <div
-          className="dropdown"
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-        >
-        </div>
-        <div className="desktop-menu">
-          <Link to="/">Home</Link>
-          <Link to="/event/ins">Events</Link>
-          <Link to="/ca">CA Portal</Link>
-          <Link to="/aboutUs">Team</Link>
-          <Link to="/sponsor">Sponsors</Link>
-          <Link to="/merch">Merch</Link>
-          {
-            user?.role ==="admin" && (
-              <Link to="/admin">Admin</Link>
-            )
-          }          
-          {/* <Link to="/auth" className="login-btn">Login</Link> */}
+
+      {showMobileMenu && (
+        <div ref={menuRef} className="mobile-menu show">
+          <Link to="/" onClick={() => setShowMobileMenu(false)}>Home</Link>
+          <Link to="/event/ins" onClick={() => setShowMobileMenu(false)}>Events</Link>
+          <Link to="/ca" onClick={() => setShowMobileMenu(false)}>CA Portal</Link>
+          <Link to="/aboutUs" onClick={() => setShowMobileMenu(false)}>Team</Link>
+          <Link to="/sponsor" onClick={() => setShowMobileMenu(false)}>Sponsors</Link>
+          <Link to="/merch" onClick={() => setShowMobileMenu(false)}>Merch</Link>
+          {user?.role === "admin" && (
+            <Link to="/admin" onClick={() => setShowMobileMenu(false)}>Admin</Link>
+          )}
           {isAuth ? (
-             <Link onClick={handleLogout} >Logout</Link>
+            <Link onClick={handleLogout}>Logout</Link>
           ) : (
-            <Link to="/auth" className="login-btn">Login</Link>
+            <Link to="/auth" className="login-btn" onClick={() => setShowMobileMenu(false)}>
+              Login
+            </Link>
           )}
         </div>
+      )}
 
+      <div className="desktop-menu">
+        <Link to="/">Home</Link>
+        <Link to="/event/ins">Events</Link>
+        <Link to="/ca">CA Portal</Link>
+        <Link to="/aboutUs">Team</Link>
+        <Link to="/sponsor">Sponsors</Link>
+        <Link to="/merch">Merch</Link>
+        {user?.role === "admin" && <Link to="/admin">Admin</Link>}
+        {isAuth ? (
+          <Link onClick={handleLogout}>Logout</Link>
+        ) : (
+          <Link to="/auth" className="login-btn">
+            Login
+          </Link>
+        )}
       </div>
     </div>
   );

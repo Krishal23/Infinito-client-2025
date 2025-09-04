@@ -158,10 +158,10 @@ const EventForm = ({ config }) => {
   const validateAllBeforeSubmit = () => {
     // Re-run validation for all steps to be safe
     for (const step of config.steps) {
-      if (step.type === "college") {
-        if (!form.collegeName.trim() || !form.collegeAddress.trim()) return false;
-        if (!isValidName(form.collegeName)) return false;
-      }
+      // if (step.type === "college") {
+      //   if (!form.collegeName.trim() || !form.collegeAddress.trim()) return false;
+      //   if (!isValidName(form.collegeName)) return false;
+      // }
       if (step.type === "team") {
         for (const field of step.fields) {
           for (let i = 0; i < field.min; i++) {
@@ -399,7 +399,7 @@ const EventForm = ({ config }) => {
           <form onSubmit={handleSubmit} noValidate>
             {renderStepContent()}
 
-            <div className="form-navigation">
+            <div className="form-navigation ">
               {currentStep > 0 && (
                 <button
                   type="button"
@@ -411,7 +411,7 @@ const EventForm = ({ config }) => {
               )}
 
               {isLastStep ? (
-                <button type="submit" disabled={submitting} className="btn">
+                <button type="submit" disabled={submitting} onClick={handleSubmit} className="btn">
                   {submitting ? "Confirming..." : "Confirm & Pay"}
                 </button>
               ) : (

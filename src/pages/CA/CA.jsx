@@ -34,7 +34,7 @@ const CA = () => {
   }, []);
 
   return (
-    <div>
+    <div >
         <Navbar/>
       <Caportal id="caportal" />
       <About id="about" />

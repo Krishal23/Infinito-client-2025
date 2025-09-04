@@ -94,12 +94,12 @@ const Merchandise = () => {
             </p>
             <div className={styles.grab2}>
               <img className={styles.imgmerch2} src={mascot} alt="" />
-              <Link
+              <div
                 className={styles.grabNowBtn}
-                to="https://docs.google.com/forms/d/e/1FAIpQLSfE-MZYmqqntVzoTtt_GvBBqOYdYwPA2OOQQkvMWm9VJuEUdQ/viewform?fbzx=8247677167203646238"
+                // to="https://docs.google.com/forms/d/e/1FAIpQLSfE-MZYmqqntVzoTtt_GvBBqOYdYwPA2OOQQkvMWm9VJuEUdQ/viewform?fbzx=8247677167203646238"
               >
-                Grab Now
-              </Link>
+                Live Soon
+              </div>
             </div>
           </div>
         </div>

@@ -261,13 +261,13 @@ const EsportsForm = ({ config }) => {
           <form onSubmit={handleFinalSubmit}>
             {renderStepContent()}
 
-            <div className="form-navigation">
-              {currentStep > 0 && <button type="button" onClick={prevStep} className="secondary-btn">Back</button>}
+            <div className="form-navigation flex justify-between items-center">
+              {currentStep > 0 && <button type="button" onClick={prevStep} className="secondary-btn max-w-fit p-3">Back</button>}
               
               {isLastStep ? (
-                      <button type="button" disabled={submitting} onClick={handleFinalSubmit}>{submitting ? "Processing..." : "Pay Now"}</button>
+                      <button type="button" disabled={submitting} onClick={handleFinalSubmit} className=" max-w-fit p-3" >{submitting ? "Processing..." : "Pay Now"}</button>
               ) : (
-                  <button type="button" onClick={nextStep}>Next</button>
+                  <button type="button" onClick={nextStep} className=" max-w-fit p-3">Next</button>
               )}
             </div>
           </form>

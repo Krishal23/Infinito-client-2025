@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import './Caportal.css';
 import VectorImg from '../utils/Group.png';
 import Unstop from '../utils/unstop.png';
-import Infinito from '../utils/Group 48095427.png';
+import Infinito from '../utils/infinito-logo.png';
 import axiosInstance from '../../../utils/axios';
 import { AuthContext } from '../../../context/AuthContext';
 import { AiOutlineClose } from 'react-icons/ai';
@@ -107,7 +107,6 @@ const Caportal = () => {
 
   const handleApplyClick = useCallback(() => {
     if (!user) {
-      // show toast first, then navigate when it closes
       toast.info('Please login first to apply as a Campus Ambassador.', {
         onClose: () => navigate('/auth'),
       });
@@ -121,22 +120,22 @@ const Caportal = () => {
   return (
     <div className="register-container">
       <ToastContainer position="top-center" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick pauseOnFocusLoss draggable pauseOnHover />
-     
+
       <div className="left-panel" ref={leftPanelRef}>
-        <img src={VectorImg} alt="Logo" className="logo-image" />
+        <img src={VectorImg} alt="Logo" className="logo-image h-48" />
       </div>
       <div className="right-panel" ref={rightPanelRef}>
-      <div className="flex justify-between items-center p-4">
-      {/* First Image */}
-      <img src={Infinito} alt="Infinito Logo" className="w-32 h-auto" />
+        <div className="flex justify-center gap-2 items-center p-4 flex-wrap">
+          {/* First Image */}
+          <img src={Infinito} alt="Infinito Logo" className="w-28 h-auto" />
 
-      {/* X Icon placed between the two images */}
-      <AiOutlineClose className="text-bold cursor-pointer hover:text-red-500 mx-4" size={30}  />
+          {/* X Icon placed between the two images */}
+          <AiOutlineClose className="text-bold  mx-4" size={30} />
 
-      {/* Second Image */}
-      <img src={Unstop} alt="Unstop Logo" className="w-32 h-auto" />
-    </div>
-    presents
+          {/* Second Image */}
+          <img src={Unstop} alt="Unstop Logo" className="w-28 h-auto" />
+        </div>
+        presents
         <div className="heading">CAMPUS AMBASSADOR</div>
         {role === null || applicationStatus === null ? (
           <button className="gradient-btn" ref={buttonRef} onClick={handleApplyClick}>
