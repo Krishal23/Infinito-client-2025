@@ -10,7 +10,7 @@ const Kabbadi = ({isAlreadyRegistered}) => {
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating Kabaddi championship where teams will compete for the ultimate prize."
       isRegistrationOpen={true}
-      rulebookUrl={url}
+      rulebookUrl={"https://drive.google.com/file/d/1Dj_dJgk6Ul9mdWcGBPU3zihA9aEbrPeB/view?usp=drive_link"}
       registrationurl="/events/kabbadi"
 
       structure={[

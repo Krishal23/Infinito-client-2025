@@ -10,7 +10,7 @@ const LawnTennis = ({isAlreadyRegistered}) => {
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating Lawn Tennis championship where teams will compete for the ultimate prize."
       isRegistrationOpen={true}
-      rulebookUrl={url}
+      rulebookUrl={"https://drive.google.com/file/d/18c-frlP5OSMRGbWPteQ9P7amyZXNzoeZ/view?usp=drive_link"}
       registrationurl="/events/lawn-tennis"
 
       structure={[

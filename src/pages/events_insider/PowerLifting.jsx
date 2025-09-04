@@ -12,7 +12,7 @@ const PowerLift = ({isAlreadyRegistered}) => {
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating Power Lifting championship where teams will compete for the ultimate prize."
       isRegistrationOpen={true}
-      rulebookUrl={url}
+      rulebookUrl={"https://drive.google.com/file/d/1dJ9zj0Fe8Bifvt2kNKg2mbuQb0WgEbHX/view?usp=drive_link"}
       registrationurl={'/events/powerlifting'}
 
       structure={[

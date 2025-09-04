@@ -10,7 +10,7 @@ const Atheletic = ({isAlreadyRegistered}) => {
       description="Join us for an exhilarating Athletic championship where teams will compete for the ultimate prize."
       isRegistrationOpen={true}
       registrationurl="/events/athletics" 
-      rulebookUrl={url}
+      rulebookUrl={"https://drive.google.com/file/d/1U_wfWtiBCa_XvppK7UtUtc5-QmSaW0OA/view?usp=drive_link"}
       structure={['Santosh Yadav: 6387548985', 'Ranjeet Maurya : 7985002878 ']}
       rules={[
         'Teams must have eleven players including a goalkeeper.',

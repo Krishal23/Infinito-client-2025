@@ -9,7 +9,7 @@ const Cricket = ({isAlreadyRegistered}) => {
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating Cricket championship where teams will compete for the ultimate prize."
       isRegistrationOpen={true}
-      rulebookUrl={rulebook}
+      rulebookUrl={'https://drive.google.com/file/d/1bzJLN1W3FTizdjSiONS1IpQXtrThYNJ4/view?usp=sharing'}
       registrationurl={'/events/cricket'}
 
       structure={["Rahul: 7360841005", "Ravindra Bhati: 9351371626 "]}

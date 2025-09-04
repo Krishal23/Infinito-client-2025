@@ -12,7 +12,7 @@ const Badminton = ({isAlreadyRegistered}) => {
       isRegistrationOpen={true}
       registrationurl="/events/badminton"
 
-      rulebookUrl={url}
+      rulebookUrl={"https://drive.google.com/file/d/1eYS4zrsFAwA5NLtgJtER6pXkHa2fl102/view?usp=drive_link"}
       structure={[
         "Prajyot: 9403394000","Shrika Reddy: 6305590331"
 

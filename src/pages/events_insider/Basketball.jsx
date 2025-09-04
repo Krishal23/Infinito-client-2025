@@ -10,7 +10,7 @@ const Basketball = ({isAlreadyRegistered}) => {
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating basketball championship where teams will compete for the ultimate prize."
       isRegistrationOpen={true}
-      rulebookUrl={rulebook}
+      rulebookUrl={"https://drive.google.com/file/d/1IdeeLViaaNJV0xiMAtkZB99sJCUgReph/view?usp=drive_link"}
       registrationurl="/events/basketball"
 
       structure={[
