@@ -7,9 +7,72 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from ".
 import { Badge } from "./ui/badge"
 import { FaTimes, FaUser, FaUserShield, FaGavel, FaCrown, FaInfoCircle, FaCheck, FaTimesCircle } from "react-icons/fa"
 
-export function UsersTable({ users }) {
+export function UsersTable() {
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedUser, setSelectedUser] = useState(null)
+  const [users, setUsers] = useState([
+  //   {
+  //     _id: "u1abcd1234",
+  //     username: "john_doe",
+  //     fullname: "John Doe",
+  //     email: "john@example.com",
+  //     role: "admin",
+  //     createdAt: "2024-06-01",
+  //     isEmailVerified: true,
+  //     isIITPStud: true,
+  //   },
+  //   {
+  //     _id: "u2efgh5678",
+  //     username: "jane_smith",
+  //     fullname: "Jane Smith",
+  //     email: "jane@example.com",
+  //     role: "moderator",
+  //     createdAt: "2024-06-10",
+  //     isEmailVerified: false,
+  //     isIITPStud: false,
+  //   },
+  //   {
+  //     _id: "u3ijkl9012",
+  //     username: "rohit",
+  //     fullname: "Rohit Sharma",
+  //     email: "rohit@example.com",
+  //     role: "ca",
+  //     createdAt: "2024-07-15",
+  //     isEmailVerified: true,
+  //     isIITPStud: false,
+  //   },
+  //   {
+  //     _id: "u4mnop3456",
+  //     username: "neha",
+  //     fullname: "Neha Verma",
+  //     email: "neha@example.com",
+  //     role: "user",
+  //     createdAt: "2024-08-20",
+  //     isEmailVerified: false,
+  //     isIITPStud: true,
+  //   },
+  //   {
+  //     _id: "u5qrst7890",
+  //     username: "akash",
+  //     fullname: "Akash Kumar",
+  //     email: "akash@example.com",
+  //     role: "user",
+  //     createdAt: "2024-09-05",
+  //     isEmailVerified: true,
+  //     isIITPStud: true,
+  //   },
+  //   {
+  //     _id: "u6uvwx2345",
+  //     username: "meena",
+  //     fullname: "Meena Gupta",
+  //     email: "meena@example.com",
+  //     role: "ca",
+  //     createdAt: "2024-09-15",
+  //     isEmailVerified: false,
+  //     isIITPStud: false,
+  //   },
+  ])
+
   const usersPerPage = 5
 
   const getRoleBadge = (role) => {
@@ -34,11 +97,17 @@ export function UsersTable({ users }) {
     })
   }
 
-  // console.log(users)
   const indexOfLastUser = currentPage * usersPerPage
   const indexOfFirstUser = indexOfLastUser - usersPerPage
   const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser)
   const totalPages = Math.ceil(users.length / usersPerPage)
+
+  const saveUserChanges = () => {
+    setUsers((prev) =>
+      prev.map((u) => (u._id === selectedUser._id ? selectedUser : u))
+    )
+    setSelectedUser(null)
+  }
 
   return (
     <Card>
@@ -66,8 +135,8 @@ export function UsersTable({ users }) {
                   <TableCell className="font-mono text-xs">{user._id.slice(0, 6)}...</TableCell>
                   <TableCell className="font-medium">{user.username}</TableCell>
                   <TableCell className="text-gray-600">{user.email}</TableCell>
-                  <TableCell >
-                    <Badge className={`flex items-center gap-1 border-1 border-zinc-300 ${color}`}>
+                  <TableCell>
+                    <Badge className={`flex items-center gap-1 border border-zinc-300 ${color}`}>
                       {icon} <span className="text-zinc-800 p-1">{user.role}</span>
                     </Badge>
                   </TableCell>
@@ -106,26 +175,59 @@ export function UsersTable({ users }) {
         </div>
       </CardContent>
 
+      {/* Modal */}
       {selectedUser && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white rounded-lg p-6 w-11/12 max-w-md relative">
             <button
-              className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+              className="absolute top-3 left-3 text-gray-700"
               onClick={() => setSelectedUser(null)}
             >
               <FaTimes />
             </button>
             <h2 className="text-xl font-bold mb-4">User Details</h2>
+
             <div className="space-y-2 text-sm">
               <p><strong>Full Name:</strong> {selectedUser.fullname || "Not found"}</p>
               <p><strong>Username:</strong> {selectedUser.username}</p>
               <p><strong>Email:</strong> {selectedUser.email}</p>
-              <p><strong>Role:</strong> {selectedUser.role}</p>
-              <p><strong>Email Verified:</strong> {selectedUser.isEmailVerified ? <>Verified by Google</>: <>Verified by OTP</>}</p>
-              <p><strong>IITP Student:</strong> {selectedUser.isIITPStud ? <FaCheck className="text-green-600"/> : <FaTimesCircle className="text-red-600"/>}</p>
-              {/* <p><strong>Score:</strong> {selectedUser.score}</p> */}
               <p><strong>Registered On:</strong> {formatDate(selectedUser.createdAt)}</p>
-              {selectedUser.caApplication && <p><strong>CA Application:</strong> {selectedUser.caApplication}</p>}
+              <p>
+                <strong>Email Verified:</strong>{" "}
+                {selectedUser.isEmailVerified ? <>Verified by Google</> : <>Verified by OTP</>}
+              </p>
+              <p>
+                <strong>IITP Student:</strong>{" "}
+                {selectedUser.isIITPStud ? (
+                  <FaCheck className="text-green-600 inline" />
+                ) : (
+                  <FaTimesCircle className="text-red-600 inline" />
+                )}
+              </p>
+
+              {/* Role Dropdown */}
+              <div className="mt-4">
+                <label className="block text-sm font-medium mb-1">Change Role:</label>
+                <select
+                  value={selectedUser.role}
+                  onChange={(e) =>
+                    setSelectedUser({ ...selectedUser, role: e.target.value })
+                  }
+                  className="w-full border rounded p-2"
+                >
+                  <option value="user">User</option>
+                  <option value="ca">CA</option>
+                  <option value="moderator">Moderator</option>
+                  <option value="admin">Admin</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Save button */}
+            <div className="mt-6 flex justify-end">
+              <Button onClick={saveUserChanges}>
+                Save Changes
+              </Button>
             </div>
           </div>
         </div>
