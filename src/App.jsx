@@ -84,7 +84,7 @@ const router = createBrowserRouter([
   {
     path: "/events/all-responses",
     element: (
-      <ProtectedRoute allowedRoles={["user"]}>
+      <ProtectedRoute allowedRoles={["moderator","admin"]}>
         <JsonViewer apiUrl={`/events/all-registrations`} />
       </ProtectedRoute>
     ),
