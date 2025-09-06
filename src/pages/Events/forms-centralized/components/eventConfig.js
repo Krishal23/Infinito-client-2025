@@ -299,6 +299,19 @@ export const eventConfigs = {
     paymentDetails: { fee: "₹ 700 per head" },
     individualEventOptions: ["100m", "200m", "400m", "800m", "1500m", "5000m", "Long Jump", "Discuss Throw", "Shot put"],
     relayEventOptions: ["4x100m", "4x400m", "4x100m (Mixed)"],
+    eventOptions: {
+      men: {
+        individual: ["100m", "200m", "400m", "800m", "1500m", "5000m", "Long Jump", "Discuss Throw", "Shotput"],
+        relay: ["4x100m", "4x400m"],
+      },
+      women: {
+        individual: ["100m", "200m", "400m", "800m", "Shotput"],
+        relay: ["4x100m"],
+      },
+      mixed: {
+        relay: ["4x100m (Mixed)"],
+      },
+    },
     steps: [
       { type: 'college', title: 'General Information', hasCategory: true },
       { type: 'athlete_captain', title: 'Lead Athlete Details' },

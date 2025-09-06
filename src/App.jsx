@@ -76,7 +76,7 @@ const router = createBrowserRouter([
   {
     path: "/events/response/:event",
     element: (
-      <ProtectedRoute allowedRoles={["user"]}>
+      <ProtectedRoute >
         <Response />
       </ProtectedRoute>
     ),
@@ -122,7 +122,7 @@ const router = createBrowserRouter([
   {
     path: "/ca-register",
     element: (
-      <ProtectedRoute allowedRoles={["user"]}>
+      <ProtectedRoute>
         <CARegister />
       </ProtectedRoute>
     ),
@@ -130,7 +130,7 @@ const router = createBrowserRouter([
   {
     path: "/ca-application",
     element: (
-      <ProtectedRoute allowedRoles={["user"]}>
+      <ProtectedRoute>
         <MyApplication />
       </ProtectedRoute>
     ),
@@ -151,7 +151,7 @@ const router = createBrowserRouter([
   {
     path: "/events/athletics",
     element: (
-      <ProtectedRoute allowedRoles={["user"]}>
+      <ProtectedRoute>
         <Athletics />
       </ProtectedRoute>
     ),
@@ -160,7 +160,7 @@ const router = createBrowserRouter([
   {
     path: "/events/badminton",
     element: (
-      <ProtectedRoute allowedRoles={["user"]}>
+      <ProtectedRoute>
         <Badminton_ />
       </ProtectedRoute>
     ),
@@ -169,7 +169,7 @@ const router = createBrowserRouter([
   {
     path: "/events/basketball",
     element: (
-      <ProtectedRoute allowedRoles={["user"]}>
+      <ProtectedRoute>
         <Basketball_ />
       </ProtectedRoute>
     ),
@@ -178,7 +178,7 @@ const router = createBrowserRouter([
   {
     path: "/events/football",
     element: (
-      <ProtectedRoute allowedRoles={["user"]}>
+      <ProtectedRoute>
         <Football_ />
       </ProtectedRoute>
     ),
@@ -187,7 +187,7 @@ const router = createBrowserRouter([
   {
     path: "/events/kabbadi",
     element: (
-      <ProtectedRoute allowedRoles={["user"]}>
+      <ProtectedRoute>
         <Kabbadi_ />
       </ProtectedRoute>
     ),
@@ -196,7 +196,7 @@ const router = createBrowserRouter([
   {
     path: "/events/lawn-tennis",
     element: (
-      <ProtectedRoute allowedRoles={["user"]}>
+      <ProtectedRoute>
         <Lawn_ />
       </ProtectedRoute>
     ),
@@ -205,7 +205,7 @@ const router = createBrowserRouter([
   {
     path: "/events/squash",
     element: (
-      <ProtectedRoute allowedRoles={["user"]}>
+      <ProtectedRoute>
         <Squash_ />
       </ProtectedRoute>
     ),
@@ -214,7 +214,7 @@ const router = createBrowserRouter([
   {
     path: "/events/table_tennis",
     element: (
-      <ProtectedRoute allowedRoles={["user"]}>
+      <ProtectedRoute>
         <Tt_ />
       </ProtectedRoute>
     ),
@@ -223,7 +223,7 @@ const router = createBrowserRouter([
   {
     path: "/events/volleyball",
     element: (
-      <ProtectedRoute allowedRoles={["user"]}>
+      <ProtectedRoute>
         <Volleyball_ />
       </ProtectedRoute>
     ),
@@ -231,7 +231,7 @@ const router = createBrowserRouter([
   {
     path: "/events/mr-infinito",
     element: (
-      <ProtectedRoute allowedRoles={["user"]}>
+      <ProtectedRoute>
         <MrInfinito_ />
       </ProtectedRoute>
     ),
@@ -240,7 +240,7 @@ const router = createBrowserRouter([
   {
     path: "/events/chess",
     element: (
-      <ProtectedRoute allowedRoles={["user"]}>
+      <ProtectedRoute>
         <Chess_ />
       </ProtectedRoute>
     ),
@@ -249,7 +249,7 @@ const router = createBrowserRouter([
   {
     path: "/events/cricket",
     element: (
-      <ProtectedRoute allowedRoles={["user"]}>
+      <ProtectedRoute>
         <Cricket_ />
       </ProtectedRoute>
     ),
@@ -258,7 +258,7 @@ const router = createBrowserRouter([
   {
     path: "/events/weightlifting",
     element: (
-      <ProtectedRoute allowedRoles={["user"]}>
+      <ProtectedRoute>
         <Weightlifting_ />
       </ProtectedRoute>
     ),
@@ -266,7 +266,7 @@ const router = createBrowserRouter([
   {
     path: "/events/powerlifting",
     element: (
-      <ProtectedRoute allowedRoles={["user"]}>
+      <ProtectedRoute>
         <Powerlifting_ />
       </ProtectedRoute>
     ),
@@ -274,7 +274,7 @@ const router = createBrowserRouter([
   {
     path: "/events/codm",
     element: (
-      <ProtectedRoute allowedRoles={["user"]}>
+      <ProtectedRoute>
         <Codm_ />
       </ProtectedRoute>
     ),
@@ -282,7 +282,7 @@ const router = createBrowserRouter([
   {
     path: "/events/bgmi",
     element: (
-      <ProtectedRoute allowedRoles={["user"]}>
+      <ProtectedRoute>
         <BGMI_ />
       </ProtectedRoute>
     ),
@@ -290,7 +290,7 @@ const router = createBrowserRouter([
   {
     path: "/events/clash_royale",
     element: (
-      <ProtectedRoute allowedRoles={["user"]}>
+      <ProtectedRoute>
         <ClashRoyale_ />
       </ProtectedRoute>
     ),
@@ -298,7 +298,7 @@ const router = createBrowserRouter([
   {
     path: "/events/valorant",
     element: (
-      <ProtectedRoute allowedRoles={["user"]}>
+      <ProtectedRoute>
         <VALORANT_ />
       </ProtectedRoute>
     ),
@@ -306,7 +306,7 @@ const router = createBrowserRouter([
   {
     path: "/events/freefire",
     element: (
-      <ProtectedRoute allowedRoles={["user"]}>
+      <ProtectedRoute>
         <FREEFIRE_ />
       </ProtectedRoute>
     ),

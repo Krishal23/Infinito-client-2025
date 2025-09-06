@@ -1,6 +1,6 @@
 import React from 'react';
 import EventTemplate from './EventTemplate';
-import url from './eventsRuleBook/Freefirerulebook1.pdf';
+import url from './eventsRuleBook/Freefirerulebook.pdf';
 
 const FreeFire = ({isAlreadyRegistered}) => {
   return (
@@ -9,7 +9,7 @@ const FreeFire = ({isAlreadyRegistered}) => {
       title="Free Fire Championship"
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating Free Fire championship where teams will compete for the ultimate prize."
-      isRegistrationOpen={false}
+      isRegistrationOpen={true}
       rulebookUrl={url}
       registrationurl={'/events/freefire'}
 

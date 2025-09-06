@@ -8,7 +8,7 @@ const BGMI = ({isAlreadyRegistered}) => {
       title="BGMI Championship"
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating BGMI championship where teams will compete for the ultimate prize."
-      isRegistrationOpen={false}
+      isRegistrationOpen={true}
       rulebookUrl={rulebook}
       registrationurl={'/events/bgmi'}
 
