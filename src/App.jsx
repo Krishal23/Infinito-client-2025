@@ -76,7 +76,7 @@ const router = createBrowserRouter([
   {
     path: "/events/response/:event",
     element: (
-      <ProtectedRoute >
+      <ProtectedRoute allowedRoles={["moderator","admin"]}>
         <Response />
       </ProtectedRoute>
     ),
