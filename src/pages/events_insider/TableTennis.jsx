@@ -10,7 +10,7 @@ const TableTennis = ({isAlreadyRegistered}) => {
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating Table Tennis championship where teams will compete for the ultimate prize."
       isRegistrationOpen={true}
-      rulebookUrl={"https://drive.google.com/file/d/1Vl8-hGZ2DRqVCuVOJd_ICh_s_xaBEcFJ/view?usp=drive_link"}
+      rulebookUrl={"./eventsRuleBook/TableTennisRulebook.pdf"}
       registrationurl= "/events/table_tennis"
 
       structure={['Somil Agarwal: 8090872563', 'Anirudh Reddy: 8919450229 ']}

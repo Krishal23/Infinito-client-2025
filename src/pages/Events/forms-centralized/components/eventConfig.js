@@ -160,7 +160,7 @@ export const eventConfigs = {
       {
         type: 'team', title: 'Player Roster', fields: [
           { name: "players", title: "Player", min: 7, max: 7, initialData: EMPTY_PERSON },
-          { name: "substitutes", title: "Substitute", min: 0, max: 5, initialData: EMPTY_PERSON },
+          { name: "substitutes", title: "Substitute", min: 0, max: 4, initialData: EMPTY_PERSON },
         ]
       },
       { type: 'coach', title: 'Coach Details' },
@@ -182,7 +182,7 @@ export const eventConfigs = {
       },
       {
         type: 'team', title: 'Player Roster', fields: [
-          { name: "players", title: "Player", min: 3, max: 3, initialData: EMPTY_PERSON },
+          { name: "players", title: "Player", min: 1, max: 3, initialData: EMPTY_PERSON },
         ]
       },
       { type: 'coach', title: 'Coach Details' },
@@ -233,7 +233,7 @@ export const eventConfigs = {
       { type: 'college', title: 'General Information', hasCategory: true },
       {
         type: 'team', title: 'Team Roster', fields: [
-          { name: "players", title: "Player", min: 2, max: 2, initialData: EMPTY_PERSON },
+          { name: "players", title: "Player", min: 3, max: 4, initialData: EMPTY_PERSON },
         ]
       },
       { type: 'coach', title: 'Coach Details' },
