@@ -1,4 +1,5 @@
 import Team from "./pages/AboutUs/Team";
+import Team2 from "./pages/AboutUs/Team2.jsx";
 // import Events from "./pages/HomePage/event/Events";
 // import EventsInside from "./pages/HomePage/event/Events_inside";
 import Merchandise from "./pages/Merchandise/Merchandise";
@@ -52,7 +53,10 @@ const router = createBrowserRouter([
     path: "/",
     element: <Home />,
   },
-
+  {
+    path: "*", 
+    element: <Update />,
+  },
 
   // {
   //   path: "/ca-profile",
@@ -106,6 +110,10 @@ const router = createBrowserRouter([
   {
     path: "/aboutUs",
     element: <Team />,
+  },
+  {
+    path: "/aboutUs2",
+    element: <Team2 />,
   },
   {
     path: "/sponsor",
@@ -271,46 +279,46 @@ const router = createBrowserRouter([
       </ProtectedRoute>
     ),
   },
-  {
-    path: "/events/codm",
-    element: (
-      <ProtectedRoute>
-        <Codm_ />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/events/bgmi",
-    element: (
-      <ProtectedRoute>
-        <BGMI_ />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/events/clash_royale",
-    element: (
-      <ProtectedRoute>
-        <ClashRoyale_ />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/events/valorant",
-    element: (
-      <ProtectedRoute>
-        <VALORANT_ />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/events/freefire",
-    element: (
-      <ProtectedRoute>
-        <FREEFIRE_ />
-      </ProtectedRoute>
-    ),
-  },
+  // {
+  //   path: "/events/codm",
+  //   element: (
+  //     <ProtectedRoute>
+  //       <Codm_ />
+  //     </ProtectedRoute>
+  //   ),
+  // },
+  // {
+  //   path: "/events/bgmi",
+  //   element: (
+  //     <ProtectedRoute>
+  //       <BGMI_ />
+  //     </ProtectedRoute>
+  //   ),
+  // },
+  // {
+  //   path: "/events/clash_royale",
+  //   element: (
+  //     <ProtectedRoute>
+  //       <ClashRoyale_ />
+  //     </ProtectedRoute>
+  //   ),
+  // },
+  // {
+  //   path: "/events/valorant",
+  //   element: (
+  //     <ProtectedRoute>
+  //       <VALORANT_ />
+  //     </ProtectedRoute>
+  //   ),
+  // },
+  // {
+  //   path: "/events/freefire",
+  //   element: (
+  //     <ProtectedRoute>
+  //       <FREEFIRE_ />
+  //     </ProtectedRoute>
+  //   ),
+  // },
   {
     path: "/merchandise",
     element: <Merch />,

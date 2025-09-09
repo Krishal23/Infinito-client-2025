@@ -46,6 +46,7 @@ const createInitialState = (config) => {
 };
 
 const EventForm = ({ config }) => {
+  console.log(config)
   const navigate = useNavigate();
   const [form, setForm] = useState(createInitialState(config));
   const [currentStep, setCurrentStep] = useState(0);
@@ -390,6 +391,7 @@ const EventForm = ({ config }) => {
         <section className="event-forms">
           <div className="form-heading">
             <h2 className="title">{config.title}</h2>
+            <pre className="step-indicator">{config.msg}</pre>
             <p className="step-indicator">
               Step {currentStep + 1} of {config.steps.length}:{" "}
               {currentStepConfig.title}

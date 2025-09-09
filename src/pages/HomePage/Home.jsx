@@ -7,6 +7,7 @@ import ContactInfo from "./BannerContactUs";
 import Head from "./Head";
 import styles from "./Home.module.css";
 import Eve from "../Events/events";
+import DomeGallery from "./DomeGallery";
 
 function Home() {
   return (
@@ -17,6 +18,9 @@ function Home() {
       {/* <BannerEvent /> */}
       <Eve />
       <ContactInfo />
+      {/* <div style={{ width: '100vw', height: '100vh' }}>
+      <DomeGallery grayscale={false}/>
+    </div> */}
       <Footer />
     </div>
   );

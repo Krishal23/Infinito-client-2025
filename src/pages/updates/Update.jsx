@@ -8,7 +8,7 @@ const Update = () => {
     <>
     <Navbar/>
     <div className={styles.container}>
-      <h1 className={styles.message}>Will be Updated Soon...</h1>
+      <h1 className={styles.message}>Page not found...</h1>
     </div>
     <Footer/>
     </>

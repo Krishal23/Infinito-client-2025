@@ -171,6 +171,7 @@ export const eventConfigs = {
   badminton: {
     title: "Badminton Registration",
     endpoint: "/events/badminton",
+    msg:"Category Men : 1 Cap + 1 Vice-Cap + 3 Players \n Category Women : 1 Cap + 1 Vice-Cap + 1 Player",
     paymentDetails: { fee: {men:"2500",women:"1500"} },
     steps: [
       { type: 'college', title: 'General Information', hasCategory: true },

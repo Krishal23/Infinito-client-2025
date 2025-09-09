@@ -9,7 +9,7 @@ const ClashRoyale = ({isAlreadyRegistered}) => {
       title="Clash Royale Championship"
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating Clash Royale championship where teams will compete for the ultimate prize."
-      isRegistrationOpen={true}
+      isRegistrationOpen={false}
       rulebookUrl={'/update'}
       registrationurl={'/events/clash_royale'}
 
