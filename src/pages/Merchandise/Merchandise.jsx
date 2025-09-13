@@ -18,103 +18,119 @@ import Footer from "../../components/Footer";
 
 const merchandiseData = [
   {
-    frontContent: {
-      title: "1f",
-      image: f1, // Replace with actual image path
-    },
-    backContent: {
-      title: "1b",
-      image: b1,
-    },
+    id: 1,
+    name: "POSTER",
+    price: "$10.00",
+    image: f1,
+    inStock: true,
   },
   {
-    frontContent: {
-      title: "1f",
-      image: f2, // Replace with actual image path
-    },
-    backContent: {
-      title: "1b",
-      image: b2,
-    },
+    id: 2,
+    name: "PHONE CASE",
+    price: "$15.00",
+    image: f2,
+    inStock: true,
   },
   {
-    frontContent: {
-      title: "1f",
-      image: f3, // Replace with actual image path
-    },
-    backContent: {
-      title: "1b",
-      image: b3,
-    },
+    id: 3,
+    name: "SNAPBACK CAP",
+    price: "$20.00",
+    image: f3,
+    inStock: true,
   },
   {
-    frontContent: {
-      title: "1f",
-      image: f4, // Replace with actual image path
-    },
-    backContent: {
-      title: "1b",
-      image: b4,
-    },
+    id: 4,
+    name: "VINYL - GOLD EDITION",
+    price: "$30.00",
+    image: f4,
+    inStock: false,
   },
   {
-    frontContent: {
-      title: "1f",
-      image: f5, // Replace with actual image path
-    },
-    backContent: {
-      title: "1b",
-      image: b5,
-    },
+    id: 5,
+    name: "BEANIE",
+    price: "$16.00",
+    image: f5,
+    inStock: true,
   },
-
-  // Add more items as needed
+  {
+    id: 6,
+    name: "THE CRYSTAL PROJECT CD EDITION",
+    price: "$15.00",
+    image: b1,
+    inStock: true,
+  },
+  {
+    id: 7,
+    name: "SWEATSHIRT",
+    price: "$50.00",
+    image: b2,
+    inStock: true,
+  },
+  {
+    id: 8,
+    name: "FANNY PACK",
+    price: "$45.00",
+    image: b3,
+    inStock: true,
+  },
+  {
+    id: 9,
+    name: "BASEBALL CAP",
+    price: "$25.00",
+    image: b4,
+    inStock: true,
+  },
+  {
+    id: 10,
+    name: "VINYL RECORD",
+    price: "$35.00",
+    image: b5,
+    inStock: true,
+  },
 ];
 
 const Merchandise = () => {
   return (
-    <div>
+    <div className={styles.pageContainer}>
       <Navbar />
-      <div className={styles.container}>
-        <div className={styles.merchContent}>
-          <h1 className={styles.title}>OFFICIAL INFINITO MERCH</h1>
-          {/* <img className={styles.imgmerch} src={merchimg} alt="" srcset="" /> */}
-          <div className={styles.para}>
-            <p>
-              Get ready to dive into the world of style as we introduce the
-              exclusive T-shirt and Hoodie collection for Infinito24!
-            </p>
-            <p>
-              These designs blend elegance with innovation, perfectly capturing
-              the essence of Infinito. Our T-shirts are crafted from top-quality
-              200 GSM, 100% cotton, ensuring ultimate comfort and durability.
-              The hoodies are made from premium woven cotton with 350+ GSM
-              fabric, offering unmatched warmth and style. Elevate your wardrobe
-              with our limited-edition Infinito T-shirts and Hoodies!
-            </p>
-            <div className={styles.grab2}>
-              <img className={styles.imgmerch2} src={mascot} alt="" />
-              <div
-                className={styles.grabNowBtn}
-                // to="https://docs.google.com/forms/d/e/1FAIpQLSfE-MZYmqqntVzoTtt_GvBBqOYdYwPA2OOQQkvMWm9VJuEUdQ/viewform?fbzx=8247677167203646238"
-              >
-                Live Soon
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className={styles.merchItems}>
-          {merchandiseData.map((item, index) => (
+      
+      {/* Hero Section */}
+      <div className={styles.heroSection}>
+        <h1 className={styles.heroTitle}>MERCH</h1>
+        <p className={styles.heroDescription}>
+          This page dedicated to all the merchandise of Infinito. You can find all the products here. It represents the spirit of our community and the creativity of our members. 
+        </p>
+      </div>
+      
+      {/* Main Products Section */}
+      <div className={styles.productsSection}>
+        <div className={styles.productsGrid}>
+          {merchandiseData.map((item) => (
             <MerchandiseCard
-              key={index}
-              frontContent={item.frontContent}
-              backContent={item.backContent}
+              key={item.id}
+              product={item}
             />
           ))}
         </div>
       </div>
-      <Footer />
+
+      {/* Booking Requirements Section */}
+      <div className={styles.bookingSection}>
+        <h2 className={styles.bookingTitle}>FOR BOOKING REQUIREMENTS</h2>
+        <p className={styles.contactInfo}>INFO@INFINITO.COM | PHONE: 630-624-3407</p>
+      </div>
+
+      {/* Footer */}
+      <div className={styles.footerSection}>
+        <div className={styles.footerContent}>
+          <p className={styles.copyright}>© 2024 BY INFINITO. CREATED ON REACT.</p>
+          <div className={styles.footerLinks}>
+            <a href="#" className={styles.footerLink}>TERMS & CONDITIONS</a>
+            <a href="#" className={styles.footerLink}>SHIPPING & RETURNS</a>
+            <a href="#" className={styles.footerLink}>FAQ'S</a>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

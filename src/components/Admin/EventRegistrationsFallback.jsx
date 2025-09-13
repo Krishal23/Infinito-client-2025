@@ -118,8 +118,8 @@ const EventRegistrationsFallback = ({ eventType = "Football", onSportChange }) =
         </CardContent>
       </Card>
 
-      {/* Registration Details Modal */}
-      <RegistrationDetailsModal
+      {/* Registration Details Modal  */}
+      <RegisteratioonDetailsModal
         isOpen={!!selectedRegistration}
         onClose={() => setSelectedRegistration(null)}
         data={selectedRegistration}
@@ -130,4 +130,5 @@ const EventRegistrationsFallback = ({ eventType = "Football", onSportChange }) =
 };
 
 export default EventRegistrationsFallback;
+
 
