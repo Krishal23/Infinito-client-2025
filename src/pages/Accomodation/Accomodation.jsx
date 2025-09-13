@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../../utils/axios";
+import { useNavigate } from "react-router-dom";
+import { useAccommodationBooking } from "../../utils/useAccommodationBooking";
 
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
 const LAST_DAY = new Date("2025-10-13T00:00:00.000Z");
@@ -31,6 +33,12 @@ export default function AccommodationWizard() {
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState(null);
 
+
+  const navigate = useNavigate();
+const { bookAccommodation, submitting:accomSubmiting } = useAccommodationBooking({
+  endpoint: "/accommodation",
+  redirectUrl: "/accommodation/success",
+});
 
 
 
@@ -167,9 +175,10 @@ export default function AccommodationWizard() {
 
     try {
       console.log("Sending payload:", payload);
-      const res = await axiosInstance.post("/accommodation", payload); // Correct endpoint
-      console.log("Response:", res.data);
-      setMessage({ type: "success", text: "Accommodation booked successfully" });
+      // const res = await axiosInstance.post("/accommodation", payload); // Correct endpoint
+      bookAccommodation(payload, navigate);
+      // console.log("Response:", res.data);
+      // setMessage({ type: "success", text: "Accommodation booked successfully" });
     } catch (err) {
       console.error(err);
       setMessage({
@@ -214,7 +223,7 @@ export default function AccommodationWizard() {
               <select className="w-full mt-1 p-2 border rounded" value={genderCategory} onChange={(e) => setGenderCategory(e.target.value)}>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
-                <option value="mixed">Mixed</option>
+                {/* <option value="mixed">Mixed</option> */}
               </select>
             </div>
 

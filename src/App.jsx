@@ -78,10 +78,10 @@ const router = createBrowserRouter([
     path: "/event/ins",
     element: <Evein />,
   },
-  // {
-  //   path: "/accom",
-  //   element: <Accommodation />,
-  // },
+  {
+    path: "/accom",
+    element: <Accommodation />,
+  },
   {
     path: "/events/response/:event",
     element: (
