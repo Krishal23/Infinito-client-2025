@@ -26,8 +26,10 @@ export default function AccommodationWizard() {
   const [checkInDate, setCheckInDate] = useState("");
   const [stayDays, setStayDays] = useState(1);
   const [checkoutDate, setCheckoutDate] = useState("");
-  const [couponCode, setCouponCode] = useState("");
   const [appliedCoupon, setAppliedCoupon] = useState(null);
+  const [couponCode, setCouponCode] = useState("");
+  const [discount, setDiscount] = useState(0);
+  const [finalAmount, setFinalAmount] = useState(0);
   const [couponError, setCouponError] = useState("");
   // UI state
   const [maxStayDays, setMaxStayDays] = useState(5);
@@ -37,31 +39,76 @@ export default function AccommodationWizard() {
 
 
   const navigate = useNavigate();
-const { bookAccommodation, submitting:accomSubmiting } = useAccommodationBooking({
-  endpoint: "/accommodation",
-  redirectUrl: "/accommodation/success",
-});
+  const { bookAccommodation, submitting: accomSubmiting } = useAccommodationBooking({
+    endpoint: "/accommodation",
+    redirectUrl: "/accommodation/success",
+  });
 
-
-
-  const handleApplyCoupon = async () => {
-    setCouponError("");
+const handleApplyCoupon = async () => {
+  if (!couponCode) {
+    setCouponError("Please enter a coupon code.");
     setAppliedCoupon(null);
-    if (!couponCode) {
-      setCouponError("Enter a coupon code");
-      return;
-    }
-    try {
-      const res = await axiosInstance.get(`/coupons/validate/${couponCode}`);
-      if (res.data.success) {
-        setAppliedCoupon(res.data.coupon);
+    setDiscount(0);
+    setFinalAmount(selectedPlayers.length * stayDays * 500);
+    return;
+  }
+
+  const baseAmount = selectedPlayers.length * stayDays * 500;
+
+  try {
+    const res = await axiosInstance.get(
+      `/coupons/validate/${couponCode}?amount=${baseAmount}&category=ACCOM`
+    );
+
+    const data = res.data;
+    console.log(data)
+
+    if (data.success) {
+      // Coupon is valid
+      const coupon = data.coupon;
+      let discountAmount = 0;
+
+      if (coupon.couponType === "percentage") {
+        discountAmount = Math.floor((baseAmount * coupon.discount) / 100);
+        if (coupon.maxDiscountAmount) {
+          discountAmount = Math.min(discountAmount, coupon.maxDiscountAmount);
+        }
       } else {
-        setCouponError("Invalid coupon");
+        discountAmount = coupon.discount;
       }
-    } catch (err) {
-      setCouponError(err.response?.data?.message || "Invalid coupon");
+
+      setAppliedCoupon(coupon);
+      setDiscount(discountAmount);
+      setFinalAmount(Math.max(0, baseAmount - discountAmount));
+      setCouponError("");
+    } else {
+      // Coupon invalid / already used / expired / min purchase not met
+      setAppliedCoupon(null);
+      setDiscount(0);
+      setFinalAmount(baseAmount);
+      setCouponError(data.message || "Coupon is not valid");
     }
-  };
+  } catch (err) {
+    setAppliedCoupon(null);
+    setDiscount(0);
+    setFinalAmount(baseAmount);
+    setCouponError(
+      err.response?.data?.message || "Something went wrong while validating coupon"
+    );
+  }
+};
+
+
+
+  useEffect(() => {
+    const base = selectedPlayers.length * stayDays * 500;
+    setFinalAmount(appliedCoupon
+      ? appliedCoupon.couponType === "percentage"
+        ? base - Math.floor((base * appliedCoupon.discount) / 100)
+        : Math.max(0, base - appliedCoupon.discount)
+      : base
+    );
+  }, [selectedPlayers, stayDays, appliedCoupon]);
 
   // Fetch user events on mount
   useEffect(() => {
@@ -195,237 +242,256 @@ const { bookAccommodation, submitting:accomSubmiting } = useAccommodationBooking
 
   return (
     <>
-    <Navbar/>
-    <div className="max-w-3xl mx-auto p-6 bg-white min-h-[100vh] pt-20 shadow-md rounded">
-      <h1 className="text-2xl font-bold mb-4">Accommodation Booking</h1>
-      {message && (
-        <div className={`mb-4 p-3 rounded ${message.type === "success" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
-          {message.text}
-        </div>
-      )}
-      <form onSubmit={handleSubmit}>
-        {/* STEP 1: Event & Booking */}
-        {step === 1 && (
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium">Event</label>
-              <select
-                className="w-full mt-1 p-2 border rounded"
-                value={eventId}
-                onChange={(e) => setEventId(e.target.value)}
-              >
-                <option value="">-- Select Event --</option>
-                {events.map((ev) => (
-                  <option key={ev.eventId} value={ev.eventId}>{ev.eventName}</option>
-                ))}
-              </select>
-              {errors.eventId && <p className="text-red-600 text-sm">{errors.eventId}</p>}
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium">Gender Category</label>
-              <select className="w-full mt-1 p-2 border rounded" value={genderCategory} onChange={(e) => setGenderCategory(e.target.value)}>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                {/* <option value="mixed">Mixed</option> */}
-              </select>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm">Check-in Date</label>
-                <input type="date" min="2025-10-09" max="2025-10-13" className="w-full mt-1 p-2 border rounded" value={checkInDate} onChange={(e) => setCheckInDate(e.target.value)} />
-              </div>
-              <div>
-                <label className="block text-sm">Stay Days (max {maxStayDays})</label>
-                <input type="number" min={1} max={maxStayDays} className="w-full mt-1 p-2 border rounded" value={stayDays} onChange={(e) => setStayDays(Number(e.target.value))} />
-              </div>
-            </div>
-
-            {checkoutDate && (
-              <div className="p-3 bg-gray-50 rounded border">
-                <p>Checkout: <span className="font-medium">{checkoutDate}</span></p>
-              </div>
-            )}
-
-
+      <Navbar />
+      <div className="max-w-3xl mx-auto p-6 bg-white min-h-[100vh] pt-20 shadow-md rounded">
+        <h1 className="text-2xl font-bold mb-4">Accommodation Booking</h1>
+        {message && (
+          <div className={`mb-4 p-3 rounded ${message.type === "success" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
+            {message.text}
           </div>
         )}
-
-        {/* STEP 2: Players */}
-        {step === 2 && (
-          <div className="space-y-4">
-            <h2 className="font-semibold">Select Players</h2>
-            {errors.players && <p className="text-red-600">{errors.players}</p>}
-            {playersOptions.map((p) => {
-              const selected = selectedPlayers.find((sp) => sp.aadharId === p.aadharId);
-              return (
-                <div key={p.aadharId} className="flex items-center space-x-2">
-                  <input type="checkbox" checked={!!selected} onChange={() => togglePlayer(p)} />
-                  <span>{p.name} · {p.email}</span>
-                </div>
-              );
-            })}
-          </div>
-        )}
-
-        {/* STEP 3: Review */}
-        {step === 3 && (
-          <div className="space-y-4">
-            <h2 className="font-semibold">Review & Submit</h2>
-
-            {/* Booking Info */}
-            <table className="w-full border-collapse border mb-4">
-              <tbody>
-                <tr className="border-b">
-                  <td className="p-2 font-medium">Event</td>
-                  <td className="p-2">{eventId}</td>
-                </tr>
-                <tr className="border-b">
-                  <td className="p-2 font-medium">Check-in</td>
-                  <td className="p-2">{checkInDate}</td>
-                </tr>
-                <tr className="border-b">
-                  <td className="p-2 font-medium">Stay Days</td>
-                  <td className="p-2">{stayDays}</td>
-                </tr>
-                <tr className="border-b">
-                  <td className="p-2 font-medium">Checkout</td>
-                  <td className="p-2">{checkoutDate}</td>
-                </tr>
-                <tr className="border-b">
-                  <td className="p-2 font-medium">Gender</td>
-                  <td className="p-2">{genderCategory}</td>
-                </tr>
-                <tr className="border-b">
-                  <td className="p-2 font-medium">Coupon</td>
-                  <td className="p-2">
-                    <div className="flex space-x-2">
-                      <input
-                        type="text"
-                        className="w-full p-2 border rounded"
-                        value={couponCode}
-                        onChange={(e) => setCouponCode(e.target.value)}
-                      />
-                      <button
-                        type="button"
-                        className="px-3 py-1 bg-blue-600 text-white rounded"
-                        onClick={handleApplyCoupon}
-                      >
-                        Apply
-                      </button>
-                    </div>
-                    {couponError && <p className="text-red-600 text-sm">{couponError}</p>}
-                    {appliedCoupon && (
-                      <p className="text-green-600 text-sm">
-                        Applied: {appliedCoupon.coupontag} ({appliedCoupon.discount}
-                        {appliedCoupon.couponType === "percentage" ? "%" : "₹"} off)
-                      </p>
-                    )}
-                  </td>
-                </tr>
-
-              </tbody>
-            </table>
-
-            {/* Players Table */}
-            <div>
-              <h3 className="font-medium mb-2">Players ({selectedPlayers.length})</h3>
-              <table className="w-full border border-gray-300 rounded mb-4">
-                <thead className="bg-gray-100">
-                  <tr>
-                    <th className="p-2 border-b">Name</th>
-                    <th className="p-2 border-b">Email</th>
-                    <th className="p-2 border-b">Phone</th>
-                    <th className="p-2 border-b">Aadhaar</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {selectedPlayers.map((p) => (
-                    <tr key={p.aadharId} className="text-sm">
-                      <td className="p-2 border-b">{p.name}</td>
-                      <td className="p-2 border-b">{p.email}</td>
-                      <td className="p-2 border-b">{p.phoneNumber}</td>
-                      <td className="p-2 border-b">{p.aadharId}</td>
-                    </tr>
+        <form onSubmit={handleSubmit}>
+          {/* STEP 1: Event & Booking */}
+          {step === 1 && (
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium">Event</label>
+                <select
+                  className="w-full mt-1 p-2 border rounded"
+                  value={eventId}
+                  onChange={(e) => setEventId(e.target.value)}
+                >
+                  <option value="">-- Select Event --</option>
+                  {events.map((ev) => (
+                    <option key={ev.eventId} value={ev.eventId}>{ev.eventName}</option>
                   ))}
-                </tbody>
-              </table>
-            </div>
+                </select>
+                {errors.eventId && <p className="text-red-600 text-sm">{errors.eventId}</p>}
+              </div>
 
-            {/* Bill / Summary */}
-            {/* Bill / Summary */}
-            <div>
-              <h3 className="font-medium mb-2">Bill Summary</h3>
+              <div>
+                <label className="block text-sm font-medium">Gender Category</label>
+                <select className="w-full mt-1 p-2 border rounded" value={genderCategory} onChange={(e) => setGenderCategory(e.target.value)}>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  {/* <option value="mixed">Mixed</option> */}
+                </select>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm">Check-in Date</label>
+                  <input type="date" min="2025-10-09" max="2025-10-13" className="w-full mt-1 p-2 border rounded" value={checkInDate} onChange={(e) => setCheckInDate(e.target.value)} />
+                </div>
+                <div>
+                  <label className="block text-sm">Stay Days (max {maxStayDays})</label>
+                  <input type="number" min={1} max={maxStayDays} className="w-full mt-1 p-2 border rounded" value={stayDays} onChange={(e) => setStayDays(Number(e.target.value))} />
+                </div>
+              </div>
+
+              {checkoutDate && (
+                <div className="p-3 bg-gray-50 rounded border">
+                  <p>Checkout: <span className="font-medium">{checkoutDate}</span></p>
+                </div>
+              )}
+
+
+            </div>
+          )}
+
+          {/* STEP 2: Players */}
+          {step === 2 && (
+            <div className="space-y-4">
+              <h2 className="font-semibold">Select Players</h2>
+              {errors.players && <p className="text-red-600">{errors.players}</p>}
+
               <table className="w-full border border-gray-300 rounded">
                 <thead className="bg-gray-100">
                   <tr>
-                    <th className="p-2 border-b">Description</th>
-                    <th className="p-2 border-b">Quantity</th>
-                    <th className="p-2 border-b">Rate</th>
-                    <th className="p-2 border-b">Amount</th>
+                    <th className="p-2 border-b">Select</th>
+                    <th className="p-2 border-b">Name</th>
+                    <th className="p-2 border-b">Email</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="text-sm">
-                    <td className="p-2 border-b">Players</td>
-                    <td className="p-2 border-b">{selectedPlayers.length}</td>
-                    <td className="p-2 border-b">₹500 / day</td>
-                    <td className="p-2 border-b">₹{selectedPlayers.length * stayDays * 500}</td>
-                  </tr>
-
-                  {/* Coupon Discount Row */}
-                  {appliedCoupon && (
-                    <tr className="text-sm text-green-700">
-                      <td className="p-2 border-b" colSpan={3}>
-                        Coupon ({appliedCoupon.coupontag})
-                      </td>
-                      <td className="p-2 border-b">
-                        - ₹
-                        {appliedCoupon.couponType === "percentage"
-                          ? Math.floor(
-                            (selectedPlayers.length * stayDays * 500 * appliedCoupon.discount) / 100
-                          )
-                          : appliedCoupon.discount}
-                      </td>
-                    </tr>
-                  )}
-
-                  {/* Final Total */}
-                  <tr className="text-sm font-medium bg-gray-50">
-                    <td className="p-2 border-b" colSpan={3}>
-                      Final Total
-                    </td>
-                    <td className="p-2 border-b">
-                      ₹
-                      {(() => {
-                        const base = selectedPlayers.length * stayDays * 500;
-                        if (!appliedCoupon) return base;
-                        if (appliedCoupon.couponType === "percentage") {
-                          return base - Math.floor((base * appliedCoupon.discount) / 100);
-                        }
-                        return Math.max(0, base - appliedCoupon.discount);
-                      })()}
-                    </td>
-                  </tr>
+                  {playersOptions.map((p) => {
+                    const selected = selectedPlayers.find((sp) => sp.aadharId === p.aadharId);
+                    return (
+                      <tr key={p.aadharId} className="text-sm">
+                        <td className="p-2 border-b text-center">
+                          <input
+                            type="checkbox"
+                            checked={!!selected}
+                            onChange={() => togglePlayer(p)}
+                          />
+                        </td>
+                        <td className="p-2 border-b">{p.name}</td>
+                        <td className="p-2 border-b">{p.email}</td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
+          )}
 
+          {/* STEP 3: Review */}
+          {step === 3 && (
+            <div className="space-y-4">
+              <h2 className="font-semibold">Review & Submit</h2>
+
+              {/* Booking Info */}
+              <table className="w-full border-collapse border mb-4">
+                <tbody>
+                  <tr className="border-b">
+                    <td className="p-2 font-medium">Event</td>
+                    <td className="p-2">{eventId}</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="p-2 font-medium">Check-in</td>
+                    <td className="p-2">{checkInDate}</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="p-2 font-medium">Stay Days</td>
+                    <td className="p-2">{stayDays}</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="p-2 font-medium">Checkout</td>
+                    <td className="p-2">{checkoutDate}</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="p-2 font-medium">Gender</td>
+                    <td className="p-2">{genderCategory}</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="p-2 font-medium">Coupon</td>
+                    <td className="p-2">
+                      <div className="flex space-x-2">
+                        <input
+                          type="text"
+                          className="w-full p-2 border rounded"
+                          value={couponCode}
+                          onChange={(e) => setCouponCode(e.target.value)}
+                        />
+                        <button
+                          type="button"
+                          className="px-3 py-1 bg-blue-600 text-white rounded"
+                          onClick={handleApplyCoupon}
+                        >
+                          Apply
+                        </button>
+                      </div>
+                      {couponError && <p className="text-red-600 text-sm">{couponError}</p>}
+                      {appliedCoupon && (
+                        <p className="text-green-600 text-sm">
+                          Applied: {appliedCoupon.coupontag} ({appliedCoupon.discount}
+                          {appliedCoupon.couponType === "percentage" ? "%" : "₹"} off)
+                        </p>
+                      )}
+                    </td>
+                  </tr>
+
+                </tbody>
+              </table>
+
+              {/* Players Table */}
+              <div>
+                <h3 className="font-medium mb-2">Players ({selectedPlayers.length})</h3>
+                <table className="w-full border border-gray-300 rounded mb-4">
+                  <thead className="bg-gray-100">
+                    <tr>
+                      <th className="p-2 border-b">Name</th>
+                      <th className="p-2 border-b">Email</th>
+                      <th className="p-2 border-b">Phone</th>
+                      <th className="p-2 border-b">Aadhaar</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {selectedPlayers.map((p) => (
+                      <tr key={p.aadharId} className="text-sm">
+                        <td className="p-2 border-b">{p.name}</td>
+                        <td className="p-2 border-b">{p.email}</td>
+                        <td className="p-2 border-b">{p.phoneNumber}</td>
+                        <td className="p-2 border-b">{p.aadharId}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Bill / Summary */}
+              {/* Bill / Summary */}
+              <div>
+                <h3 className="font-medium mb-2">Bill Summary</h3>
+                <table className="w-full border border-gray-300 rounded">
+                  <thead className="bg-gray-100">
+                    <tr>
+                      <th className="p-2 border-b">Description</th>
+                      <th className="p-2 border-b">Quantity</th>
+                      <th className="p-2 border-b">Rate</th>
+                      <th className="p-2 border-b">Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="text-sm">
+                      <td className="p-2 border-b">Players</td>
+                      <td className="p-2 border-b">{selectedPlayers.length}</td>
+                      <td className="p-2 border-b">₹500 / day</td>
+                      <td className="p-2 border-b">₹{selectedPlayers.length * stayDays * 500}</td>
+                    </tr>
+
+                    {/* Coupon Discount Row */}
+                    {appliedCoupon && (
+                      <tr className="text-sm text-green-700">
+                        <td className="p-2 border-b" colSpan={3}>
+                          Coupon ({appliedCoupon.coupontag})
+                        </td>
+                        <td className="p-2 border-b">
+                          - ₹
+                          {appliedCoupon.couponType === "percentage"
+                            ? Math.floor(
+                              (selectedPlayers.length * stayDays * 500 * appliedCoupon.discount) / 100
+                            )
+                            : appliedCoupon.discount}
+                        </td>
+                      </tr>
+                    )}
+
+                    {/* Final Total */}
+                    <tr className="text-sm font-medium bg-gray-50">
+                      <td className="p-2 border-b" colSpan={3}>
+                        Final Total
+                      </td>
+                      <td className="p-2 border-b">
+                        ₹
+                        {(() => {
+                          const base = selectedPlayers.length * stayDays * 500;
+                          if (!appliedCoupon) return base;
+                          if (appliedCoupon.couponType === "percentage") {
+                            return base - Math.floor((base * appliedCoupon.discount) / 100);
+                          }
+                          return Math.max(0, base - appliedCoupon.discount);
+                        })()}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+          )}
+
+
+
+          {/* Navigation */}
+          <div className="mt-6 flex justify-between">
+            {step > 1 && <button type="button" onClick={prev} className="px-4 py-2 border rounded">&larr; Back</button>}
+            {step < 3 && <button type="button" onClick={next} className="px-4 py-2 bg-blue-600 text-white rounded">Next &rarr;</button>}
+            {step === 3 && <button type="submit" disabled={submitting} className="px-4 py-2 bg-green-600 text-white rounded">{submitting ? "Submitting..." : "Confirm & Submit"}</button>}
           </div>
-        )}
-
-
-
-        {/* Navigation */}
-        <div className="mt-6 flex justify-between">
-          {step > 1 && <button type="button" onClick={prev} className="px-4 py-2 border rounded">&larr; Back</button>}
-          {step < 3 && <button type="button" onClick={next} className="px-4 py-2 bg-blue-600 text-white rounded">Next &rarr;</button>}
-          {step === 3 && <button type="submit" disabled={submitting} className="px-4 py-2 bg-green-600 text-white rounded">{submitting ? "Submitting..." : "Confirm & Submit"}</button>}
-        </div>
-      </form>
-    </div>
-    <Footer/>
+        </form>
+      </div>
+      <Footer />
     </>
   );
 }
