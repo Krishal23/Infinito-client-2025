@@ -80,7 +80,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/accom",
-    element: <Accommodation />,
+    element: (
+      <ProtectedRoute>
+        <Accommodation />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/events/response/:event",

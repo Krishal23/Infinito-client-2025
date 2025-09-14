@@ -89,6 +89,7 @@ const Navbar = () => {
           <Link to="/ca" onClick={() => setShowMobileMenu(false)}>CA Portal</Link>
           <Link to="/aboutUs" onClick={() => setShowMobileMenu(false)}>Team</Link>
           <Link to="/sponsor" onClick={() => setShowMobileMenu(false)}>Sponsors</Link>
+        <Link to="/accom">Accomodation</Link>
           <Link to="/merch" onClick={() => setShowMobileMenu(false)}>Merch</Link>
           {(user?.role === "admin" || user?.role === "moderator" )  && (
             <Link to="/admin" onClick={() => setShowMobileMenu(false)}>Admin</Link>
@@ -109,6 +110,7 @@ const Navbar = () => {
         <Link to="/ca">CA Portal</Link>
         <Link to="/aboutUs">Team</Link>
         <Link to="/sponsor">Sponsors</Link>
+        <Link to="/accom">Accomodation</Link>
         <Link to="/merch">Merch</Link>
         {(user?.role === "admin" || user?.role === "moderator" )  && <Link to="/admin">Admin</Link>}
         {isAuth ? (

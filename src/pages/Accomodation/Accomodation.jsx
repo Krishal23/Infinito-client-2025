@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axiosInstance from "../../utils/axios";
 import { useNavigate } from "react-router-dom";
 import { useAccommodationBooking } from "../../utils/useAccommodationBooking";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
 const LAST_DAY = new Date("2025-10-13T00:00:00.000Z");
@@ -192,7 +194,9 @@ const { bookAccommodation, submitting:accomSubmiting } = useAccommodationBooking
 
 
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-white shadow-md rounded">
+    <>
+    <Navbar/>
+    <div className="max-w-3xl mx-auto p-6 bg-white min-h-[100vh] pt-20 shadow-md rounded">
       <h1 className="text-2xl font-bold mb-4">Accommodation Booking</h1>
       {message && (
         <div className={`mb-4 p-3 rounded ${message.type === "success" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
@@ -421,5 +425,7 @@ const { bookAccommodation, submitting:accomSubmiting } = useAccommodationBooking
         </div>
       </form>
     </div>
+    <Footer/>
+    </>
   );
 }
