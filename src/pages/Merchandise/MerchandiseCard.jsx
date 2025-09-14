@@ -1,11 +1,14 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './MerchandiseCard.module.css';
 
 const MerchandiseCard = ({ product }) => {
+  const navigate = useNavigate();
+
   const handleBuyNow = () => {
     if (product.inStock) {
-      // Handle buy now action
-      console.log(`Buying ${product.name}`);
+      // Navigate to product detail page
+      navigate(`/product/${product.id}`);
     }
   };
 
