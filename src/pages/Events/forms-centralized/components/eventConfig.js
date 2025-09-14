@@ -318,8 +318,8 @@ export const eventConfigs = {
       { type: 'athlete_captain', title: 'Lead Athlete Details' },
       { type: 'individual_events', title: 'Individual Event Selection (Max 3)' },
       { type: 'relay_events', title: 'Relay Event Selection (Max 2)' },
-      { type: 'receipt', title: 'Payment Confirmation' },
-      { type: 'coach', title: 'Coach Details' }
+      { type: 'coach', title: 'Coach Details' },
+      { type: 'receipt', title: 'Payment Confirmation' }
     ],
     buildPayload: athleticsPayloadBuilder,
   },

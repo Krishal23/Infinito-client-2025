@@ -44,6 +44,7 @@ const Athletics = () => {
     selectedIndividualEvents: [],
     selectedRelayEvents: [],
     relayTeams: {},
+
   });
 
   const [currentStep, setCurrentStep] = useState(0);
@@ -91,46 +92,37 @@ const Athletics = () => {
   };
 
   const handleRelayEventToggle = (eventName) => {
-    setForm((prev) => {
-      const { selectedRelayEvents, relayTeams } = prev;
-      const isSelected = selectedRelayEvents.includes(eventName);
-      if (isSelected) {
-        const newSelected = selectedRelayEvents.filter((e) => e !== eventName);
-        const newRelayTeams = { ...relayTeams };
-        delete newRelayTeams[eventName];
-        return { ...prev, selectedRelayEvents: newSelected, relayTeams: newRelayTeams };
-      }
-      if (selectedRelayEvents.length >= 2) {
-        toast.error("You can select a maximum of 2 relay events.");
-        return prev;
-      }
-      const newSelected = [...selectedRelayEvents, eventName];
-      const newRelayTeams = {
-        ...relayTeams,
-        [eventName]: Array(4)
-          .fill(null)
-          .map(() => ({ ...EMPTY_PERSON })),
-      };
+  setForm((prev) => {
+    const isSelected = prev.selectedRelayEvents.includes(eventName);
+    if (isSelected) {
       return {
         ...prev,
-        selectedRelayEvents: newSelected,
-        relayTeams: newRelayTeams,
+        selectedRelayEvents: prev.selectedRelayEvents.filter((e) => e !== eventName),
       };
-    });
-  };
+    }
+    if (prev.selectedRelayEvents.length >= 2) {
+      toast.error("You can select a maximum of 2 relay events.");
+      return prev;
+    }
+    return {
+      ...prev,
+      selectedRelayEvents: [...prev.selectedRelayEvents, eventName],
+    };
+  });
+};
 
-  const handleRelayPlayerChange = (eventName, playerIndex, field, value) => {
-    setForm((prev) => {
-      const updatedTeams = { ...prev.relayTeams };
-      const updatedPlayers = [...(updatedTeams[eventName] || [])];
-      updatedPlayers[playerIndex] = {
-        ...updatedPlayers[playerIndex],
-        [field]: value,
-      };
-      updatedTeams[eventName] = updatedPlayers;
-      return { ...prev, relayTeams: updatedTeams };
-    });
-  };
+
+  const handleRelayPlayerChange = (playerIndex, field, value) => {
+  setForm((prev) => {
+    const updatedTeam = [...prev.relayTeams];
+    updatedTeam[playerIndex] = {
+      ...updatedTeam[playerIndex],
+      [field]: value,
+    };
+    return { ...prev, relayTeams: updatedTeam };
+  });
+};
+
 
   const validateCurrentStep = () => {
     const stepConfig = config.steps[currentStep];
@@ -167,7 +159,7 @@ const Athletics = () => {
         break;
       case "relay_events":
         for (const eventName of form.selectedRelayEvents) {
-          const players = form.relayTeams[eventName] || [];
+          const players = form.relayTeamss[eventName] || [];
           for (let i = 0; i < players.length; i++) {
             if (!validatePerson(players[i], `Player #${i + 1} in ${eventName}`)) return false;
           }
@@ -190,7 +182,8 @@ const Athletics = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const payload = config.buildPayload(form);
-    registerEvent(payload, navigate);
+    console.log(payload)
+    // registerEvent(payload, navigate);
   };
 
   const currentStepConfig = config.steps[currentStep];
@@ -289,36 +282,35 @@ const Athletics = () => {
 
         return (
           <FormSection title="Relay Events">
-            <div className="checkbox-group">
-              {relayOptions.map((event) => (
-                <div key={event}>
-                  <label>
-                    <input
-                      type="checkbox"
-                      checked={form.selectedRelayEvents.includes(event)}
-                      onChange={() => handleRelayEventToggle(event)}
-                    />{" "}
-                    <strong>{event}</strong>
-                  </label>
+  <div className="checkbox-group">
+    {relayOptions.map((event) => (
+      <label key={event}>
+        <input
+          type="checkbox"
+          checked={form.selectedRelayEvents.includes(event)}
+          onChange={() => handleRelayPlayerChange(event)}
+        />{" "}
+        <strong>{event}</strong>
+      </label>
+    ))}
+  </div>
 
-                  {form.selectedRelayEvents.includes(event) && (
-                    <div style={{ marginLeft: "2rem", marginTop: "1rem" }}>
-                      <h4>Team for {event} (4 Players)</h4>
-                      {(form.relayTeams[event] || []).map((player, index) => (
-                        <PersonInputGroup
-                          key={index}
-                          title={`Player ${index + 1}`}
-                          personData={player}
-                          onChange={(f, v) => handleRelayPlayerChange(event, index, f, v)}
-                          isRequired={true}
-                        />
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </FormSection>
+  {form.selectedRelayEvents.length > 0 && (
+    <div style={{ marginTop: "1rem" }}>
+      <h4>Relay Team (4 Players)</h4>
+      {form.relayTeams.map((player, index) => (
+        <PersonInputGroup
+          key={index}
+          title={`Player ${index + 1}`}
+          personData={player}
+          onChange={(f, v) => handleRelayPlayerChange(index, f, v)}
+          isRequired={true}
+        />
+      ))}
+    </div>
+  )}
+</FormSection>
+
         );
       }
 

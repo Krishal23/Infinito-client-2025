@@ -46,7 +46,7 @@ const createInitialState = (config) => {
 };
 
 const EventForm = ({ config }) => {
-  console.log(config)
+  // console.log(config)
   const navigate = useNavigate();
   const [form, setForm] = useState(createInitialState(config));
   const [currentStep, setCurrentStep] = useState(0);
@@ -208,6 +208,7 @@ const EventForm = ({ config }) => {
       return;
     }
     const payload = config.buildPayload(form);
+    console.log("Submitting payload:", payload);
     registerEvent(payload, navigate);
   };
 

@@ -50,6 +50,7 @@ import Powerlifting_ from "./pages/Events/event-forms/powerLifting";
 import MrInfinito_ from "./pages/Events/event-forms/mr_infinito";
 import Response from "./components/Admin/Response";
 import JsonViewer from "./utils/JsonViewer";
+import Accommodation from "./pages/Accomodation/Accomodation.jsx";
 
 // import Gallery from "./pages/Gallery/components/content";
 
@@ -80,6 +81,10 @@ const router = createBrowserRouter([
   {
     path: "/event/ins",
     element: <Evein />,
+  },
+  {
+    path: "/accom",
+    element: <Accommodation />,
   },
   {
     path: "/events/response/:event",
