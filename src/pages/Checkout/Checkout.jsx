@@ -142,35 +142,52 @@ const Checkout = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  // Coupon apply (uses your GET route validate/:code)
-  const applyCoupon = async () => {
-    try {
-      if (!formData.couponCode) {
-        alert("Enter a coupon code first");
-        return;
-      }
-
-      const res = await axiosInstance.get(
-        `/coupons/validate/${encodeURIComponent(formData.couponCode)}`,
-        {
-          params: {
-            amount: subtotal,
-            category: "MERCH",
-          },
-        }
-      );
-
-      // backend returns coupon object; we read discount safely
-      const couponDiscount =
-        (res?.data?.coupon?.discount ?? res?.data?.couponDiscount) || 0;
-      setDiscount(couponDiscount);
-      alert(`Coupon applied — discount ₹${couponDiscount}`);
-    } catch (err) {
-      console.error("Coupon error:", err);
-      setDiscount(0);
-      alert(err?.response?.data?.message || "Invalid or expired coupon");
+const applyCoupon = async () => {
+  try {
+    if (!formData.couponCode) {
+      alert("Enter a coupon code first");
+      return;
     }
-  };
+
+    const res = await axiosInstance.get(
+      `/coupons/validate/${encodeURIComponent(formData.couponCode)}`,
+      {
+        params: {
+          amount: subtotal,
+          category: "MERCH",
+        },
+      }
+    );
+
+    const coupon = res?.data?.appliedCoupon || res?.data?.coupon;
+    console.log(coupon)
+
+    if (!coupon) {
+      setDiscount(0);
+      alert(res?.data?.message || "Invalid or expired coupon");
+      return;
+    }
+
+    let couponDiscount = 0;
+
+    if (coupon.couponType === "flat") {
+      couponDiscount = coupon.discount;
+    } else if (coupon.couponType === "percentage") {
+      couponDiscount = Math.floor((coupon.discount / 100) * subtotal);
+      if (coupon.maxDiscountAmount && couponDiscount > coupon.maxDiscountAmount) {
+        couponDiscount = coupon.maxDiscountAmount;
+      }
+    }
+
+    setDiscount(couponDiscount);
+    alert(`Coupon applied — discount ₹${couponDiscount}`);
+  } catch (err) {
+    console.error("Coupon error:", err);
+    setDiscount(0);
+    alert(err?.response?.data?.message || "Invalid or expired coupon");
+  }
+};
+
 
   // Razorpay script loader
   const loadRazorpayScript = () =>
