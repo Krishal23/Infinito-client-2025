@@ -12,10 +12,7 @@ const Checkout = () => {
     firstName: '',
     lastName: '',
     phone: '',
-    country: 'United States',
     address: '',
-    city: '',
-    state: '',
     zipCode: ''
   });
   const [errors, setErrors] = useState({});
@@ -42,8 +39,6 @@ const Checkout = () => {
     if (!formData.lastName.trim()) newErrors.lastName = 'Last name is required';
     if (!formData.phone.trim()) newErrors.phone = 'Phone is required';
     if (!formData.address.trim()) newErrors.address = 'Address is required';
-    if (!formData.city.trim()) newErrors.city = 'City is required';
-    if (!formData.state.trim()) newErrors.state = 'State is required';
     if (!formData.zipCode.trim()) newErrors.zipCode = 'Zip code is required';
 
     setErrors(newErrors);
@@ -145,23 +140,6 @@ const Checkout = () => {
                 {errors.phone && <span className={styles.errorText}>{errors.phone}</span>}
               </div>
 
-              <div className={styles.formGroup}>
-                <label className={styles.formLabel}>
-                  Country/Region <span className={styles.required}>*</span>
-                </label>
-                <select
-                  name="country"
-                  value={formData.country}
-                  onChange={handleInputChange}
-                  className={styles.formSelect}
-                >
-                  <option value="United States">United States</option>
-                  <option value="India">India</option>
-                  <option value="Canada">Canada</option>
-                  <option value="United Kingdom">United Kingdom</option>
-                  <option value="Australia">Australia</option>
-                </select>
-              </div>
 
               <div className={styles.formGroup}>
                 <label className={styles.formLabel}>
@@ -178,42 +156,6 @@ const Checkout = () => {
                 {errors.address && <span className={styles.errorText}>{errors.address}</span>}
               </div>
 
-              <div className={styles.formRow}>
-                <div className={styles.formGroup}>
-                  <label className={styles.formLabel}>
-                    City <span className={styles.required}>*</span>
-                  </label>
-                  <input
-                    type="text"
-                    name="city"
-                    value={formData.city}
-                    onChange={handleInputChange}
-                    className={`${styles.formInput} ${errors.city ? styles.error : ''}`}
-                    placeholder="Enter your city"
-                  />
-                  {errors.city && <span className={styles.errorText}>{errors.city}</span>}
-                </div>
-                
-                <div className={styles.formGroup}>
-                  <label className={styles.formLabel}>
-                    State <span className={styles.required}>*</span>
-                  </label>
-                  <select
-                    name="state"
-                    value={formData.state}
-                    onChange={handleInputChange}
-                    className={`${styles.formSelect} ${errors.state ? styles.error : ''}`}
-                  >
-                    <option value="">Select state</option>
-                    <option value="CA">California</option>
-                    <option value="NY">New York</option>
-                    <option value="TX">Texas</option>
-                    <option value="FL">Florida</option>
-                    <option value="IL">Illinois</option>
-                  </select>
-                  {errors.state && <span className={styles.errorText}>{errors.state}</span>}
-                </div>
-              </div>
 
               <div className={styles.formGroup}>
                 <label className={styles.formLabel}>
