@@ -52,24 +52,27 @@ const CartSidebar = () => {
           ) : (
             <>
               <div className={styles.cartItems}>
-                {items.map((item) => (
-                  <div key={item.id} className={styles.cartItem}>
+                {items.map(item => (
+                  <div key={item._id || item.id} className={styles.cartItem}>
                     <div className={styles.itemImage}>
-                      <img src={item.image} alt={item.name} />
+                      <img
+                        src={item.images?.[0]?.url || '/fallback-image.png'}
+                        alt={item.name || 'Product'}
+                      />
                     </div>
                     <div className={styles.itemDetails}>
-                      <h4 className={styles.itemName}>{item.name}</h4>
-                      <p className={styles.itemPrice}>{item.price}</p>
+                      <h4 className={styles.itemName}>{item.name || 'Unnamed Product'}</h4>
+                      <p className={styles.itemPrice}>₹{item.price || 0}</p>
                       <div className={styles.quantityControls}>
                         <button 
-                          onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                          onClick={() => updateQuantity(item._id || item.id, item.quantity - 1)}
                           className={styles.quantityButton}
                         >
                           -
                         </button>
                         <span className={styles.quantity}>{item.quantity}</span>
                         <button 
-                          onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                          onClick={() => updateQuantity(item._id || item.id, item.quantity + 1)}
                           className={styles.quantityButton}
                         >
                           +
@@ -77,7 +80,7 @@ const CartSidebar = () => {
                       </div>
                     </div>
                     <button 
-                      onClick={() => removeFromCart(item.id)}
+                      onClick={() => removeFromCart(item._id || item.id)}
                       className={styles.removeButton}
                     >
                       ×

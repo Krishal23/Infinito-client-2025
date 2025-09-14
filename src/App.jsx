@@ -348,6 +348,10 @@ const router = createBrowserRouter([
     path: "/checkout-success",
     element: <CheckoutSuccess />,
   },
+  {
+    path: "/accommodation/success",
+    element: <CheckoutSuccess />,
+  },
 ]);
 
 function App() {

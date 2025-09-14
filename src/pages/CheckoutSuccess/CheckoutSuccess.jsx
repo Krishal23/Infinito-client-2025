@@ -7,7 +7,7 @@ const CheckoutSuccess = () => {
   const navigate = useNavigate();
 
   const handleBackToShopping = () => {
-    navigate('/merchandise');
+    navigate('/');
   };
 
   return (
@@ -16,19 +16,19 @@ const CheckoutSuccess = () => {
       
       <div className={styles.successContainer}>
         <div className={styles.successContent}>
-          <div className={styles.successIcon}>✅</div>
+          {/* <div className={styles.successIcon}>✅</div> */}
           <h1 className={styles.successTitle}>Order Placed Successfully!</h1>
           <p className={styles.successMessage}>
             Thank you for your purchase! Your order has been confirmed and will be processed shortly.
           </p>
-          <p className={styles.orderInfo}>
+          {/* <p className={styles.orderInfo}>
             You will receive an email confirmation with your order details.
-          </p>
+          </p> */}
           <button 
             onClick={handleBackToShopping}
             className={styles.continueButton}
           >
-            Continue Shopping
+            Continue
           </button>
         </div>
       </div>

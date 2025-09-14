@@ -301,11 +301,12 @@ const handleApplyCoupon = async () => {
 
           {/* STEP 2: Players */}
           {step === 2 && (
-            <div className="space-y-4">
+            <div className="space-y-4 overflow-x-scroll">
+
               <h2 className="font-semibold">Select Players</h2>
               {errors.players && <p className="text-red-600">{errors.players}</p>}
 
-              <table className="w-full border border-gray-300 rounded">
+              <table className="min-w-full border border-gray-300 rounded">
                 <thead className="bg-gray-100">
                   <tr>
                     <th className="p-2 border-b">Select</th>
@@ -337,11 +338,11 @@ const handleApplyCoupon = async () => {
 
           {/* STEP 3: Review */}
           {step === 3 && (
-            <div className="space-y-4">
+            <div className="space-y-4 overflow-x-scroll">
               <h2 className="font-semibold">Review & Submit</h2>
 
               {/* Booking Info */}
-              <table className="w-full border-collapse border mb-4">
+              <table className="min-w-full border-collapse border mb-4">
                 <tbody>
                   <tr className="border-b">
                     <td className="p-2 font-medium">Event</td>
@@ -395,9 +396,9 @@ const handleApplyCoupon = async () => {
               </table>
 
               {/* Players Table */}
-              <div>
+              <div className="overflow-x-scroll">
                 <h3 className="font-medium mb-2">Players ({selectedPlayers.length})</h3>
-                <table className="w-full border border-gray-300 rounded mb-4">
+                <table className="min-w-full border border-gray-300 rounded mb-4">
                   <thead className="bg-gray-100">
                     <tr>
                       <th className="p-2 border-b">Name</th>
