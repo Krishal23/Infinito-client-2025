@@ -245,6 +245,7 @@ const handleApplyCoupon = async () => {
       <Navbar />
       <div className="max-w-3xl mx-auto p-6 bg-white min-h-[100vh] pt-20 shadow-md rounded">
         <h1 className="text-2xl font-bold mb-4">Accommodation Booking</h1>
+         <span className="text-sm text-zinc-600">NOTE: For accomodation you need to be registered in atleast one event.</span>
         {message && (
           <div className={`mb-4 p-3 rounded ${message.type === "success" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
             {message.text}
