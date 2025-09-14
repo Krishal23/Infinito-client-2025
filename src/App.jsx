@@ -3,6 +3,9 @@ import Team2 from "./pages/AboutUs/Team2.jsx";
 // import Events from "./pages/HomePage/event/Events";
 // import EventsInside from "./pages/HomePage/event/Events_inside";
 import Merchandise from "./pages/Merchandise/Merchandise";
+import ProductDetail from "./pages/ProductDetail/ProductDetail";
+import Checkout from "./pages/Checkout/Checkout";
+import CheckoutSuccess from "./pages/CheckoutSuccess/CheckoutSuccess";
 import Home from "./pages/HomePage/Home";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 // import Sponser from "./pages/Sponser/Sponser";
@@ -14,6 +17,7 @@ import CA from "./pages/CA/CA";
 import CARegister from "./pages/CA/sections/Register";
 import Auth from "./pages/Auth/Auth";
 import { AuthProvider } from "./context/AuthContext";
+import { CartProvider } from "./context/CartContext";
 import { useEffect } from "react";
 import { useState } from "react";
 import axiosInstance from "./utils/axios";
@@ -49,6 +53,7 @@ import JsonViewer from "./utils/JsonViewer";
 import Accommodation from "./pages/Accomodation/Accomodation.jsx";
 
 // import Gallery from "./pages/Gallery/components/content";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -61,18 +66,17 @@ const router = createBrowserRouter([
 
   // {
   //   path: "/ca-profile",
-  //   element: <Evein />,
+  //   element: <Evein />
   // }
   {
     path: "/admin",
     element: (
-      <ProtectedRoute allowedRoles={["admin", "moderator"]}>
-        <AdminPage />
-      </ProtectedRoute>
+      // <ProtectedRoute allowedRoles={["admin", "moderator"]}>
+      //   <AdminPage />
+      // </ProtectedRoute>
+      <AdminPage />
     ),
   },
-
-
 
   {
     path: "/event/ins",
@@ -332,15 +336,28 @@ const router = createBrowserRouter([
     path: "/merchandise",
     element: <Merch />,
   },
+  {
+    path: "/product/:id",
+    element: <ProductDetail />,
+  },
+  {
+    path: "/checkout",
+    element: <Checkout />,
+  },
+  {
+    path: "/checkout-success",
+    element: <CheckoutSuccess />,
+  },
 ]);
 
 function App() {
   return (
     <AuthProvider>
-      <ToastContainer position="top-center" autoClose={3000} newestOnTop pauseOnHover />
-      <RouterProvider router={router} />
+      <CartProvider>
+        <ToastContainer position="top-center" autoClose={3000} newestOnTop pauseOnHover />
+        <RouterProvider router={router} />
+      </CartProvider>
     </AuthProvider>
-
   );
 }
 
