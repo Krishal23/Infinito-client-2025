@@ -124,10 +124,10 @@ const router = createBrowserRouter([
     path: "/aboutUs",
     element: <Team />,
   },
-  {
-    path: "/aboutUs2",
-    element: <Team2 />,
-  },
+  // {
+  //   path: "/aboutUs2",
+  //   element: <Team2 />,
+  // },
   {
     path: "/sponsor",
     element: <Spons />,
@@ -342,15 +342,27 @@ const router = createBrowserRouter([
   },
   {
     path: "/checkout",
-    element: <Checkout />,
+     element: (
+      <ProtectedRoute>
+        <Checkout />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/checkout-success",
-    element: <CheckoutSuccess />,
+    element: (
+      <ProtectedRoute>
+        <CheckoutSuccess />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/accommodation/success",
-    element: <CheckoutSuccess />,
+    element: (
+      <ProtectedRoute>
+        <CheckoutSuccess />
+      </ProtectedRoute>
+    ),
   },
 ]);
 

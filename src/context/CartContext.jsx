@@ -4,13 +4,15 @@ const CartContext = createContext();
 
 const cartReducer = (state, action) => {
   switch (action.type) {
-    case 'ADD_TO_CART':
-      const existingItem = state.items.find(item => item._id === action.payload._id);
+    case 'ADD_TO_CART': {
+      const existingItem = state.items.find(
+        item => item._id === action.payload._id && item.size === action.payload.size
+      );
       if (existingItem) {
         return {
           ...state,
           items: state.items.map(item =>
-            item._id === action.payload._id
+            item._id === action.payload._id && item.size === action.payload.size
               ? { ...item, quantity: item.quantity + action.payload.quantity }
               : item
           )
@@ -20,6 +22,7 @@ const cartReducer = (state, action) => {
         ...state,
         items: [...state.items, { ...action.payload }]
       };
+    }
 
     case 'REMOVE_FROM_CART':
       return {
@@ -31,8 +34,19 @@ const cartReducer = (state, action) => {
       return {
         ...state,
         items: state.items.map(item =>
-          item._id === action.payload._id
+          item._id === action.payload._id && item.size === action.payload.size
             ? { ...item, quantity: action.payload.quantity }
+            : item
+        )
+      };
+
+    // 🔹 New case for updating size
+    case 'UPDATE_SIZE':
+      return {
+        ...state,
+        items: state.items.map(item =>
+          item._id === action.payload._id
+            ? { ...item, size: action.payload.size }
             : item
         )
       };
@@ -66,9 +80,14 @@ export const CartProvider = ({ children }) => {
     dispatch({ type: 'REMOVE_FROM_CART', payload: productId });
   };
 
-  const updateQuantity = (productId, quantity) => {
+  const updateQuantity = (productId, quantity, size) => {
     if (quantity <= 0) removeFromCart(productId);
-    else dispatch({ type: 'UPDATE_QUANTITY', payload: { _id: productId, quantity } });
+    else dispatch({ type: 'UPDATE_QUANTITY', payload: { _id: productId, size, quantity } });
+  };
+
+  // 🔹 New function for updating size
+  const updateCartItemSize = (productId, size) => {
+    dispatch({ type: 'UPDATE_SIZE', payload: { _id: productId, size } });
   };
 
   const clearCart = () => dispatch({ type: 'CLEAR_CART' });
@@ -91,6 +110,7 @@ export const CartProvider = ({ children }) => {
         addToCart,
         removeFromCart,
         updateQuantity,
+        updateCartItemSize,   // 🔹 Expose new function
         clearCart,
         toggleCart,
         openCart,
