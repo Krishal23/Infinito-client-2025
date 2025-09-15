@@ -22,7 +22,7 @@ const CollegeSelector = ({ form, setForm, handleTopLevelChange }) => {
   return (
     <FormSection title="College Details">
       <label className="flex flex-col gap-1">
-        <span className="text-sm text-gray-600">Select College</span>
+        <span className="text-sm text-gray-600">Select College/Societies</span>
         <select
           name="collegeSelect"
           value={form.collegeSelect || ""}
@@ -30,7 +30,7 @@ const CollegeSelector = ({ form, setForm, handleTopLevelChange }) => {
           className="rounded-xl border px-3 py-2"
           required
         >
-          <option value="">-- Select College --</option>
+          <option value="">-- Select College/Societies --</option>
           {colleges.map((c, idx) => (
             <option key={idx} value={c.name}>
               {c.name}
@@ -43,11 +43,11 @@ const CollegeSelector = ({ form, setForm, handleTopLevelChange }) => {
       {form.collegeSelect === "Other" && (
         <>
           <label className="flex flex-col gap-1">
-            <span className="text-sm text-gray-600">College Name</span>
+            <span className="text-sm text-gray-600">College/Societies Name</span>
             <input
               type="text"
               name="collegeName"
-              placeholder="College Name"
+              placeholder="College/Societies Name"
               value={form.collegeName}
               onChange={handleTopLevelChange}
               className="rounded-xl border px-3 py-2"
@@ -55,11 +55,11 @@ const CollegeSelector = ({ form, setForm, handleTopLevelChange }) => {
             />
           </label>
           <label className="flex flex-col gap-1">
-            <span className="text-sm text-gray-600">College Address</span>
+            <span className="text-sm text-gray-600">College/Societies Address</span>
             <input
               type="text"
               name="collegeAddress"
-              placeholder="College Address"
+              placeholder="College/Societies Address"
               value={form.collegeAddress}
               onChange={handleTopLevelChange}
               className="rounded-xl border px-3 py-2"

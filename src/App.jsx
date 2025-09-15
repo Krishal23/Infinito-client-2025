@@ -364,6 +364,14 @@ const router = createBrowserRouter([
       </ProtectedRoute>
     ),
   },
+  {
+    path: "/event/success",
+    element: (
+      <ProtectedRoute>
+        <CheckoutSuccess />
+      </ProtectedRoute>
+    ),
+  },
 ]);
 
 function App() {

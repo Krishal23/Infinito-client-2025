@@ -54,7 +54,7 @@ const Athletics = () => {
 
   const { registerEvent, submitting } = useEventRegistration({
     endpoint: config.endpoint,
-    redirectUrl: "/accom",
+    redirectUrl: "/event/success",
     payment: true,
   });
 
@@ -365,7 +365,7 @@ const Athletics = () => {
           <FormSection title="Registration Summary">
             <div className="receipt">
               <p>
-                <strong>College:</strong> {form.collegeName}
+                <strong>College/Societies:</strong> {form.collegeName}
               </p>
               <p>
                 <strong>Lead Athlete:</strong> {form.captain.fullname}

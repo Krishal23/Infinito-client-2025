@@ -150,7 +150,7 @@ export function Events() {
                   <TableHead>ID</TableHead>
                   <TableHead>Name</TableHead>
                   <TableHead>Email</TableHead>
-                  <TableHead>College</TableHead>
+                  <TableHead>College/Societies</TableHead>
                   <TableHead>Registration Date</TableHead>
                   <TableHead>Details</TableHead>
                 </TableRow>

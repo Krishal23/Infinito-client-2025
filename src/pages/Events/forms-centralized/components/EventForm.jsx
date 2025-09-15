@@ -54,7 +54,7 @@ const EventForm = ({ config }) => {
 
   const { registerEvent, submitting } = useEventRegistration({
     endpoint: config.endpoint,
-    redirectUrl: "/accom",
+    redirectUrl: "/event/success",
     payment: true,
   });
 

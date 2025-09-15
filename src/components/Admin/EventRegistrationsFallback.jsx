@@ -88,7 +88,7 @@ const EventRegistrationsFallback = ({ eventType = "Football", onSportChange }) =
               <TableRow className="bg-gray-100">
                 <TableHead>Registration ID</TableHead>
                 <TableHead>Captain Name</TableHead>
-                <TableHead>College</TableHead>
+                <TableHead>College/Societies</TableHead>
                 <TableHead>Team Size</TableHead>
                 <TableHead>Registration Date</TableHead>
                 <TableHead>Status</TableHead>

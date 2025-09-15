@@ -89,12 +89,12 @@ const RegistrationDetailsModal = ({ isOpen, onClose, data, eventType }) => {
     <div className="bg-green-50 rounded-lg p-4 mb-4">
       <h4 className="font-semibold text-gray-800 mb-3 flex items-center gap-2">
         <FaGraduationCap className="text-green-600" />
-        College Information
+        College/Societies Information
       </h4>
       <div className="space-y-2 text-sm">
         <div className="flex items-center gap-2">
           <FaGraduationCap className="text-gray-500 w-4" />
-          <span className="font-medium">College:</span>
+          <span className="font-medium">College/Societies:</span>
           <span>{data.collegeName || "—"}</span>
         </div>
         {data.collegeAddress && (
