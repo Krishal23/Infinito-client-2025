@@ -48,16 +48,36 @@ const Athletics = () => {
 
   const [currentStep, setCurrentStep] = useState(0);
 
-  // ✅ Shared relay players state
   const [sharedRelayPlayers, setSharedRelayPlayers] = useState(
     Array(4).fill(null).map(() => ({ ...EMPTY_PERSON }))
   );
 
   const { registerEvent, submitting } = useEventRegistration({
     endpoint: config.endpoint,
-    redirectUrl: "/event/ins",
+    redirectUrl: "/accom",
     payment: true,
   });
+
+  const hasDuplicateAadhaar = () => {
+  const aadhaarNumbers = [];
+
+  // Lead athlete
+  if (form.captain.aadharId) aadhaarNumbers.push(form.captain.aadharId);
+
+  // Coach (only if accompanying)
+  if (form.accompanyingCoach === "Yes" && form.coach.aadharId) {
+    aadhaarNumbers.push(form.coach.aadharId);
+  }
+
+  // Relay players
+  sharedRelayPlayers.forEach((p) => {
+    if (p.aadharId) aadhaarNumbers.push(p.aadharId);
+  });
+
+  const unique = new Set(aadhaarNumbers);
+  return unique.size !== aadhaarNumbers.length;
+};
+
 
   const handleTopLevelChange = (e) => {
     const { name, value } = e.target;
@@ -86,7 +106,7 @@ const Athletics = () => {
         };
       }
       if (currentlySelected.length >= 3) {
-        toast.error("You can select a maximum of 3 individual events.");
+        alert("You can select a maximum of 3 individual events.");
         return prev;
       }
       return {
@@ -96,7 +116,6 @@ const Athletics = () => {
     });
   };
 
-  // ✅ Relay event toggle uses shared players
   const handleRelayEventToggle = (eventName) => {
     setForm((prev) => {
       const { selectedRelayEvents, relayTeams } = prev;
@@ -108,7 +127,7 @@ const Athletics = () => {
         return { ...prev, selectedRelayEvents: newSelected, relayTeams: newRelayTeams };
       }
       if (selectedRelayEvents.length >= 2) {
-        toast.error("You can select a maximum of 2 relay events.");
+        alert("You can select a maximum of 2 relay events.");
         return prev;
       }
       const newSelected = [...selectedRelayEvents, eventName];
@@ -124,7 +143,7 @@ const Athletics = () => {
     });
   };
 
-  // ✅ One change updates all relay events
+
   const handleRelayPlayerChange = (playerIndex, field, value) => {
     const updatedPlayers = [...sharedRelayPlayers];
     updatedPlayers[playerIndex] = {
@@ -155,7 +174,7 @@ const Athletics = () => {
         !isValidPhone(person.phoneNumber) ||
         !isValidAadhaar(person.aadharId)
       ) {
-        toast.error(`Please fill all valid details for ${label}.`);
+        alert(`Please fill all valid details for ${label}.`);
         return false;
       }
       return true;
@@ -164,7 +183,7 @@ const Athletics = () => {
     switch (stepConfig.type) {
       case "college":
         if (!form.collegeName.trim() || !form.collegeAddress.trim()) {
-          toast.error("Please fill in your College Name and Address.");
+          alert("Please fill in your College Name and Address.");
           return false;
         }
         break;
@@ -184,6 +203,12 @@ const Athletics = () => {
         }
         break;
     }
+    if (["coach", "athlete_captain", "relay_events", "receipt"].includes(stepConfig.type)) {
+    if (hasDuplicateAadhaar()) {
+      alert("Duplicate Aadhaar numbers are not allowed.");
+      return false;
+    }
+  }
     return true;
   };
 
@@ -199,6 +224,11 @@ const Athletics = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (hasDuplicateAadhaar()) {
+    alert("Duplicate Aadhaar numbers are not allowed.");
+    return;
+  }
+
     const payload = config.buildPayload(form);
     registerEvent(payload, navigate);
   };
@@ -312,7 +342,6 @@ const Athletics = () => {
               ))}
             </div>
 
-            {/* ✅ Shared relay players once */}
             {form.selectedRelayEvents.length > 0 && (
               <div style={{ marginTop: "1rem" }}>
                 <h4>Relay Players (applied to all selected relay events)</h4>

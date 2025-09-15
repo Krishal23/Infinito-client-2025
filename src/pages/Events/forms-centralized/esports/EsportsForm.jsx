@@ -175,6 +175,23 @@ const EsportsForm = ({ config }) => {
     });
   };
 
+  const hasDuplicateAadhaar = (form) => {
+    const aadhaars = [];
+
+    // include team leader
+    if (form.teamLeader.aadharId.trim()) aadhaars.push(form.teamLeader.aadharId.trim());
+
+    // include all players
+    form.players.forEach((p) => {
+      if (p.aadharId.trim()) aadhaars.push(p.aadharId.trim());
+    });
+
+    // check duplicates
+    const uniqueSet = new Set(aadhaars);
+    return uniqueSet.size !== aadhaars.length;
+  };
+
+
   const validateCurrentStep = () => {
     const stepConfig = config.steps[currentStep];
     const isValidPhone = num => /^\d{10}$/.test(num);
@@ -197,12 +214,22 @@ const EsportsForm = ({ config }) => {
         break;
       case "leader_info":
         if (!validatePerson(form.teamLeader, config.playerCount > 0 ? "Team Leader" : "Player")) return false;
+        if (hasDuplicateAadhaar(form)) {
+          toast.error("Duplicate Aadhaar numbers are not allowed.");
+          return false;
+        }
         break;
+
       case "player_info":
         for (let i = 0; i < config.playerCount; i++) {
           if (!validatePerson(form.players[i], `Player #${i + 1}`)) return false;
         }
+        if (hasDuplicateAadhaar(form)) {
+          toast.error("Duplicate Aadhaar numbers are not allowed.");
+          return false;
+        }
         break;
+
     }
     return true;
   };
@@ -212,6 +239,10 @@ const EsportsForm = ({ config }) => {
 
   const handleFinalSubmit = (e) => {
     e.preventDefault();
+    if (hasDuplicateAadhaar(form)) {
+    toast.error("Duplicate Aadhaar numbers are not allowed.");
+    return;
+  }
     const payload = config.buildPayload(form);
     registerEvent(payload, navigate);
   };
@@ -263,11 +294,11 @@ const EsportsForm = ({ config }) => {
 
             <div className="form-navigation flex justify-between items-center">
               {currentStep > 0 && <button type="button" onClick={prevStep} className="secondary-btn max-w-fit p-3">Back</button>}
-              
+
               {isLastStep ? (
-                      <button type="button" disabled={submitting} onClick={handleFinalSubmit} className=" max-w-fit p-3" >{submitting ? "Processing..." : "Pay Now"}</button>
+                <button type="button" disabled={submitting} onClick={handleFinalSubmit} className=" max-w-fit p-3" >{submitting ? "Processing..." : "Pay Now"}</button>
               ) : (
-                  <button type="button" onClick={nextStep} className=" max-w-fit p-3">Next</button>
+                <button type="button" onClick={nextStep} className=" max-w-fit p-3">Next</button>
               )}
             </div>
           </form>

@@ -9,6 +9,10 @@ const PersonInputGroup = ({
   personData,
   onChange,
   isRequired = false,
+  removeTeamMember = () => {},
+  index = 0,
+  field = {},
+
   constraints = {},
 }) => {
   const {
@@ -41,7 +45,18 @@ const PersonInputGroup = ({
 
   return (
     <div className="person-card">
+      <div className="person-header flex items-center justify-between gap-4 mb-4">
+
       <h4 className="person-title">{title}</h4>
+      {!isRequired && (
+                    <div
+                      onClick={() => removeTeamMember(field.name, index, field.min)}
+                      className=" max-w-12 h-fit p-1  outline outline-1 outline-red-500 text-red-500 text-center rounded cursor-pointer hover:bg-red-500 hover:text-white transition"
+                    >
+                      X
+                    </div>
+                  )}
+      </div>
 
       <div className="row-2">
         {/* Full Name */}

@@ -36,6 +36,7 @@ export default function AccommodationWizard() {
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState(null);
+  const accomPricePerDay = 250;
 
 
   const navigate = useNavigate();
@@ -49,11 +50,11 @@ const handleApplyCoupon = async () => {
     setCouponError("Please enter a coupon code.");
     setAppliedCoupon(null);
     setDiscount(0);
-    setFinalAmount(selectedPlayers.length * stayDays * 500);
+    setFinalAmount(selectedPlayers.length * stayDays * accomPricePerDay);
     return;
   }
 
-  const baseAmount = selectedPlayers.length * stayDays * 500;
+  const baseAmount = selectedPlayers.length * stayDays * accomPricePerDay;
 
   try {
     const res = await axiosInstance.get(
@@ -101,7 +102,7 @@ const handleApplyCoupon = async () => {
 
 
   useEffect(() => {
-    const base = selectedPlayers.length * stayDays * 500;
+    const base = selectedPlayers.length * stayDays * accomPricePerDay;
     setFinalAmount(appliedCoupon
       ? appliedCoupon.couponType === "percentage"
         ? base - Math.floor((base * appliedCoupon.discount) / 100)
@@ -438,8 +439,8 @@ const handleApplyCoupon = async () => {
                     <tr className="text-sm">
                       <td className="p-2 border-b">Players</td>
                       <td className="p-2 border-b">{selectedPlayers.length}</td>
-                      <td className="p-2 border-b">₹500 / day</td>
-                      <td className="p-2 border-b">₹{selectedPlayers.length * stayDays * 500}</td>
+                      <td className="p-2 border-b">₹250 / day</td>
+                      <td className="p-2 border-b">₹{selectedPlayers.length * stayDays * accomPricePerDay}</td>
                     </tr>
 
                     {/* Coupon Discount Row */}
@@ -452,7 +453,7 @@ const handleApplyCoupon = async () => {
                           - ₹
                           {appliedCoupon.couponType === "percentage"
                             ? Math.floor(
-                              (selectedPlayers.length * stayDays * 500 * appliedCoupon.discount) / 100
+                              (selectedPlayers.length * stayDays * accomPricePerDay * appliedCoupon.discount) / 100
                             )
                             : appliedCoupon.discount}
                         </td>
@@ -467,7 +468,7 @@ const handleApplyCoupon = async () => {
                       <td className="p-2 border-b">
                         ₹
                         {(() => {
-                          const base = selectedPlayers.length * stayDays * 500;
+                          const base = selectedPlayers.length * stayDays * accomPricePerDay;
                           if (!appliedCoupon) return base;
                           if (appliedCoupon.couponType === "percentage") {
                             return base - Math.floor((base * appliedCoupon.discount) / 100);

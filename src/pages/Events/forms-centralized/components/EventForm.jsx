@@ -54,7 +54,7 @@ const EventForm = ({ config }) => {
 
   const { registerEvent, submitting } = useEventRegistration({
     endpoint: config.endpoint,
-    redirectUrl: "/event/ins",
+    redirectUrl: "/accom",
     payment: true,
   });
 
@@ -92,13 +92,44 @@ const EventForm = ({ config }) => {
     }));
   };
 
+  const removeTeamMember = (fieldName, index, min) => {
+    setForm((prev) => {
+      if (index < min) return prev; // don't remove required players
+      const updated = [...prev.team[fieldName]];
+      updated.splice(index, 1);
+      return { ...prev, team: { ...prev.team, [fieldName]: updated } };
+    });
+  };
+
+
+  const hasDuplicateAadhaar = () => {
+    const aadhaars = [];
+
+    // Collect all team Aadhaar IDs
+    for (const section of Object.values(form.team)) {
+      section.forEach((p) => {
+        if (p.aadharId) aadhaars.push(p.aadharId.trim());
+      });
+    }
+
+    // Add coach Aadhaar if present
+    if (form.accompanyingCoach === "Yes" && form.coach.aadharId) {
+      aadhaars.push(form.coach.aadharId.trim());
+    }
+
+    // Check duplicates
+    const unique = new Set(aadhaars);
+    return unique.size !== aadhaars.length;
+  };
+
+
   /** ---------- Per-step validation ---------- */
   const validateCurrentStep = () => {
     const step = config.steps[currentStep];
 
     if (step.type === "college") {
       if (!form.collegeName.trim() || !form.collegeAddress.trim()) {
-        toast.error("Please fill in your College Name and Address.");
+        alert("Please fill in your College Name and Address.");
         return false;
       }
     }
@@ -108,27 +139,32 @@ const EventForm = ({ config }) => {
         for (let i = 0; i < field.min; i++) {
           const p = form.team[field.name][i];
           if (!isValidName(p.fullname)) {
-            toast.error(
+            alert(
               `Enter a valid name (≤ 30 chars) for ${field.title} #${i + 1}`
             );
             return false;
           }
           if (!isValidEmail(p.email)) {
-            toast.error(`Enter a valid email for ${field.title} #${i + 1}`);
+            alert(`Enter a valid email for ${field.title} #${i + 1}`);
             return false;
           }
           if (!isValidPhone(p.phoneNumber)) {
-            toast.error(
+            alert(
               `Enter a valid 10-digit phone number for ${field.title} #${i + 1}`
             );
             return false;
           }
           if (!isValidAadhaar(p.aadharId)) {
-            toast.error(
+            alert(
               `Enter a valid 12-digit Aadhaar for ${field.title} #${i + 1}`
             );
             return false;
           }
+          if (hasDuplicateAadhaar()) {
+            alert("Each individual must have a unique Aadhaar ID.");
+            return false;
+          }
+
         }
       }
     }
@@ -136,21 +172,26 @@ const EventForm = ({ config }) => {
     if (step.type === "coach" && form.accompanyingCoach === "Yes") {
       const { fullname, email, phoneNumber, aadharId } = form.coach;
       if (!isValidName(fullname)) {
-        toast.error("Coach: enter a valid name (≤ 30 chars).");
+        alert("Coach: enter a valid name (≤ 30 chars).");
         return false;
       }
       if (!isValidEmail(email)) {
-        toast.error("Coach: enter a valid email.");
+        alert("Coach: enter a valid email.");
         return false;
       }
       if (!isValidPhone(phoneNumber)) {
-        toast.error("Coach: enter a valid 10-digit phone number.");
+        alert("Coach: enter a valid 10-digit phone number.");
         return false;
       }
       if (!isValidAadhaar(aadharId)) {
-        toast.error("Coach: enter a valid 12-digit Aadhaar.");
+        alert("Coach: enter a valid 12-digit Aadhaar.");
         return false;
       }
+      if (hasDuplicateAadhaar()) {
+        alert("Each individual must have a unique Aadhaar ID.");
+        return false;
+      }
+
     }
 
     return true;
@@ -188,6 +229,8 @@ const EventForm = ({ config }) => {
     return true;
   };
 
+
+
   /** ---------- Navigation / Submit ---------- */
   const nextStep = (e) => {
     e.preventDefault();
@@ -204,7 +247,7 @@ const EventForm = ({ config }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!validateAllBeforeSubmit()) {
-      toast.error("Please fix the highlighted fields before submission.");
+      alert("Please fix the highlighted fields before submission.");
       return;
     }
     const payload = config.buildPayload(form);
@@ -257,23 +300,28 @@ const EventForm = ({ config }) => {
           <FormSection title={`${field.title}s`} key={field.name}>
             <div className="grid">
               {form.team[field.name].map((person, index) => (
-                <PersonInputGroup
-                  key={index}
-                  title={`${field.title} ${index + 1} ${
-                    index < field.min ? "(Required)" : "(Optional)"
-                  }`}
-                  personData={person}
-                  onChange={(f, v) => handleMemberChange(field.name, index, f, v)}
-                  isRequired={index < field.min}
-                  constraints={{
-                    nameMax: 30,
-                    validateName: isValidName,
-                    validateEmail: isValidEmail,
-                    validatePhone: isValidPhone,
-                    validateAadhaar: isValidAadhaar,
-                  }}
-                  showInlineErrors={true}
-                />
+                <div key={index} className="person-wrapper flex">
+                  <PersonInputGroup
+                    title={`${field.title} ${index + 1} ${index < field.min ? "(Required)" : "(Optional)"
+                      }`}
+                    personData={person}
+                    onChange={(f, v) => handleMemberChange(field.name, index, f, v)}
+                    isRequired={index < field.min}
+                    removeTeamMember={() => removeTeamMember(field.name, index, field.min)}
+                    index={index}
+                    fieldName={field.name}
+                    constraints={{
+                      nameMax: 30,
+                      validateName: isValidName,
+                      validateEmail: isValidEmail,
+                      validatePhone: isValidPhone,
+                      validateAadhaar: isValidAadhaar,
+                    }}
+                    showInlineErrors={true}
+                  />
+
+                  
+                </div>
               ))}
             </div>
 

@@ -245,13 +245,13 @@ export const eventConfigs = {
   chess: {
     title: "Chess Registration",
     endpoint: "/events/chess",
-    paymentDetails: { fee: {open:"249" }},
+    paymentDetails: { fee: {price_per_head:"249" }},
     steps: [
       { type: 'college', title: 'General Information', hasCategory: false },
       {
         type: 'team', title: 'Team Roster', fields: [
           { name: "captain", title: "Captain", min: 1, max: 1, initialData: EMPTY_PERSON },
-          { name: "players", title: "Player", min: 4, max: 5, initialData: EMPTY_PERSON },
+          { name: "players", title: "Player", min: 3, max: 5, initialData: EMPTY_PERSON },
         ]
       },
       { type: 'coach', title: 'Coach Details' },
@@ -297,7 +297,7 @@ export const eventConfigs = {
   athletics: {
     title: "Athletics Registration",
     endpoint: "/events/athletics",
-    paymentDetails: { fee: "₹ 700 per head" },
+    paymentDetails: { fee: "₹ 700 " },
     individualEventOptions: ["100m", "200m", "400m", "800m", "1500m", "5000m", "Long Jump", "Discuss Throw", "Shot put"],
     relayEventOptions: ["4x100m", "4x400m", "4x100m (Mixed)"],
     eventOptions: {
