@@ -59,30 +59,44 @@ const Athletics = () => {
   });
 
   const hasDuplicateAadhaar = () => {
-  const aadhaarNumbers = [];
+    const aadhaarNumbers = [];
 
-  // Lead athlete
-  if (form.captain.aadharId) aadhaarNumbers.push(form.captain.aadharId);
+    // Lead athlete
+    if (form.captain.aadharId) aadhaarNumbers.push(form.captain.aadharId);
 
-  // Coach (only if accompanying)
-  if (form.accompanyingCoach === "Yes" && form.coach.aadharId) {
-    aadhaarNumbers.push(form.coach.aadharId);
-  }
+    // Coach (only if accompanying)
+    if (form.accompanyingCoach === "Yes" && form.coach.aadharId) {
+      aadhaarNumbers.push(form.coach.aadharId);
+    }
 
-  // Relay players
-  sharedRelayPlayers.forEach((p) => {
-    if (p.aadharId) aadhaarNumbers.push(p.aadharId);
-  });
+    // Relay players
+    sharedRelayPlayers.forEach((p) => {
+      if (p.aadharId) aadhaarNumbers.push(p.aadharId);
+    });
 
-  const unique = new Set(aadhaarNumbers);
-  return unique.size !== aadhaarNumbers.length;
-};
+    const unique = new Set(aadhaarNumbers);
+    return unique.size !== aadhaarNumbers.length;
+  };
 
 
   const handleTopLevelChange = (e) => {
     const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+
+    setForm((prev) => {
+      if (name === "category" && prev.category !== value) {
+        return {
+          ...prev,
+          [name]: value,
+          selectedIndividualEvents: [],
+          selectedRelayEvents: [],
+          relayTeams: {},
+        };
+      }
+
+      return { ...prev, [name]: value };
+    });
   };
+
 
   const handleCaptainChange = (field, value) =>
     setForm((prev) => ({
@@ -204,11 +218,11 @@ const Athletics = () => {
         break;
     }
     if (["coach", "athlete_captain", "relay_events", "receipt"].includes(stepConfig.type)) {
-    if (hasDuplicateAadhaar()) {
-      alert("Duplicate Aadhaar numbers are not allowed.");
-      return false;
+      if (hasDuplicateAadhaar()) {
+        alert("Duplicate Aadhaar numbers are not allowed.");
+        return false;
+      }
     }
-  }
     return true;
   };
 
@@ -225,9 +239,9 @@ const Athletics = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (hasDuplicateAadhaar()) {
-    alert("Duplicate Aadhaar numbers are not allowed.");
-    return;
-  }
+      alert("Duplicate Aadhaar numbers are not allowed.");
+      return;
+    }
 
     const payload = config.buildPayload(form);
     registerEvent(payload, navigate);

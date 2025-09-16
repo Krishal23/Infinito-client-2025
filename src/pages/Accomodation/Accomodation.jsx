@@ -45,59 +45,59 @@ export default function AccommodationWizard() {
     redirectUrl: "/accommodation/success",
   });
 
-const handleApplyCoupon = async () => {
-  if (!couponCode) {
-    setCouponError("Please enter a coupon code.");
-    setAppliedCoupon(null);
-    setDiscount(0);
-    setFinalAmount(selectedPlayers.length * stayDays * accomPricePerDay);
-    return;
-  }
+  const handleApplyCoupon = async () => {
+    if (!couponCode) {
+      setCouponError("Please enter a coupon code.");
+      setAppliedCoupon(null);
+      setDiscount(0);
+      setFinalAmount(selectedPlayers.length * stayDays * accomPricePerDay);
+      return;
+    }
 
-  const baseAmount = selectedPlayers.length * stayDays * accomPricePerDay;
+    const baseAmount = selectedPlayers.length * stayDays * accomPricePerDay;
 
-  try {
-    const res = await axiosInstance.get(
-      `/coupons/validate/${couponCode}?amount=${baseAmount}&category=ACCOM`
-    );
+    try {
+      const res = await axiosInstance.get(
+        `/coupons/validate/${couponCode}?amount=${baseAmount}&category=ACCOM`
+      );
 
-    const data = res.data;
-    console.log(data)
+      const data = res.data;
+      console.log(data)
 
-    if (data.success) {
-      // Coupon is valid
-      const coupon = data.coupon;
-      let discountAmount = 0;
+      if (data.success) {
+        // Coupon is valid
+        const coupon = data.coupon;
+        let discountAmount = 0;
 
-      if (coupon.couponType === "percentage") {
-        discountAmount = Math.floor((baseAmount * coupon.discount) / 100);
-        if (coupon.maxDiscountAmount) {
-          discountAmount = Math.min(discountAmount, coupon.maxDiscountAmount);
+        if (coupon.couponType === "percentage") {
+          discountAmount = Math.floor((baseAmount * coupon.discount) / 100);
+          if (coupon.maxDiscountAmount) {
+            discountAmount = Math.min(discountAmount, coupon.maxDiscountAmount);
+          }
+        } else {
+          discountAmount = coupon.discount;
         }
-      } else {
-        discountAmount = coupon.discount;
-      }
 
-      setAppliedCoupon(coupon);
-      setDiscount(discountAmount);
-      setFinalAmount(Math.max(0, baseAmount - discountAmount));
-      setCouponError("");
-    } else {
-      // Coupon invalid / already used / expired / min purchase not met
+        setAppliedCoupon(coupon);
+        setDiscount(discountAmount);
+        setFinalAmount(Math.max(0, baseAmount - discountAmount));
+        setCouponError("");
+      } else {
+        // Coupon invalid / already used / expired / min purchase not met
+        setAppliedCoupon(null);
+        setDiscount(0);
+        setFinalAmount(baseAmount);
+        setCouponError(data.message || "Coupon is not valid");
+      }
+    } catch (err) {
       setAppliedCoupon(null);
       setDiscount(0);
       setFinalAmount(baseAmount);
-      setCouponError(data.message || "Coupon is not valid");
+      setCouponError(
+        err.response?.data?.message || "Something went wrong while validating coupon"
+      );
     }
-  } catch (err) {
-    setAppliedCoupon(null);
-    setDiscount(0);
-    setFinalAmount(baseAmount);
-    setCouponError(
-      err.response?.data?.message || "Something went wrong while validating coupon"
-    );
-  }
-};
+  };
 
 
 
@@ -246,7 +246,7 @@ const handleApplyCoupon = async () => {
       <Navbar />
       <div className="max-w-3xl mx-auto p-6 bg-white min-h-[100vh] pt-20 shadow-md rounded">
         <h1 className="text-2xl font-bold mb-4">Accommodation Booking</h1>
-         <span className="text-sm text-zinc-600">NOTE: For accomodation you need to be registered in atleast one event.</span>
+        <span className="text-sm text-zinc-600">NOTE: For accomodation you need to be registered in atleast one event.</span>
         {message && (
           <div className={`mb-4 p-3 rounded ${message.type === "success" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
             {message.text}
@@ -304,7 +304,6 @@ const handleApplyCoupon = async () => {
           {/* STEP 2: Players */}
           {step === 2 && (
             <div className="space-y-4 overflow-x-scroll">
-
               <h2 className="font-semibold">Select Players</h2>
               {errors.players && <p className="text-red-600">{errors.players}</p>}
 
@@ -317,8 +316,12 @@ const handleApplyCoupon = async () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {playersOptions.map((p) => {
-                    const selected = selectedPlayers.find((sp) => sp.aadharId === p.aadharId);
+                  {Array.from(
+                    new Map(playersOptions.map((p) => [p.aadharId, p])).values()
+                  ).map((p) => {
+                    const selected = selectedPlayers.find(
+                      (sp) => sp.aadharId === p.aadharId
+                    );
                     return (
                       <tr key={p.aadharId} className="text-sm">
                         <td className="p-2 border-b text-center">
@@ -430,7 +433,8 @@ const handleApplyCoupon = async () => {
                   <thead className="bg-gray-100">
                     <tr>
                       <th className="p-2 border-b">Description</th>
-                      <th className="p-2 border-b">Quantity</th>
+                      <th className="p-2 border-b">Players</th>
+                      <th className="p-2 border-b">Days</th>
                       <th className="p-2 border-b">Rate</th>
                       <th className="p-2 border-b">Amount</th>
                     </tr>
@@ -439,6 +443,7 @@ const handleApplyCoupon = async () => {
                     <tr className="text-sm">
                       <td className="p-2 border-b">Players</td>
                       <td className="p-2 border-b">{selectedPlayers.length}</td>
+                      <td className="p-2 border-b">{stayDays}</td>
                       <td className="p-2 border-b">₹250 / day</td>
                       <td className="p-2 border-b">₹{selectedPlayers.length * stayDays * accomPricePerDay}</td>
                     </tr>

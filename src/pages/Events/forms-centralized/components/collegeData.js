@@ -70,6 +70,8 @@ const colleges = [
     { name: "Indian Institute of Technology (IIT) Madras", address: "Chennai, Tamil Nadu" },
     { name: "Indian Institute of Technology (IIT) Mandi", address: "Mandi, Himachal Pradesh" },
     { name: "Indian Institute of Technology (IIT) Palakkad", address: "Palakkad, Kerala" },
+    { name: "Indian Institute of Technology (IIT) Patna", address: "Bihta, Patna" },
+    { name: "Indian Institute of Technology (IIT) Patna (HYBRID)", address: "Bihta, Patna (HYBRID)" },
     { name: "Indian Institute of Technology (IIT) Roorkee", address: "Roorkee, Uttarakhand" },
     { name: "Indian Institute of Technology (IIT) Ropar", address: "Rupnagar, Punjab" },
     { name: "Indian Institute of Technology (IIT) Tirupati", address: "Tirupati, Andhra Pradesh" },
