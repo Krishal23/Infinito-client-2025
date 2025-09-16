@@ -41,6 +41,7 @@ export const useAccommodationBooking = ({ endpoint = "/accommodation", redirectU
         },
         handler: async (response) => {
           try {
+            setSubmitting(true);
             // Send payment verification request to backend
             await axiosInstance.post(`${endpoint}/verify-payment`, {
               razorpay_order_id: response.razorpay_order_id,
@@ -52,6 +53,7 @@ export const useAccommodationBooking = ({ endpoint = "/accommodation", redirectU
             toast.success("Payment successful! Accommodation confirmed.");
             navigate(redirectUrl);
           } catch (err) {
+            setSubmitting(false);
             toast.error(err?.response?.data?.message || "Payment verification failed.");
           }
         },

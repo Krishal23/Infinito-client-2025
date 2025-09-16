@@ -13,10 +13,10 @@ function Home() {
   return (
     <div className={styles.container}>
       <Navbar />
-      {/* <Head /> */}
-      <div style={{ width: '100vw', height: '100vh' }}>
+      <Head />
+      {/* <div style={{ width: '100vw', height: '100vh' }}>
       <DomeGallery grayscale={false}/>
-    </div>
+    </div> */}
       <BannerAbout />
       {/* <BannerEvent /> */}
       <Eve />

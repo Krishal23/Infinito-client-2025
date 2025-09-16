@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAccommodationBooking } from "../../utils/useAccommodationBooking";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
+import Loader from "../../components/Loader";
 
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
 const LAST_DAY = new Date("2025-10-13T00:00:00.000Z");
@@ -57,6 +58,7 @@ export default function AccommodationWizard() {
     const baseAmount = selectedPlayers.length * stayDays * accomPricePerDay;
 
     try {
+      
       const res = await axiosInstance.get(
         `/coupons/validate/${couponCode}?amount=${baseAmount}&category=ACCOM`
       );
@@ -243,6 +245,9 @@ export default function AccommodationWizard() {
 
   return (
     <>
+    {(submitting || accomSubmiting) && (
+      <Loader message="Processing your payment, please wait..." />
+    )}
       <Navbar />
       <div className="max-w-3xl mx-auto p-6 bg-white min-h-[100vh] pt-20 shadow-md rounded">
         <h1 className="text-2xl font-bold mb-4">Accommodation Booking</h1>

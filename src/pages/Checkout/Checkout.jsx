@@ -4,6 +4,7 @@ import { useCart } from "../../context/CartContext";
 import Navbar from "../../components/Navbar";
 import axiosInstance from "../../utils/axios";
 import styles from "./Checkout.module.css";
+import Loader from "../../components/Loader";
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ const Checkout = () => {
     phone: "",
     address: "",
     zipCode: "",
-    adhaarId: "",
+    // adhaarId: "",
     email: "",
     gender: "",
     couponCode: "",
@@ -51,11 +52,11 @@ const Checkout = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
-    if (name === "adhaarId") {
-      setFormData((prev) => ({ ...prev, [name]: sanitizeDigits(value, 12) }));
-      setErrors((prev) => ({ ...prev, [name]: "" }));
-      return;
-    }
+    // if (name === "adhaarId") {
+    //   setFormData((prev) => ({ ...prev, [name]: sanitizeDigits(value, 12) }));
+    //   setErrors((prev) => ({ ...prev, [name]: "" }));
+    //   return;
+    // }
     if (name === "phone") {
       setFormData((prev) => ({ ...prev, [name]: sanitizeDigits(value, 10) }));
       setErrors((prev) => ({ ...prev, [name]: "" }));
@@ -68,7 +69,7 @@ const Checkout = () => {
 
   // Validators
   const validators = {
-    adhaarId: (val) => /^\d{12}$/.test(val),
+    // adhaarId: (val) => /^\d{12}$/.test(val),
     phone: (val) => /^[6-9]\d{9}$/.test(val),
     email: (val) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val),
     firstName: (v) => !!v && v.trim().length > 0,
@@ -89,7 +90,6 @@ const Checkout = () => {
         "address",
         "zipCode",
         "phone",
-        "adhaarId",
         "email",
         "gender",
       ].includes(name)
@@ -98,10 +98,7 @@ const Checkout = () => {
         valid = false;
         msg = "This field is required";
       } else {
-        if (name === "adhaarId" && !validators.adhaarId(value)) {
-          valid = false;
-          msg = "Aadhaar must be a 12-digit number";
-        } else if (name === "phone" && !validators.phone(value)) {
+        if (name === "phone" && !validators.phone(value)) {
           valid = false;
           msg = "Phone must be a 10-digit Indian number";
         } else if (name === "email" && !validators.email(value)) {
@@ -127,7 +124,6 @@ const Checkout = () => {
       "phone",
       "address",
       "zipCode",
-      "adhaarId",
       "email",
       "gender",
     ];
@@ -139,9 +135,7 @@ const Checkout = () => {
         continue;
       }
 
-      if (f === "adhaarId" && !validators.adhaarId(val)) {
-        newErrors.adhaarId = "Aadhaar must be a 12-digit number";
-      } else if (f === "phone" && !validators.phone(val)) {
+      if (f === "phone" && !validators.phone(val)) {
         newErrors.phone = "Phone must be a 10-digit Indian number";
       } else if (f === "email" && !validators.email(val)) {
         newErrors.email = "Enter a valid email address";
@@ -237,7 +231,7 @@ const Checkout = () => {
           size: i.size,
         })),
         name: { first: formData.firstName, last: formData.lastName },
-        adhaarId: formData.adhaarId,
+        // adhaarId: formData.adhaarId,
         email: formData.email,
         address: formData.address,
         pincode: formData.zipCode,
@@ -259,6 +253,7 @@ const Checkout = () => {
         order_id: orderId,
         handler: async (response) => {
           try {
+            setLoading(true)
             await axiosInstance.post("/merch/verify-order", {
               ...response,
               merchOrderData,
@@ -267,6 +262,7 @@ const Checkout = () => {
             clearCart();
             navigate("/checkout-success");
           } catch (verifyErr) {
+            setLoading(false)
             console.error("Verify error:", verifyErr);
             alert("Payment succeeded but verification failed. Contact support.");
           }
@@ -296,6 +292,7 @@ const Checkout = () => {
 
   return (
     <div className={styles.pageContainer}>
+       {loading && <Loader message="Processing your order, please wait..." />}
       <Navbar />
       <div className={styles.checkoutContainer}>
         <div className={styles.heroSection}>
@@ -428,23 +425,23 @@ const Checkout = () => {
                 {errors.zipCode && <span className={styles.errorText}>{errors.zipCode}</span>}
               </div>
 
-              {/* Aadhaar */}
-              <div className={styles.formGroup}>
-                <label className={styles.formLabel}>
-                  Aadhaar ID <span className={styles.required}>*</span>
-                </label>
-                <input
-                  type="text"
-                  name="adhaarId"
-                  value={formData.adhaarId}
-                  onChange={handleInputChange}
-                  onBlur={handleBlur}
-                  className={`${styles.formInput} ${errors.adhaarId ? styles.error : ""}`}
-                  placeholder="12-digit Aadhaar"
-                  inputMode="numeric"
-                />
-                {errors.adhaarId && <span className={styles.errorText}>{errors.adhaarId}</span>}
-              </div>
+              {/* Aadhaar
+              // <div className={styles.formGroup}>
+              //   <label className={styles.formLabel}>
+              //     Aadhaar ID <span className={styles.required}>*</span>
+              //   </label>
+              //   <input
+              //     type="text"
+              //     name="adhaarId"
+              //     value={formData.adhaarId}
+              //     onChange={handleInputChange}
+              //     onBlur={handleBlur}
+              //     className={`${styles.formInput} ${errors.adhaarId ? styles.error : ""}`}
+              //     placeholder="12-digit Aadhaar"
+              //     inputMode="numeric"
+              //   />
+              //   {errors.adhaarId && <span className={styles.errorText}>{errors.adhaarId}</span>}
+              // </div> */}
 
               {/* Email */}
               <div className={styles.formGroup}>
@@ -547,7 +544,7 @@ const Checkout = () => {
 
                       <select
                         value={item.size || ""}
-                        onChange={(e) => updateCartItemSize(item._id, e.target.value)}  
+                        onChange={(e) => updateCartItemSize(item._id, e.target.value)}
                         className="bg-transparent mb-2 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
 
                       >
