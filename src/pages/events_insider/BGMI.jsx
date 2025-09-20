@@ -10,7 +10,8 @@ const BGMI = ({isAlreadyRegistered}) => {
       description="Join us for an exhilarating BGMI championship where teams will compete for the ultimate prize."
       isRegistrationOpen={false}
       rulebookUrl={rulebook}
-      registrationurl={'/events/bgmi'}
+      // registrationurl={'/events/bgmi'}
+      registrationurl="https://linktr.ee/infinito2k25" 
 
       structure={["Taksh Bhawan : 8107991007"]}
       rules={[

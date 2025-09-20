@@ -9,8 +9,10 @@ const MrInfinito = ({isAlreadyRegistered}) => {
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating Atheletic championship where teams will compete for the ultimate prize."
       isRegistrationOpen={false}
-      registrationurl={'/events/mr-infinito'}
+      // registrationurl={'/events/mr-infinito'}
       rulebookUrl={'/update'}
+      registrationurl="https://linktr.ee/infinito2k25" 
+
       structure={''}
       rules={[
         'Teams must have eleven players including a goalkeeper.',

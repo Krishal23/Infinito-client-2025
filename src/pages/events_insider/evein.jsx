@@ -51,11 +51,11 @@ import axiosInstance from '../../utils/axios';
 // Mapping for event components
 const eventComponents = {
   // 'Clash Royale':<ClashRoyale/>,
-  'Mr. Infinto':<MrInfinito/>,
-  'CODM':<CODM/>,
-  'BGMI':<BGMI/>,
-  'Valorant':<Valorant/>,
-  'Free Fire':<FreeFire/>,
+  'Mr. Infinto': <MrInfinito />,
+  'CODM': <CODM />,
+  'BGMI': <BGMI />,
+  'Valorant': <Valorant />,
+  'Free Fire': <FreeFire />,
   athletic: <Atheletic />,
   badminton: <Badminton />,
   basketball: <Basketball />,
@@ -67,13 +67,37 @@ const eventComponents = {
   'Table Tennis': <TableTennis />,
   volleyball: <Volleyball />,
   'Weight Lifting': <Weight />,
-  'Power Lifting':<PowerLift/>,
-  'Chess':<Chess/>,
+  'Power Lifting': <PowerLift />,
+  'Chess': <Chess />,
 };
+
+
+// Mapping for custom cursors
+const cursorMap = {
+  football: "url('https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/26bd.png') 6 6 , auto", // ⚽
+  basketball: "url('https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f3c0.png') 6 6 , auto", // 🏀
+  cricket: "url('https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f3cf.png') 6 6 , auto", // 🏏
+  volleyball: "url('https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f3d0.png') 6 6 , auto", // 🏐
+  badminton: "url('https://cdn-icons-png.flaticon.com/512/3075/3075977.png') 6 6 , auto", // 🏸 (custom PNG)
+  kabaddi: "url('https://cdn-icons-png.flaticon.com/512/814/814514.png') 6 6 , auto", // Viking shield 🛡
+  athletic: "url('https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f3c3-1f3fd.png') 6 6 , auto", // runner icon
+  squash: "url('https://cdn-icons-png.flaticon.com/512/684/684908.png') 6 6 , auto",
+  "Lawn Tennis": "url('https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f3be.png') 6 6 , auto", // 🎾
+  "Table Tennis": "url('https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f3d3.png') 6 6 , auto",
+  "Weight Lifting": "url('https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f3cb.png') 6 6 , auto",
+  "Power Lifting": "url('https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f3cb-1f3fb.png') 6 6 , auto",
+  'Chess': "url('https://cdn.custom-cursor.com/cursors/pack2106.png') 6 6 , auto",
+  BGMI: "url('https://cdn-icons-png.flaticon.com/512/535/535246.png') 6 6 , auto",
+  Valorant: "url('https://cdn-icons-png.flaticon.com/512/5969/5969248.png') 6 6 , auto",
+  CODM: "url('https://cdn-icons-png.flaticon.com/512/3917/3917215.png') 6 6 , auto",
+  "Free Fire": "url('https://cdn-icons-png.flaticon.com/512/3917/3917215.png') 6 6 , auto",
+  "Mr. Infinto": "url('https://cdn-icons-png.flaticon.com/512/814/814513.png') 6 6 , auto", // Viking axe 🪓
+};
+
 
 // Mapping for sport images
 const sportImages = {
-  'Mr. Infinto':mrinfinitoimg,
+  'Mr. Infinto': mrinfinitoimg,
   athletic: atheleteimg,
   badminton: badmintonimg,
   basketball: baskimg,
@@ -86,12 +110,12 @@ const sportImages = {
   volleyball: volleyballimg,
   'Weight Lifting': weightimg,
   'Power Lifting': powerliftimg,
-  'Chess':chessimg,
-  'BGMI':bgmiimg,
+  'Chess': chessimg,
+  'BGMI': bgmiimg,
   // 'Clash Royale':clashroyaleimg,
-  'CODM':codmimg,
-  'Free Fire':freefireimg,
-  'Valorant':valorantimg,
+  'CODM': codmimg,
+  'Free Fire': freefireimg,
+  'Valorant': valorantimg,
 
 };
 
@@ -102,10 +126,10 @@ const Evein = () => {
   const [registeredEvents, setRegisteredEvents] = useState([]);
 
   const normalizeEventMap = {
-  athletics:"athletic", 
-};
+    athletics: "athletic",
+  };
 
-const normalizeEvent = (event) => normalizeEventMap[event] || event;
+  const normalizeEvent = (event) => normalizeEventMap[event] || event;
 
   useEffect(() => {
     const fetchRegisteredEvents = async () => {
@@ -133,12 +157,12 @@ const normalizeEvent = (event) => normalizeEventMap[event] || event;
     <>
       <Navbar />
       <div className={styles.sportsPage}
-       style={{
-        backgroundImage: `url(${sportImages[selectedSport]})`, 
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        
-      }}>
+        style={{
+          backgroundImage: `url(${sportImages[selectedSport]})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+
+        }}>
         <h1 className={styles.title}>Events</h1>
         {/* Section 1: Sports Icons */}
         <div className={styles.sportsIcons}>
@@ -153,9 +177,18 @@ const normalizeEvent = (event) => normalizeEventMap[event] || event;
                   backgroundPosition: 'center',
                 }}
               />
-              <p className={styles.sportName}>
-                {sportKey.charAt(0).toUpperCase() + sportKey.slice(1)}
-              </p>
+<p
+  className={`${styles.sportName} text-lg font-bold text-white tracking-wide w-fit px-3 py-1 rounded-md cursor-pointer
+              transition-colors duration-300 hover:text-zinc-900 hover:bg-zinc-100 hover:scale-105`}
+  style={{
+    cursor: cursorMap[sportKey] || "pointer",
+  }}
+>
+  {sportKey.charAt(0).toUpperCase() + sportKey.slice(1)}
+</p>
+
+
+
             </div>
           ))}
         </div>

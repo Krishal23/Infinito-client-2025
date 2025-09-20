@@ -11,7 +11,8 @@ const Kabbadi = ({isAlreadyRegistered}) => {
       description="Join us for an exhilarating Kabaddi championship where teams will compete for the ultimate prize."
       isRegistrationOpen={true}
       rulebookUrl={"https://drive.google.com/file/d/1Dj_dJgk6Ul9mdWcGBPU3zihA9aEbrPeB/view?usp=drive_link"}
-      registrationurl="/events/kabbadi"
+      // registrationurl="/events/kabbadi"
+      registrationurl="https://linktr.ee/infinito2k25" 
 
       structure={[
         "Aaditya Kaswan: 7739962684","Akhilesh Ingole : 9404549742 "

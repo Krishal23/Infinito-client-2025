@@ -11,7 +11,8 @@ const LawnTennis = ({isAlreadyRegistered}) => {
       description="Join us for an exhilarating Lawn Tennis championship where teams will compete for the ultimate prize."
       isRegistrationOpen={true}
       rulebookUrl={"https://drive.google.com/file/d/18c-frlP5OSMRGbWPteQ9P7amyZXNzoeZ/view?usp=drive_link"}
-      registrationurl="/events/lawn-tennis"
+      // registrationurl="/events/lawn-tennis"
+      registrationurl="https://linktr.ee/infinito2k25" 
 
       structure={[
         "Pranshu Deep: 8248558408","Shyam Sunder: 9348743979 "

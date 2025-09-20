@@ -12,7 +12,8 @@ const Chess = ({isAlreadyRegistered}) => {
       description="Join us for an exhilarating Chess championship where teams will compete for the ultimate prize."
       isRegistrationOpen={true}
       rulebookUrl={"https://drive.google.com/file/d/1immuTPea0lKt0rVxI5U9YI9NXpLILUIF/view?usp=drive_link"}
-      registrationurl={'/events/chess'}
+      // registrationurl={'/events/chess'}
+      registrationurl="https://linktr.ee/infinito2k25" 
 
       structure={[
         "Parth Ganjewar : 8308917584"

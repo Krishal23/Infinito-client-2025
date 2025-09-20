@@ -11,7 +11,9 @@ const Weight = ({isAlreadyRegistered}) => {
       description="Join us for an exhilarating Weight championship where teams will compete for the ultimate prize."
       isRegistrationOpen={true}
       rulebookUrl={url}
-      registrationurl={'/events/weightlifting'}
+      // registrationurl={'/events/weightlifting'}
+      registrationurl="https://linktr.ee/infinito2k25" 
+
 
       structure={['Nishant: 7858000576', 'Akhilesh Ingole : 9404549742 ']}
       rules={[

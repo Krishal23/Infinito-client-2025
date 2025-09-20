@@ -11,7 +11,9 @@ const Squash = ({isAlreadyRegistered}) => {
       description="Join us for an exhilarating Squash championship where teams will compete for the ultimate prize."
       isRegistrationOpen={true}
       rulebookUrl={"https://drive.google.com/file/d/1ZCMzZW06ODGRPfY5TDiC8D2twCDVQK5o/view?usp=drive_link"}
-      registrationurl= "/events/squash"
+      // registrationurl= "/events/squash"
+      registrationurl="https://linktr.ee/infinito2k25" 
+
 
       structure={['Jatin Aggarwal: 7814442765', 'Rishi: 9528755607 ']}
       rules={[

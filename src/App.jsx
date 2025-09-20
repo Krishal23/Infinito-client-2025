@@ -82,14 +82,14 @@ const router = createBrowserRouter([
     path: "/event/ins",
     element: <Evein />,
   },
-  {
-    path: "/accom",
-    element: (
-      <ProtectedRoute>
-        <Accommodation />
-      </ProtectedRoute>
-    ),
-  },
+  // {
+  //   path: "/accom",
+  //   element: (
+  //     <ProtectedRoute>
+  //       <Accommodation />
+  //     </ProtectedRoute>
+  //   ),
+  // },
   {
     path: "/events/response/:event",
     element: (
@@ -332,10 +332,10 @@ const router = createBrowserRouter([
   //     </ProtectedRoute>
   //   ),
   // },
-  {
-    path: "/merchandise",
-    element: <Merch />,
-  },
+  // {
+  //   path: "/merchandise",
+  //   element: <Merch />,
+  // },
   {
     path: "/product/:id",
     element: <ProductDetail />,

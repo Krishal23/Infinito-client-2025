@@ -11,7 +11,9 @@ const TableTennis = ({isAlreadyRegistered}) => {
       description="Join us for an exhilarating Table Tennis championship where teams will compete for the ultimate prize."
       isRegistrationOpen={true}
       rulebookUrl={"./eventsRuleBook/TableTennisRulebook.pdf"}
-      registrationurl= "/events/table_tennis"
+      // registrationurl= "/events/table_tennis"
+      registrationurl="https://linktr.ee/infinito2k25" 
+
 
       structure={['Somil Agarwal: 8090872563', 'Anirudh Reddy: 8919450229 ']}
       rules={[

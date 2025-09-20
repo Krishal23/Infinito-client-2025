@@ -11,7 +11,9 @@ const Valorant = ({isAlreadyRegistered}) => {
       description="Join us for an exhilarating Valorant championship where teams will compete for the ultimate prize."
       isRegistrationOpen={false}
       rulebookUrl={url}
-      registrationurl={'/events/valorant'}
+      // registrationurl={'/events/valorant'}
+      registrationurl="https://linktr.ee/infinito2k25" 
+
 
       structure={["Manu Kushwah : 9664391120"]}
       rules={[

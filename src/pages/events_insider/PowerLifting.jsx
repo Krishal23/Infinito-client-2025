@@ -13,7 +13,9 @@ const PowerLift = ({isAlreadyRegistered}) => {
       description="Join us for an exhilarating Power Lifting championship where teams will compete for the ultimate prize."
       isRegistrationOpen={true}
       rulebookUrl={url}
-      registrationurl={'/events/powerlifting'}
+      // registrationurl={'/events/powerlifting'}
+      registrationurl="https://linktr.ee/infinito2k25" 
+
 
       structure={[
         "Nishant : 7858000576"

@@ -10,7 +10,8 @@ const Cricket = ({isAlreadyRegistered}) => {
       description="Join us for an exhilarating Cricket championship where teams will compete for the ultimate prize."
       isRegistrationOpen={true}
       rulebookUrl={'https://drive.google.com/file/d/1bzJLN1W3FTizdjSiONS1IpQXtrThYNJ4/view?usp=sharing'}
-      registrationurl={'/events/cricket'}
+      // registrationurl={'/events/cricket'}
+      registrationurl="https://linktr.ee/infinito2k25" 
 
       structure={["Rahul: 7360841005", "Ravindra Bhati: 9351371626 "]}
       rules={[

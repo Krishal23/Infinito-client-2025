@@ -1,0 +1,104 @@
+@font-face {
+  font-family: 'Atmospheric';
+  src: url('aAtmospheric.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.container {
+  background-image: url(bg2.png);
+  text-align: center;
+
+  padding: 1rem;
+}
+.merchContent h1 {
+  font-size: 2.8rem;
+  margin-bottom: 1rem;
+
+  font-family: 'Atmospheric', sans-serif;
+  margin: 24px;
+  margin-top: 5rem;
+  color: white; /* Adjust text color for better contrast */
+  /* background: linear-gradient(135deg, #4B4B4B, #373434, #aea6a6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;  */
+  position: relative; /* Ensure positioning for the ::after pseudo-element */
+}
+
+.merchContent h1::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  display: block;
+  bottom: 0; /* Position the underline at the bottom */
+
+  left: 0; /* Start from the left */
+  background: #e0e0e0; /* Default color of the underline */
+  transition: width 0.3s ease, background 0.3s ease; /* Smooth transition for width and color */
+}
+
+.merchContent h1:hover::after {
+  width: 100%; /* Full width on hover */
+  background: #42170f; /* Change color on hover */
+}
+
+.imgmerch {
+  width: 100%;
+}
+.merchContent p {
+  font-size: 1.2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  /* margin-bottom: 0.2rem; */
+  font-weight: normal;
+  color: #401c0b; /* Dark zinc-like color */
+  /* margin-bottom: 2rem; */
+}
+.para {
+  /* border: 2px solid #7b706a; */
+  background-color: #ffe6d54a;
+  padding: 2px;
+  border-radius: 25px;
+}
+.grab2 {
+  /* border: 2px solid black; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2.5rem;
+}
+.imgmerch2 {
+  /* border: 2px solid blue; */
+  max-width: 200px;
+  max-height: 200px;
+  /* margin-left: 52px; */
+
+  object-fit: contain; /* or cover depending on the desired effect */
+}
+
+.grabNowBtn {
+  text-decoration: none;
+  background-color: #fff;
+  border: 2px solid #7b706a;
+  margin-right: 1rem;
+  color: #ff5e00;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  border-radius: 25px;
+  height: fit-content;
+  cursor: pointer;
+
+  transition: background-color 0.3s;
+}
+
+.grabNowBtn:hover {
+  background-color: #ffe6d5;
+}
+
+.merchItems {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}

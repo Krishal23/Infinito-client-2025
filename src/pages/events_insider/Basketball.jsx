@@ -11,7 +11,8 @@ const Basketball = ({isAlreadyRegistered}) => {
       description="Join us for an exhilarating basketball championship where teams will compete for the ultimate prize."
       isRegistrationOpen={true}
       rulebookUrl={"https://drive.google.com/file/d/1IdeeLViaaNJV0xiMAtkZB99sJCUgReph/view?usp=drive_link"}
-      registrationurl="/events/basketball"
+      // registrationurl="/events/basketball"
+      registrationurl="https://linktr.ee/infinito2k25" 
 
       structure={[
         "Risabh Singraur : 7764070448",

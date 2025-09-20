@@ -10,7 +10,8 @@ const Badminton = ({isAlreadyRegistered}) => {
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating Badminton championship where teams will compete for the ultimate prize."
       isRegistrationOpen={true}
-      registrationurl="/events/badminton"
+      registrationurl="https://linktr.ee/infinito2k25" 
+      // registrationurl="/events/badminton"
 
       rulebookUrl={"https://drive.google.com/file/d/1eYS4zrsFAwA5NLtgJtER6pXkHa2fl102/view?usp=drive_link"}
       structure={[

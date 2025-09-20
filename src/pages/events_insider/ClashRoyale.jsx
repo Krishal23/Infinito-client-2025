@@ -11,7 +11,8 @@ const ClashRoyale = ({isAlreadyRegistered}) => {
       description="Join us for an exhilarating Clash Royale championship where teams will compete for the ultimate prize."
       isRegistrationOpen={false}
       rulebookUrl={'/update'}
-      registrationurl={'/events/clash_royale'}
+      // registrationurl={'/events/clash_royale'}
+      registrationurl="https://linktr.ee/infinito2k25" 
 
       structure={["..."]}
       rules={[

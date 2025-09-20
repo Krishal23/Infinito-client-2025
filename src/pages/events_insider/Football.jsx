@@ -12,7 +12,8 @@ const Football = ({isAlreadyRegistered}) => {
       description="Join us for an exhilarating football championship where teams will compete for the ultimate prize."
       isRegistrationOpen={true}
       rulebookUrl={"https://drive.google.com/file/d/1XUKYcHWrxgdVeZa1I6hLFMhUNDuC_3J2/view?usp=drive_link"}
-      registrationurl= "/events/football"
+      // registrationurl= "/events/football"
+      registrationurl="https://linktr.ee/infinito2k25" 
 
       structure={[
         "Ritesh: 8708151519","Akhilesh Ingole : 9404549742  "

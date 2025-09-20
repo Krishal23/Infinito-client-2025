@@ -11,7 +11,8 @@ const FreeFire = ({isAlreadyRegistered}) => {
       description="Join us for an exhilarating Free Fire championship where teams will compete for the ultimate prize."
       isRegistrationOpen={false}
       rulebookUrl={url}
-      registrationurl={'/events/freefire'}
+      // registrationurl={'/events/freefire'}
+      registrationurl="https://linktr.ee/infinito2k25" 
 
       structure={["Saksham Srivastava : 9555899043"]}
       rules={[
