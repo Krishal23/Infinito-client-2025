@@ -8,9 +8,10 @@ const Update = () => {
     <>
     <Navbar/>
     <div className={styles.container}>
-      <h1 className={styles.message}>Page not found...</h1>
+      {/* <h1 className={styles.message}>Page not found...</h1> */}
+      <h1 className={styles.message}>The website is temporarily unavailable due to maintenance....</h1>
     </div>
-    <Footer/>
+    {/* <Footer/> */}
     </>
   );
 };

@@ -55,10 +55,10 @@ import Accommodation from "./pages/Accomodation/Accomodation.jsx";
 // import Gallery from "./pages/Gallery/components/content";
 
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home />,
-  },
+  // {
+  //   path: "/",
+  //   element: <Home />,
+  // },
   {
     path: "*", 
     element: <Update />,
@@ -68,310 +68,310 @@ const router = createBrowserRouter([
   //   path: "/ca-profile",
   //   element: <Evein />
   // }
-  {
-    path: "/admin",
-    element: (
-      // <ProtectedRoute allowedRoles={["admin", "moderator"]}>
-      //   <AdminPage />
-      // </ProtectedRoute>
-      <AdminPage />
-    ),
-  },
-
-  {
-    path: "/event/ins",
-    element: <Evein />,
-  },
   // {
-  //   path: "/accom",
+  //   path: "/admin",
   //   element: (
-  //     <ProtectedRoute>
-  //       <Accommodation />
-  //     </ProtectedRoute>
+  //     // <ProtectedRoute allowedRoles={["admin", "moderator"]}>
+  //     //   <AdminPage />
+  //     // </ProtectedRoute>
+  //     <AdminPage />
   //   ),
   // },
-  {
-    path: "/events/response/:event",
-    element: (
-      <ProtectedRoute allowedRoles={["moderator","admin"]}>
-        <Response />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/events/all-responses",
-    element: (
-      <ProtectedRoute allowedRoles={["moderator","admin"]}>
-        <JsonViewer apiUrl={`/events/all-registrations`} />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/events/my-responses",
-    element: <JsonViewer apiUrl={`/events/my-registrations`} />,
-  },
 
-  {
-    path: "/gallery",
-    element: <Update />,
-  },
-  {
-    path: "/update",
-    element: <Update />,
-  },
-
-  {
-    path: "/aboutUs",
-    element: <Team />,
-  },
   // {
-  //   path: "/aboutUs2",
-  //   element: <Team2 />,
+  //   path: "/event/ins",
+  //   element: <Evein />,
   // },
-  {
-    path: "/sponsor",
-    element: <Spons />,
-  },
-  {
-    path: "/merch",
-    element: <Merchandise />,
-  },
-  {
-    path: "/ca",
-    element: <CA />,
-  },
-  {
-    path: "/ca-register",
-    element: (
-      <ProtectedRoute>
-        <CARegister />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/ca-application",
-    element: (
-      <ProtectedRoute>
-        <MyApplication />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/ca-dashboard",
-    element: (
-      <ProtectedRoute allowedRoles={["ca"]}>
-        <CADashboard />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/auth",
-    element: <Auth />,
-  },
-
-  {
-    path: "/events/athletics",
-    element: (
-      <ProtectedRoute>
-        <Athletics />
-      </ProtectedRoute>
-    ),
-  },
-
-  {
-    path: "/events/badminton",
-    element: (
-      <ProtectedRoute>
-        <Badminton_ />
-      </ProtectedRoute>
-    ),
-  },
-
-  {
-    path: "/events/basketball",
-    element: (
-      <ProtectedRoute>
-        <Basketball_ />
-      </ProtectedRoute>
-    ),
-  },
-
-  {
-    path: "/events/football",
-    element: (
-      <ProtectedRoute>
-        <Football_ />
-      </ProtectedRoute>
-    ),
-  },
-
-  {
-    path: "/events/kabbadi",
-    element: (
-      <ProtectedRoute>
-        <Kabbadi_ />
-      </ProtectedRoute>
-    ),
-  },
-
-  {
-    path: "/events/lawn-tennis",
-    element: (
-      <ProtectedRoute>
-        <Lawn_ />
-      </ProtectedRoute>
-    ),
-  },
-
-  {
-    path: "/events/squash",
-    element: (
-      <ProtectedRoute>
-        <Squash_ />
-      </ProtectedRoute>
-    ),
-  },
-
-  {
-    path: "/events/table_tennis",
-    element: (
-      <ProtectedRoute>
-        <Tt_ />
-      </ProtectedRoute>
-    ),
-  },
-
-  {
-    path: "/events/volleyball",
-    element: (
-      <ProtectedRoute>
-        <Volleyball_ />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/events/mr-infinito",
-    element: (
-      <ProtectedRoute>
-        <MrInfinito_ />
-      </ProtectedRoute>
-    ),
-  },
-
-  {
-    path: "/events/chess",
-    element: (
-      <ProtectedRoute>
-        <Chess_ />
-      </ProtectedRoute>
-    ),
-  },
-
-  {
-    path: "/events/cricket",
-    element: (
-      <ProtectedRoute>
-        <Cricket_ />
-      </ProtectedRoute>
-    ),
-  },
-
-  {
-    path: "/events/weightlifting",
-    element: (
-      <ProtectedRoute>
-        <Weightlifting_ />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/events/powerlifting",
-    element: (
-      <ProtectedRoute>
-        <Powerlifting_ />
-      </ProtectedRoute>
-    ),
-  },
+  // // {
+  // //   path: "/accom",
+  // //   element: (
+  // //     <ProtectedRoute>
+  // //       <Accommodation />
+  // //     </ProtectedRoute>
+  // //   ),
+  // // },
   // {
-  //   path: "/events/codm",
+  //   path: "/events/response/:event",
   //   element: (
-  //     <ProtectedRoute>
-  //       <Codm_ />
+  //     <ProtectedRoute allowedRoles={["moderator","admin"]}>
+  //       <Response />
   //     </ProtectedRoute>
   //   ),
   // },
   // {
-  //   path: "/events/bgmi",
+  //   path: "/events/all-responses",
   //   element: (
-  //     <ProtectedRoute>
-  //       <BGMI_ />
+  //     <ProtectedRoute allowedRoles={["moderator","admin"]}>
+  //       <JsonViewer apiUrl={`/events/all-registrations`} />
   //     </ProtectedRoute>
   //   ),
   // },
   // {
-  //   path: "/events/clash_royale",
+  //   path: "/events/my-responses",
+  //   element: <JsonViewer apiUrl={`/events/my-registrations`} />,
+  // },
+
+  // {
+  //   path: "/gallery",
+  //   element: <Update />,
+  // },
+  // {
+  //   path: "/update",
+  //   element: <Update />,
+  // },
+
+  // {
+  //   path: "/aboutUs",
+  //   element: <Team />,
+  // },
+  // // {
+  // //   path: "/aboutUs2",
+  // //   element: <Team2 />,
+  // // },
+  // {
+  //   path: "/sponsor",
+  //   element: <Spons />,
+  // },
+  // {
+  //   path: "/merch",
+  //   element: <Merchandise />,
+  // },
+  // {
+  //   path: "/ca",
+  //   element: <CA />,
+  // },
+  // {
+  //   path: "/ca-register",
   //   element: (
   //     <ProtectedRoute>
-  //       <ClashRoyale_ />
+  //       <CARegister />
   //     </ProtectedRoute>
   //   ),
   // },
   // {
-  //   path: "/events/valorant",
+  //   path: "/ca-application",
   //   element: (
   //     <ProtectedRoute>
-  //       <VALORANT_ />
+  //       <MyApplication />
   //     </ProtectedRoute>
   //   ),
   // },
   // {
-  //   path: "/events/freefire",
+  //   path: "/ca-dashboard",
   //   element: (
-  //     <ProtectedRoute>
-  //       <FREEFIRE_ />
+  //     <ProtectedRoute allowedRoles={["ca"]}>
+  //       <CADashboard />
   //     </ProtectedRoute>
   //   ),
   // },
   // {
-  //   path: "/merchandise",
-  //   element: <Merch />,
+  //   path: "/auth",
+  //   element: <Auth />,
   // },
-  {
-    path: "/product/:id",
-    element: <ProductDetail />,
-  },
-  {
-    path: "/checkout",
-     element: (
-      <ProtectedRoute>
-        <Checkout />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/checkout-success",
-    element: (
-      <ProtectedRoute>
-        <CheckoutSuccess />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/accommodation/success",
-    element: (
-      <ProtectedRoute>
-        <CheckoutSuccess />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/event/success",
-    element: (
-      <ProtectedRoute>
-        <CheckoutSuccess />
-      </ProtectedRoute>
-    ),
-  },
+
+  // {
+  //   path: "/events/athletics",
+  //   element: (
+  //     <ProtectedRoute>
+  //       <Athletics />
+  //     </ProtectedRoute>
+  //   ),
+  // },
+
+  // {
+  //   path: "/events/badminton",
+  //   element: (
+  //     <ProtectedRoute>
+  //       <Badminton_ />
+  //     </ProtectedRoute>
+  //   ),
+  // },
+
+  // {
+  //   path: "/events/basketball",
+  //   element: (
+  //     <ProtectedRoute>
+  //       <Basketball_ />
+  //     </ProtectedRoute>
+  //   ),
+  // },
+
+  // {
+  //   path: "/events/football",
+  //   element: (
+  //     <ProtectedRoute>
+  //       <Football_ />
+  //     </ProtectedRoute>
+  //   ),
+  // },
+
+  // {
+  //   path: "/events/kabbadi",
+  //   element: (
+  //     <ProtectedRoute>
+  //       <Kabbadi_ />
+  //     </ProtectedRoute>
+  //   ),
+  // },
+
+  // {
+  //   path: "/events/lawn-tennis",
+  //   element: (
+  //     <ProtectedRoute>
+  //       <Lawn_ />
+  //     </ProtectedRoute>
+  //   ),
+  // },
+
+  // {
+  //   path: "/events/squash",
+  //   element: (
+  //     <ProtectedRoute>
+  //       <Squash_ />
+  //     </ProtectedRoute>
+  //   ),
+  // },
+
+  // {
+  //   path: "/events/table_tennis",
+  //   element: (
+  //     <ProtectedRoute>
+  //       <Tt_ />
+  //     </ProtectedRoute>
+  //   ),
+  // },
+
+  // {
+  //   path: "/events/volleyball",
+  //   element: (
+  //     <ProtectedRoute>
+  //       <Volleyball_ />
+  //     </ProtectedRoute>
+  //   ),
+  // },
+  // {
+  //   path: "/events/mr-infinito",
+  //   element: (
+  //     <ProtectedRoute>
+  //       <MrInfinito_ />
+  //     </ProtectedRoute>
+  //   ),
+  // },
+
+  // {
+  //   path: "/events/chess",
+  //   element: (
+  //     <ProtectedRoute>
+  //       <Chess_ />
+  //     </ProtectedRoute>
+  //   ),
+  // },
+
+  // {
+  //   path: "/events/cricket",
+  //   element: (
+  //     <ProtectedRoute>
+  //       <Cricket_ />
+  //     </ProtectedRoute>
+  //   ),
+  // },
+
+  // {
+  //   path: "/events/weightlifting",
+  //   element: (
+  //     <ProtectedRoute>
+  //       <Weightlifting_ />
+  //     </ProtectedRoute>
+  //   ),
+  // },
+  // {
+  //   path: "/events/powerlifting",
+  //   element: (
+  //     <ProtectedRoute>
+  //       <Powerlifting_ />
+  //     </ProtectedRoute>
+  //   ),
+  // },
+  // // {
+  // //   path: "/events/codm",
+  // //   element: (
+  // //     <ProtectedRoute>
+  // //       <Codm_ />
+  // //     </ProtectedRoute>
+  // //   ),
+  // // },
+  // // {
+  // //   path: "/events/bgmi",
+  // //   element: (
+  // //     <ProtectedRoute>
+  // //       <BGMI_ />
+  // //     </ProtectedRoute>
+  // //   ),
+  // // },
+  // // {
+  // //   path: "/events/clash_royale",
+  // //   element: (
+  // //     <ProtectedRoute>
+  // //       <ClashRoyale_ />
+  // //     </ProtectedRoute>
+  // //   ),
+  // // },
+  // // {
+  // //   path: "/events/valorant",
+  // //   element: (
+  // //     <ProtectedRoute>
+  // //       <VALORANT_ />
+  // //     </ProtectedRoute>
+  // //   ),
+  // // },
+  // // {
+  // //   path: "/events/freefire",
+  // //   element: (
+  // //     <ProtectedRoute>
+  // //       <FREEFIRE_ />
+  // //     </ProtectedRoute>
+  // //   ),
+  // // },
+  // // {
+  // //   path: "/merchandise",
+  // //   element: <Merch />,
+  // // },
+  // {
+  //   path: "/product/:id",
+  //   element: <ProductDetail />,
+  // },
+  // {
+  //   path: "/checkout",
+  //    element: (
+  //     <ProtectedRoute>
+  //       <Checkout />
+  //     </ProtectedRoute>
+  //   ),
+  // },
+  // {
+  //   path: "/checkout-success",
+  //   element: (
+  //     <ProtectedRoute>
+  //       <CheckoutSuccess />
+  //     </ProtectedRoute>
+  //   ),
+  // },
+  // {
+  //   path: "/accommodation/success",
+  //   element: (
+  //     <ProtectedRoute>
+  //       <CheckoutSuccess />
+  //     </ProtectedRoute>
+  //   ),
+  // },
+  // {
+  //   path: "/event/success",
+  //   element: (
+  //     <ProtectedRoute>
+  //       <CheckoutSuccess />
+  //     </ProtectedRoute>
+  //   ),
+  // },
 ]);
 
 function App() {
