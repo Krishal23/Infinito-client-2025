@@ -52,10 +52,10 @@ function Main() {
           </div>
           <div className={styles.bupal}>
             <Link to="/event/ins" className={styles.cool}>
-              <span style={{ zIndex: "1" }}>Explore Now</span>
+              <span style={{ zIndex: "1" }}>Events</span>
             </Link>
-            <Link to="/ca" className={styles.cool}>
-              <span style={{ zIndex: "1" }}>CA Portal</span>
+            <Link to="https://linktr.ee/infinito2k25" className={styles.cool}>
+              <span style={{ zIndex: "1" }}>Link Tree</span>
             </Link>
             {/* <a href="#" className={styles.cool}>
               <span style={{ zIndex: "1" }}>Sign Up</span>

@@ -87,7 +87,7 @@ const Navbar = () => {
           <Link to="/" onClick={() => setShowMobileMenu(false)}>Home</Link>
           <Link to="/event/ins" onClick={() => setShowMobileMenu(false)}>Events</Link>
           <Link to="/ca" onClick={() => setShowMobileMenu(false)}>CA Portal</Link>
-          <Link to="/aboutUs" onClick={() => setShowMobileMenu(false)}>Team</Link>
+          {/* <Link to="/aboutUs" onClick={() => setShowMobileMenu(false)}>Team</Link> */}
           <Link to="/sponsor" onClick={() => setShowMobileMenu(false)}>Sponsors</Link>
         <Link to="/accom">Accomodation</Link>
           <Link to="/merch" onClick={() => setShowMobileMenu(false)}>Merch</Link>
@@ -108,7 +108,7 @@ const Navbar = () => {
         <Link to="/">Home</Link>
         <Link to="/event/ins">Events</Link>
         <Link to="/ca">CA Portal</Link>
-        <Link to="/aboutUs">Team</Link>
+        {/* <Link to="/aboutUs">Team</Link> */}
         <Link to="/sponsor">Sponsors</Link>
         <Link to="/accom">Accomodation</Link>
         <Link to="/merch">Merch</Link>

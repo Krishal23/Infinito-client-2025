@@ -241,17 +241,21 @@ export default function AccommodationWizard() {
       setSubmitting(false);
     }
   };
-
+// client\Infinito\public\accomBG.jpg
 
   return (
-    <>
+    <div 
+        className="min-h-screen bg-cover bg-center bg-no-repeat relative"
+     style={{ backgroundImage: "url('./accomBG.jpg')" }}
+     >
+      <div className="absolute inset-0 bg-black/50"></div>
     {(submitting || accomSubmiting) && (
       <Loader message="Processing your payment, please wait..." />
     )}
       <Navbar />
-      <div className="max-w-3xl mx-auto p-6 bg-white min-h-[100vh] pt-20 shadow-md rounded">
-        <h1 className="text-2xl font-bold mb-4">Accommodation Booking</h1>
-        <span className="text-sm text-zinc-600">NOTE: For accomodation you need to be registered in atleast one event.</span>
+    <div className="relative mb-4 z-10 max-w-3xl mx-auto p-6 bg-white/60 backdrop-blur-md rounded shadow-md min-h-[95vh] pt-20">
+        <h1 className=" text-2xl font-bold mb-4">Accommodation Booking</h1>
+        <span className="text-sm text-zinc-900">NOTE: For accomodation you need to be registered in atleast one event.</span>
         {message && (
           <div className={`mb-4 p-3 rounded ${message.type === "success" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
             {message.text}
@@ -308,190 +312,186 @@ export default function AccommodationWizard() {
 
           {/* STEP 2: Players */}
           {step === 2 && (
-            <div className="space-y-4 overflow-x-scroll">
-              <h2 className="font-semibold">Select Players</h2>
-              {errors.players && <p className="text-red-600">{errors.players}</p>}
+            <div className="space-y-4 overflow-x-auto ">
+  <h2 className="text-xl font-semibold text-gray-800">Select Players</h2>
+  {errors.players && (
+    <p className="text-red-600 text-sm">{errors.players}</p>
+  )}
 
-              <table className="min-w-full border border-gray-300 rounded">
-                <thead className="bg-gray-100">
-                  <tr>
-                    <th className="p-2 border-b">Select</th>
-                    <th className="p-2 border-b">Name</th>
-                    <th className="p-2 border-b">Email</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {Array.from(
-                    new Map(playersOptions.map((p) => [p.aadharId, p])).values()
-                  ).map((p) => {
-                    const selected = selectedPlayers.find(
-                      (sp) => sp.aadharId === p.aadharId
-                    );
-                    return (
-                      <tr key={p.aadharId} className="text-sm">
-                        <td className="p-2 border-b text-center">
-                          <input
-                            type="checkbox"
-                            checked={!!selected}
-                            onChange={() => togglePlayer(p)}
-                          />
-                        </td>
-                        <td className="p-2 border-b">{p.name}</td>
-                        <td className="p-2 border-b">{p.email}</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
+  <div className="shadow-md rounded-lg overflow-hidden  border border-gray-200">
+    <table className="min-w-full divide-y divide-gray-200 ">
+      <thead className="bg-zinc-600">
+        <tr>
+          <th className="px-4 py-3 text-left text-sm font-medium text-gray-200">
+            Select
+          </th>
+          <th className="px-4 py-3 text-left text-sm font-medium text-gray-200">
+            Name
+          </th>
+          <th className="px-4 py-3 text-left text-sm font-medium text-gray-200">
+            Email
+          </th>
+        </tr>
+      </thead>
+      <tbody className="bg-white divide-y divide-gray-200">
+        {Array.from(
+          new Map(playersOptions.map((p) => [p.aadharId, p])).values()
+        ).map((p) => {
+          const selected = selectedPlayers.find(
+            (sp) => sp.aadharId === p.aadharId
+          );
+          return (
+            <tr
+              key={p.aadharId}
+              className="hover:bg-gray-50 transition-colors duration-150"
+            >
+              <td className="px-4 py-3 text-center">
+                <input
+                  type="checkbox"
+                  checked={!!selected}
+                  onChange={() => togglePlayer(p)}
+                  className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                />
+              </td>
+              <td className="px-4 py-3 text-gray-800">{p.name}</td>
+              <td className="px-4 py-3 text-gray-600">{p.email}</td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  </div>
+</div>
+
           )}
 
           {/* STEP 3: Review */}
           {step === 3 && (
-            <div className="space-y-4 overflow-x-scroll">
-              <h2 className="font-semibold">Review & Submit</h2>
+            <div className="space-y-6 overflow-x-scroll">
+  <h2 className="text-2xl font-semibold text-gray-800">Review & Submit</h2>
 
-              {/* Booking Info */}
-              <table className="min-w-full border-collapse border mb-4">
-                <tbody>
-                  <tr className="border-b">
-                    <td className="p-2 font-medium">Event</td>
-                    <td className="p-2">{eventId}</td>
-                  </tr>
-                  <tr className="border-b">
-                    <td className="p-2 font-medium">Check-in</td>
-                    <td className="p-2">{checkInDate}</td>
-                  </tr>
-                  <tr className="border-b">
-                    <td className="p-2 font-medium">Stay Days</td>
-                    <td className="p-2">{stayDays}</td>
-                  </tr>
-                  <tr className="border-b">
-                    <td className="p-2 font-medium">Checkout</td>
-                    <td className="p-2">{checkoutDate}</td>
-                  </tr>
-                  <tr className="border-b">
-                    <td className="p-2 font-medium">Gender</td>
-                    <td className="p-2">{genderCategory}</td>
-                  </tr>
-                  <tr className="border-b">
-                    <td className="p-2 font-medium">Coupon</td>
-                    <td className="p-2">
-                      <div className="flex space-x-2">
-                        <input
-                          type="text"
-                          className="w-full p-2 border rounded"
-                          value={couponCode}
-                          onChange={(e) => setCouponCode(e.target.value)}
-                        />
-                        <button
-                          type="button"
-                          className="px-3 py-1 bg-blue-600 text-white rounded"
-                          onClick={handleApplyCoupon}
-                        >
-                          Apply
-                        </button>
-                      </div>
-                      {couponError && <p className="text-red-600 text-sm">{couponError}</p>}
-                      {appliedCoupon && (
-                        <p className="text-green-600 text-sm">
-                          Applied: {appliedCoupon.coupontag} ({appliedCoupon.discount}
-                          {appliedCoupon.couponType === "percentage" ? "%" : "₹"} off)
-                        </p>
-                      )}
-                    </td>
-                  </tr>
-
-                </tbody>
-              </table>
-
-              {/* Players Table */}
-              <div className="overflow-x-scroll">
-                <h3 className="font-medium mb-2">Players ({selectedPlayers.length})</h3>
-                <table className="min-w-full border border-gray-300 rounded mb-4">
-                  <thead className="bg-gray-100">
-                    <tr>
-                      <th className="p-2 border-b">Name</th>
-                      <th className="p-2 border-b">Email</th>
-                      <th className="p-2 border-b">Phone</th>
-                      <th className="p-2 border-b">Aadhaar</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {selectedPlayers.map((p) => (
-                      <tr key={p.aadharId} className="text-sm">
-                        <td className="p-2 border-b">{p.name}</td>
-                        <td className="p-2 border-b">{p.email}</td>
-                        <td className="p-2 border-b">{p.phoneNumber}</td>
-                        <td className="p-2 border-b">{p.aadharId}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-
-              {/* Bill / Summary */}
-              {/* Bill / Summary */}
-              <div>
-                <h3 className="font-medium mb-2">Bill Summary</h3>
-                <table className="w-full border border-gray-300 rounded">
-                  <thead className="bg-gray-100">
-                    <tr>
-                      <th className="p-2 border-b">Description</th>
-                      <th className="p-2 border-b">Players</th>
-                      <th className="p-2 border-b">Days</th>
-                      <th className="p-2 border-b">Rate</th>
-                      <th className="p-2 border-b">Amount</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className="text-sm">
-                      <td className="p-2 border-b">Players</td>
-                      <td className="p-2 border-b">{selectedPlayers.length}</td>
-                      <td className="p-2 border-b">{stayDays}</td>
-                      <td className="p-2 border-b">₹250 / day</td>
-                      <td className="p-2 border-b">₹{selectedPlayers.length * stayDays * accomPricePerDay}</td>
-                    </tr>
-
-                    {/* Coupon Discount Row */}
-                    {appliedCoupon && (
-                      <tr className="text-sm text-green-700">
-                        <td className="p-2 border-b" colSpan={3}>
-                          Coupon ({appliedCoupon.coupontag})
-                        </td>
-                        <td className="p-2 border-b">
-                          - ₹
-                          {appliedCoupon.couponType === "percentage"
-                            ? Math.floor(
-                              (selectedPlayers.length * stayDays * accomPricePerDay * appliedCoupon.discount) / 100
-                            )
-                            : appliedCoupon.discount}
-                        </td>
-                      </tr>
-                    )}
-
-                    {/* Final Total */}
-                    <tr className="text-sm font-medium bg-gray-50">
-                      <td className="p-2 border-b" colSpan={3}>
-                        Final Total
-                      </td>
-                      <td className="p-2 border-b">
-                        ₹
-                        {(() => {
-                          const base = selectedPlayers.length * stayDays * accomPricePerDay;
-                          if (!appliedCoupon) return base;
-                          if (appliedCoupon.couponType === "percentage") {
-                            return base - Math.floor((base * appliedCoupon.discount) / 100);
-                          }
-                          return Math.max(0, base - appliedCoupon.discount);
-                        })()}
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
+  {/* Booking Info */}
+  <div className="shadow-md rounded-lg overflow-scroll border border-gray-500">
+    <table className="min-w-full overflow-x:scroll divide-y divide-gray-800">
+      <tbody className="bg-white/60">
+        {[
+          ["Event", eventId],
+          ["Check-in", checkInDate],
+          ["Stay Days", stayDays],
+          ["Checkout", checkoutDate],
+          ["Gender", genderCategory],
+        ].map(([label, value]) => (
+          <tr key={label} className="hover:bg-gray-50 transition-colors duration-150">
+            <td className="px-4 py-3 font-medium text-gray-700">{label}</td>
+            <td className="px-4 py-3 text-gray-800">{value}</td>
+          </tr>
+        ))}
+        <tr className="hover:bg-gray-50 transition-colors duration-150">
+          <td className="px-4 py-3 font-medium text-gray-700">Coupon</td>
+          <td className="px-4 py-3">
+            <div className="flex space-x-2">
+              <input
+                type="text"
+                className="w-full p-2 border rounded focus:ring focus:ring-blue-200"
+                value={couponCode}
+                onChange={(e) => setCouponCode(e.target.value)}
+              />
+              <button
+                type="button"
+                className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+                onClick={handleApplyCoupon}
+              >
+                Apply
+              </button>
             </div>
+            {couponError && <p className="text-red-600 text-sm mt-1">{couponError}</p>}
+            {appliedCoupon && (
+              <p className="text-green-600 text-sm mt-1">
+                Applied: {appliedCoupon.coupontag} ({appliedCoupon.discount}
+                {appliedCoupon.couponType === "percentage" ? "%" : "₹"} off)
+              </p>
+            )}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  {/* Players Table */}
+  <div className="shadow-md rounded-lg overflow-scroll border border-gray-200">
+    <h3 className="px-4 py-2 font-medium text-gray-800 bg-gray-50">
+      Players ({selectedPlayers.length})
+    </h3>
+    <table className="min-w-full overflow-x:scroll divide-y divide-gray-200 bg-white">
+      <thead className="bg-gray-100">
+        <tr>
+          {["Name", "Email", "Phone", "Aadhaar"].map((h) => (
+            <th key={h} className="px-4 py-2 text-left text-sm font-medium text-gray-700">{h}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody className="bg-white/60">
+        {selectedPlayers.map((p) => (
+          <tr key={p.aadharId} className="hover:bg-gray-50 transition-colors duration-150">
+            <td className="px-4 py-2 text-gray-800">{p.name}</td>
+            <td className="px-4 py-2 text-gray-700">{p.email}</td>
+            <td className="px-4 py-2 text-gray-700">{p.phoneNumber}</td>
+            <td className="px-4 py-2 text-gray-700">{p.aadharId}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  {/* Bill / Summary */}
+  <div className="shadow-md rounded-lg overflow-x-scroll border border-gray-200">
+    <h3 className=" px-4 py-2 font-medium text-gray-800  bg-gray-50 ">Bill Summary</h3>
+    <table className="min-w-full overflow-x:scroll divide-y divide-gray-200 bg-white">
+      <thead className="bg-gray-100">
+        <tr>
+          {["Description", "Players", "Days", "Rate", "Amount"].map((h) => (
+            <th key={h} className="px-4 py-2 text-left text-sm font-medium text-gray-700">{h}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        <tr className="hover:bg-gray-50 transition-colors duration-150">
+          <td className="px-4 py-2 text-gray-800 ">Players</td>
+          <td className="px-4 py-2">{selectedPlayers.length}</td>
+          <td className="px-4 py-2">{stayDays}</td>
+          <td className="px-4 py-2">₹250 / day</td>
+          <td className="px-4 py-2">₹{selectedPlayers.length * stayDays * accomPricePerDay}</td>
+        </tr>
+        {appliedCoupon && (
+          <tr className="text-green-700 hover:bg-gray-50 transition-colors duration-150">
+            <td className="px-4 py-2" colSpan={3}>Coupon ({appliedCoupon.coupontag})</td>
+            <td className="px-4 py-2">
+              - ₹
+              {appliedCoupon.couponType === "percentage"
+                ? Math.floor((selectedPlayers.length * stayDays * accomPricePerDay * appliedCoupon.discount) / 100)
+                : appliedCoupon.discount}
+            </td>
+          </tr>
+        )}
+        <tr className="font-medium bg-gray-50">
+          <td className="px-4 py-2" colSpan={3}>Final Total</td>
+          <td className="px-4 py-2">
+            ₹
+            {(() => {
+              const base = selectedPlayers.length * stayDays * accomPricePerDay;
+              if (!appliedCoupon) return base;
+              if (appliedCoupon.couponType === "percentage") {
+                return base - Math.floor((base * appliedCoupon.discount) / 100);
+              }
+              return Math.max(0, base - appliedCoupon.discount);
+            })()}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
           )}
 
 
@@ -505,6 +505,6 @@ export default function AccommodationWizard() {
         </form>
       </div>
       <Footer />
-    </>
+    </div>
   );
 }

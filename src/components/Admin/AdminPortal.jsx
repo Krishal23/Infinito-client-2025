@@ -10,6 +10,7 @@ import { Events } from "./Events.jsx"
 import { AuthContext } from "../../context/AuthContext.jsx"
 import axiosInstance from "../../utils/axios.js"
 import { FaBars, FaTimes } from "react-icons/fa"
+import AccommodationDetails from "./AccomDetails.jsx"
 
 export default function AdminPortal() {
   const [activeTab, setActiveTab] = useState("home")
@@ -50,6 +51,8 @@ export default function AdminPortal() {
         return <CAApplications />
       case "events":
         return <Events data={eventsData} />
+      case "accom":
+        return <AccommodationDetails/>
       default:
         return <div>Select a section from the sidebar</div>
     }
