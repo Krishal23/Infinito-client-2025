@@ -28,7 +28,6 @@ import AdminPage from "./pages/Admin/AdminPage";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CADashboard from "./pages/CA/sections/CADashboard";
-// import Merch from "./pages/SampleMerch/Merch";
 import Athletics from "./pages/Events/event-forms/athletics";
 import Badminton_ from "./pages/Events/event-forms/badminton";
 import Basketball_ from "./pages/Events/event-forms/basketball";
