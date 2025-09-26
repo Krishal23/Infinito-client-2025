@@ -193,6 +193,11 @@ function Auth() {
               }}>
                 {isSignup ? 'Already have an account? ' : 'New here? '}<span>{isSignup ? 'Login' : 'Join'}</span>
               </p>
+<div className="flex relative justify-end underline text-[8px] mt-2">
+  <a href="/TnC_Infinito.pdf" target="_blank" rel="noopener noreferrer">
+    *Terms and Conditions apply
+  </a>
+</div>
             </>
           )}
         </motion.div>

@@ -85,11 +85,17 @@ const Footer = () => {
               <Link to="/event/ins">Events</Link>
             </li>
             <li>
-            <Link to="/merch">Our Merchandise</Link>
-            {/* https://drive.google.com/drive/folders/1XoJYQGI3foiN3aX8S87FFJvjLRPHfCOz?usp=sharing */}
+              <a href="/TnC_Infinito.pdf" target="_blank" rel="noopener noreferrer">
+                Terms and Conditions
+              </a>            {/* https://drive.google.com/drive/folders/1XoJYQGI3foiN3aX8S87FFJvjLRPHfCOz?usp=sharing */}
             </li>
             <li>
-              <Link to="/aboutUs">Our Team</Link>
+              <Link to="/privacy-policy">Privacy Policy</Link>
+            </li>
+            <li>
+              <a href="/RefundPolicy-Infinito.pdf" target="_blank" rel="noopener noreferrer">
+                Refund Policy
+              </a>            
             </li>
           </ul>
         </div>
