@@ -40,11 +40,27 @@ export default function AccommodationWizard() {
   const accomPricePerDay = 250;
 
 
+
+  const [mealSelections, setMealSelections] = useState({});
+  const mealRates = { breakfast: 80, lunch: 80, dinner: 80 }; // example per-meal cost
+
+
   const navigate = useNavigate();
   const { bookAccommodation, submitting: accomSubmiting } = useAccommodationBooking({
     endpoint: "/accommodation",
     redirectUrl: "/accommodation/success",
   });
+
+  const mealTotal = Object.entries(mealSelections).reduce((sum, [date, meals]) => {
+    return sum + Object.entries(meals).reduce((dSum, [meal, selected]) => {
+      if (selected) {
+        return dSum + (mealRates[meal] * selectedPlayers.length);
+      }
+      return dSum;
+    }, 0);
+  }, 0);
+
+  const includeMeal = mealTotal > 0;
 
   const handleApplyCoupon = async () => {
     if (!couponCode) {
@@ -58,7 +74,7 @@ export default function AccommodationWizard() {
     const baseAmount = selectedPlayers.length * stayDays * accomPricePerDay;
 
     try {
-      
+
       const res = await axiosInstance.get(
         `/coupons/validate/${couponCode}?amount=${baseAmount}&category=ACCOM`
       );
@@ -223,6 +239,7 @@ export default function AccommodationWizard() {
       stayDays,
       players: payloadPlayers,
       couponCode: couponCode || null,
+      meals: mealSelections,
     };
 
     try {
@@ -241,19 +258,19 @@ export default function AccommodationWizard() {
       setSubmitting(false);
     }
   };
-// client\Infinito\public\accomBG.jpg
+  // client\Infinito\public\accomBG.jpg
 
   return (
-    <div 
-        className="min-h-screen bg-cover bg-center bg-no-repeat relative"
-     style={{ backgroundImage: "url('./accomBG.jpg')" }}
-     >
+    <div
+      className="min-h-screen bg-cover bg-center bg-no-repeat relative"
+      style={{ backgroundImage: "url('./accomBG.jpg')" }}
+    >
       <div className="absolute inset-0 bg-black/50"></div>
-    {(submitting || accomSubmiting) && (
-      <Loader message="Processing your payment, please wait..." />
-    )}
+      {(submitting || accomSubmiting) && (
+        <Loader message="Processing your payment, please wait..." />
+      )}
       <Navbar />
-    <div className="relative mb-4 z-10 max-w-3xl mx-auto p-6 bg-white/60 backdrop-blur-md rounded shadow-md min-h-[95vh] pt-20">
+      <div className="relative mb-4 z-10 max-w-3xl mx-auto p-6 bg-white/60 backdrop-blur-md rounded shadow-md min-h-[95vh] pt-20">
         <h1 className=" text-2xl font-bold mb-4">Accommodation Booking</h1>
         <span className="text-sm text-zinc-900">NOTE: For accomodation you need to be registered in atleast one event.</span>
         {message && (
@@ -313,184 +330,271 @@ export default function AccommodationWizard() {
           {/* STEP 2: Players */}
           {step === 2 && (
             <div className="space-y-4 overflow-x-auto ">
-  <h2 className="text-xl font-semibold text-gray-800">Select Players</h2>
-  {errors.players && (
-    <p className="text-red-600 text-sm">{errors.players}</p>
-  )}
+              <h2 className="text-xl font-semibold text-gray-800">Select Players</h2>
+              {errors.players && (
+                <p className="text-red-600 text-sm">{errors.players}</p>
+              )}
 
-  <div className="shadow-md rounded-lg overflow-hidden  border border-gray-200">
-    <table className="min-w-full divide-y divide-gray-200 ">
-      <thead className="bg-zinc-600">
-        <tr>
-          <th className="px-4 py-3 text-left text-sm font-medium text-gray-200">
-            Select
-          </th>
-          <th className="px-4 py-3 text-left text-sm font-medium text-gray-200">
-            Name
-          </th>
-          <th className="px-4 py-3 text-left text-sm font-medium text-gray-200">
-            Email
-          </th>
-        </tr>
-      </thead>
-      <tbody className="bg-white divide-y divide-gray-200">
-        {Array.from(
-          new Map(playersOptions.map((p) => [p.aadharId, p])).values()
-        ).map((p) => {
-          const selected = selectedPlayers.find(
-            (sp) => sp.aadharId === p.aadharId
-          );
-          return (
-            <tr
-              key={p.aadharId}
-              className="hover:bg-gray-50 transition-colors duration-150"
-            >
-              <td className="px-4 py-3 text-center">
-                <input
-                  type="checkbox"
-                  checked={!!selected}
-                  onChange={() => togglePlayer(p)}
-                  className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
-                />
-              </td>
-              <td className="px-4 py-3 text-gray-800">{p.name}</td>
-              <td className="px-4 py-3 text-gray-600">{p.email}</td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
-  </div>
-</div>
+              <div className="shadow-md rounded-lg overflow-hidden  border border-gray-200">
+                <table className="min-w-full divide-y divide-gray-200 ">
+                  <thead className="bg-zinc-600">
+                    <tr>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-200">
+                        Select
+                      </th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-200">
+                        Name
+                      </th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-200">
+                        Email
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {Array.from(
+                      new Map(playersOptions.map((p) => [p.aadharId, p])).values()
+                    ).map((p) => {
+                      const selected = selectedPlayers.find(
+                        (sp) => sp.aadharId === p.aadharId
+                      );
+                      return (
+                        <tr
+                          key={p.aadharId}
+                          className="hover:bg-gray-50 transition-colors duration-150"
+                        >
+                          <td className="px-4 py-3 text-center">
+                            <input
+                              type="checkbox"
+                              checked={!!selected}
+                              onChange={() => togglePlayer(p)}
+                              className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                            />
+                          </td>
+                          <td className="px-4 py-3 text-gray-800">{p.name}</td>
+                          <td className="px-4 py-3 text-gray-600">{p.email}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
 
           )}
 
-          {/* STEP 3: Review */}
+          {/* STEP 3: Meal */}
+
+
           {step === 3 && (
-            <div className="space-y-6 overflow-x-scroll">
-  <h2 className="text-2xl font-semibold text-gray-800">Review & Submit</h2>
+            <div className="space-y-4">
+              <h2 className="text-xl font-semibold text-gray-800">Meal Options (Per Day)</h2>
+              <p className="text-gray-600">Select meals for each day of your stay.</p>
 
-  {/* Booking Info */}
-  <div className="shadow-md rounded-lg overflow-scroll border border-gray-500">
-    <table className="min-w-full overflow-x:scroll divide-y divide-gray-800">
-      <tbody className="bg-white/60">
-        {[
-          ["Event", eventId],
-          ["Check-in", checkInDate],
-          ["Stay Days", stayDays],
-          ["Checkout", checkoutDate],
-          ["Gender", genderCategory],
-        ].map(([label, value]) => (
-          <tr key={label} className="hover:bg-gray-50 transition-colors duration-150">
-            <td className="px-4 py-3 font-medium text-gray-700">{label}</td>
-            <td className="px-4 py-3 text-gray-800">{value}</td>
-          </tr>
-        ))}
-        <tr className="hover:bg-gray-50 transition-colors duration-150">
-          <td className="px-4 py-3 font-medium text-gray-700">Coupon</td>
-          <td className="px-4 py-3">
-            <div className="flex space-x-2">
-              <input
-                type="text"
-                className="w-full p-2 border rounded focus:ring focus:ring-blue-200"
-                value={couponCode}
-                onChange={(e) => setCouponCode(e.target.value)}
-              />
-              <button
-                type="button"
-                className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-                onClick={handleApplyCoupon}
-              >
-                Apply
-              </button>
+              {Array.from({ length: stayDays }, (_, i) => {
+                const d = new Date(checkInDate + "T00:00:00.000Z");
+                d.setDate(d.getDate() + i);
+                const dateStr = formatISODate(d);
+
+                return (
+                  <div key={dateStr} className="p-3 bg-gray-50 rounded border">
+                    <p className="font-medium text-gray-700 mb-2">{dateStr}</p>
+                    <div className="flex gap-4">
+                      {["breakfast", "lunch", "dinner"].map((meal) => (
+                        <label key={meal} className="flex items-center gap-2">
+                          <input
+                            type="checkbox"
+                            checked={mealSelections[dateStr]?.[meal] || false}
+                            onChange={() =>
+                              setMealSelections((prev) => ({
+                                ...prev,
+                                [dateStr]: {
+                                  ...prev[dateStr],
+                                  [meal]: !prev[dateStr]?.[meal],
+                                },
+                              }))
+                            }
+                            className="h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                          />
+                          {meal.charAt(0).toUpperCase() + meal.slice(1)} (₹{mealRates[meal]})
+                        </label>
+                      ))}
+                    </div>
+
+
+                  </div>
+                );
+              })}
+              {mealTotal > 0 && (
+                <tr>
+                  <td className="px-4 py-2">Meals</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td className="px-4 py-2">₹{mealTotal}</td>
+                </tr>
+              )}
             </div>
-            {couponError && <p className="text-red-600 text-sm mt-1">{couponError}</p>}
-            {appliedCoupon && (
-              <p className="text-green-600 text-sm mt-1">
-                Applied: {appliedCoupon.coupontag} ({appliedCoupon.discount}
-                {appliedCoupon.couponType === "percentage" ? "%" : "₹"} off)
-              </p>
-            )}
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+          )}
 
-  {/* Players Table */}
-  <div className="shadow-md rounded-lg overflow-scroll border border-gray-200">
-    <h3 className="px-4 py-2 font-medium text-gray-800 bg-gray-50">
-      Players ({selectedPlayers.length})
-    </h3>
-    <table className="min-w-full overflow-x:scroll divide-y divide-gray-200 bg-white">
-      <thead className="bg-gray-100">
-        <tr>
-          {["Name", "Email", "Phone", "Aadhaar"].map((h) => (
-            <th key={h} className="px-4 py-2 text-left text-sm font-medium text-gray-700">{h}</th>
-          ))}
-        </tr>
-      </thead>
-      <tbody className="bg-white/60">
-        {selectedPlayers.map((p) => (
-          <tr key={p.aadharId} className="hover:bg-gray-50 transition-colors duration-150">
-            <td className="px-4 py-2 text-gray-800">{p.name}</td>
-            <td className="px-4 py-2 text-gray-700">{p.email}</td>
-            <td className="px-4 py-2 text-gray-700">{p.phoneNumber}</td>
-            <td className="px-4 py-2 text-gray-700">{p.aadharId}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
+          {/* STEP 4: Review */}
+          {step === 4 && (
+            <div className="space-y-6 overflow-x-scroll">
+              <h2 className="text-2xl font-semibold text-gray-800">Review & Submit</h2>
 
-  {/* Bill / Summary */}
-  <div className="shadow-md rounded-lg overflow-x-scroll border border-gray-200">
-    <h3 className=" px-4 py-2 font-medium text-gray-800  bg-gray-50 ">Bill Summary</h3>
-    <table className="min-w-full overflow-x:scroll divide-y divide-gray-200 bg-white">
-      <thead className="bg-gray-100">
-        <tr>
-          {["Description", "Players", "Days", "Rate", "Amount"].map((h) => (
-            <th key={h} className="px-4 py-2 text-left text-sm font-medium text-gray-700">{h}</th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        <tr className="hover:bg-gray-50 transition-colors duration-150">
-          <td className="px-4 py-2 text-gray-800 ">Players</td>
-          <td className="px-4 py-2">{selectedPlayers.length}</td>
-          <td className="px-4 py-2">{stayDays}</td>
-          <td className="px-4 py-2">₹250 / day</td>
-          <td className="px-4 py-2">₹{selectedPlayers.length * stayDays * accomPricePerDay}</td>
-        </tr>
-        {appliedCoupon && (
-          <tr className="text-green-700 hover:bg-gray-50 transition-colors duration-150">
-            <td className="px-4 py-2" colSpan={3}>Coupon ({appliedCoupon.coupontag})</td>
-            <td className="px-4 py-2">
-              - ₹
-              {appliedCoupon.couponType === "percentage"
-                ? Math.floor((selectedPlayers.length * stayDays * accomPricePerDay * appliedCoupon.discount) / 100)
-                : appliedCoupon.discount}
-            </td>
-          </tr>
-        )}
-        <tr className="font-medium bg-gray-50">
-          <td className="px-4 py-2" colSpan={3}>Final Total</td>
-          <td className="px-4 py-2">
-            ₹
-            {(() => {
-              const base = selectedPlayers.length * stayDays * accomPricePerDay;
-              if (!appliedCoupon) return base;
-              if (appliedCoupon.couponType === "percentage") {
-                return base - Math.floor((base * appliedCoupon.discount) / 100);
-              }
-              return Math.max(0, base - appliedCoupon.discount);
-            })()}
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
+              {/* Booking Info */}
+              <div className="shadow-md rounded-lg overflow-scroll border border-gray-500">
+                <table className="min-w-full overflow-x:scroll divide-y divide-gray-800">
+                  <tbody className="bg-white/60">
+                    {[
+                      ["Event", eventId],
+                      ["Check-in", checkInDate],
+                      ["Stay Days", stayDays],
+                      ["Checkout", checkoutDate],
+                      ["Gender", genderCategory],
+                    ].map(([label, value]) => (
+                      <tr key={label} className="hover:bg-gray-50 transition-colors duration-150">
+                        <td className="px-4 py-3 font-medium text-gray-700">{label}</td>
+                        <td className="px-4 py-3 text-gray-800">{value}</td>
+                      </tr>
+                    ))}
+       <tr>
+  <td className="px-4 py-2 font-medium text-gray-700">Meals Included</td>
+  <td className="px-4 py-2 text-gray-800">
+    {mealTotal > 0 ? (
+      <div className="space-y-1">
+        {Object.entries(mealSelections).map(([date, dayMeals]) => {
+          const chosenMeals = Object.entries(dayMeals)
+            .filter(([_, selected]) => selected)
+            .map(([mealType]) => `${mealType} (₹${mealRates[mealType]})`);
+          return (
+            <div key={date}>
+              <span className="font-semibold">{date}:</span>{" "}
+              {chosenMeals.length > 0 ? chosenMeals.join(", ") : "No meals"}
+            </div>
+          );
+        })}
+      </div>
+    ) : (
+      "No"
+    )}
+  </td>
+</tr>
+
+                    <tr className="hover:bg-gray-50 transition-colors duration-150">
+                      <td className="px-4 py-3 font-medium text-gray-700">Coupon</td>
+                      <td className="px-4 py-3">
+                        <div className="flex space-x-2">
+                          <input
+                            type="text"
+                            className="w-full p-2 border rounded focus:ring focus:ring-blue-200"
+                            value={couponCode}
+                            onChange={(e) => setCouponCode(e.target.value)}
+                          />
+                          <button
+                            type="button"
+                            className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+                            onClick={handleApplyCoupon}
+                          >
+                            Apply
+                          </button>
+                        </div>
+                        {couponError && <p className="text-red-600 text-sm mt-1">{couponError}</p>}
+                        {appliedCoupon && (
+                          <p className="text-green-600 text-sm mt-1">
+                            Applied: {appliedCoupon.coupontag} ({appliedCoupon.discount}
+                            {appliedCoupon.couponType === "percentage" ? "%" : "₹"} off)
+                          </p>
+                        )}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Players Table */}
+              <div className="shadow-md rounded-lg overflow-scroll border border-gray-200">
+                <h3 className="px-4 py-2 font-medium text-gray-800 bg-gray-50">
+                  Players ({selectedPlayers.length})
+                </h3>
+                <table className="min-w-full overflow-x:scroll divide-y divide-gray-200 bg-white">
+                  <thead className="bg-gray-100">
+                    <tr>
+                      {["Name", "Email", "Phone", "Aadhaar"].map((h) => (
+                        <th key={h} className="px-4 py-2 text-left text-sm font-medium text-gray-700">{h}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white/60">
+                    {selectedPlayers.map((p) => (
+                      <tr key={p.aadharId} className="hover:bg-gray-50 transition-colors duration-150">
+                        <td className="px-4 py-2 text-gray-800">{p.name}</td>
+                        <td className="px-4 py-2 text-gray-700">{p.email}</td>
+                        <td className="px-4 py-2 text-gray-700">{p.phoneNumber}</td>
+                        <td className="px-4 py-2 text-gray-700">{p.aadharId}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Bill / Summary */}
+              <div className="shadow-md rounded-lg overflow-x-scroll border border-gray-200">
+                <h3 className=" px-4 py-2 font-medium text-gray-800  bg-gray-50 ">Bill Summary</h3>
+                <table className="min-w-full overflow-x:scroll divide-y divide-gray-200 bg-white">
+                  <thead className="bg-gray-100">
+                    <tr>
+                      {["Description", "Players", "Days", "Rate", "Amount"].map((h) => (
+                        <th key={h} className="px-4 py-2 text-left text-sm font-medium text-gray-700">{h}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="hover:bg-gray-50 transition-colors duration-150">
+                      <td className="px-4 py-2 text-gray-800 ">Players</td>
+                      <td className="px-4 py-2">{selectedPlayers.length}</td>
+                      <td className="px-4 py-2">{stayDays}</td>
+                      <td className="px-4 py-2">₹250 / day</td>
+                      <td className="px-4 py-2">₹{selectedPlayers.length * stayDays * accomPricePerDay}</td>
+                    </tr>
+                    {mealTotal > 0 && (
+                      <tr>
+                        <td className="px-4 py-2">Meals</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td className="px-4 py-2">₹{mealTotal}</td>
+                      </tr>
+                    )}
+
+                    {appliedCoupon && (
+                      <tr className="text-green-700 hover:bg-gray-50 transition-colors duration-150">
+                        <td className="px-4 py-2" colSpan={3}>Coupon ({appliedCoupon.coupontag})</td>
+                        <td className="px-4 py-2">
+                          - ₹
+                          {appliedCoupon.couponType === "percentage"
+                            ? Math.floor((selectedPlayers.length * stayDays * accomPricePerDay * appliedCoupon.discount) / 100)
+                            : appliedCoupon.discount}
+                        </td>
+                      </tr>
+                    )}
+                    <tr className="font-medium bg-gray-50">
+                      <td className="px-4 py-2" colSpan={3}>Final Total</td>
+                      <td className="px-4 py-2">
+                        ₹
+                        {(() => {
+                          const base = selectedPlayers.length * stayDays * accomPricePerDay + mealTotal;
+                          if (!appliedCoupon) return base;
+                          if (appliedCoupon.couponType === "percentage") {
+                            return base - Math.floor((base * appliedCoupon.discount) / 100);
+                          }
+                          return Math.max(0, base - appliedCoupon.discount);
+                        })()}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
 
           )}
 
@@ -499,8 +603,8 @@ export default function AccommodationWizard() {
           {/* Navigation */}
           <div className="mt-6 flex justify-between">
             {step > 1 && <button type="button" onClick={prev} className="px-4 py-2 border rounded">&larr; Back</button>}
-            {step < 3 && <button type="button" onClick={next} className="px-4 py-2 bg-blue-600 text-white rounded">Next &rarr;</button>}
-            {step === 3 && <button type="submit" disabled={submitting} className="px-4 py-2 bg-green-600 text-white rounded">{submitting ? "Submitting..." : "Confirm & Submit"}</button>}
+            {step < 4 && <button type="button" onClick={next} className="px-4 py-2 bg-blue-600 text-white rounded">Next &rarr;</button>}
+            {step === 4 && <button type="submit" disabled={submitting} className="px-4 py-2 bg-green-600 text-white rounded">{submitting ? "Submitting..." : "Confirm & Submit"}</button>}
           </div>
         </form>
       </div>

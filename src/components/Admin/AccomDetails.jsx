@@ -1,3 +1,4 @@
+// Add this at the top if not imported yet
 import React, { useState, useEffect, useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card.jsx";
 import { Button } from "./ui/button";
@@ -16,10 +17,7 @@ const AccommodationDetails = () => {
     async function fetchAccommodations() {
       try {
         const res = await axiosInstance.get("/accommodation");
-        if (res.data.accommodations) {
-          setAccommodations(res.data.accommodations);
-        }
-        console.log(res.data);
+        if (res.data.accommodations) setAccommodations(res.data.accommodations);
       } catch (error) {
         console.error("Error fetching accommodations:", error);
       }
@@ -28,12 +26,12 @@ const AccommodationDetails = () => {
   }, []);
 
   const filteredAccommodations = useMemo(() => {
-    return accommodations.filter(acc => {
-      return acc.players.some(p =>
+    return accommodations.filter(acc =>
+      acc.players.some(p =>
         p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         p.email.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    });
+      )
+    );
   }, [accommodations, searchTerm]);
 
   const paginatedAccommodations = useMemo(() => {
@@ -70,6 +68,8 @@ const AccommodationDetails = () => {
                 <TableHead>Gender</TableHead>
                 <TableHead>Check-In</TableHead>
                 <TableHead>Check-Out</TableHead>
+                <TableHead>Accommodation Fee</TableHead>
+                <TableHead>Meals Fee</TableHead>
                 <TableHead>Total Amount</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead>Actions</TableHead>
@@ -78,7 +78,7 @@ const AccommodationDetails = () => {
             <TableBody>
               {paginatedAccommodations.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan="8" className="text-center py-12">
+                  <TableCell colSpan="10" className="text-center py-12">
                     <div className="flex flex-col items-center space-y-3">
                       <div className="text-6xl">🏨</div>
                       <h3 className="text-lg font-semibold text-gray-700">No Accommodations Found</h3>
@@ -93,7 +93,9 @@ const AccommodationDetails = () => {
                     <TableCell>{acc.genderCategory}</TableCell>
                     <TableCell>{new Date(acc.checkInDate).toLocaleDateString()}</TableCell>
                     <TableCell>{new Date(acc.checkOutDate).toLocaleDateString()}</TableCell>
-                    <TableCell>{acc.totalAmount}</TableCell>
+                    <TableCell>₹{acc.accommodationFee}</TableCell>
+                    <TableCell>₹{acc.mealsFee}</TableCell>
+                    <TableCell>₹{acc.totalAmount}</TableCell>
                     <TableCell>{acc.status}</TableCell>
                     <TableCell>
                       <Button size="sm" onClick={() => setSelectedAccommodation(acc)}>View</Button>
@@ -116,20 +118,50 @@ const AccommodationDetails = () => {
       </Card>
 
       {/* Accommodation Modal */}
-      {selectedAccommodation && (
+      {/* Accommodation Modal */}
+{selectedAccommodation && (
   <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
     <div className="bg-white rounded-lg p-6 w-4/5 max-h-[80vh] overflow-y-auto shadow-lg">
       <h2 className="text-2xl font-bold mb-4">Accommodation Details</h2>
       
+      {/* Top-level info */}
       <div className="mb-4">
         <p><strong>Transaction ID:</strong> {selectedAccommodation.transactionId}</p>
         <p><strong>Gender:</strong> {selectedAccommodation.genderCategory}</p>
         <p><strong>Check-In:</strong> {new Date(selectedAccommodation.checkInDate).toLocaleDateString()}</p>
         <p><strong>Check-Out:</strong> {new Date(selectedAccommodation.checkOutDate).toLocaleDateString()}</p>
+        <p><strong>Accommodation Fee:</strong> ₹{selectedAccommodation.accommodationFee}</p>
+        <p><strong>Meals Fee:</strong> ₹{selectedAccommodation.mealsFee}</p>
         <p><strong>Total Amount:</strong> ₹{selectedAccommodation.totalAmount}</p>
         <p><strong>Status:</strong> {selectedAccommodation.status}</p>
       </div>
 
+      {/* Meals Tracking Table */}
+      <h3 className="text-xl font-semibold mb-2">Meals Taken (Date-wise)</h3>
+      <table className="w-full border-collapse border mb-4">
+        <thead className="bg-gray-100">
+          <tr>
+            <th className="border p-2 text-left">Date</th>
+            <th className="border p-2 text-left">Breakfast</th>
+            <th className="border p-2 text-left">Lunch</th>
+            <th className="border p-2 text-left">Dinner</th>
+          </tr>
+        </thead>
+        <tbody>
+          {selectedAccommodation.players[0].mealsTracking.map((day, idx) => (
+            <tr key={idx} className="hover:bg-gray-50">
+              <td className="border p-2">{new Date(day.date).toLocaleDateString()}</td>
+              {day.slots.map(slot => (
+                <td key={slot.type} className="border p-2 text-center">
+                  {slot.taken ? "✔️" : "❌"}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      {/* Players Table */}
       <h3 className="text-xl font-semibold mb-2">Players</h3>
       <table className="w-full border-collapse border mb-4">
         <thead className="bg-gray-100">
@@ -137,10 +169,7 @@ const AccommodationDetails = () => {
             <th className="border p-2 text-left">Name</th>
             <th className="border p-2 text-left">Email</th>
             <th className="border p-2 text-left">Phone</th>
-            {/* <th className="border p-2 text-left">Roll No</th> */}
             <th className="border p-2 text-left">Aadhar</th>
-            {/* <th className="border p-2 text-left">Room Type</th> */}
-            {/* <th className="border p-2 text-left">Fee</th> */}
           </tr>
         </thead>
         <tbody>
@@ -149,10 +178,7 @@ const AccommodationDetails = () => {
               <td className="border p-2">{player.name}</td>
               <td className="border p-2">{player.email}</td>
               <td className="border p-2">{player.phoneNumber}</td>
-              {/* <td className="border p-2">{player.rollNo}</td> */}
               <td className="border p-2">{player.aadharId}</td>
-              {/* <td className="border p-2">{player.roomType || "-"}</td> */}
-              {/* <td className="border p-2">₹{player.fee || "-"}</td> */}
             </tr>
           ))}
         </tbody>
