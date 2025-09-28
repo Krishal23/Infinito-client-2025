@@ -4,10 +4,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "./ui/card.jsx";
 import { Button } from "./ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table";
 import axiosInstance from "../../utils/axios.js";
+import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
+
 
 const PAGE_SIZE = 5;
 
-const AccommodationDetails = () => {
+const AccommodationDetails = ({endpoint}) => {
   const [accommodations, setAccommodations] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -16,7 +18,7 @@ const AccommodationDetails = () => {
   useEffect(() => {
     async function fetchAccommodations() {
       try {
-        const res = await axiosInstance.get("/accommodation");
+        const res = await axiosInstance.get(`${endpoint}`);
         if (res.data.accommodations) setAccommodations(res.data.accommodations);
       } catch (error) {
         console.error("Error fetching accommodations:", error);
@@ -55,7 +57,7 @@ const AccommodationDetails = () => {
       </div>
 
       {/* Accommodation Table */}
-      <Card className="shadow-lg">
+      <Card className="shadow-lg bg-white/80">
         <CardHeader>
           <CardTitle className="text-xl text-gray-800">Accommodation Details</CardTitle>
         </CardHeader>
@@ -153,8 +155,12 @@ const AccommodationDetails = () => {
               <td className="border p-2">{new Date(day.date).toLocaleDateString()}</td>
               {day.slots.map(slot => (
                 <td key={slot.type} className="border p-2 text-center">
-                  {slot.taken ? "✔️" : "❌"}
-                </td>
+  {slot.taken ? (
+    <FaCheckCircle className="text-green-500 inline text-xl" />
+  ) : (
+    <FaTimesCircle className="text-red-500 inline text-xl" />
+  )}
+</td>
               ))}
             </tr>
           ))}

@@ -52,7 +52,7 @@ export default function AdminPortal() {
       case "events":
         return <Events data={eventsData} />
       case "accom":
-        return <AccommodationDetails/>
+        return <AccommodationDetails endpoint={'/accommodation'}/>
       default:
         return <div>Select a section from the sidebar</div>
     }

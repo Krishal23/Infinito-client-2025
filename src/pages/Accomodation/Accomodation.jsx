@@ -5,6 +5,8 @@ import { useAccommodationBooking } from "../../utils/useAccommodationBooking";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import Loader from "../../components/Loader";
+import { Link } from "react-router-dom";
+
 
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
 const LAST_DAY = new Date("2025-10-13T00:00:00.000Z");
@@ -48,7 +50,7 @@ export default function AccommodationWizard() {
   const navigate = useNavigate();
   const { bookAccommodation, submitting: accomSubmiting } = useAccommodationBooking({
     endpoint: "/accommodation",
-    redirectUrl: "/accommodation/success",
+    redirectUrl: "/my-accom",
   });
 
   const mealTotal = Object.entries(mealSelections).reduce((sum, [date, meals]) => {
@@ -271,7 +273,18 @@ export default function AccommodationWizard() {
       )}
       <Navbar />
       <div className="relative mb-4 z-10 max-w-3xl mx-auto p-6 bg-white/60 backdrop-blur-md rounded shadow-md min-h-[95vh] pt-20">
+        <div className='flex justify-between items-center'>
         <h1 className=" text-2xl font-bold mb-4">Accommodation Booking</h1>
+<Link
+  to="/my-accom"
+className="inline-block px-4 py-2 rounded-lg 
+  bg-gradient-to-b from-[#4b0f2a]/80 to-[#5c2c29]/80 
+  hover:from-[#6b1f3a]/90 hover:to-[#7c3c39]/90
+  text-white transition-all duration-300 
+  text-lg font-medium shadow-lg hover:shadow-xl"
+>My Bookings
+</Link>
+        </div>
         <span className="text-sm text-zinc-900">NOTE: For accomodation you need to be registered in atleast one event.</span>
         {message && (
           <div className={`mb-4 p-3 rounded ${message.type === "success" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>

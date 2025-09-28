@@ -24,11 +24,13 @@ import axiosInstance from "./utils/axios";
 // import CADashboard from "./pages/CA/sections/CADashboard";
 import ProtectedRoute from "./components/ProtectedRoutes";
 import MyApplication from "./pages/CA/sections/MyApplication";
+import MyAccom from "./pages/Accomodation/MyAccom"
 import AdminPage from "./pages/Admin/AdminPage";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CADashboard from "./pages/CA/sections/CADashboard";
 import Athletics from "./pages/Events/event-forms/athletics";
+import MyEventReceipts from "./pages/Events/MyEventReceipts";
 import Badminton_ from "./pages/Events/event-forms/badminton";
 import Basketball_ from "./pages/Events/event-forms/basketball";
 import Chess_ from "./pages/Events/event-forms/chess";
@@ -175,6 +177,14 @@ const router = createBrowserRouter([
     element: <PrivacyPolicy />,
   },
 
+  {
+    path: "/events/my-registrations",
+    element: (
+      <ProtectedRoute>
+        <MyEventReceipts />
+      </ProtectedRoute>
+    ),
+  },
   {
     path: "/events/athletics",
     element: (
@@ -371,10 +381,18 @@ const router = createBrowserRouter([
     ),
   },
   {
+    path: "/my-accom",
+    element: (
+      <ProtectedRoute>
+        <MyAccom />
+      </ProtectedRoute>
+    ),
+  },
+  {
     path: "/event/success",
     element: (
       <ProtectedRoute>
-        <CheckoutSuccess />
+        <MyEventReceipts />
       </ProtectedRoute>
     ),
   },
