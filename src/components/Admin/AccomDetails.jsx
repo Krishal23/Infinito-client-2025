@@ -5,6 +5,7 @@ import { Button } from "./ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table";
 import axiosInstance from "../../utils/axios.js";
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
+import { FaDownload } from "react-icons/fa6";
 
 
 const PAGE_SIZE = 5;
@@ -14,11 +15,12 @@ const AccommodationDetails = ({endpoint}) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedAccommodation, setSelectedAccommodation] = useState(null);
-
+  
   useEffect(() => {
     async function fetchAccommodations() {
       try {
         const res = await axiosInstance.get(`${endpoint}`);
+        console.log(res.data)
         if (res.data.accommodations) setAccommodations(res.data.accommodations);
       } catch (error) {
         console.error("Error fetching accommodations:", error);
@@ -65,8 +67,9 @@ const AccommodationDetails = ({endpoint}) => {
           <Table>
             <TableHeader>
               <TableRow className="bg-gray-100">
-                <TableHead>Transaction ID</TableHead>
-                <TableHead>Player Names</TableHead>
+                <TableHead>Transaction Proof</TableHead>
+                <TableHead>Event</TableHead>
+                <TableHead>Email</TableHead>
                 <TableHead>Gender</TableHead>
                 <TableHead>Check-In</TableHead>
                 <TableHead>Check-Out</TableHead>
@@ -89,16 +92,30 @@ const AccommodationDetails = ({endpoint}) => {
                 </TableRow>
               ) : (
                 paginatedAccommodations.map(acc => (
-                  <TableRow key={acc._id} onClick={() => setSelectedAccommodation(acc)} className="hover:bg-gray-50 cursor-pointer">
-                    <TableCell>{acc.transactionId.slice(0, 8)}...</TableCell>
-                    <TableCell>{acc.players.map(p => p.name).join(", ")}</TableCell>
-                    <TableCell>{acc.genderCategory}</TableCell>
+                  <TableRow key={acc?._id} onClick={() => setSelectedAccommodation(acc)} className="hover:bg-gray-50 cursor-pointer">
+                    <TableCell>
+  {acc?.paymentProof ? (
+    <a
+      href={acc.paymentProof}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-blue-600 hover:underline"
+    >
+      View Payment
+    </a>
+  ) : (
+    "N/A"
+  )}
+</TableCell>
+                    <TableCell>{acc?.eventName}</TableCell>
+                    <TableCell>{acc?.userId.email}</TableCell>
+                    <TableCell>{acc?.genderCategory}</TableCell>
                     <TableCell>{new Date(acc.checkInDate).toLocaleDateString()}</TableCell>
                     <TableCell>{new Date(acc.checkOutDate).toLocaleDateString()}</TableCell>
-                    <TableCell>₹{acc.accommodationFee}</TableCell>
-                    <TableCell>₹{acc.mealsFee}</TableCell>
-                    <TableCell>₹{acc.totalAmount}</TableCell>
-                    <TableCell>{acc.status}</TableCell>
+                    <TableCell>₹{acc?.accommodationFee}</TableCell>
+                    <TableCell>₹{acc?.mealsFee}</TableCell>
+                    <TableCell>₹{acc?.totalAmount}</TableCell>
+                    <TableCell>{acc?.status}</TableCell>
                     <TableCell>
                       <Button size="sm" onClick={() => setSelectedAccommodation(acc)}>View</Button>
                     </TableCell>
@@ -120,7 +137,6 @@ const AccommodationDetails = ({endpoint}) => {
       </Card>
 
       {/* Accommodation Modal */}
-      {/* Accommodation Modal */}
 {selectedAccommodation && (
   <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
     <div className="bg-white rounded-lg p-6 w-4/5 max-h-[80vh] overflow-y-auto shadow-lg">
@@ -128,14 +144,15 @@ const AccommodationDetails = ({endpoint}) => {
       
       {/* Top-level info */}
       <div className="mb-4">
-        <p><strong>Transaction ID:</strong> {selectedAccommodation.transactionId}</p>
-        <p><strong>Gender:</strong> {selectedAccommodation.genderCategory}</p>
-        <p><strong>Check-In:</strong> {new Date(selectedAccommodation.checkInDate).toLocaleDateString()}</p>
-        <p><strong>Check-Out:</strong> {new Date(selectedAccommodation.checkOutDate).toLocaleDateString()}</p>
-        <p><strong>Accommodation Fee:</strong> ₹{selectedAccommodation.accommodationFee}</p>
-        <p><strong>Meals Fee:</strong> ₹{selectedAccommodation.mealsFee}</p>
-        <p><strong>Total Amount:</strong> ₹{selectedAccommodation.totalAmount}</p>
-        <p><strong>Status:</strong> {selectedAccommodation.status}</p>
+        <pre className="flex"><strong>Transaction Proof:</strong><a href= {selectedAccommodation?.paymentProof} className="text-blue-400 px-4"><FaDownload/></a></pre>
+        <pre className="flex"><strong>Event: </strong>{selectedAccommodation?.eventName}</pre>
+        <p><strong>Gender:</strong> {selectedAccommodation?.genderCategory}</p>
+        <p><strong>Check-In:</strong> {new Date(selectedAccommodation?.checkInDate).toLocaleDateString()}</p>
+        <p><strong>Check-Out:</strong> {new Date(selectedAccommodation?.checkOutDate).toLocaleDateString()}</p>
+        <p><strong>Accommodation Fee:</strong> ₹{selectedAccommodation?.accommodationFee}</p>
+        <p><strong>Meals Fee:</strong> ₹{selectedAccommodation?.mealsFee}</p>
+        <p><strong>Total Amount:</strong> ₹{selectedAccommodation?.totalAmount}</p>
+        <p><strong>Status:</strong> {selectedAccommodation?.status}</p>
       </div>
 
       {/* Meals Tracking Table */}
@@ -150,7 +167,7 @@ const AccommodationDetails = ({endpoint}) => {
           </tr>
         </thead>
         <tbody>
-          {selectedAccommodation.players[0].mealsTracking.map((day, idx) => (
+          {selectedAccommodation?.players[0]?.mealsTracking.map((day, idx) => (
             <tr key={idx} className="hover:bg-gray-50">
               <td className="border p-2">{new Date(day.date).toLocaleDateString()}</td>
               {day.slots.map(slot => (
@@ -181,10 +198,10 @@ const AccommodationDetails = ({endpoint}) => {
         <tbody>
           {selectedAccommodation.players.map((player, idx) => (
             <tr key={idx} className="hover:bg-gray-50">
-              <td className="border p-2">{player.name}</td>
-              <td className="border p-2">{player.email}</td>
-              <td className="border p-2">{player.phoneNumber}</td>
-              <td className="border p-2">{player.aadharId}</td>
+              <td className="border p-2">{player?.name}</td>
+              <td className="border p-2">{player?.email}</td>
+              <td className="border p-2">{player?.phoneNumber}</td>
+              <td className="border p-2">{player?.aadharId}</td>
             </tr>
           ))}
         </tbody>

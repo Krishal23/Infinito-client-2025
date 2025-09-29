@@ -40,6 +40,7 @@ export default function AccommodationWizard() {
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState(null);
   const accomPricePerDay = 250;
+  const [paymentProof, setPaymentProof] = useState(null);
 
 
 
@@ -49,7 +50,7 @@ export default function AccommodationWizard() {
 
   const navigate = useNavigate();
   const { bookAccommodation, submitting: accomSubmiting } = useAccommodationBooking({
-    endpoint: "/accommodation",
+    endpoint: "/accommodation/book",
     redirectUrl: "/my-accom",
   });
 
@@ -62,6 +63,8 @@ export default function AccommodationWizard() {
     }, 0);
   }, 0);
 
+
+  console.log(mealTotal)
   const includeMeal = mealTotal > 0;
 
   const handleApplyCoupon = async () => {
@@ -221,45 +224,105 @@ export default function AccommodationWizard() {
   };
 
   // Submit
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!validateStep1() || !validateStep2()) return;
-    setSubmitting(true);
-    setMessage(null);
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (!validateStep1() || !validateStep2()) return;
+  if (!paymentProof) {
+    setMessage({ type: "error", text: "Please upload your payment proof." });
+    return;
+  }
 
-    const payloadPlayers = selectedPlayers.map((p) => ({
-      name: p.name,
-      email: p.email,
-      phoneNumber: p.phoneNumber,
-      aadharId: p.aadharId,
-    }));
+  setSubmitting(true);
+  setMessage(null);
 
-    const payload = {
-      eventId,
-      genderCategory,
-      checkInDate,
-      stayDays,
-      players: payloadPlayers,
-      couponCode: couponCode || null,
-      meals: mealSelections,
-    };
+  const payloadPlayers = selectedPlayers.map((p) => ({
+    name: p.name,
+    email: p.email,
+    phoneNumber: p.phoneNumber,
+    aadharId: p.aadharId,
+  }));
+  const selectedEvent = events.find((ev) => ev.eventId === eventId);
+  const eventName = selectedEvent?.eventName || "Unknown Event";
 
-    try {
-      console.log("Sending payload:", payload);
-      // const res = await axiosInstance.post("/accommodation", payload); // Correct endpoint
-      bookAccommodation(payload, navigate);
-      // console.log("Response:", res.data);
-      // setMessage({ type: "success", text: "Accommodation booked successfully" });
-    } catch (err) {
-      console.error(err);
-      setMessage({
-        type: "error",
-        text: err.response?.data?.message || err.message || "Booking failed",
-      });
-    } finally {
-      setSubmitting(false);
-    }
-  };
+
+  // Use FormData for files + JSON
+  const formData = new FormData();
+  formData.append("eventId", eventId);
+formData.append("eventName", eventName);
+  formData.append("genderCategory", genderCategory);
+  formData.append("checkInDate", checkInDate);
+  formData.append("stayDays", stayDays);
+  formData.append("couponCode", couponCode || "");
+  formData.append("players", JSON.stringify(payloadPlayers));
+  formData.append("meals", JSON.stringify(mealSelections));
+  formData.append("paymentProof", paymentProof); // <-- File
+
+  try {
+    console.log(formData)
+    await axiosInstance.post("/accommodation/book", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    alert('Submited')
+    // navigate("/my-accom");
+  } catch (err) {
+    setMessage({
+      type: "error",
+      text: err.response?.data?.message || "Booking failed",
+    });
+  } finally {
+    setSubmitting(false);
+  }
+};
+
+
+
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   if (!validateStep1() || !validateStep2()) return;
+  //   if (!paymentProof) {
+  //     setMessage({ type: "error", text: "Please upload your payment proof." });
+  //     setSubmitting(false);
+  //     return;
+  //   }
+
+  //   setSubmitting(true);
+  //   setMessage(null);
+
+  //   const payloadPlayers = selectedPlayers.map((p) => ({
+  //     name: p.name,
+  //     email: p.email,
+  //     phoneNumber: p.phoneNumber,
+  //     aadharId: p.aadharId,
+  //   }));
+
+  //   const payload = {
+  //     eventId,
+  //     genderCategory,
+  //     checkInDate,
+  //     stayDays,
+  //     players: payloadPlayers,
+  //     couponCode: couponCode || null,
+  //     meals: mealSelections,
+  //     paymentProof,
+  //   };
+
+  //   try {
+  //     console.log("Sending payload:", payload);
+  //     // const res = await axiosInstance.post("/accommodation", payload); // Correct endpoint
+  //     bookAccommodation(payload, navigate);
+  //     // console.log("Response:", res.data);
+  //     // setMessage({ type: "success", text: "Accommodation booked successfully" });
+  //   } catch (err) {
+  //     console.error(err);
+  //     setMessage({
+  //       type: "error",
+  //       text: err.response?.data?.message || err.message || "Booking failed",
+  //     });
+  //   } finally {
+  //     setSubmitting(false);
+  //   }
+  // };
   // client\Infinito\public\accomBG.jpg
 
   return (
@@ -274,16 +337,16 @@ export default function AccommodationWizard() {
       <Navbar />
       <div className="relative mb-4 z-10 max-w-3xl mx-auto p-6 bg-white/60 backdrop-blur-md rounded shadow-md min-h-[95vh] pt-20">
         <div className='flex justify-between items-center'>
-        <h1 className=" text-2xl font-bold mb-4">Accommodation Booking</h1>
-<Link
-  to="/my-accom"
-className="inline-block px-4 py-2 rounded-lg 
+          <h1 className=" text-2xl font-bold mb-4">Accommodation Booking</h1>
+          <Link
+            to="/my-accom"
+            className="inline-block px-4 py-2 rounded-lg 
   bg-gradient-to-b from-[#4b0f2a]/80 to-[#5c2c29]/80 
   hover:from-[#6b1f3a]/90 hover:to-[#7c3c39]/90
   text-white transition-all duration-300 
   text-lg font-medium shadow-lg hover:shadow-xl"
->My Bookings
-</Link>
+          >My Bookings
+          </Link>
         </div>
         <span className="text-sm text-zinc-900">NOTE: For accomodation you need to be registered in atleast one event.</span>
         {message && (
@@ -470,30 +533,30 @@ className="inline-block px-4 py-2 rounded-lg
                         <td className="px-4 py-3 text-gray-800">{value}</td>
                       </tr>
                     ))}
-       <tr>
-  <td className="px-4 py-2 font-medium text-gray-700">Meals Included</td>
-  <td className="px-4 py-2 text-gray-800">
-    {mealTotal > 0 ? (
-      <div className="space-y-1">
-        {Object.entries(mealSelections).map(([date, dayMeals]) => {
-          const chosenMeals = Object.entries(dayMeals)
-            .filter(([_, selected]) => selected)
-            .map(([mealType]) => `${mealType} (₹${mealRates[mealType]})`);
-          return (
-            <div key={date}>
-              <span className="font-semibold">{date}:</span>{" "}
-              {chosenMeals.length > 0 ? chosenMeals.join(", ") : "No meals"}
-            </div>
-          );
-        })}
-      </div>
-    ) : (
-      "No"
-    )}
-  </td>
-</tr>
+                    <tr>
+                      <td className="px-4 py-2 font-medium text-gray-700">Meals Included</td>
+                      <td className="px-4 py-2 text-gray-800">
+                        {mealTotal > 0 ? (
+                          <div className="space-y-1">
+                            {Object.entries(mealSelections).map(([date, dayMeals]) => {
+                              const chosenMeals = Object.entries(dayMeals)
+                                .filter(([_, selected]) => selected)
+                                .map(([mealType]) => `${mealType} (₹${mealRates[mealType]})`);
+                              return (
+                                <div key={date}>
+                                  <span className="font-semibold">{date}:</span>{" "}
+                                  {chosenMeals.length > 0 ? chosenMeals.join(", ") : "No meals"}
+                                </div>
+                              );
+                            })}
+                          </div>
+                        ) : (
+                          "No"
+                        )}
+                      </td>
+                    </tr>
 
-                    <tr className="hover:bg-gray-50 transition-colors duration-150">
+                    {/* <tr className="hover:bg-gray-50 transition-colors duration-150">
                       <td className="px-4 py-3 font-medium text-gray-700">Coupon</td>
                       <td className="px-4 py-3">
                         <div className="flex space-x-2">
@@ -519,7 +582,7 @@ className="inline-block px-4 py-2 rounded-lg
                           </p>
                         )}
                       </td>
-                    </tr>
+                    </tr> */}
                   </tbody>
                 </table>
               </div>
@@ -593,20 +656,53 @@ className="inline-block px-4 py-2 rounded-lg
                     <tr className="font-medium bg-gray-50">
                       <td className="px-4 py-2" colSpan={3}>Final Total</td>
                       <td className="px-4 py-2">
-                        ₹
-                        {(() => {
-                          const base = selectedPlayers.length * stayDays * accomPricePerDay ;
+                        ₹{(selectedPlayers.length * stayDays * accomPricePerDay)+mealTotal}
+                        {/* {(() => {
+                          const base = selectedPlayers.length * stayDays * accomPricePerDay;
                           if (!appliedCoupon) return base;
                           if (appliedCoupon.couponType === "percentage") {
-                            return base +mealTotal - Math.floor((base * appliedCoupon.discount) / 100);
+                            return base + mealTotal - Math.floor((base * appliedCoupon.discount) / 100);
                           }
-                          return Math.max(0, base+mealTotal - appliedCoupon.discount);
-                        })()}
+                          return Math.max(0, base + mealTotal - appliedCoupon.discount);
+                        })()} */}
                       </td>
                     </tr>
                   </tbody>
                 </table>
               </div>
+
+              <div className="mt-4">
+                <h3 className="text-lg font-medium mb-2">Scan to Pay</h3>
+                <img
+                  src="/gymkhanaQR.jpg" // put your QR image in public folder
+                  alt="Scan this QR to pay"
+                  className="w-48  object-contain mx-auto mb-2"
+                />
+                <p className="text-sm text-gray-600 text-center">
+                  Scan this QR code to make your payment.
+                </p>
+              </div>
+
+              {/* Payment Proof */}
+              <div className="mt-4">
+                <label className="block text-sm font-medium mb-1">
+                  Upload Proof of Payment <span className="text-red-600">*</span>
+                </label>
+                <input
+                  type="file"
+                  accept="image/png, image/jpeg"
+                  onChange={(e) => setPaymentProof(e.target.files[0])}
+                  className="border p-2 rounded w-full"
+                  required
+                />
+                <p className="text-sm text-gray-500 mt-1">
+                  Upload a clear image of your payment receipt.
+                </p>
+                {paymentProof && (
+                  <p className="text-green-700 text-sm mt-1">File selected: {paymentProof.name}</p>
+                )}
+              </div>
+
             </div>
 
           )}
