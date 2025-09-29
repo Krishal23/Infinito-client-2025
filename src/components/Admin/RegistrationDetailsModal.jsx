@@ -4,6 +4,117 @@ import {
   FaGraduationCap, FaUsers, FaTrophy, FaCalendar,
   FaDownload
 } from 'react-icons/fa';
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+
+export const downloadReceipt = (data, eventType = "registration", logoUrl) => {
+  if (!data) return;
+
+  const doc = new jsPDF();
+  const pageWidth = doc.internal.pageSize.getWidth();
+  let currentY = 20;
+
+  // --- Logo ---
+  if (logoUrl) {
+    const imgWidth = 40;
+    const imgHeight = 40;
+    doc.addImage(logoUrl, "PNG", (pageWidth - imgWidth) / 2, 5, imgWidth, imgHeight);
+    currentY += 40;
+  }
+
+  // --- Header ---
+  doc.setFontSize(18);
+  doc.setFont("helvetica", "bold");
+  doc.text("INFINITO IIT Patna 2025", pageWidth / 2, currentY, { align: "center" });
+  currentY += 10;
+
+  doc.setFontSize(12);
+  doc.setFont("helvetica", "normal");
+  doc.text(`Event: ${(data.eventName || "").toUpperCase() || "—"}`, 14, currentY);
+  currentY += 6;
+  doc.text(`Registration ID: ${data._id || "—"}`, 14, currentY);
+  currentY += 6;
+  doc.text(`Registration Date: ${data.registrationDate ? new Date(data.registrationDate).toLocaleString() : "—"}`, 14, currentY);
+  currentY += 8;
+
+  // --- Payment Status ---
+  let paymentColor = [255, 165, 0]; // orange
+  if (data.payment?.status === "paid") paymentColor = [46, 204, 113]; // green
+  else if (data.payment?.status === "failed") paymentColor = [231, 76, 60]; // red
+
+  doc.setFillColor(...paymentColor);
+  doc.setTextColor(255, 255, 255);
+  doc.setFont("helvetica", "bold");
+  doc.rect(14, currentY - 4, 40, 6, "F");
+  doc.text(`Payment: ${data.payment?.status || "—"}`, 16, currentY);
+  doc.setTextColor(0, 0, 0);
+  doc.setFont("helvetica", "normal");
+  currentY += 10;
+
+  // --- College Info ---
+  doc.setFont("helvetica", "bold");
+  doc.setFillColor(52, 152, 219);
+  doc.setTextColor(255, 255, 255);
+  doc.rect(14, currentY - 4, pageWidth - 28, 7, "F");
+  doc.text("College Information", 16, currentY);
+  doc.setFont("helvetica", "normal");
+  doc.setTextColor(0, 0, 0);
+  currentY += 6;
+  doc.text(`College: ${data.collegeName || "—"}`, 14, currentY);
+  if (data.collegeAddress) {
+    currentY += 6;
+    doc.text(`Address: ${data.collegeAddress}`, 14, currentY);
+  }
+  currentY += 10;
+
+  // --- Coach Info ---
+  if (data.coach) {
+    doc.setFont("helvetica", "bold");
+    doc.setFillColor(155, 89, 182);
+    doc.setTextColor(255, 255, 255);
+    doc.rect(14, currentY - 4, pageWidth - 28, 7, "F");
+    doc.text("Coach Information", 16, currentY);
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(0, 0, 0);
+    currentY += 6;
+    doc.text(`Name: ${data.coach.fullname || "—"}`, 14, currentY);
+    currentY += 6;
+    doc.text(`Email: ${data.coach.email || "—"}`, 14, currentY);
+    currentY += 6;
+    doc.text(`Phone: ${data.coach.phoneNumber || "—"}`, 14, currentY);
+    if (data.coach.aadharId) {
+      currentY += 6;
+      doc.text(`Aadhar ID: ${data.coach.aadharId}`, 14, currentY);
+    }
+    currentY += 10;
+  }
+
+  // --- Team Members ---
+  const isTeamSport = ["football","cricket","basketball","volleyball","kabaddi","badminton","table_tennis","chess"].includes(eventType);
+  if (isTeamSport) {
+    const rows = [];
+    if (data.captain) rows.push(["Captain", data.captain.fullname || "—", data.captain.email || "—", data.captain.phoneNumber || "—", data.captain.aadharId || "—"]);
+    if (data.viceCaptain) rows.push(["Vice Captain", data.viceCaptain.fullname || "—", data.viceCaptain.email || "—", data.viceCaptain.phoneNumber || "—", data.viceCaptain.aadharId || "—"]);
+    if (data.players?.length) data.players.forEach((p,i)=> rows.push([`Player ${i+1}`, p.fullname || "—", p.email || "—", p.phoneNumber || "—", p.aadharId || "—"]));
+    if (data.substitutes?.length) data.substitutes.forEach((s,i)=> rows.push([`Substitute ${i+1}`, s.fullname || "—", s.email || "—", s.phoneNumber || "—", s.aadharId || "—"]));
+
+   doc.autoTable({
+  startY: currentY + 6,
+  head: [["Role", "Name", "Email", "Phone", "Aadhar"]],
+  body: rows,
+  styles: { fontSize: 10 },
+  headStyles: { fillColor: [41, 128, 185], textColor: 255 },
+  alternateRowStyles: { fillColor: [240, 240, 240] },
+  margin: { left: 14, right: 14 },
+});
+
+    currentY = doc.lastAutoTable.finalY + 10;
+  }
+
+  doc.save(`${eventType}_${data._id || "data"}.pdf`);
+};
+
+
 
 const RegistrationDetailsModal = ({ isOpen, onClose, data, eventType }) => {
   if (!isOpen || !data) return null;
@@ -15,6 +126,29 @@ const RegistrationDetailsModal = ({ isOpen, onClose, data, eventType }) => {
       hour: "2-digit", minute: "2-digit"
     });
   };
+
+  const renderTransactionDetails = () => {
+  const tx = data.payment;
+  if (!tx) return null;
+  return (
+    <div className="bg-gray-100 rounded-lg p-4 mb-4">
+      <h4 className="font-semibold text-gray-800 mb-3 flex items-center gap-2">
+        <FaTrophy className="text-gray-600" /> Transaction Details
+      </h4>
+      <div className="text-sm space-y-1">
+        <div><span className="font-medium">Payment ID:</span> {tx.paymentId || "—"}</div>
+        <div><span className="font-medium">Order ID:</span> {tx.orderId || "—"}</div>
+        <div><span className="font-medium">Transaction ID:</span> {tx.transaction || "—"}</div>
+        <div><span className="font-medium">Amount:</span> {tx.amount ? `${tx.amount} ${tx.currency || ""}` : "—"}</div>
+        <div><span className="font-medium">Method:</span> {tx.method || "—"}</div>
+        <div><span className="font-medium">Status:</span> {tx.status || "—"}</div>
+        <div><span className="font-medium">Date:</span> {tx.createdAt ? new Date(tx.createdAt).toLocaleString() : "—"}</div>
+        <div><span className="font-medium">Signature:</span> {tx.signature || "—"}</div>
+      </div>
+    </div>
+  );
+};
+
 
   const renderUser = (user, roleLabel) => (
     <div className="bg-gray-50 rounded-lg p-4 mb-4">
@@ -243,6 +377,12 @@ const downloadData = () => {
             >
               <FaDownload /> 
             </div>
+            <div
+    onClick={() => downloadReceipt(data, eventType)}
+  className="flex items-center gap-2 bg-blue-600 text-white w-full mt-4"
+>
+  <FaDownload /> Download Receipt
+</div>
           </div>
           <div onClick={onClose} className="text-gray-500 max-w-10 hover:text-gray-700 p-2 hover:bg-gray-100 rounded-full">
             <FaTimes className="w-5 h-5" />

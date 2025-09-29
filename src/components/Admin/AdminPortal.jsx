@@ -11,6 +11,7 @@ import { AuthContext } from "../../context/AuthContext.jsx"
 import axiosInstance from "../../utils/axios.js"
 import { FaBars, FaTimes } from "react-icons/fa"
 import AccommodationDetails from "./AccomDetails.jsx"
+import EventRegistrations from "./EventRegistrationsFallback.jsx"
 
 export default function AdminPortal() {
   const [activeTab, setActiveTab] = useState("home")
@@ -50,7 +51,7 @@ export default function AdminPortal() {
       case "ca":
         return <CAApplications />
       case "events":
-        return <Events data={eventsData} />
+        return <EventRegistrations data={eventsData} />
       case "accom":
         return <AccommodationDetails endpoint={'/accommodation'}/>
       default:

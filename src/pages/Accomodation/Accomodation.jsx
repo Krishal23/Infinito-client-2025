@@ -81,7 +81,7 @@ export default function AccommodationWizard() {
         `/coupons/validate/${couponCode}?amount=${baseAmount}&category=ACCOM`
       );
 
-      const data = res.data;
+      const data = res?.data;
       console.log(data)
 
       if (data.success) {
@@ -137,7 +137,7 @@ export default function AccommodationWizard() {
       try {
         const res = await axiosInstance("/events/my-event-players");
         const data = res?.data;
-        console.log("Fetched events:", data);
+        // console.log("Fetched events:", data);
 
 
         if (data.success) {
@@ -595,12 +595,12 @@ className="inline-block px-4 py-2 rounded-lg
                       <td className="px-4 py-2">
                         ₹
                         {(() => {
-                          const base = selectedPlayers.length * stayDays * accomPricePerDay + mealTotal;
+                          const base = selectedPlayers.length * stayDays * accomPricePerDay ;
                           if (!appliedCoupon) return base;
                           if (appliedCoupon.couponType === "percentage") {
-                            return base - Math.floor((base * appliedCoupon.discount) / 100);
+                            return base +mealTotal - Math.floor((base * appliedCoupon.discount) / 100);
                           }
-                          return Math.max(0, base - appliedCoupon.discount);
+                          return Math.max(0, base+mealTotal - appliedCoupon.discount);
                         })()}
                       </td>
                     </tr>

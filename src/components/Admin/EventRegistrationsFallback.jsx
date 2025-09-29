@@ -49,10 +49,12 @@ const EventRegistrations = ({ eventType = "football", onSportChange }) => {
   const filteredRegistrations = useMemo(() => {
     return currentRegistrations.filter(reg => {
       const name =reg.userId?.username|| reg.captain?.fullname || reg.lead?.fullname || "";
-      const college = reg.userId?.email || "";
+      const college = reg.collegeName|| "";
+      const email = reg.userId?.email || "";
       return (
         name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        college.toLowerCase().includes(searchTerm.toLowerCase())
+        college.toLowerCase().includes(searchTerm.toLowerCase()) || 
+        email.toLowerCase().includes(searchTerm.toLowerCase())
       );
     });
   }, [currentRegistrations, searchTerm]);
@@ -146,6 +148,7 @@ const EventRegistrations = ({ eventType = "football", onSportChange }) => {
                 <TableHead>Registration ID</TableHead>
                 <TableHead>User Name</TableHead>
                 <TableHead>Email</TableHead>
+                <TableHead>College Name</TableHead>
                 <TableHead>Team Size</TableHead>
                 <TableHead>Registration Date</TableHead>
                 <TableHead>Status</TableHead>
@@ -170,6 +173,7 @@ const EventRegistrations = ({ eventType = "football", onSportChange }) => {
                       <TableCell>{reg._id.slice(0,8)}...</TableCell>
                       <TableCell>{reg.userId.username || "N/A"}</TableCell>
                       <TableCell>{reg.userId.email || "N/A"}</TableCell>
+                      <TableCell>{reg?.collegeName}</TableCell>
                       <TableCell>{teamSize}</TableCell>
                       <TableCell>{new Date(reg.registrationDate).toLocaleString()}</TableCell>
                       <TableCell>{reg.paymentStatus}</TableCell>

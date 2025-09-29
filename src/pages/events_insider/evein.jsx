@@ -46,6 +46,7 @@ import valorantimg from '../images/valorant.png'
 import mrinfinitoimg from '../images/mrinfinito.png'
 import Chess from './Chess';
 import axiosInstance from '../../utils/axios';
+import { Link } from 'react-router-dom';
 
 
 // Mapping for event components
@@ -139,7 +140,20 @@ const normalizeEvent = (event) => normalizeEventMap[event] || event;
         backgroundPosition: 'center',
         
       }}>
+        <div className='flex justify-between w-full items-center mt-4'>
+
+        <div className='w-40'> </div>
         <h1 className={styles.title}>Events</h1>
+        <Link
+          to="/events/my-registrations"
+        className="inline-block px-4 py-2 rounded-lg 
+          bg-gradient-to-b from-[#4b0f2a]/80 to-[#5c2c29]/80 
+          hover:from-[#6b1f3a]/90 hover:to-[#7c3c39]/90
+          text-white transition-all duration-300 
+          text-lg font-medium shadow-lg hover:shadow-xl"
+        >My Events
+        </Link>
+        </div>
         {/* Section 1: Sports Icons */}
         <div className={styles.sportsIcons}>
           {Object.keys(eventComponents).map((sportKey) => (
