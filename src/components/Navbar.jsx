@@ -96,6 +96,8 @@ const Navbar = () => {
               <Link to="/aboutUs">Team</Link>
               <Link to="/sponsor">Sponsors</Link>
               <Link to="/merch">Merch</Link>
+              <Link to="/consent">Consent</Link>
+
               {
                 user?.role ==="admin" && (
                   <Link to="/admin">Admin</Link>
@@ -117,6 +119,7 @@ const Navbar = () => {
           onMouseLeave={handleMouseLeave}
         >
         </div>
+        
         <div className="desktop-menu">
           <Link to="/">Home</Link>
           <Link to="/event/ins">Events</Link>
@@ -124,6 +127,7 @@ const Navbar = () => {
           <Link to="/aboutUs">Team</Link>
           <Link to="/sponsor">Sponsors</Link>
           <Link to="/merch">Merch</Link>
+          <Link to="/consent">Consent</Link>
           {
             user?.role ==="admin" && (
               <Link to="/admin">Admin</Link>

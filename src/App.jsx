@@ -22,14 +22,7 @@ import MyApplication from "./pages/CA/sections/MyApplication";
 import AdminPage from "./pages/Admin/AdminPage";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-<<<<<<< HEAD
 import CADashboard from "./pages/CA/sections/CADashboard";
-=======
-// import CADashboard from "./pages/CA/sections/CADashboard";
-// import ProtectedRoute from "./components/ProtectedRoutes";
-// import MyApplication from "./pages/CA/sections/MyApplication";
-// import AdminPage from "./pages/Admin/AdminPage";
->>>>>>> main
 import Merch from "./pages/SampleMerch/Merch";
 import Athletics from "./pages/Events/event-forms/athletics";
 import Badminton_ from "./pages/Events/event-forms/badminton";
@@ -44,7 +37,7 @@ import Tt_ from "./pages/Events/event-forms/tt";
 import Volleyball_ from "./pages/Events/event-forms/volley";
 import Weightlifting_ from "./pages/Events/event-forms/weightlifting";
 import Codm_ from "./pages/Events/event-forms/codm"
-
+import Consent from "./pages/Consents/Consent";
 // import Gallery from "./pages/Gallery/components/content";
 const router = createBrowserRouter([
   {
@@ -52,6 +45,10 @@ const router = createBrowserRouter([
     element: <Home />,
   },
 
+  {
+    path: "/consent",
+    element: <Consent />,
+  },
 
  
   {
@@ -114,15 +111,9 @@ const router = createBrowserRouter([
   {
     path: "/ca-dashboard",
     element: (
-<<<<<<< HEAD
       <ProtectedRoute allowedRoles={["ca"]}>
         <CADashboard />
       </ProtectedRoute>
-=======
-      // <ProtectedRoute allowedRoles={["ca"]}>
-         <CADashboard />
-      // </ProtectedRoute>
->>>>>>> main
     ),
   },
   {

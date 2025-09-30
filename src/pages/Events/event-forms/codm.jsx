@@ -2,9 +2,14 @@ import React, { useState } from "react";
 import './forms.css';
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
+import axiosInstance from "../../../utils/axios";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Codm_ = () => {
-    const [formData, setFormData] = useState({
+    const navigate = useNavigate();
+    const [submitting, setSubmitting] = useState(false);
+    const [form, setForm] = useState({
         teamName: '',
         teamLeaderName: '',
         teamLeaderRollNo: '',
@@ -25,68 +30,48 @@ const Codm_ = () => {
         queries: ''
     });
 
-    const [loading, setLoading] = useState(false);
-    const [message, setMessage] = useState({ text: '', type: '' });
-
-    const handleInputChange = (e) => {
+    const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prev => ({
+        setForm(prev => ({
             ...prev,
             [name]: value
         }));
     };
 
     const handlePlayerChange = (index, field, value) => {
-        setFormData(prev => ({
+        setForm(prev => ({
             ...prev,
-            players: prev.players.map((player, i) => 
+            players: prev.players.map((player, i) =>
                 i === index ? { ...player, [field]: value } : player
             )
         }));
     };
 
     const validateForm = () => {
-        // Basic validation
-        const required = ['teamName', 'teamLeaderName', 'teamLeaderRollNo', 'email', 'teamCaptainNumber', 'collegeName', 'collegeAddress', 'aadharId', 'fullname', 'phoneNumber'];
-        
-        for (let field of required) {
-            if (!formData[field].trim()) {
-                setMessage({ text: `${field.replace(/([A-Z])/g, ' $1').toLowerCase()} is required`, type: 'error' });
-                return false;
-            }
-        }
-
-        // Validate players
-        for (let i = 0; i < 5; i++) {
-            const player = formData.players[i];
-            if (!player.name.trim() || !player.rollNumber.trim() || !player.ign.trim()) {
-                setMessage({ text: `All fields for Player ${i + 1} are required`, type: 'error' });
-                return false;
-            }
-        }
-
         // Validate phone numbers
-        if (!/^\d{10}$/.test(formData.teamCaptainNumber)) {
-            setMessage({ text: 'Team captain number must be 10 digits', type: 'error' });
+        if (!/^\d{10}$/.test(form.teamCaptainNumber)) {
+            toast.error('Team captain number must be 10 digits');
             return false;
         }
 
-        if (!/^\d{10}$/.test(formData.phoneNumber)) {
-            setMessage({ text: 'Phone number must be 10 digits', type: 'error' });
+        if (!/^\d{10}$/.test(form.phoneNumber)) {
+            toast.error('Phone number must be 10 digits');
             return false;
         }
 
         // Validate Aadhar ID
-        if (!/^\d{12}$/.test(formData.aadharId)) {
-            setMessage({ text: 'Aadhar ID must be 12 digits', type: 'error' });
+        if (!/^\d{12}$/.test(form.aadharId)) {
+            toast.error('Aadhar ID must be 12 digits');
             return false;
         }
 
-        // Validate email
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(formData.email)) {
-            setMessage({ text: 'Please enter a valid email address', type: 'error' });
-            return false;
+        // Validate players
+        for (let i = 0; i < 5; i++) {
+            const player = form.players[i];
+            if (!player.name.trim() || !player.rollNumber.trim() || !player.ign.trim()) {
+                toast.error(`All fields for Player ${i + 1} are required`);
+                return false;
+            }
         }
 
         return true;
@@ -94,59 +79,43 @@ const Codm_ = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         if (!validateForm()) {
             return;
         }
 
-        setLoading(true);
-        setMessage({ text: '', type: '' });
+        setSubmitting(true);
 
         try {
-            const token = localStorage.getItem('token'); // Assuming you store JWT token in localStorage
-            
-            const response = await fetch('/api/v1/events/codm/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    ...(token && { 'Authorization': `Bearer ${token}` })
-                },
-                body: JSON.stringify(formData)
+            const res = await axiosInstance.post('/events/codm/register', form);
+            toast.success(res.data?.message || 'Registration successful!');
+            setTimeout(() => navigate('/event/ins'), 800);
+
+            // Reset form
+            setForm({
+                teamName: '',
+                teamLeaderName: '',
+                teamLeaderRollNo: '',
+                email: '',
+                teamCaptainNumber: '',
+                players: [
+                    { name: '', rollNumber: '', ign: '' },
+                    { name: '', rollNumber: '', ign: '' },
+                    { name: '', rollNumber: '', ign: '' },
+                    { name: '', rollNumber: '', ign: '' },
+                    { name: '', rollNumber: '', ign: '' }
+                ],
+                collegeName: '',
+                collegeAddress: '',
+                aadharId: '',
+                fullname: '',
+                phoneNumber: '',
+                queries: ''
             });
-
-            const data = await response.json();
-
-            if (data.success) {
-                setMessage({ text: 'Registration successful! You will receive a confirmation email shortly.', type: 'success' });
-                // Reset form
-                setFormData({
-                    teamName: '',
-                    teamLeaderName: '',
-                    teamLeaderRollNo: '',
-                    email: '',
-                    teamCaptainNumber: '',
-                    players: [
-                        { name: '', rollNumber: '', ign: '' },
-                        { name: '', rollNumber: '', ign: '' },
-                        { name: '', rollNumber: '', ign: '' },
-                        { name: '', rollNumber: '', ign: '' },
-                        { name: '', rollNumber: '', ign: '' }
-                    ],
-                    collegeName: '',
-                    collegeAddress: '',
-                    aadharId: '',
-                    fullname: '',
-                    phoneNumber: '',
-                    queries: ''
-                });
-            } else {
-                setMessage({ text: data.message || 'Registration failed. Please try again.', type: 'error' });
-            }
-        } catch (error) {
-            console.error('Registration error:', error);
-            setMessage({ text: 'Network error. Please check your connection and try again.', type: 'error' });
+        } catch (err) {
+            toast.error(err?.response?.data?.message || 'Registration failed');
         } finally {
-            setLoading(false);
+            setSubmitting(false);
         }
     };
 
@@ -194,128 +163,144 @@ const Codm_ = () => {
                 )}
 
                 <form className="form" onSubmit={handleSubmit}>
-                    <input 
-                        type="text" 
-                        name="teamName"
-                        value={formData.teamName}
-                        onChange={handleInputChange}
-                        placeholder="Team name" 
-                        required 
-                    />
-                    <input 
-                        type="text" 
-                        name="teamLeaderName"
-                        value={formData.teamLeaderName}
-                        onChange={handleInputChange}
-                        placeholder="Team leader's name (all communications will be made to him/her)" 
-                        required 
-                    />
-                    <input 
-                        type="text" 
-                        name="teamLeaderRollNo"
-                        value={formData.teamLeaderRollNo}
-                        onChange={handleInputChange}
-                        placeholder="Team Leader's Roll Number" 
-                        required 
-                    />
-                    <input 
-                        type="email" 
-                        name="email"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        placeholder="Email" 
-                        required 
-                    />
-                    <input 
-                        type="tel" 
-                        name="teamCaptainNumber"
-                        value={formData.teamCaptainNumber}
-                        onChange={handleInputChange}
-                        placeholder="Team captain number (preferably whatsapp)" 
-                        required 
-                    />
-                    
-                    {/* Additional required fields for backend */}
-                    <input 
-                        type="text" 
-                        name="fullname"
-                        value={formData.fullname}
-                        onChange={handleInputChange}
-                        placeholder="Your full name" 
-                        required 
-                    />
-                    <input 
-                        type="text" 
-                        name="aadharId"
-                        value={formData.aadharId}
-                        onChange={handleInputChange}
-                        placeholder="Aadhar ID (12 digits)" 
-                        required 
-                    />
-                    <input 
-                        type="tel" 
-                        name="phoneNumber"
-                        value={formData.phoneNumber}
-                        onChange={handleInputChange}
-                        placeholder="Your phone number" 
-                        required 
-                    />
-                    
-                    {/* Player details */}
-                    {formData.players.map((player, index) => (
-                        <div key={index} style={{ marginBottom: '15px', padding: '10px', border: '1px solid #ddd', borderRadius: '5px' }}>
-                            <h4>Player {index + 1}</h4>
-                            <input 
-                                type="text" 
-                                value={player.name}
-                                onChange={(e) => handlePlayerChange(index, 'name', e.target.value)}
-                                placeholder={`Player ${index + 1} name`} 
-                                required 
-                            />
-                            <input 
-                                type="text" 
-                                value={player.rollNumber}
-                                onChange={(e) => handlePlayerChange(index, 'rollNumber', e.target.value)}
-                                placeholder={`Player ${index + 1} Roll number`} 
-                                required 
-                            />
-                            <input 
-                                type="text" 
-                                value={player.ign}
-                                onChange={(e) => handlePlayerChange(index, 'ign', e.target.value)}
-                                placeholder={`Player ${index + 1} IGN`} 
-                                required 
-                            />
-                        </div>
-                    ))}
-                    
-                    <input 
-                        type="text" 
-                        name="collegeName"
-                        value={formData.collegeName}
-                        onChange={handleInputChange}
-                        placeholder="College Name" 
-                        required 
-                    />
-                    <input 
-                        type="text" 
-                        name="collegeAddress"
-                        value={formData.collegeAddress}
-                        onChange={handleInputChange}
-                        placeholder="College Address" 
-                        required 
-                    />
-                    <textarea 
-                        name="queries"
-                        value={formData.queries}
-                        onChange={handleInputChange}
-                        placeholder="Queries and suggestions"
-                        rows="3"
-                        style={{ resize: 'vertical' }}
-                    />
-                    
-                    <button type="submit" disabled={loading}>
-                        {loading ? 'Registering...' : 'Register'}
+                    <div className="form-section">
+                        <strong>Team Details</strong>
+                        <input
+                            type="text"
+                            name="teamName"
+                            value={form.teamName}
+                            onChange={handleChange}
+                            placeholder="Team Name"
+                            required
+                        />
+                        <input
+                            type="text"
+                            name="teamLeaderName"
+                            value={form.teamLeaderName}
+                            onChange={handleChange}
+                            placeholder="Team Leader's Name"
+                            required
+                        />
+                        <input
+                            type="text"
+                            name="teamLeaderRollNo"
+                            value={form.teamLeaderRollNo}
+                            onChange={handleChange}
+                            placeholder="Team Leader's Roll Number"
+                            required
+                        />
+                    </div>
+
+                    <div className="form-section">
+                        <strong>Contact Information</strong>
+                        <input
+                            type="email"
+                            name="email"
+                            value={form.email}
+                            onChange={handleChange}
+                            placeholder="Email"
+                            required
+                        />
+                        <input
+                            type="tel"
+                            name="teamCaptainNumber"
+                            value={form.teamCaptainNumber}
+                            onChange={handleChange}
+                            placeholder="Team Captain's WhatsApp Number"
+                            required
+                        />
+                        <input
+                            type="text"
+                            name="fullname"
+                            value={form.fullname}
+                            onChange={handleChange}
+                            placeholder="Your Full Name"
+                            required
+                        />
+                        <input
+                            type="tel"
+                            name="phoneNumber"
+                            value={form.phoneNumber}
+                            onChange={handleChange}
+                            placeholder="Your Phone Number"
+                            required
+                        />
+                        <input
+                            type="text"
+                            name="aadharId"
+                            value={form.aadharId}
+                            onChange={handleChange}
+                            placeholder="Aadhar ID (12 digits)"
+                            required
+                        />
+                    </div>
+
+                    <div className="form-section">
+                        <strong>College Details</strong>
+                        <input
+                            type="text"
+                            name="collegeName"
+                            value={form.collegeName}
+                            onChange={handleChange}
+                            placeholder="College Name"
+                            required
+                        />
+                        <input
+                            type="text"
+                            name="collegeAddress"
+                            value={form.collegeAddress}
+                            onChange={handleChange}
+                            placeholder="College Address"
+                            required
+                        />
+                    </div>
+
+                    <div className="form-section">
+                        <strong>Team Members (5 Players Required)</strong>
+                        {form.players.map((player, index) => (
+                            <div key={index} className="player-details">
+                                <h4>Player {index + 1}</h4>
+                                <div className="player-inputs">
+                                    <input
+                                        type="text"
+                                        value={player.name}
+                                        onChange={(e) => handlePlayerChange(index, 'name', e.target.value)}
+                                        placeholder="Player Name"
+                                        required
+                                    />
+                                    <input
+                                        type="text"
+                                        value={player.rollNumber}
+                                        onChange={(e) => handlePlayerChange(index, 'rollNumber', e.target.value)}
+                                        placeholder="Roll Number"
+                                        required
+                                    />
+                                    <input
+                                        type="text"
+                                        value={player.ign}
+                                        onChange={(e) => handlePlayerChange(index, 'ign', e.target.value)}
+                                        placeholder="In-Game Name (IGN)"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="form-section">
+                        <strong>Additional Information</strong>
+                        <textarea
+                            name="queries"
+                            value={form.queries}
+                            onChange={handleChange}
+                            placeholder="Any queries or suggestions?"
+                            rows="3"
+                            className="form-textarea"
+                        />
+                    </div>
+
+                    <button type="submit" disabled={submitting}>
+                        {submitting ? 'Registering...' : 'Register'}
                     </button>
                 </form>
             </section>

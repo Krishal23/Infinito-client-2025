@@ -111,6 +111,7 @@
   left: 50%;
   margin-left: -12px;
   background-color: red;
+  display: none;
 }
 
 .show {
