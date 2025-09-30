@@ -10,8 +10,8 @@ const FreeFire = ({isAlreadyRegistered}) => {
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating Free Fire championship where teams will compete for the ultimate prize."
       isRegistrationOpen={true}
-      rulebookUrl={url}
-      registrationurl={'https://docs.google.com/forms/d/e/1FAIpQLSdY0vxN12rbl2P3nTIbvOD_xYYHecoF-xVreAH-z6sjB-TRig/viewform?usp=header'}
+      rulebookUrl={'https://drive.google.com/file/d/1C-7WA9UABfBbJqOjAtJ9C8Pm7ymwl21T/view'}
+      registrationurl={'https://docs.google.com/forms/d/e/1FAIpQLSfGl6T3ma6UIlKbnWeJqnk0UFF088buVwo3Zr3WGuydv8QL1w/viewform'}
       // registrationurl={'/events/freefire'}
 
       structure={["Saksham Srivastava : 9555899043"]}

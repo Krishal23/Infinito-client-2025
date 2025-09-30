@@ -9,8 +9,8 @@ const BGMI = ({isAlreadyRegistered}) => {
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating BGMI championship where teams will compete for the ultimate prize."
       isRegistrationOpen={true}
-      rulebookUrl={rulebook}
-      registrationurl={'https://docs.google.com/forms/d/e/1FAIpQLSdg15uEgDQzN4_4HYMC2Weu-9hngP5UyJtk-58zzLmtscmAjg/viewform?usp=header'}
+      rulebookUrl={'https://drive.google.com/file/d/1ArZcDbZTZU5Ymgn3gQU67tuiScflhSQZ/view'}
+      registrationurl={'https://docs.google.com/forms/d/e/1FAIpQLSfV3nx5MiCbc053b_4Ti2-rsSFv7kvKImBDeWyhaJmEFyKFBw/viewform'}
       // registrationurl={'/events/bgmi'}
 
       structure={["Taksh Bhawan : 8107991007"]}
