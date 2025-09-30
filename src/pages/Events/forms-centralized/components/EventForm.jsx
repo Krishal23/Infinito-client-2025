@@ -62,11 +62,19 @@ const EventForm = ({ config }) => {
   const markTouched = (path) =>
     setTouched((t) => ({ ...t, [path]: true }));
 
-  const handleTopLevelChange = (e) => {
-    const { name, value } = e.target;
+const handleTopLevelChange = (e) => {
+  const { name, type, files, value } = e.target;
+
+  if (type === "file") {
+    // store the actual File object
+    setForm((prev) => ({ ...prev, [name]: files[0] }));
+  } else {
     setForm((prev) => ({ ...prev, [name]: value }));
-    markTouched(name);
-  };
+  }
+
+  markTouched(name);
+};
+
 
   const handleCoachChange = (field, value) => {
     setForm((prev) => ({ ...prev, coach: { ...prev.coach, [field]: value } }));
@@ -244,16 +252,27 @@ const EventForm = ({ config }) => {
     if (currentStep > 0) setCurrentStep((s) => s - 1);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!validateAllBeforeSubmit()) {
-      alert("Please fix the highlighted fields before submission.");
-      return;
-    }
-    const payload = config.buildPayload(form);
-    console.log("Submitting payload:", payload);
-    registerEvent(payload, navigate);
-  };
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (!validateAllBeforeSubmit()) {
+    alert("Please fix the highlighted fields before submission.");
+    return;
+  }
+
+  const payload = config.buildPayload(form);
+
+  const formData = new FormData();
+  formData.append("registrationData", JSON.stringify(payload));
+
+  if (form.paymentProof) {
+    formData.append("paymentProof", form.paymentProof); // send raw File object
+    registerEvent(formData, navigate);
+  } else {
+    toast.error("Payment proof is required");
+  }
+};
+
+
 
   /** ---------- Helpers ---------- */
   const currentStepConfig = config.steps[currentStep];
@@ -320,7 +339,7 @@ const EventForm = ({ config }) => {
                     showInlineErrors={true}
                   />
 
-                  
+
                 </div>
               ))}
             </div>
@@ -383,6 +402,51 @@ const EventForm = ({ config }) => {
           </FormSection>
         );
 
+      // case "receipt":
+      //   return (
+      //     <FormSection title="Registration Summary & Payment">
+      //       <div className="receipt">
+      //         <p>
+      //           <strong>Team / College:</strong> {form.collegeName}
+      //         </p>
+      //         <p>
+      //           <strong>Event:</strong> {config.title}
+      //         </p>
+      //         {currentStepConfig.hasCategory && (
+      //           <p>
+      //             <strong>Category:</strong> {form.category}
+      //           </p>
+      //         )}
+      //         <p>
+      //           <strong>Total Members:</strong> {totalPlayers}
+      //         </p>
+      //         <hr />
+      //         <h3>Payment Details</h3>
+      //         <p>Please pay the registration fee to proceed.</p>
+
+      //         <div className="fee-block">
+      //           <p>
+      //             <strong>Registration Fee:</strong>
+      //           </p>
+      //           {typeof config.paymentDetails.fee === "object" ? (
+      //             <ul className="fee-list">
+      //               {Object.entries(config.paymentDetails.fee).map(
+      //                 ([key, value]) => (
+      //                   <li key={key}>
+      //                     <span className="fee-key">{key}</span>
+      //                     <span className="fee-value">{value}</span>
+      //                   </li>
+      //                 )
+      //               )}
+      //             </ul>
+      //           ) : (
+      //             <p className="fee-single">{config.paymentDetails.fee}</p>
+      //           )}
+      //         </div>
+      //       </div>
+      //     </FormSection>
+      //   );
+
       case "receipt":
         return (
           <FormSection title="Registration Summary & Payment">
@@ -403,7 +467,24 @@ const EventForm = ({ config }) => {
               </p>
               <hr />
               <h3>Payment Details</h3>
-              <p>Please pay the registration fee to proceed.</p>
+              <p>Please scan the QR code below to pay the registration fee.</p>
+
+              <div className="qr-payment">
+                <img
+                  src="/gymkhanaQR.jpg"
+                  alt="Scan QR to pay"
+                  className="qr-image h-80"
+                />
+                <p>After payment, upload the payment proof below:</p>
+                <input
+                  type="file"
+                  accept="image/*,application/pdf"
+                  name="paymentProof"
+                  onChange={(e) => handleTopLevelChange(e)}
+                  className="input"
+                  required
+                />
+              </div>
 
               <div className="fee-block">
                 <p>
@@ -427,6 +508,7 @@ const EventForm = ({ config }) => {
             </div>
           </FormSection>
         );
+
 
       default:
         return <p>This step type is not configured.</p>;

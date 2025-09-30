@@ -18,40 +18,46 @@ const MyEventReceipts = () => {
 const normalizeReceipt = (reg) => {
   const receipt = reg.fullReceipt || {};
 
-  // Merge players without duplication
-  const playersSet = new Map();
-  [...(Array.isArray(receipt?.players) ? receipt.players : receipt?.players ? [receipt.players] : []),
-   ...(Array.isArray(reg?.players) ? reg.players : reg?.players ? [reg.players] : [])
+  // Merge players, deduplicate ONLY by Aadhaar ID
+  const players = [];
+  const aadhaarSet = new Set();
+
+  [
+    ...(Array.isArray(receipt?.players) ? receipt.players : receipt?.players ? [receipt.players] : []),
+    ...(Array.isArray(reg?.players) ? reg.players : reg?.players ? [reg.players] : [])
   ].forEach((p) => {
-    const key = p?.email || p?.aadharId || p?.name;
-    if (key && !playersSet.has(key)) playersSet.set(key, p);
+    const aadhaar = p?.aadharId?.trim();
+    if (!aadhaar || !aadhaarSet.has(aadhaar)) {
+      players.push(p);
+      if (aadhaar) aadhaarSet.add(aadhaar);
+    }
   });
 
   return {
-  eventId: reg.eventId,
-  eventName: reg.eventName,
-  category: reg.category || receipt?.category || null,
-  collegeName: reg.collegeName || receipt?.collegeName,
-  collegeAddress: reg.collegeAddress || receipt?.collegeAddress,
-  registrationDate: reg.registrationDate || receipt?.registrationDate,
-  payment: {
-    status: reg.payment?.status || receipt?.paymentStatus,
-    orderId: reg.payment?.orderId || receipt?.paymentOrderId,
-    paymentId: reg.payment?.paymentId || receipt?.paymentId,
-    signature: reg.payment?.signature || receipt?.paymentSignature,
-    transaction: reg.payment?.transaction || receipt?.transaction,
-    method: reg.payment?.method || receipt?.paymentMethod,
-    amount: reg.payment?.amount || receipt?.paymentAmount,
-    currency: reg.payment?.currency || receipt?.paymentCurrency,
-    createdAt: reg.payment?.createdAt || receipt?.paymentDate,
-  },
-  captain: receipt?.captain || null,
-  viceCaptain: receipt?.viceCaptain || null,
-  coach: receipt?.coach || null,
-  substitutes: receipt?.substitutes || [],
-  players: Array.from(playersSet.values()),
-};
-
+    eventId: reg.eventId,
+    eventName: reg.eventName,
+    category: reg.category || receipt?.category || null,
+    collegeName: reg.collegeName || receipt?.collegeName,
+    collegeAddress: reg.collegeAddress || receipt?.collegeAddress,
+    registrationDate: reg.registrationDate || receipt?.registrationDate,
+    payment: {
+      status: reg.payment?.status || receipt?.paymentStatus,
+      orderId: reg.payment?.orderId || receipt?.paymentOrderId,
+      paymentId: reg.payment?.paymentId || receipt?.paymentId,
+      signature: reg.payment?.signature || receipt?.paymentSignature,
+      transaction: reg.payment?.transaction || receipt?.transaction,
+      method: reg.payment?.method || receipt?.paymentMethod,
+      amount: reg.payment?.amount || receipt?.paymentAmount,
+      currency: reg.payment?.currency || receipt?.paymentCurrency,
+      createdAt: reg.payment?.createdAt || receipt?.paymentDate,
+      proofString: receipt?.proofString,
+    },
+    captain: receipt?.captain || null,
+    viceCaptain: receipt?.viceCaptain || null,
+    coach: receipt?.coach || null,
+    substitutes: receipt?.substitutes || [],
+    players, // deduplicated ONLY by Aadhaar ID
+  };
 };
 
 
@@ -160,6 +166,7 @@ const normalizeReceipt = (reg) => {
           isOpen={!!selectedReg}
           onClose={() => setSelectedReg(null)}
           data={selectedReg}
+
           eventType={selectedReg?.eventName}
         />
       </main>

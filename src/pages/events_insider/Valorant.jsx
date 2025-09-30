@@ -9,9 +9,10 @@ const Valorant = ({isAlreadyRegistered}) => {
       title="Valorant Championship"
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating Valorant championship where teams will compete for the ultimate prize."
-      isRegistrationOpen={false}
+      isRegistrationOpen={true}
       rulebookUrl={url}
-      registrationurl={'/events/valorant'}
+      registrationurl={'https://docs.google.com/forms/d/e/1FAIpQLScd2dZMPVEaAO34dcr373p_F9o6kGaHL0o-5l-6hay4FhxTtg/viewform?usp=header'}
+      // registrationurl={'/events/valorant'}
 
       structure={["Manu Kushwah : 9664391120"]}
       rules={[

@@ -90,23 +90,23 @@ export const downloadReceipt = (data, eventType = "registration", logoUrl) => {
   }
 
   // --- Team Members ---
-  const isTeamSport = ["football","cricket","basketball","volleyball","kabaddi","badminton","table_tennis","chess"].includes(eventType);
+  const isTeamSport = ["football", "cricket", "basketball", "volleyball", "kabaddi", "badminton", "table_tennis", "chess"].includes(eventType);
   if (isTeamSport) {
     const rows = [];
     if (data.captain) rows.push(["Captain", data.captain.fullname || "—", data.captain.email || "—", data.captain.phoneNumber || "—", data.captain.aadharId || "—"]);
     if (data.viceCaptain) rows.push(["Vice Captain", data.viceCaptain.fullname || "—", data.viceCaptain.email || "—", data.viceCaptain.phoneNumber || "—", data.viceCaptain.aadharId || "—"]);
-    if (data.players?.length) data.players.forEach((p,i)=> rows.push([`Player ${i+1}`, p.fullname || "—", p.email || "—", p.phoneNumber || "—", p.aadharId || "—"]));
-    if (data.substitutes?.length) data.substitutes.forEach((s,i)=> rows.push([`Substitute ${i+1}`, s.fullname || "—", s.email || "—", s.phoneNumber || "—", s.aadharId || "—"]));
+    if (data.players?.length) data.players.forEach((p, i) => rows.push([`Player ${i + 1}`, p.fullname || "—", p.email || "—", p.phoneNumber || "—", p.aadharId || "—"]));
+    if (data.substitutes?.length) data.substitutes.forEach((s, i) => rows.push([`Substitute ${i + 1}`, s.fullname || "—", s.email || "—", s.phoneNumber || "—", s.aadharId || "—"]));
 
-   doc.autoTable({
-  startY: currentY + 6,
-  head: [["Role", "Name", "Email", "Phone", "Aadhar"]],
-  body: rows,
-  styles: { fontSize: 10 },
-  headStyles: { fillColor: [41, 128, 185], textColor: 255 },
-  alternateRowStyles: { fillColor: [240, 240, 240] },
-  margin: { left: 14, right: 14 },
-});
+    doc.autoTable({
+      startY: currentY + 6,
+      head: [["Role", "Name", "Email", "Phone", "Aadhar"]],
+      body: rows,
+      styles: { fontSize: 10 },
+      headStyles: { fillColor: [41, 128, 185], textColor: 255 },
+      alternateRowStyles: { fillColor: [240, 240, 240] },
+      margin: { left: 14, right: 14 },
+    });
 
     currentY = doc.lastAutoTable.finalY + 10;
   }
@@ -128,26 +128,26 @@ const RegistrationDetailsModal = ({ isOpen, onClose, data, eventType }) => {
   };
 
   const renderTransactionDetails = () => {
-  const tx = data.payment;
-  if (!tx) return null;
-  return (
-    <div className="bg-gray-100 rounded-lg p-4 mb-4">
-      <h4 className="font-semibold text-gray-800 mb-3 flex items-center gap-2">
-        <FaTrophy className="text-gray-600" /> Transaction Details
-      </h4>
-      <div className="text-sm space-y-1">
-        <div><span className="font-medium">Payment ID:</span> {tx.paymentId || "—"}</div>
-        <div><span className="font-medium">Order ID:</span> {tx.orderId || "—"}</div>
-        <div><span className="font-medium">Transaction ID:</span> {tx.transaction || "—"}</div>
-        <div><span className="font-medium">Amount:</span> {tx.amount ? `${tx.amount} ${tx.currency || ""}` : "—"}</div>
-        <div><span className="font-medium">Method:</span> {tx.method || "—"}</div>
-        <div><span className="font-medium">Status:</span> {tx.status || "—"}</div>
-        <div><span className="font-medium">Date:</span> {tx.createdAt ? new Date(tx.createdAt).toLocaleString() : "—"}</div>
-        <div><span className="font-medium">Signature:</span> {tx.signature || "—"}</div>
+    const tx = data.payment;
+    if (!tx) return null;
+    return (
+      <div className="bg-gray-100 rounded-lg p-4 mb-4">
+        <h4 className="font-semibold text-gray-800 mb-3 flex items-center gap-2">
+          <FaTrophy className="text-gray-600" /> Transaction Details
+        </h4>
+        <div className="text-sm space-y-1">
+          <div><span className="font-medium">Payment ID:</span> {tx.paymentId || "—"}</div>
+          <div><span className="font-medium">Order ID:</span> {tx.orderId || "—"}</div>
+          <div><span className="font-medium">Transaction ID:</span> {tx.transaction || "—"}</div>
+          <div><span className="font-medium">Amount:</span> {tx.amount ? `${tx.amount} ${tx.currency || ""}` : "—"}</div>
+          <div><span className="font-medium">Method:</span> {tx.method || "—"}</div>
+          <div><span className="font-medium">Status:</span> {tx.status || "—"}</div>
+          <div><span className="font-medium">Date:</span> {tx.createdAt ? new Date(tx.createdAt).toLocaleString() : "—"}</div>
+          <div><span className="font-medium">Signature:</span> {tx.signature || "—"}</div>
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  };
 
 
   const renderUser = (user, roleLabel) => (
@@ -267,14 +267,14 @@ const RegistrationDetailsModal = ({ isOpen, onClose, data, eventType }) => {
 
 
 
-const downloadData = () => {
-  if (!data) return;
+  const downloadData = () => {
+    if (!data) return;
 
-  const formatField = (label, value) => `<div class="field"><span class="label">${label}:</span> ${value || "—"}</div>`;
-  const formatDateString = date => date ? new Date(date).toLocaleString("en-GB", { year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" }) : "—";
+    const formatField = (label, value) => `<div class="field"><span class="label">${label}:</span> ${value || "—"}</div>`;
+    const formatDateString = date => date ? new Date(date).toLocaleString("en-GB", { year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" }) : "—";
 
-  // Build all user info fields
-  const formatUser = (user, roleLabel) => `
+    // Build all user info fields
+    const formatUser = (user, roleLabel) => `
     <div class="subsection">
       <h4 class="subheading">${roleLabel}</h4>
       ${formatField("Name", user.fullname || user.name)}
@@ -288,34 +288,34 @@ const downloadData = () => {
     </div>
   `;
 
-  // Assemble team members
-  const teamMembersHTML = (() => {
-    if (!["badminton", "basketball", "cricket", "football", "kabaddi", "lawn_tennis", "squash", "table_tennis", "volleyball", "weight_lifting", "power_lifting", "chess"].includes(eventType)) return "";
-    const members = [
-      ...(data.captain ? [{ user: data.captain, label: "Captain" }] : []),
-      ...(data.viceCaptain ? [{ user: data.viceCaptain, label: "Vice Captain" }] : []),
-      ...(data.players?.map(p => ({ user: p, label: "Player" })) || []),
-      ...(data.substitutes?.map(p => ({ user: p, label: "Substitute" })) || [])
-    ];
-    return members.map(m => formatUser(m.user, m.label)).join('');
-  })();
+    // Assemble team members
+    const teamMembersHTML = (() => {
+      if (!["badminton", "basketball", "cricket", "football", "kabaddi", "lawn_tennis", "squash", "table_tennis", "volleyball", "weight_lifting", "power_lifting", "chess"].includes(eventType)) return "";
+      const members = [
+        ...(data.captain ? [{ user: data.captain, label: "Captain" }] : []),
+        ...(data.viceCaptain ? [{ user: data.viceCaptain, label: "Vice Captain" }] : []),
+        ...(data.players?.map(p => ({ user: p, label: "Player" })) || []),
+        ...(data.substitutes?.map(p => ({ user: p, label: "Substitute" })) || [])
+      ];
+      return members.map(m => formatUser(m.user, m.label)).join('');
+    })();
 
-  // Athletics info
-  const athleticsHTML = eventType === "athletics" ? `
+    // Athletics info
+    const athleticsHTML = eventType === "athletics" ? `
     ${formatUser(data.lead, "Lead Athlete")}
     ${data.individualEvents?.length ? formatField("Individual Events", data.individualEvents.join(", ")) : ""}
     ${data.relayTeams?.length ? data.relayTeams.map(team => formatField(team.teamName, team.members.map(m => m.fullname).join(", "))).join('') : ""}
   ` : "";
 
-  // Esports info
-  const esportsHTML = ["bgmi", "freefire", "codm", "valorant", "clash_royale"].includes(eventType) ? `
+    // Esports info
+    const esportsHTML = ["bgmi", "freefire", "codm", "valorant", "clash_royale"].includes(eventType) ? `
     ${formatUser(data.teamLeader, "Team Leader")}
     ${data.players?.length ? formatField("Players", data.players.map(p => p.name).join(", ")) : ""}
     ${data.queries ? formatField("Queries", data.queries) : ""}
   ` : "";
 
-  // Full HTML content
-  const htmlContent = `
+    // Full HTML content
+    const htmlContent = `
   <html>
     <head>
       <title>${eventType?.toUpperCase()} Registration</title>
@@ -353,14 +353,15 @@ const downloadData = () => {
   </html>
   `;
 
-  const blob = new Blob([htmlContent], { type: "text/html" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = `${eventType || "registration"}_${data._id || "data"}.html`;
-  a.click();
-};
+    const blob = new Blob([htmlContent], { type: "text/html" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${eventType || "registration"}_${data._id || "data"}.html`;
+    a.click();
+  };
 
+  console.log(data)
 
 
   return (
@@ -375,14 +376,20 @@ const downloadData = () => {
               onClick={downloadData}
               className="max-w-12 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
             >
-              <FaDownload /> 
+              <FaDownload />
             </div>
-            <div
-    onClick={() => downloadReceipt(data, eventType)}
-  className="flex items-center gap-2 bg-blue-600 text-white w-full mt-4"
->
-  <FaDownload /> Download Receipt
-</div>
+            <a
+              className="flex items-center gap-2 bg-blue-600 text-white w-full mt-4"
+              href={`${data?.payment?.proofString || data?.proofString}`}
+            >
+              <FaDownload /> Download Proof
+            </a>
+           {/* <div
+              onClick={() => downloadReceipt(data, eventType)}
+              className="flex items-center gap-2 bg-blue-600 text-white w-full mt-4"
+            >
+              <FaDownload /> Download Receipt
+            </div>*/}
           </div>
           <div onClick={onClose} className="text-gray-500 max-w-10 hover:text-gray-700 p-2 hover:bg-gray-100 rounded-full">
             <FaTimes className="w-5 h-5" />

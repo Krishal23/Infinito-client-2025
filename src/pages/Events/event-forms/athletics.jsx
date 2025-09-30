@@ -58,6 +58,7 @@ const Athletics = () => {
     payment: true,
   });
 
+  
   const hasDuplicateAadhaar = () => {
     const aadhaarNumbers = [];
 
@@ -79,23 +80,26 @@ const Athletics = () => {
   };
 
 
-  const handleTopLevelChange = (e) => {
-    const { name, value } = e.target;
+const handleTopLevelChange = (e) => {
+  const { name, type, value, files } = e.target;
 
-    setForm((prev) => {
-      if (name === "category" && prev.category !== value) {
-        return {
-          ...prev,
-          [name]: value,
-          selectedIndividualEvents: [],
-          selectedRelayEvents: [],
-          relayTeams: {},
-        };
-      }
+  setForm((prev) => {
+    if (type === "file") {
+      return { ...prev, [name]: files[0] };
+    }
+    if (name === "category" && prev.category !== value) {
+      return {
+        ...prev,
+        [name]: value,
+        selectedIndividualEvents: [],
+        selectedRelayEvents: [],
+        relayTeams: {},
+      };
+    }
+    return { ...prev, [name]: value };
+  });
+};
 
-      return { ...prev, [name]: value };
-    });
-  };
 
 
   const handleCaptainChange = (field, value) =>
@@ -175,6 +179,82 @@ const Athletics = () => {
     });
   };
 
+  const validateAllSteps = () => {
+  const originalStep = currentStep;
+
+  for (let i = 0; i < config.steps.length; i++) {
+    if (!validateCurrentStepAtIndex(i)) {
+      setCurrentStep(i); // go back to failing step
+      return false;
+    }
+  }
+
+  setCurrentStep(originalStep);
+  return true;
+};
+
+const validateCurrentStepAtIndex = (stepIndex) => {
+  const stepConfig = config.steps[stepIndex];
+
+  const isValidPhone = (num) => /^\d{10}$/.test(num);
+  const isValidAadhaar = (num) => /^\d{12}$/.test(num);
+
+  const validatePerson = (person, label) => {
+    if (
+      !person ||
+      !person.fullname?.trim() ||
+      !person.email?.trim() ||
+      !isValidPhone(person.phoneNumber) ||
+      !isValidAadhaar(person.aadharId)
+    ) {
+      alert(`Please fill all valid details for ${label}.`);
+      return false;
+    }
+    return true;
+  };
+
+  switch (stepConfig.type) {
+    case "college":
+      if (!form.collegeName.trim() || !form.collegeAddress.trim()) {
+        alert("Please fill in your College Name and Address.");
+        return false;
+      }
+      break;
+    case "coach":
+      if (form.accompanyingCoach === "Yes" && !validatePerson(form.coach, "the Coach"))
+        return false;
+      break;
+    case "athlete_captain":
+      if (!validatePerson(form.captain, "the Lead Athlete")) return false;
+      break;
+    case "relay_events":
+      for (const eventName of form.selectedRelayEvents) {
+        const players = form.relayTeams[eventName] || [];
+        for (let i = 0; i < players.length; i++) {
+          if (!validatePerson(players[i], `Player #${i + 1} in ${eventName}`)) return false;
+        }
+      }
+      break;
+  }
+
+  if (["coach", "athlete_captain", "relay_events", "receipt"].includes(stepConfig.type)) {
+    const aadhaars = [];
+    if (form.captain.aadharId) aadhaars.push(form.captain.aadharId);
+    if (form.accompanyingCoach === "Yes" && form.coach.aadharId) aadhaars.push(form.coach.aadharId);
+    form.selectedRelayEvents.forEach((eventName) => {
+      const players = form.relayTeams[eventName] || [];
+      players.forEach((p) => p.aadharId && aadhaars.push(p.aadharId));
+    });
+    // const unique = new Set(aadhaars);
+    // if (unique.size !== aadhaars.length) {
+    //   alert("Duplicate Aadhaar numbers are not allowed.");
+    //   return false;
+    // }
+  }
+
+  return true;
+};
+
   const validateCurrentStep = () => {
     const stepConfig = config.steps[currentStep];
     const isValidPhone = (num) => /^\d{10}$/.test(num);
@@ -236,16 +316,69 @@ const Athletics = () => {
     if (currentStep > 0) setCurrentStep((s) => s - 1);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (hasDuplicateAadhaar()) {
-      alert("Duplicate Aadhaar numbers are not allowed.");
-      return;
-    }
 
-    const payload = config.buildPayload(form);
-    registerEvent(payload, navigate);
+  
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (!validateAllSteps()) return;
+
+  if (!form.paymentProof) {
+    toast.error("Payment proof is required");
+    return;
+  }
+
+  console.log(form);
+
+  // Build payload first
+  const buildAthleticsPayload = (form) => {
+    return {
+      collegeName: form.collegeName,
+      collegeAddress: form.collegeAddress,
+      category: form.category.toLowerCase(), // men/women
+      lead: {
+        fullname: form.captain.fullname,
+        email: form.captain.email,
+        phoneNumber: form.captain.phoneNumber,
+        aadharId: form.captain.aadharId,
+      },
+      coach:
+        form.accompanyingCoach === "Yes"
+          ? {
+              fullname: form.coach.fullname,
+              email: form.coach.email,
+              phoneNumber: form.coach.phoneNumber,
+              aadharId: form.coach.aadharId,
+            }
+          : null,
+      individualEvents: form.selectedIndividualEvents,
+      relayTeams: form.selectedRelayEvents.map((eventName) => ({
+        teamName: eventName,
+        members: form.relayTeams[eventName].map((player) => ({
+          fullname: player.fullname,
+          email: player.email,
+          phoneNumber: player.phoneNumber,
+          aadharId: player.aadharId,
+        })),
+      })),
+    };
   };
+
+  const payload = buildAthleticsPayload(form); // ⚡ Create payload first
+
+  // Then append to FormData
+  const formData = new FormData();
+  formData.append("collegeName", payload.collegeName);
+  formData.append("collegeAddress", payload.collegeAddress);
+  formData.append("category", payload.category);
+  formData.append("lead", JSON.stringify(payload.lead));
+  formData.append("coach", payload.coach ? JSON.stringify(payload.coach) : null);
+  formData.append("individualEvents", JSON.stringify(payload.individualEvents));
+  formData.append("relayTeams", JSON.stringify(payload.relayTeams));
+  formData.append("paymentProof", form.paymentProof);
+
+  registerEvent(formData, navigate);
+};
+
 
   const currentStepConfig = config.steps[currentStep];
   const isLastStep = currentStep === config.steps.length - 1;
@@ -374,31 +507,69 @@ const Athletics = () => {
         );
       }
 
+      // case "receipt":
+      //   return (
+      //     <FormSection title="Registration Summary">
+      //       <div className="receipt">
+      //         <p>
+      //           <strong>College/Societies:</strong> {form.collegeName}
+      //         </p>
+      //         <p>
+      //           <strong>Lead Athlete:</strong> {form.captain.fullname}
+      //         </p>
+      //         <p>
+      //           <strong>Individual Events:</strong>{" "}
+      //           {form.selectedIndividualEvents.join(", ") || "None"}
+      //         </p>
+      //         <p>
+      //           <strong>Relay Events:</strong> {form.selectedRelayEvents.join(", ") || "None"}
+      //         </p>
+      //         <hr />
+      //         <h3>Payment Details</h3>
+      //         <p>
+      //           <strong>Fee:</strong> {config.paymentDetails.fee}
+      //         </p>
+      //       </div>
+      //     </FormSection>
+      //   );
+
       case "receipt":
-        return (
-          <FormSection title="Registration Summary">
-            <div className="receipt">
-              <p>
-                <strong>College/Societies:</strong> {form.collegeName}
-              </p>
-              <p>
-                <strong>Lead Athlete:</strong> {form.captain.fullname}
-              </p>
-              <p>
-                <strong>Individual Events:</strong>{" "}
-                {form.selectedIndividualEvents.join(", ") || "None"}
-              </p>
-              <p>
-                <strong>Relay Events:</strong> {form.selectedRelayEvents.join(", ") || "None"}
-              </p>
-              <hr />
-              <h3>Payment Details</h3>
-              <p>
-                <strong>Fee:</strong> {config.paymentDetails.fee}
-              </p>
-            </div>
-          </FormSection>
-        );
+  return (
+    <FormSection title="Registration Summary & Payment">
+      <div className="receipt">
+        <p><strong>College/Societies:</strong> {form.collegeName}</p>
+        <p><strong>Lead Athlete:</strong> {form.captain.fullname}</p>
+        <p><strong>Individual Events:</strong> {form.selectedIndividualEvents.join(", ") || "None"}</p>
+        <p><strong>Relay Events:</strong> {form.selectedRelayEvents.join(", ") || "None"}</p>
+        <hr />
+        <h3>Payment Details</h3>
+        <p>Please scan the QR code below to pay the registration fee.</p>
+
+        <div className="qr-payment">
+          <img
+            src="/gymkhanaQR.jpg"
+            alt="Scan QR to pay"
+            className="qr-image h-80"
+          />
+          <p>After payment, upload the payment proof below:</p>
+          <input
+  type="file"
+  accept="image/*,application/pdf"
+  name="paymentProof"
+  onChange={handleTopLevelChange}
+  className="input"
+  required
+/>
+
+        </div>
+
+        <div className="fee-block">
+          <p><strong>Registration Fee:</strong> {config.paymentDetails.fee}</p>
+        </div>
+      </div>
+    </FormSection>
+  );
+
 
       default:
         return null;
