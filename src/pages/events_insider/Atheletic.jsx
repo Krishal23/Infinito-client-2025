@@ -8,7 +8,7 @@ const Atheletic = ({isAlreadyRegistered}) => {
       title="Athletic Championship"
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating Athletic championship where teams will compete for the ultimate prize."
-      isRegistrationOpen={false}
+      isRegistrationOpen={true}
       registrationurl="/events/athletics" 
       rulebookUrl={"https://drive.google.com/file/d/1U_wfWtiBCa_XvppK7UtUtc5-QmSaW0OA/view?usp=drive_link"}
       structure={['Santosh Yadav: 6387548985', 'Ranjeet Maurya : 7985002878 ']}

@@ -8,6 +8,7 @@ import FormSection from "./FormSection";
 import PersonInputGroup from "./PersonInputGroup";
 import CollegeSelector from "./CollegeSelector";
 import "./EventForm.css";
+import Loader from "../../../../components/Loader";
 
 /** ---------- Validators ---------- */
 const isValidEmail = (email) =>
@@ -517,9 +518,14 @@ const handleSubmit = async (e) => {
 
   return (
     <>
-      <div className="page-wrap">
+       <div
+  className="min-h-screen bg-cover bg-center bg-no-repeat relative page-wrap"
+  style={{ backgroundImage: `url(/eveRegBG.png)` }}
+>
         <Navbar />
-        <section className="event-forms">
+              {submitting && <Loader message="Registering your detail..." />}
+        
+        <section className="event-forms bg-white/90" >
           <div className="form-heading">
             <h2 className="title">{config.title}</h2>
             <pre className="step-indicator">{config.msg}</pre>

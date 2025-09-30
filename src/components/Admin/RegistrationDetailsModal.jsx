@@ -223,32 +223,72 @@ const RegistrationDetailsModal = ({ isOpen, onClose, data, eventType }) => {
       </div>
     );
   };
+const renderAthletics = () => {
+  if (!data.players?.length && !data.coach) return null;
 
-  const renderAthletics = () => {
-    if (!data.lead) return null;
+  // Lead Athlete
+  const leadAthlete = data.players.find(p => p.role === "lead");
 
-    return (
-      <div className="bg-blue-50 rounded-lg p-4 mb-4">
-        <h4 className="font-semibold text-gray-800 mb-3 flex items-center gap-2">
-          <FaTrophy className="text-blue-600" /> Athletics Information
-        </h4>
-        {renderUser(data.lead, "Lead Athlete")}
-        {data.individualEvents?.length > 0 && (
-          <div className="text-sm mb-2"><span className="font-medium">Individual Events:</span> {data.individualEvents.join(", ")}</div>
-        )}
-        {data.relayTeams?.length > 0 && (
-          <div className="text-sm">
-            <span className="font-medium">Relay Teams:</span>
-            {data.relayTeams.map((team, idx) => (
-              <div key={idx} className="ml-2">
-                <span className="font-medium">{team.teamName}:</span> {team.members.map(m => m.fullname).join(", ")}
+  // Relay Teams
+  const relayMembers = data.players.filter(p => p.role?.startsWith("relayTeam_"));
+  const relayTeamsMap = {};
+  relayMembers.forEach(p => {
+    const teamName = p.role.replace("relayTeam_", "");
+    if (!relayTeamsMap[teamName]) relayTeamsMap[teamName] = [];
+    relayTeamsMap[teamName].push(p);
+  });
+
+  // Other players (not lead, not relay)
+  const otherPlayers = data.players.filter(p => !["lead"].includes(p.role) && !p.role?.startsWith("relayTeam_"));
+
+  return (
+    <div className="bg-blue-50 rounded-lg p-4 mb-4">
+      <h4 className="font-semibold text-gray-800 mb-3 flex items-center gap-2">
+        <FaTrophy className="text-blue-600" /> Athletics Information
+      </h4>
+
+      {/* Lead Athlete */}
+      {leadAthlete && renderUser(leadAthlete, "Lead Athlete")}
+
+      {/* Individual Events */}
+      {data.individualEvents?.length > 0 && (
+        <div className="text-sm mb-2">
+          <span className="font-medium">Individual Events:</span> {data.individualEvents.join(", ")}
+        </div>
+      )}
+
+      {/* Relay Teams */}
+      {Object.keys(relayTeamsMap).length > 0 && (
+        <div className="mb-2">
+          <span className="font-medium text-sm">Relay Teams:</span>
+          {Object.entries(relayTeamsMap).map(([teamName, members], idx) => (
+            <div key={idx} className="ml-2 mt-2">
+              <span className="font-semibold">{teamName}</span>
+              <div className="mt-1 space-y-2">
+                {members.map((member, mIdx) => renderUser(member, `Relay Team Member`))}
               </div>
-            ))}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Other Players
+      {otherPlayers.length > 0 && (
+        <div className="mb-2">
+          <span className="font-medium text-sm">Other Players:</span>
+          <div className="mt-1 space-y-2">
+            {otherPlayers.map((p, idx) => renderUser(p, "Player"))}
           </div>
-        )}
-      </div>
-    );
-  };
+        </div>
+      )} */}
+
+      {/* Coach */}
+      {/* {data.coach && renderUser(data.coach, "Coach")} */}
+    </div>
+  );
+};
+
+
 
   const renderEsports = () => {
     if (!data.teamLeader) return null;
@@ -369,21 +409,23 @@ const RegistrationDetailsModal = ({ isOpen, onClose, data, eventType }) => {
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto relative">
         {/* Header */}
         <div className="sticky top-0 bg-white border-b border-gray-200 p-6 rounded-t-2xl flex justify-between items-center">
+          
           <div>
             <h2 className="text-2xl font-bold text-gray-800">Registration Details</h2>
             <p className="text-sm text-gray-600 mt-1">{eventType?.toUpperCase()} • ID: {data._id?.slice(0, 8)}...</p>
+            <div className='flex gap-2'>
+            Payment Proof:
             <div
-              onClick={downloadData}
-              className="max-w-12 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+              // onClick={downloadData}
+              className="max-w-12 px-2 py-1 bg-green-600 text-white rounded-lg hover:bg-green-700"
             >
-              <FaDownload />
-            </div>
-            <a
-              className="flex items-center gap-2 bg-blue-600 text-white w-full mt-4"
+              <a
               href={`${data?.payment?.proofString || data?.proofString}`}
             >
-              <FaDownload /> Download Proof
+              <FaDownload />
             </a>
+            </div>
+            </div>
            {/* <div
               onClick={() => downloadReceipt(data, eventType)}
               className="flex items-center gap-2 bg-blue-600 text-white w-full mt-4"

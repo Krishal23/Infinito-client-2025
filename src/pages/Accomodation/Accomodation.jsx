@@ -163,7 +163,7 @@ export default function AccommodationWizard() {
     const event = events.find((e) => e.eventId === eventId);
     if (event) {
       setPlayersOptions(event.players);
-      setSelectedPlayers([]); // reset selected players
+      setSelectedPlayers([]);
     }
   }, [eventId, events]);
 
@@ -262,8 +262,8 @@ formData.append("eventName", eventName);
     await axiosInstance.post("/accommodation/book", formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
-    alert('Submited')
-    // navigate("/my-accom");
+    // alert('Submited')
+    navigate("/my-accom");
   } catch (err) {
     setMessage({
       type: "error",

@@ -8,6 +8,7 @@ import PersonInputGroup from "../forms-centralized/components/PersonInputGroup";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
 import { toast } from "react-toastify";
+import Loader from "../../../components/Loader";
 
 const FormStyles = () => (
   <style>{`
@@ -44,6 +45,7 @@ const Athletics = () => {
     selectedIndividualEvents: [],
     selectedRelayEvents: [],
     relayTeams: {},
+    paymentProof: null,
   });
 
   const [currentStep, setCurrentStep] = useState(0);
@@ -58,79 +60,31 @@ const Athletics = () => {
     payment: true,
   });
 
-  
-  const hasDuplicateAadhaar = () => {
-    const aadhaarNumbers = [];
-
-    // Lead athlete
-    if (form.captain.aadharId) aadhaarNumbers.push(form.captain.aadharId);
-
-    // Coach (only if accompanying)
-    if (form.accompanyingCoach === "Yes" && form.coach.aadharId) {
-      aadhaarNumbers.push(form.coach.aadharId);
-    }
-
-    // Relay players
-    sharedRelayPlayers.forEach((p) => {
-      if (p.aadharId) aadhaarNumbers.push(p.aadharId);
+  // ----------------- Handlers -----------------
+  const handleTopLevelChange = (e) => {
+    const { name, type, value, files } = e.target;
+    setForm((prev) => {
+      if (type === "file") return { ...prev, [name]: files[0] };
+      if (name === "category" && prev.category !== value) {
+        return { ...prev, [name]: value, selectedIndividualEvents: [], selectedRelayEvents: [], relayTeams: {} };
+      }
+      return { ...prev, [name]: value };
     });
-
-    const unique = new Set(aadhaarNumbers);
-    return unique.size !== aadhaarNumbers.length;
   };
 
-
-const handleTopLevelChange = (e) => {
-  const { name, type, value, files } = e.target;
-
-  setForm((prev) => {
-    if (type === "file") {
-      return { ...prev, [name]: files[0] };
-    }
-    if (name === "category" && prev.category !== value) {
-      return {
-        ...prev,
-        [name]: value,
-        selectedIndividualEvents: [],
-        selectedRelayEvents: [],
-        relayTeams: {},
-      };
-    }
-    return { ...prev, [name]: value };
-  });
-};
-
-
-
-  const handleCaptainChange = (field, value) =>
-    setForm((prev) => ({
-      ...prev,
-      captain: { ...prev.captain, [field]: value },
-    }));
-
-  const handleCoachChange = (field, value) =>
-    setForm((prev) => ({
-      ...prev,
-      coach: { ...prev.coach, [field]: value },
-    }));
+  const handleCaptainChange = (field, value) => {
+    setForm((prev) => ({ ...prev, captain: { ...prev.captain, [field]: value } }));
+  };
+  const handleCoachChange = (field, value) => {
+    setForm((prev) => ({ ...prev, coach: { ...prev.coach, [field]: value } }));
+  };
 
   const handleIndividualEventToggle = (eventName) => {
     setForm((prev) => {
-      const currentlySelected = prev.selectedIndividualEvents;
-      if (currentlySelected.includes(eventName)) {
-        return {
-          ...prev,
-          selectedIndividualEvents: currentlySelected.filter((e) => e !== eventName),
-        };
-      }
-      if (currentlySelected.length >= 3) {
-        alert("You can select a maximum of 3 individual events.");
-        return prev;
-      }
-      return {
-        ...prev,
-        selectedIndividualEvents: [...currentlySelected, eventName],
-      };
+      const selected = prev.selectedIndividualEvents;
+      if (selected.includes(eventName)) return { ...prev, selectedIndividualEvents: selected.filter((e) => e !== eventName) };
+      if (selected.length >= 3) { alert("Max 3 individual events."); return prev; }
+      return { ...prev, selectedIndividualEvents: [...selected, eventName] };
     });
   };
 
@@ -140,34 +94,21 @@ const handleTopLevelChange = (e) => {
       const isSelected = selectedRelayEvents.includes(eventName);
       if (isSelected) {
         const newSelected = selectedRelayEvents.filter((e) => e !== eventName);
-        const newRelayTeams = { ...relayTeams };
-        delete newRelayTeams[eventName];
-        return { ...prev, selectedRelayEvents: newSelected, relayTeams: newRelayTeams };
+        const newTeams = { ...relayTeams }; delete newTeams[eventName];
+        return { ...prev, selectedRelayEvents: newSelected, relayTeams: newTeams };
       }
-      if (selectedRelayEvents.length >= 2) {
-        alert("You can select a maximum of 2 relay events.");
-        return prev;
-      }
-      const newSelected = [...selectedRelayEvents, eventName];
-      const newRelayTeams = {
-        ...relayTeams,
-        [eventName]: [...sharedRelayPlayers],
-      };
+      if (selectedRelayEvents.length >= 2) { alert("Max 2 relay events."); return prev; }
       return {
         ...prev,
-        selectedRelayEvents: newSelected,
-        relayTeams: newRelayTeams,
+        selectedRelayEvents: [...selectedRelayEvents, eventName],
+        relayTeams: { ...relayTeams, [eventName]: [...sharedRelayPlayers] },
       };
     });
   };
 
-
-  const handleRelayPlayerChange = (playerIndex, field, value) => {
+  const handleRelayPlayerChange = (index, field, value) => {
     const updatedPlayers = [...sharedRelayPlayers];
-    updatedPlayers[playerIndex] = {
-      ...updatedPlayers[playerIndex],
-      [field]: value,
-    };
+    updatedPlayers[index] = { ...updatedPlayers[index], [field]: value };
     setSharedRelayPlayers(updatedPlayers);
 
     setForm((prev) => {
@@ -179,203 +120,91 @@ const handleTopLevelChange = (e) => {
     });
   };
 
-  const validateAllSteps = () => {
-  const originalStep = currentStep;
-
-  for (let i = 0; i < config.steps.length; i++) {
-    if (!validateCurrentStepAtIndex(i)) {
-      setCurrentStep(i); // go back to failing step
-      return false;
-    }
-  }
-
-  setCurrentStep(originalStep);
-  return true;
-};
-
-const validateCurrentStepAtIndex = (stepIndex) => {
-  const stepConfig = config.steps[stepIndex];
-
-  const isValidPhone = (num) => /^\d{10}$/.test(num);
-  const isValidAadhaar = (num) => /^\d{12}$/.test(num);
-
-  const validatePerson = (person, label) => {
-    if (
-      !person ||
-      !person.fullname?.trim() ||
-      !person.email?.trim() ||
-      !isValidPhone(person.phoneNumber) ||
-      !isValidAadhaar(person.aadharId)
-    ) {
-      alert(`Please fill all valid details for ${label}.`);
-      return false;
-    }
-    return true;
+  const hasDuplicateAadhaar = () => {
+    // const aadhaars = [];
+    // if (form.captain.aadharId) aadhaars.push(form.captain.aadharId);
+    // if (form.accompanyingCoach === "Yes" && form.coach.aadharId) aadhaars.push(form.coach.aadharId);
+    // form.selectedRelayEvents.forEach((event) => {
+    //   form.relayTeams[event].forEach((p) => p.aadharId && aadhaars.push(p.aadharId));
+    // });
+    // return new Set(aadhaars).size !== aadhaars.length;
   };
 
-  switch (stepConfig.type) {
-    case "college":
-      if (!form.collegeName.trim() || !form.collegeAddress.trim()) {
-        alert("Please fill in your College Name and Address.");
-        return false;
-      }
-      break;
-    case "coach":
-      if (form.accompanyingCoach === "Yes" && !validatePerson(form.coach, "the Coach"))
-        return false;
-      break;
-    case "athlete_captain":
-      if (!validatePerson(form.captain, "the Lead Athlete")) return false;
-      break;
-    case "relay_events":
-      for (const eventName of form.selectedRelayEvents) {
-        const players = form.relayTeams[eventName] || [];
-        for (let i = 0; i < players.length; i++) {
-          if (!validatePerson(players[i], `Player #${i + 1} in ${eventName}`)) return false;
-        }
-      }
-      break;
-  }
-
-  if (["coach", "athlete_captain", "relay_events", "receipt"].includes(stepConfig.type)) {
-    const aadhaars = [];
-    if (form.captain.aadharId) aadhaars.push(form.captain.aadharId);
-    if (form.accompanyingCoach === "Yes" && form.coach.aadharId) aadhaars.push(form.coach.aadharId);
-    form.selectedRelayEvents.forEach((eventName) => {
-      const players = form.relayTeams[eventName] || [];
-      players.forEach((p) => p.aadharId && aadhaars.push(p.aadharId));
-    });
-    // const unique = new Set(aadhaars);
-    // if (unique.size !== aadhaars.length) {
-    //   alert("Duplicate Aadhaar numbers are not allowed.");
-    //   return false;
-    // }
-  }
-
-  return true;
-};
-
+  // ----------------- Validation -----------------
   const validateCurrentStep = () => {
     const stepConfig = config.steps[currentStep];
     const isValidPhone = (num) => /^\d{10}$/.test(num);
     const isValidAadhaar = (num) => /^\d{12}$/.test(num);
 
     const validatePerson = (person, label) => {
-      if (
-        !person ||
-        !person.fullname?.trim() ||
-        !person.email?.trim() ||
-        !isValidPhone(person.phoneNumber) ||
-        !isValidAadhaar(person.aadharId)
-      ) {
-        alert(`Please fill all valid details for ${label}.`);
-        return false;
+      if (!person || !person.fullname?.trim() || !person.email?.trim() || !isValidPhone(person.phoneNumber) || !isValidAadhaar(person.aadharId)) {
+        alert(`Fill valid details for ${label}.`); return false;
       }
       return true;
     };
 
     switch (stepConfig.type) {
-      case "college":
-        if (!form.collegeName.trim() || !form.collegeAddress.trim()) {
-          alert("Please fill in your College Name and Address.");
-          return false;
-        }
-        break;
-      case "coach":
-        if (form.accompanyingCoach === "Yes" && !validatePerson(form.coach, "the Coach"))
-          return false;
-        break;
-      case "athlete_captain":
-        if (!validatePerson(form.captain, "the Lead Athlete")) return false;
-        break;
+      case "college": if (!form.collegeName || !form.collegeAddress) { alert("Fill college name/address."); return false; } break;
+      case "coach": if (form.accompanyingCoach === "Yes" && !validatePerson(form.coach, "Coach")) return false; break;
+      case "athlete_captain": if (!validatePerson(form.captain, "Lead Athlete")) return false; break;
       case "relay_events":
         for (const eventName of form.selectedRelayEvents) {
-          const players = form.relayTeams[eventName] || [];
-          for (let i = 0; i < players.length; i++) {
-            if (!validatePerson(players[i], `Player #${i + 1} in ${eventName}`)) return false;
+          for (let i = 0; i < form.relayTeams[eventName].length; i++) {
+            if (!validatePerson(form.relayTeams[eventName][i], `Player ${i+1} in ${eventName}`)) return false;
           }
         }
         break;
     }
+
     if (["coach", "athlete_captain", "relay_events", "receipt"].includes(stepConfig.type)) {
-      if (hasDuplicateAadhaar()) {
-        alert("Duplicate Aadhaar numbers are not allowed.");
-        return false;
-      }
+      if (hasDuplicateAadhaar()) { alert("Duplicate Aadhaar not allowed."); return false; }
     }
+
     return true;
   };
 
-  const nextStep = () => {
-    if (validateCurrentStep()) {
-      if (currentStep < config.steps.length - 1) setCurrentStep((s) => s + 1);
-    }
-  };
+  const nextStep = () => { if (validateCurrentStep()) setCurrentStep((s) => s + 1); };
+  const prevStep = () => { if (currentStep > 0) setCurrentStep((s) => s - 1); };
 
-  const prevStep = () => {
-    if (currentStep > 0) setCurrentStep((s) => s - 1);
-  };
-
-
-  
+  // ----------------- Submit -----------------
 const handleSubmit = async (e) => {
   e.preventDefault();
-  if (!validateAllSteps()) return;
+  console.log(form)
+
+  // Validate all steps before submitting
+  for (let i = 0; i < config.steps.length; i++) {
+    setCurrentStep(i);
+    if (!validateCurrentStep()) return;
+  }
 
   if (!form.paymentProof) {
-    toast.error("Payment proof is required");
+    toast.error("Upload payment proof");
     return;
   }
 
-  console.log(form);
-
-  // Build payload first
-  const buildAthleticsPayload = (form) => {
-    return {
-      collegeName: form.collegeName,
-      collegeAddress: form.collegeAddress,
-      category: form.category.toLowerCase(), // men/women
-      lead: {
-        fullname: form.captain.fullname,
-        email: form.captain.email,
-        phoneNumber: form.captain.phoneNumber,
-        aadharId: form.captain.aadharId,
-      },
-      coach:
-        form.accompanyingCoach === "Yes"
-          ? {
-              fullname: form.coach.fullname,
-              email: form.coach.email,
-              phoneNumber: form.coach.phoneNumber,
-              aadharId: form.coach.aadharId,
-            }
-          : null,
-      individualEvents: form.selectedIndividualEvents,
-      relayTeams: form.selectedRelayEvents.map((eventName) => ({
-        teamName: eventName,
-        members: form.relayTeams[eventName].map((player) => ({
-          fullname: player.fullname,
-          email: player.email,
-          phoneNumber: player.phoneNumber,
-          aadharId: player.aadharId,
-        })),
-      })),
-    };
+  // Prepare payload to match backend expectations
+  const payload = {
+    collegeName: form.collegeName,
+    collegeAddress: form.collegeAddress,
+    category: form.category.toLowerCase(),
+    leadName: form.captain.fullname,
+    email: form.captain.email,
+    phoneNumber: form.captain.phoneNumber,
+    aadharId: form.captain.aadharId,
+    coachDetails: form.accompanyingCoach === "Yes" ? { ...form.coach } : null,
+    individualEvents: form.selectedIndividualEvents,
+    relayTeams: form.selectedRelayEvents.map((eventName) => ({
+      teamName: eventName,
+      members: form.relayTeams[eventName].map((p) => ({ ...p })),
+    })),
   };
 
-  const payload = buildAthleticsPayload(form); // ⚡ Create payload first
-
-  // Then append to FormData
+  // Send as FormData for file upload
   const formData = new FormData();
-  formData.append("collegeName", payload.collegeName);
-  formData.append("collegeAddress", payload.collegeAddress);
-  formData.append("category", payload.category);
-  formData.append("lead", JSON.stringify(payload.lead));
-  formData.append("coach", payload.coach ? JSON.stringify(payload.coach) : null);
-  formData.append("individualEvents", JSON.stringify(payload.individualEvents));
-  formData.append("relayTeams", JSON.stringify(payload.relayTeams));
+  formData.append("registrationData", JSON.stringify(payload));
   formData.append("paymentProof", form.paymentProof);
 
+  // Call registration hook
   registerEvent(formData, navigate);
 };
 
@@ -383,235 +212,99 @@ const handleSubmit = async (e) => {
   const currentStepConfig = config.steps[currentStep];
   const isLastStep = currentStep === config.steps.length - 1;
 
+  // ----------------- Render -----------------
   const renderStepContent = () => {
     switch (currentStepConfig.type) {
       case "college":
-        return (
-          <>
-            {currentStepConfig.hasCategory && (
-              <FormSection title="Category">
-                <select name="category" value={form.category} onChange={handleTopLevelChange}>
-                  <option value="Men">Men</option>
-                  <option value="Women">Women</option>
-                </select>
-              </FormSection>
-            )}
-            <CollegeSelector form={form} setForm={setForm} handleTopLevelChange={handleTopLevelChange} />
-          </>
-        );
+        return <>
+          {currentStepConfig.hasCategory && (
+            <FormSection title="Category">
+              <select name="category" value={form.category} onChange={handleTopLevelChange}>
+                <option value="Men">Men</option>
+                <option value="Women">Women</option>
+              </select>
+            </FormSection>
+          )}
+          <CollegeSelector form={form} setForm={setForm} handleTopLevelChange={handleTopLevelChange} />
+        </>;
 
       case "coach":
-        return (
-          <FormSection title="Coach Details">
-            <p>Will a coach be accompanying the team?</p>
-            <label>
-              <input
-                type="radio"
-                name="accompanyingCoach"
-                value="Yes"
-                checked={form.accompanyingCoach === "Yes"}
-                onChange={handleTopLevelChange}
-              />{" "}
-              Yes
-            </label>
-            <label style={{ marginLeft: "1rem" }}>
-              <input
-                type="radio"
-                name="accompanyingCoach"
-                value="No"
-                checked={form.accompanyingCoach === "No"}
-                onChange={handleTopLevelChange}
-              />{" "}
-              No
-            </label>
-            {form.accompanyingCoach === "Yes" && (
-              <PersonInputGroup
-                title="Coach Information"
-                personData={form.coach}
-                onChange={handleCoachChange}
-                isRequired={true}
-              />
-            )}
-          </FormSection>
-        );
+        return <FormSection title="Coach Details">
+          <p>Will a coach accompany?</p>
+          <label><input type="radio" name="accompanyingCoach" value="Yes" checked={form.accompanyingCoach==="Yes"} onChange={handleTopLevelChange}/> Yes</label>
+          <label style={{marginLeft:"1rem"}}><input type="radio" name="accompanyingCoach" value="No" checked={form.accompanyingCoach==="No"} onChange={handleTopLevelChange}/> No</label>
+          {form.accompanyingCoach==="Yes" && <PersonInputGroup title="Coach Information" personData={form.coach} onChange={handleCoachChange} isRequired />}
+        </FormSection>;
 
       case "athlete_captain":
-        return (
-          <FormSection title="Lead Athlete / Captain Details">
-            <PersonInputGroup personData={form.captain} onChange={handleCaptainChange} isRequired={true} />
-          </FormSection>
-        );
+        return <FormSection title="Lead Athlete / Captain">
+          <PersonInputGroup personData={form.captain} onChange={handleCaptainChange} isRequired />
+        </FormSection>;
 
       case "individual_events": {
-        const options =
-          form.category === "Men"
-            ? config.eventOptions.men.individual
-            : config.eventOptions.women.individual;
-
-        return (
-          <FormSection title="Individual Events">
-            <div className="checkbox-group">
-              {options.map((event) => (
-                <label key={event}>
-                  <input
-                    type="checkbox"
-                    checked={form.selectedIndividualEvents.includes(event)}
-                    onChange={() => handleIndividualEventToggle(event)}
-                  />{" "}
-                  {event}
-                </label>
-              ))}
-            </div>
-          </FormSection>
-        );
+        const options = form.category==="Men"?config.eventOptions.men.individual:config.eventOptions.women.individual;
+        return <FormSection title="Individual Events">
+          <div className="checkbox-group">
+            {options.map((event)=><label key={event}><input type="checkbox" checked={form.selectedIndividualEvents.includes(event)} onChange={()=>handleIndividualEventToggle(event)} /> {event}</label>)}
+          </div>
+        </FormSection>;
       }
 
       case "relay_events": {
-        const relayOptions = [
-          ...(form.category === "Men"
-            ? config.eventOptions.men.relay
-            : config.eventOptions.women.relay),
-          ...config.eventOptions.mixed.relay,
-        ];
+        const relayOptions = [...(form.category==="Men"?config.eventOptions.men.relay:config.eventOptions.women.relay), ...config.eventOptions.mixed.relay];
+        return <FormSection title="Relay Events">
+          <div className="checkbox-group">
+            {relayOptions.map((event)=><label key={event}><input type="checkbox" checked={form.selectedRelayEvents.includes(event)} onChange={()=>handleRelayEventToggle(event)} /> <strong>{event}</strong></label>)}
+          </div>
 
-        return (
-          <FormSection title="Relay Events">
-            <div className="checkbox-group">
-              {relayOptions.map((event) => (
-                <label key={event}>
-                  <input
-                    type="checkbox"
-                    checked={form.selectedRelayEvents.includes(event)}
-                    onChange={() => handleRelayEventToggle(event)}
-                  />{" "}
-                  <strong>{event}</strong>
-                </label>
-              ))}
-            </div>
-
-            {form.selectedRelayEvents.length > 0 && (
-              <div style={{ marginTop: "1rem" }}>
-                <h4>Relay Players (applied to all selected relay events)</h4>
-                {sharedRelayPlayers.map((player, index) => (
-                  <PersonInputGroup
-                    key={index}
-                    title={`Player ${index + 1}`}
-                    personData={player}
-                    onChange={(f, v) => handleRelayPlayerChange(index, f, v)}
-                    isRequired={true}
-                  />
-                ))}
-              </div>
-            )}
-          </FormSection>
-        );
+          {form.selectedRelayEvents.length>0 && <div style={{marginTop:"1rem"}}>
+            <h4>Relay Players (for all selected events)</h4>
+            {sharedRelayPlayers.map((player,index)=><PersonInputGroup key={index} title={`Player ${index+1}`} personData={player} onChange={(f,v)=>handleRelayPlayerChange(index,f,v)} isRequired />)}
+          </div>}
+        </FormSection>;
       }
 
-      // case "receipt":
-      //   return (
-      //     <FormSection title="Registration Summary">
-      //       <div className="receipt">
-      //         <p>
-      //           <strong>College/Societies:</strong> {form.collegeName}
-      //         </p>
-      //         <p>
-      //           <strong>Lead Athlete:</strong> {form.captain.fullname}
-      //         </p>
-      //         <p>
-      //           <strong>Individual Events:</strong>{" "}
-      //           {form.selectedIndividualEvents.join(", ") || "None"}
-      //         </p>
-      //         <p>
-      //           <strong>Relay Events:</strong> {form.selectedRelayEvents.join(", ") || "None"}
-      //         </p>
-      //         <hr />
-      //         <h3>Payment Details</h3>
-      //         <p>
-      //           <strong>Fee:</strong> {config.paymentDetails.fee}
-      //         </p>
-      //       </div>
-      //     </FormSection>
-      //   );
-
       case "receipt":
-  return (
-    <FormSection title="Registration Summary & Payment">
-      <div className="receipt">
-        <p><strong>College/Societies:</strong> {form.collegeName}</p>
-        <p><strong>Lead Athlete:</strong> {form.captain.fullname}</p>
-        <p><strong>Individual Events:</strong> {form.selectedIndividualEvents.join(", ") || "None"}</p>
-        <p><strong>Relay Events:</strong> {form.selectedRelayEvents.join(", ") || "None"}</p>
-        <hr />
-        <h3>Payment Details</h3>
-        <p>Please scan the QR code below to pay the registration fee.</p>
+        return <FormSection title="Registration Summary & Payment">
+          <div className="receipt">
+            <p><strong>College:</strong> {form.collegeName}</p>
+            <p><strong>Lead Athlete:</strong> {form.captain.fullname}</p>
+            <p><strong>Individual Events:</strong> {form.selectedIndividualEvents.join(", ")||"None"}</p>
+            <p><strong>Relay Events:</strong> {form.selectedRelayEvents.join(", ")||"None"}</p>
+            <hr />
+            <h3>Payment</h3>
+            <p>Scan QR and upload proof:</p>
+            <img src="/gymkhanaQR.jpg" alt="QR" className="qr-image h-80"/>
+            <input type="file" accept="image/*,application/pdf" name="paymentProof" onChange={handleTopLevelChange} required />
+            <p><strong>Fee:</strong> {config.paymentDetails.fee}</p>
+          </div>
+        </FormSection>;
 
-        <div className="qr-payment">
-          <img
-            src="/gymkhanaQR.jpg"
-            alt="Scan QR to pay"
-            className="qr-image h-80"
-          />
-          <p>After payment, upload the payment proof below:</p>
-          <input
-  type="file"
-  accept="image/*,application/pdf"
-  name="paymentProof"
-  onChange={handleTopLevelChange}
-  className="input"
-  required
-/>
-
-        </div>
-
-        <div className="fee-block">
-          <p><strong>Registration Fee:</strong> {config.paymentDetails.fee}</p>
-        </div>
-      </div>
-    </FormSection>
-  );
-
-
-      default:
-        return null;
+      default: return null;
     }
   };
 
-  return (
-    <>
-      <FormStyles />
-      <div className="div">
-        <Navbar />
-        <section className="event-forms">
-          <div className="form-heading">
-            <h2>{config.title}</h2>
-            <p className="step-indicator">
-              Step {currentStep + 1} of {config.steps.length}: {currentStepConfig.title}
-            </p>
+  return <>
+    <FormStyles/>
+    <div className="div">
+      <Navbar />
+      {submitting && <Loader message="Registering your detail..." />}
+      <section className="event-forms">
+        <div className="form-heading">
+          <h2>{config.title}</h2>
+          <p className="step-indicator">Step {currentStep+1} of {config.steps.length}: {currentStepConfig.title}</p>
+        </div>
+        <form onSubmit={handleSubmit}>
+          {renderStepContent()}
+          <div className="form-navigation">
+            {currentStep>0 && <button type="button" onClick={prevStep} className="secondary-btn">Back</button>}
+            {isLastStep?<button type="submit" disabled={submitting}>Confirm & Register</button>:<button type="button" onClick={nextStep}>Next</button>}
           </div>
-          <form onSubmit={handleSubmit}>
-            {renderStepContent()}
-            <div className="form-navigation">
-              {currentStep > 0 && (
-                <button type="button" onClick={prevStep} className="secondary-btn">
-                  Back
-                </button>
-              )}
-              {isLastStep ? (
-                <button type="submit" disabled={submitting}>
-                  Confirm & Register
-                </button>
-              ) : (
-                <button type="button" onClick={nextStep}>
-                  Next
-                </button>
-              )}
-            </div>
-          </form>
-        </section>
-        <Footer />
-      </div>
-    </>
-  );
+        </form>
+      </section>
+      <Footer />
+    </div>
+  </>;
 };
 
 export default Athletics;
