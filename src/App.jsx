@@ -127,10 +127,10 @@ const router = createBrowserRouter([
     path: "/aboutUs",
     element: <Team />,
   },
-  // {
-  //   path: "/aboutUs2",
-  //   element: <Team2 />,
-  // },
+  {
+    path: "/aboutUs2",
+    element: <Team2 />,
+  },
   {
     path: "/sponsor",
     element: <Spons />,

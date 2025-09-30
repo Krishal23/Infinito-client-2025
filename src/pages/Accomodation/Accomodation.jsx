@@ -139,8 +139,9 @@ export default function AccommodationWizard() {
     const fetchEvents = async () => {
       try {
         const res = await axiosInstance("/events/my-event-players");
+
         const data = res?.data;
-        // console.log("Fetched events:", data);
+        console.log("Fetched events:", data);
 
 
         if (data.success) {

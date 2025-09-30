@@ -48,12 +48,12 @@ const EventRegistrations = ({ eventType = "football", onSportChange }) => {
   // Filtered by search term
   const filteredRegistrations = useMemo(() => {
     return currentRegistrations.filter(reg => {
-      const name =reg.userId?.username|| reg.captain?.fullname || reg.lead?.fullname || "";
-      const college = reg.collegeName|| "";
+      const name = reg.userId?.username || reg.captain?.fullname || reg.lead?.fullname || "";
+      const college = reg.collegeName || "";
       const email = reg.userId?.email || "";
       return (
         name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        college.toLowerCase().includes(searchTerm.toLowerCase()) || 
+        college.toLowerCase().includes(searchTerm.toLowerCase()) ||
         email.toLowerCase().includes(searchTerm.toLowerCase())
       );
     });
@@ -87,8 +87,8 @@ const EventRegistrations = ({ eventType = "football", onSportChange }) => {
             key={sport}
             onClick={() => handleSportSelect(sport)}
             className={`px-4 py-2 rounded-2xl text-sm font-semibold shadow-md transition-all duration-200
-              ${selectedSport === sport 
-                ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white scale-105" 
+              ${selectedSport === sport
+                ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white scale-105"
                 : "bg-gray-100 hover:bg-indigo-100 text-gray-700"
               }`}
           >
@@ -169,14 +169,18 @@ const EventRegistrations = ({ eventType = "football", onSportChange }) => {
                 paginatedRegistrations.map((reg) => {
                   const teamSize = (reg.players?.length || 0) + (reg.substitutes?.length || 0) + (reg.captain ? 1 : 0) + (reg.viceCaptain ? 1 : 0) + (reg.lead ? 1 : 0);
                   return (
-                    <TableRow key={reg._id} onClick={() => setSelectedRegistration(reg)} className="hover:bg-gray-50 cursor-pointer">
-                      <TableCell>{reg._id.slice(0,8)}...</TableCell>
-                      <TableCell>{reg.userId.username || "N/A"}</TableCell>
-                      <TableCell>{reg.userId.email || "N/A"}</TableCell>
-                      <TableCell>{reg?.collegeName}</TableCell>
+                    <TableRow
+                      key={reg.eventId}
+                      onClick={() => setSelectedRegistration(reg)}
+                      className="hover:bg-gray-50 cursor-pointer"
+                    >
+                      <TableCell>{reg.eventId.slice(0, 8)}...</TableCell>
+                      <TableCell>{reg.user?.username || "N/A"}</TableCell>
+                      <TableCell>{reg.user?.email || "N/A"}</TableCell>
+                      <TableCell>{reg.collegeName || "N/A"}</TableCell>
                       <TableCell>{teamSize}</TableCell>
                       <TableCell>{new Date(reg.registrationDate).toLocaleString()}</TableCell>
-                      <TableCell>{reg.paymentStatus}</TableCell>
+                      <TableCell>{reg.payment?.status || "pending"}</TableCell>
                       <TableCell>
                         <Button size="sm" onClick={() => setSelectedRegistration(reg)}>View</Button>
                       </TableCell>
