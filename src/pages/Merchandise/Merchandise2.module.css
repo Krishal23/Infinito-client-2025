@@ -40,7 +40,7 @@
 
 .merchContent h1:hover::after {
   width: 100%; /* Full width on hover */
-  background: #42170f; /* Change color on hover */
+  background: #ffffff; /* Change color on hover */
 }
 
 .imgmerch {
@@ -51,7 +51,7 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   /* margin-bottom: 0.2rem; */
   font-weight: normal;
-  color: #401c0b; /* Dark zinc-like color */
+  color: #ffffff; /* Dark zinc-like color */
   /* margin-bottom: 2rem; */
 }
 .para {
@@ -88,12 +88,14 @@
   border-radius: 25px;
   height: fit-content;
   cursor: pointer;
+  max-width: fit-content;
 
   transition: background-color 0.3s;
 }
 
 .grabNowBtn:hover {
-  background-color: #ffe6d5;
+  background-color: #5a42329a;
+  color: white;
 }
 
 .merchItems {

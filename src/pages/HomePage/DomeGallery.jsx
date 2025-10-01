@@ -4,33 +4,96 @@ import './DomeGallery.css';
 import styles from "./Head.module.css";
 import { Link } from 'react-router-dom';
 
-
 const DEFAULT_IMAGES = [
+  
   {
-    src: 'https://images.unsplash.com/photo-1755331039789-7e5680e26e8f?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    src: 'https://i.postimg.cc/Z5rx2RBY/Whats-App-Image-2025-10-01-at-00-27-28.jpg',
     alt: 'Abstract art'
   },
-  {
-    src: 'https://images.unsplash.com/photo-1755569309049-98410b94f66d?q=80&w=772&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    alt: 'Modern sculpture'
+   {
+    src: 'https://i.postimg.cc/5jWFSBm3/Whats-App-Image-2025-10-01-at-00-27-28-1.jpg',
+    alt: 'Abstract art'
   },
-  {
-    src: 'https://images.unsplash.com/photo-1755497595318-7e5e3523854f?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    alt: 'Digital artwork'
+ {
+    src: 'https://i.postimg.cc/4xZ8QMwp/Whats-App-Image-2025-10-01-at-00-27-28-2.jpg',
+    alt: 'Abstract art'
   },
-  {
-    src: 'https://images.unsplash.com/photo-1755353985163-c2a0fe5ac3d8?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    alt: 'Contemporary art'
+ {
+    src: 'https://i.postimg.cc/X7tT3qQL/Whats-App-Image-2025-10-01-at-16-24-58-182c264f.jpg',
+    alt: 'Abstract art'
   },
-  {
-    src: 'https://images.unsplash.com/photo-1745965976680-d00be7dc0377?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    alt: 'Geometric pattern'
+ {
+    src: 'https://i.postimg.cc/vZVw6fcK/Whats-App-Image-2025-10-01-at-16-24-57-00521355.jpg',
+    alt: 'Abstract art'
   },
-  {
-    src: 'https://images.unsplash.com/photo-1752588975228-21f44630bb3c?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    alt: 'Textured surface'
+   {
+    src: 'https://i.postimg.cc/pVzYcCmG/Whats-App-Image-2025-10-01-at-00-27-29.jpg',
+    alt: 'Abstract art'
   },
-  { src: 'https://pbs.twimg.com/media/Gyla7NnXMAAXSo_?format=jpg&name=large', alt: 'Social media image' }
+   {
+    src: 'https://i.postimg.cc/VLyVV645/Whats-App-Image-2025-10-01-at-17-30-12-45abab66.jpg',
+    alt: 'Abstract art'
+  },
+   {
+    src: 'https://i.postimg.cc/7Yq7sk8K/Whats-App-Image-2025-10-01-at-00-27-30.jpg',
+    alt: 'Abstract art'
+  },
+   {
+    src: 'https://i.postimg.cc/wTBMRTYD/Whats-App-Image-2025-10-01-at-00-27-30-2.jpg',
+    alt: 'Abstract art'
+  },
+   {
+    src: 'https://i.postimg.cc/BvZyBVpC/Whats-App-Image-2025-10-01-at-17-30-12-c50783fb.jpg',
+    alt: 'Abstract art'
+  },
+ {
+    src: 'https://i.postimg.cc/s2C3m3qb/Whats-App-Image-2025-10-01-at-00-27-31.jpg',
+    alt: 'Abstract art'
+  },
+   {
+    src: 'https://i.postimg.cc/s2st1xtZ/Whats-App-Image-2025-10-01-at-00-27-31-1.jpg',
+    alt: 'Abstract art'
+  },
+ {
+    src: 'https://i.postimg.cc/fbHDNYkP/Whats-App-Image-2025-10-01-at-00-27-32.jpg',
+    alt: 'Abstract art'
+  },
+   {
+    src: 'https://i.postimg.cc/ncY8xqP6/Whats-App-Image-2025-10-01-at-00-27-32-1.jpg',
+    alt: 'Abstract art'
+  },
+ {
+    src: 'https://i.postimg.cc/fbVgVd8M/Whats-App-Image-2025-10-01-at-00-27-33.jpg',
+    alt: 'Abstract art'
+  },
+   {
+    src: 'https://i.postimg.cc/1tJgbgZJ/Whats-App-Image-2025-10-01-at-00-27-34.jpg',
+    alt: 'Abstract art'
+  },
+   {
+    src: 'https://i.postimg.cc/cHrgyx1p/Whats-App-Image-2025-10-01-at-00-27-35.jpg',
+    alt: 'Abstract art'
+  },
+   {
+    src: 'https://i.postimg.cc/4NTdwbcz/Whats-App-Image-2025-10-01-at-00-27-35-1.jpg',
+    alt: 'Abstract art'
+  },
+ {
+    src: 'https://i.postimg.cc/wx5HxKtN/Whats-App-Image-2025-10-01-at-00-27-37.jpg',
+    alt: 'Abstract art'
+  },
+   {
+    src: 'https://i.postimg.cc/9QKst1Rp/Whats-App-Image-2025-10-01-at-00-27-38.jpg',
+    alt: 'Abstract art'
+  },
+    {
+    src: 'https://i.postimg.cc/T2N0D1Wv/Whats-App-Image-2025-10-01-at-00-27-40.jpg',
+    alt: 'Abstract art'
+  },
+   {
+    src: 'https://i.postimg.cc/ZKy8vcSw/Whats-App-Image-2025-10-01-at-00-27-40-1.jpg',
+    alt: 'Abstract art'
+   }
 ];
 
 const DEFAULTS = {
@@ -585,15 +648,15 @@ export default function DomeGallery({
   return (
     <div
       ref={rootRef}
-      className="sphere-root"
+      className="sphere-root min-h-screen bg-cover bg-center bg-no-repeat relative"
       style={{
         ['--segments-x']: segments,
         ['--segments-y']: segments,
         ['--overlay-blur-color']: overlayBlurColor,
         ['--tile-radius']: imageBorderRadius,
         ['--enlarge-radius']: openedImageBorderRadius,
-        ['--image-filter']: grayscale ? 'grayscale(1)' : 'none'
-      }}
+        ['--image-filter']: grayscale ? 'grayscale(1)' : 'none',
+       backgroundImage: "url('/aboutUsbg2.png')" }}
     >
       <main ref={mainRef} className="sphere-main">
         <div className="stage flex flex-row justify-between ">
@@ -629,23 +692,26 @@ export default function DomeGallery({
               </div>
             ))}
           </div>
-          <div className={`${styles.tit} px-4`}>
+          <div className={`${styles.tit} px-8`}>
                     <div>
                       <h1 className={styles.atmos}>INFINITO</h1>
                       <h1 className={styles.atmos}>2025</h1>
                       {/* <h2 className={styles.bupal}>Coming Soon...</h2> */}
                     </div>
-                    <div className={`${styles.bupal} flex gap-4`}>
-                      <Link to="/event/ins" className='bg-zinc-800 flex justify-center items-center p-4 h-12 hover:bg-zinc-600 rounded'>
-                        <span >Explore Now</span>
-                      </Link>
-                      <Link to="/ca" className='bg-zinc-800 flex justify-center items-center p-4 h-12 hover:bg-zinc-600 rounded'>
-                        <span >CA Portal</span>
-                      </Link>
-                      {/* <a href="#" className={styles.cool}>
-                        <span style={{ zIndex: "1" }}>Sign Up</span>
-                      </a> */}
-                    </div>
+                    <div className="flex flex-wrap gap-4 mt-4">
+    <Link
+      to="/event/ins"
+      className="border-2 border-[#e0bfbc]  bg-gradient-to-r from-[#8B2E2E] to-[#D96666] text-white font-semibold px-6 py-3 rounded-lg hover:scale-105 transition-transform duration-300 shadow-lg"
+    >
+      Events
+    </Link>
+    <Link
+      to="/accom"
+      className="border-2 border-[#e0bfbc]  bg-gradient-to-r from-[#8B2E2E] to-[#D96666] text-white font-semibold px-6 py-3 rounded-lg hover:scale-105 transition-transform duration-300 shadow-lg"
+    >
+      Accommodation
+    </Link>
+  </div>
           </div>
         </div>
 

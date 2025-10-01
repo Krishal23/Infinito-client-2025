@@ -153,6 +153,7 @@
     border-radius: 15px; /* Rounded corners for the card */
     overflow: hidden; /* Ensures content does not overflow */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Adds shadow for depth */
+    background: #f11a3a77;
   }
   
   .cardInner {

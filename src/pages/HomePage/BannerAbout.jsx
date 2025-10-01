@@ -1,12 +1,11 @@
 import styles from "./BannerAbout.module.css";
-import img from "./../../../public/about_20.png";
-import img2 from "./../../../public/about_19.png";
 import { useRef } from "react";
 import useInView from "../../components/useInView";
 
 function BannerAbout() {
   const ref = useRef();
   const isVisible = useInView(ref);
+
   return (
     <div className={styles.container}>
       <div className={styles.line}>
@@ -14,31 +13,43 @@ function BannerAbout() {
           ref={ref}
           className={`${styles.h2} ${isVisible ? styles.show : ""}`}
         >
-          WELCOME TO INFINITO
+          Imperio Guererio
         </h2>
+        <h6
+          ref={ref}
+          className={`${styles.h6} ${isVisible ? styles.show : ""}`}
+        >
+          Entering to Realm of Infinito
+        </h6>
       </div>
+
       <div className={styles.item}>
         <div className={styles.content}>
           <div className={styles.content2}>
-            Infinito is the annual sports fest of IIT Patna. Once a humble
-            initiative, after just nine editions, Infinito has already grown
-            into the biggest and most awaited sports fest of Bihar. It is an
-            endeavor to ensure that no talent goes unnoticed. Through Infinito
-            we provide people a platform where they can not only display their
-            skills but also learn and develop the qualities of a true sportsman.
-            Knit together are the virtues of team spirit, undying determination
-            and zeal, and Infinito is an embodiment of them all. Infinito is a
-            three days fest and these three days see participation from colleges
-            all over India. With a plethora of sporting events and exhilarating
-            cultural nights we leave no stones unturned into ensuring that these
-            three days are filled with fun and thrill and that everyone who is a
-            part of our ever-growing family gets to make the most beautiful of
-            memories. Lets sweat to glory, together.
+            <p>
+              It all started with a spark — a vision to build not just a fest, 
+              but a <b>realm of warriors</b>. From its humble beginning, Infinito 
+              rose like an empire, and in just nine editions, it has become 
+              the grandest and most awaited sports saga of Bihar.
+            </p>
+            <p>
+              In the <b>Empire of Warriors</b>, every player is more than a competitor — 
+              they are a fighter, a dreamer, and a believer. Infinito offers 
+              a battlefield where talent meets passion, where grit and skill 
+              carve the path to glory.
+            </p>
+            <p>
+              Over three electrifying days, warriors from across India unite. 
+              From breathtaking sporting clashes to nights alive with culture 
+              and celebration, the spirit of Infinito knows no bounds.
+            </p>
+            <p>
+              This is <b>Imperio Guererio</b> — a story of courage, unity, 
+              and the pursuit of eternal glory. Together, let us march, let us 
+              fight, and let us <span className={styles.highlight}>
+              sweat to glory</span>.
+            </p>
           </div>
-        </div>
-        <div className={styles.side}>
-          <img className={styles.img} src={img} alt="ff" />
-          <img className={styles.img2} src={img2} alt="" />
         </div>
       </div>
     </div>

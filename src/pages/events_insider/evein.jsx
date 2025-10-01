@@ -52,11 +52,11 @@ import { Link } from 'react-router-dom';
 // Mapping for event components
 const eventComponents = {
   // 'Clash Royale':<ClashRoyale/>,
-  'Mr. Infinto':<MrInfinito/>,
-  'CODM':<CODM/>,
-  'BGMI':<BGMI/>,
-  'Valorant':<Valorant/>,
-  'Free Fire':<FreeFire/>,
+  'Mr. Infinto': <MrInfinito />,
+  'CODM': <CODM />,
+  'BGMI': <BGMI />,
+  'Valorant': <Valorant />,
+  'Free Fire': <FreeFire />,
   athletic: <Atheletic />,
   badminton: <Badminton />,
   basketball: <Basketball />,
@@ -68,13 +68,13 @@ const eventComponents = {
   'Table Tennis': <TableTennis />,
   volleyball: <Volleyball />,
   'Weight Lifting': <Weight />,
-  'Power Lifting':<PowerLift/>,
-  'Chess':<Chess/>,
+  'Power Lifting': <PowerLift />,
+  'Chess': <Chess />,
 };
 
 // Mapping for sport images
 const sportImages = {
-  'Mr. Infinto':mrinfinitoimg,
+  'Mr. Infinto': mrinfinitoimg,
   athletic: atheleteimg,
   badminton: badmintonimg,
   basketball: baskimg,
@@ -87,12 +87,12 @@ const sportImages = {
   volleyball: volleyballimg,
   'Weight Lifting': weightimg,
   'Power Lifting': powerliftimg,
-  'Chess':chessimg,
-  'BGMI':bgmiimg,
+  'Chess': chessimg,
+  'BGMI': bgmiimg,
   // 'Clash Royale':clashroyaleimg,
-  'CODM':codmimg,
-  'Free Fire':freefireimg,
-  'Valorant':valorantimg,
+  'CODM': codmimg,
+  'Free Fire': freefireimg,
+  'Valorant': valorantimg,
 
 };
 
@@ -103,10 +103,10 @@ const Evein = () => {
   const [registeredEvents, setRegisteredEvents] = useState([]);
 
   const normalizeEventMap = {
-  athletics:"athletic", 
-};
+    athletics: "athletic",
+  };
 
-const normalizeEvent = (event) => normalizeEventMap[event] || event;
+  const normalizeEvent = (event) => normalizeEventMap[event] || event;
 
   useEffect(() => {
     const fetchRegisteredEvents = async () => {
@@ -134,26 +134,35 @@ const normalizeEvent = (event) => normalizeEventMap[event] || event;
     <>
       <Navbar />
       <div className={styles.sportsPage}
-       style={{
-        backgroundImage: `url(${sportImages[selectedSport]})`, 
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        
-      }}>
-        <div className='flex justify-between w-full items-center mt-4'>
+        style={{
+          backgroundImage: `url(${sportImages[selectedSport]})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
 
-        <div className='w-40'> </div>
-        <h1 className={styles.title}>Events</h1>
-        <Link
-          to="/events/my-registrations"
-        className="inline-block px-4 py-2 rounded-lg 
-          bg-gradient-to-b from-[#4b0f2a]/80 to-[#5c2c29]/80 
-          hover:from-[#6b1f3a]/90 hover:to-[#7c3c39]/90
-          text-white transition-all duration-300 
-          text-lg font-medium shadow-lg hover:shadow-xl"
-        >My Events
-        </Link>
+        }}>
+        <div className="flex flex-col sm:flex-row justify-between items-center w-full mt-4 px-4 sm:px-0">
+          {/* Placeholder div for spacing on larger screens */}
+          <div className="w-40 mb-2 sm:mb-0"></div>
+
+          {/* Title */}
+          <h1 className={`${styles.title} text-4xl sm:text-3xl font-bold text-gradient bg-clip-text text-transparent
+      bg-gradient-to-r from-[#ff7e5f] via-[#feb47b] to-[#ff7e5f]`}>
+            Events
+          </h1>
+
+          {/* Button */}
+          <Link
+            to="/events/my-registrations"
+            className="inline-block px-4 py-2 rounded-lg
+      bg-gradient-to-b from-[#4b0f2a]/80 to-[#5c2c29]/80
+      hover:from-[#6b1f3a]/90 hover:to-[#7c3c39]/90
+      text-white transition-all duration-300
+      text-lg font-medium shadow-lg hover:shadow-xl mt-2 sm:mt-0"
+          >
+            My Events
+          </Link>
         </div>
+
         {/* Section 1: Sports Icons */}
         <div className={styles.sportsIcons}>
           {Object.keys(eventComponents).map((sportKey) => (

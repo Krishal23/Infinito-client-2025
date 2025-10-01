@@ -109,26 +109,26 @@ import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 
 const merchandiseData = [
-  {
-    frontContent: {
-      title: "1f",
-      image: f1, // Replace with actual image path
-    },
-    backContent: {
-      title: "1b",
-      image: b1,
-    },
-  },
-  {
-    frontContent: {
-      title: "1f",
-      image: f2, // Replace with actual image path
-    },
-    backContent: {
-      title: "1b",
-      image: b2,
-    },
-  },
+  // {
+  //   frontContent: {
+  //     title: "1f",
+  //     image: f1, // Replace with actual image path
+  //   },
+  //   backContent: {
+  //     title: "1b",
+  //     image: b1,
+  //   },
+  // },
+  // {
+  //   frontContent: {
+  //     title: "1f",
+  //     image: f2, // Replace with actual image path
+  //   },
+  //   backContent: {
+  //     title: "1b",
+  //     image: b2,
+  //   },
+  // },
   {
     frontContent: {
       title: "1f",
@@ -139,16 +139,16 @@ const merchandiseData = [
       image: b3,
     },
   },
-  {
-    frontContent: {
-      title: "1f",
-      image: f4, // Replace with actual image path
-    },
-    backContent: {
-      title: "1b",
-      image: b4,
-    },
-  },
+  // {
+  //   frontContent: {
+  //     title: "1f",
+  //     image: f4, // Replace with actual image path
+  //   },
+  //   backContent: {
+  //     title: "1b",
+  //     image: b4,
+  //   },
+  // },
   {
     frontContent: {
       title: "1f",
@@ -183,13 +183,15 @@ const Merchandise = () => {
               with our limited-edition Infinito T-shirts and Hoodies!
             </p>
             <div className={styles.grab2}>
-              <img className={styles.imgmerch2} src={mascot} alt="" />
-              <div
+              <img className='w-[280px] opacity-80' src={mascot} alt="" />
+              <a
+                href="https://docs.google.com/forms/d/e/1FAIpQLSezBCMl5w8rvYxp-uloJ80iUARzkX8mVr5q5Vo_nbqeN9MziQ/viewform"
+                target="_blank"
+                rel="noopener noreferrer"
                 className={styles.grabNowBtn}
-                // to="https://docs.google.com/forms/d/e/1FAIpQLSfE-MZYmqqntVzoTtt_GvBBqOYdYwPA2OOQQkvMWm9VJuEUdQ/viewform?fbzx=8247677167203646238"
               >
-                Live Soon
-              </div>
+                Grab Now
+              </a>
             </div>
           </div>
         </div>
