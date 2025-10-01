@@ -1,17 +1,16 @@
 .banner {
   width: 100%;
-  background: linear-gradient(to right, #8B2E2E, #D96666);
+  background: linear-gradient(to right, #ff416c, #ff4b2b);
   color: white;
-  font-weight: bold;
-  font-size: 16px;
+  text-align: center;
+  font-weight: 600;
+  padding: 0.7rem 1rem;
+  font-size: 14px;
   position: sticky;
-  top: 0;
-  z-index: 999;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  padding: 0.75rem 2rem 0.75rem 0.75rem;
+  top: 0; /* sits at the very top */
+  z-index: 1001; /* higher than navbar */
 }
+
 
 .marquee {
   display: inline-block;

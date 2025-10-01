@@ -13,7 +13,7 @@ function BannerAbout() {
           ref={ref}
           className={`${styles.h2} ${isVisible ? styles.show : ""}`}
         >
-          Imperio Guererio
+          Imperio Guerreo
         </h2>
         <h6
           ref={ref}
@@ -44,7 +44,7 @@ function BannerAbout() {
               and celebration, the spirit of Infinito knows no bounds.
             </p>
             <p>
-              This is <b>Imperio Guererio</b> — a story of courage, unity, 
+              This is <b>Imperio Guerreo</b> — a story of courage, unity, 
               and the pursuit of eternal glory. Together, let us march, let us 
               fight, and let us <span className={styles.highlight}>
               sweat to glory</span>.

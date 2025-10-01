@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import logo from "../pages/assets/infinito-logo.png";
 import axiosInstance from "../utils/axios";
 import { AuthContext } from "../context/AuthContext";
-import TopBanner from "./TopBanner";
 
 const Navbar = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -62,9 +61,6 @@ const Navbar = () => {
   }, []);
 
   return (
-    <div className="navbar-container ">
-    <TopBanner message="⚠️ Limited Registrations Open! Submit your forms before the deadline. || 🎽 Official Infinito 2025 Merchandise Now Available – Grab Yours While Stocks Last!" />
-
     <div className="nav">
       <Link to="/" className="logo-link">
         <img
@@ -125,8 +121,6 @@ const Navbar = () => {
           </Link>
         )}
       </div>
-      </div>
-      
     </div>
   );
 };
