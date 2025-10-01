@@ -9,6 +9,24 @@ export function DepartmentHeader({
   icon: Icon, 
   accentColor 
 }) {
+  const colorMap = {
+    'warrior-gold': {
+      text: 'text-yellow-400',
+      bg: 'bg-yellow-400',
+      border: 'border-yellow-400',
+    },
+    'warrior-blue': {
+      text: 'text-blue-400',
+      bg: 'bg-blue-400',
+      border: 'border-blue-400',
+    },
+    'warrior-crimson': {
+      text: 'text-red-500',
+      bg: 'bg-red-500',
+      border: 'border-red-500',
+    }
+  };
+  const colors = colorMap[accentColor] || colorMap['warrior-gold'];
   return (
     <div className="relative">
       {/* Background Pattern */}
@@ -18,10 +36,10 @@ export function DepartmentHeader({
         <div className="flex items-center gap-6">
           <div className={cn(
             "w-20 h-20 rounded-full bg-imperial-steel border-2",
-            `border-${accentColor}/30 flex items-center justify-center`,
+            `${colors.border} flex items-center justify-center`,
             "shadow-warrior"
           )}>
-            <Icon size={32} className={`text-${accentColor}`} />
+            <Icon size={32} className={colors.text} />
           </div>
           
           <div className="flex-1">
@@ -33,7 +51,7 @@ export function DepartmentHeader({
                 variant="secondary"
                 className={cn(
                   "text-sm font-inter font-semibold",
-                  `bg-${accentColor}/10 text-${accentColor} border-${accentColor}/30`
+                  `${colors.bg.replace('bg-','bg-')}\/10 ${colors.text} ${colors.border}`
                 )}
               >
                 {memberCount} Warriors
@@ -48,7 +66,7 @@ export function DepartmentHeader({
         {/* Decorative Border */}
         <div className={cn(
           "absolute bottom-0 left-8 right-8 h-1 rounded-full",
-          `bg-gradient-to-r from-transparent via-${accentColor}/50 to-transparent`
+          "bg-gradient-to-r from-transparent to-transparent",
         )} />
       </div>
     </div>

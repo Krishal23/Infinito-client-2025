@@ -54,6 +54,7 @@ import JsonViewer from "./utils/JsonViewer";
 import Accommodation from "./pages/Accomodation/Accomodation.jsx";
 import Merch from "./pages/Merchandise/merch.jsx";
 import PrivacyPolicy from "./components/PrivacyPolicy.jsx";
+import TeamEditor from "./pages/AboutUs/TeamEditor.jsx";
 
 // import Gallery from "./pages/Gallery/components/content";
 
@@ -175,6 +176,10 @@ const router = createBrowserRouter([
   {
     path: "/privacy-policy",
     element: <PrivacyPolicy />,
+  },
+  {
+    path: "/team-editor",
+    element: <TeamEditor />,
   },
 
   {

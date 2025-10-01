@@ -40,3 +40,23 @@ body {
   overflow-x: hidden;
 
 }
+
+/* Utilities */
+@tailwind utilities;
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .snap-x-mandatory {
+    scroll-snap-type: x mandatory;
+  }
+  .snap-center-child > * {
+    scroll-snap-align: center;
+  }
+}

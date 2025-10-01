@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { cn } from './lib/utils';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
 
-export function TeamWheel({ items, activeItem, onItemChange }) {
+export function TeamWheel({ items, activeItem, onItemChange, offsetTop = 0, offsetBottom = 0 }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [dimensions, setDimensions] = useState({ width: window.innerWidth, height: window.innerHeight });
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -64,6 +64,26 @@ export function TeamWheel({ items, activeItem, onItemChange }) {
 
   const iconSize = getItemSize() + 8;
   const isMobile = dimensions.width < 640;
+  const colorMap = {
+    'warrior-gold': {
+      text: 'text-yellow-400',
+      bg: 'bg-yellow-400',
+      border: 'border-yellow-400',
+      shadow: 'shadow-yellow-400/30'
+    },
+    'warrior-blue': {
+      text: 'text-blue-400',
+      bg: 'bg-blue-400',
+      border: 'border-blue-400',
+      shadow: 'shadow-blue-400/30'
+    },
+    'warrior-crimson': {
+      text: 'text-red-500',
+      bg: 'bg-red-500',
+      border: 'border-red-500',
+      shadow: 'shadow-red-500/30'
+    }
+  };
 
   return (
     <>
@@ -71,7 +91,7 @@ export function TeamWheel({ items, activeItem, onItemChange }) {
       {isMobile && (
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="fixed left-0 transform -translate-x-1/2 rounded-full bg-warrior-gold flex items-center justify-center shadow-lg z-50 text-background"
+          className="fixed left-0 transform -translate-x-1/2 rounded-full bg-yellow-500 flex items-center justify-center shadow-lg z-50 text-background"
           style={{
             top: '50%',
             height: 48,
@@ -86,19 +106,18 @@ export function TeamWheel({ items, activeItem, onItemChange }) {
       {(!isMobile || mobileOpen) && (
         <div
           className={cn(
-            "fixed top-0 left-0 h-screen z-40 transition-all duration-500",
+            "relative transition-all duration-500",
             isMobile ? "w-full" : "w-72"
           )}
-          style={{ background: 'var(--gradient-imperial)' }}
         >
-          <div className="relative w-full h-full">
-            <div className="absolute left-1/2 top-16 bottom-16 w-0.5 bg-warrior-gold/20 transform -translate-x-0.5" />
+          <div className="relative w-full h-full py-8">
 
             {items.map((item, index) => {
               const { x, y } = getItemPosition(index);
               const isActive = index === currentIndex;
               const Icon = item.icon;
               const size = getItemSize();
+              const colors = colorMap[item.color] || colorMap['warrior-gold'];
 
               return (
                 <div
@@ -106,8 +125,8 @@ export function TeamWheel({ items, activeItem, onItemChange }) {
                   className={cn(
                     `absolute rounded-full border-2 transition-all duration-500 flex items-center justify-center cursor-pointer transform -translate-x-1/2 -translate-y-1/2 w-${size} h-${size}`,
                     isActive
-                      ? `bg-${item.color}/20 border-${item.color} shadow-warrior scale-105`
-                      : "bg-imperial-steel/50 border-imperial-mist hover:border-warrior-gold/50 hover:scale-105"
+                      ? `${colors.bg.replace('bg-','bg-')}\/20 ${colors.border} scale-105`
+                      : "bg-neutral-800/50 border-neutral-600 hover:border-yellow-400/50 hover:scale-105"
                   )}
                   style={{ left: x, top: y }}
                   onClick={() => {
@@ -119,14 +138,14 @@ export function TeamWheel({ items, activeItem, onItemChange }) {
                     size={isActive ? iconSize : iconSize - 4}
                     className={cn(
                       "transition-all duration-300",
-                      isActive ? `text-${item.color}` : "text-muted-foreground"
+                      isActive ? colors.text : "text-muted-foreground"
                     )}
                   />
                   {!isMobile && (
                     <div
                       className={cn(
                         "absolute left-20 top-1/2 transform -translate-y-1/2 whitespace-nowrap text-xs font-inter font-medium transition-all duration-300",
-                        isActive ? `text-${item.color}` : "text-muted-foreground"
+                        isActive ? colors.text : "text-muted-foreground"
                       )}
                     >
                       {item.name.split(' ').slice(0, 2).join(' ')}
