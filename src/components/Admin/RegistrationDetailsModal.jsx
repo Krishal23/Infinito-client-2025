@@ -4,8 +4,8 @@ import {
   FaGraduationCap, FaUsers, FaTrophy, FaCalendar,
   FaDownload
 } from 'react-icons/fa';
-import jsPDF from "jspdf";
-import "jspdf-autotable";
+// import jsPDF from "jspdf";
+// import "jspdf-autotable";
 
 export const downloadReceipt = (data, eventType = "registration", logoUrl) => {
   if (!data) return;
