@@ -5,95 +5,95 @@ import styles from "./Head.module.css";
 import { Link } from 'react-router-dom';
 
 const DEFAULT_IMAGES = [
-  
+
   {
     src: 'https://i.postimg.cc/Z5rx2RBY/Whats-App-Image-2025-10-01-at-00-27-28.jpg',
     alt: 'Abstract art'
   },
-   {
+  {
     src: 'https://i.postimg.cc/5jWFSBm3/Whats-App-Image-2025-10-01-at-00-27-28-1.jpg',
     alt: 'Abstract art'
   },
- {
+  {
     src: 'https://i.postimg.cc/4xZ8QMwp/Whats-App-Image-2025-10-01-at-00-27-28-2.jpg',
     alt: 'Abstract art'
   },
- {
+  {
     src: 'https://i.postimg.cc/X7tT3qQL/Whats-App-Image-2025-10-01-at-16-24-58-182c264f.jpg',
     alt: 'Abstract art'
   },
- {
+  {
     src: 'https://i.postimg.cc/vZVw6fcK/Whats-App-Image-2025-10-01-at-16-24-57-00521355.jpg',
     alt: 'Abstract art'
   },
-   {
+  {
     src: 'https://i.postimg.cc/pVzYcCmG/Whats-App-Image-2025-10-01-at-00-27-29.jpg',
     alt: 'Abstract art'
   },
-   {
+  {
     src: 'https://i.postimg.cc/VLyVV645/Whats-App-Image-2025-10-01-at-17-30-12-45abab66.jpg',
     alt: 'Abstract art'
   },
-   {
+  {
     src: 'https://i.postimg.cc/7Yq7sk8K/Whats-App-Image-2025-10-01-at-00-27-30.jpg',
     alt: 'Abstract art'
   },
-   {
+  {
     src: 'https://i.postimg.cc/wTBMRTYD/Whats-App-Image-2025-10-01-at-00-27-30-2.jpg',
     alt: 'Abstract art'
   },
-   {
+  {
     src: 'https://i.postimg.cc/BvZyBVpC/Whats-App-Image-2025-10-01-at-17-30-12-c50783fb.jpg',
     alt: 'Abstract art'
   },
- {
+  {
     src: 'https://i.postimg.cc/s2C3m3qb/Whats-App-Image-2025-10-01-at-00-27-31.jpg',
     alt: 'Abstract art'
   },
-   {
+  {
     src: 'https://i.postimg.cc/s2st1xtZ/Whats-App-Image-2025-10-01-at-00-27-31-1.jpg',
     alt: 'Abstract art'
   },
- {
+  {
     src: 'https://i.postimg.cc/fbHDNYkP/Whats-App-Image-2025-10-01-at-00-27-32.jpg',
     alt: 'Abstract art'
   },
-   {
+  {
     src: 'https://i.postimg.cc/ncY8xqP6/Whats-App-Image-2025-10-01-at-00-27-32-1.jpg',
     alt: 'Abstract art'
   },
- {
+  {
     src: 'https://i.postimg.cc/fbVgVd8M/Whats-App-Image-2025-10-01-at-00-27-33.jpg',
     alt: 'Abstract art'
   },
-   {
+  {
     src: 'https://i.postimg.cc/1tJgbgZJ/Whats-App-Image-2025-10-01-at-00-27-34.jpg',
     alt: 'Abstract art'
   },
-   {
+  {
     src: 'https://i.postimg.cc/cHrgyx1p/Whats-App-Image-2025-10-01-at-00-27-35.jpg',
     alt: 'Abstract art'
   },
-   {
+  {
     src: 'https://i.postimg.cc/4NTdwbcz/Whats-App-Image-2025-10-01-at-00-27-35-1.jpg',
     alt: 'Abstract art'
   },
- {
+  {
     src: 'https://i.postimg.cc/wx5HxKtN/Whats-App-Image-2025-10-01-at-00-27-37.jpg',
     alt: 'Abstract art'
   },
-   {
+  {
     src: 'https://i.postimg.cc/9QKst1Rp/Whats-App-Image-2025-10-01-at-00-27-38.jpg',
     alt: 'Abstract art'
   },
-    {
+  {
     src: 'https://i.postimg.cc/T2N0D1Wv/Whats-App-Image-2025-10-01-at-00-27-40.jpg',
     alt: 'Abstract art'
   },
-   {
+  {
     src: 'https://i.postimg.cc/ZKy8vcSw/Whats-App-Image-2025-10-01-at-00-27-40-1.jpg',
     alt: 'Abstract art'
-   }
+  }
 ];
 
 const DEFAULTS = {
@@ -190,7 +190,7 @@ export default function DomeGallery({
   openedImageBorderRadius = '30px',
   grayscale = true
 }) {
-    console.log("HELLO")
+  console.log("HELLO")
   const rootRef = useRef(null);
   const mainRef = useRef(null);
   const sphereRef = useRef(null);
@@ -341,8 +341,8 @@ export default function DomeGallery({
       const maxFrames = Math.round(90 + 270 * d);
       const step = () => {
         vX *= frictionMul;
-        vY *= frictionMul;
-        if (Math.abs(vX) < stopThreshold && Math.abs(vY) < stopThreshold) {
+        // vY ignored
+        if (Math.abs(vX) < stopThreshold) {
           inertiaRAF.current = null;
           return;
         }
@@ -350,12 +350,13 @@ export default function DomeGallery({
           inertiaRAF.current = null;
           return;
         }
-        const nextX = clamp(rotationRef.current.x - vY / 200, -maxVerticalRotationDeg, maxVerticalRotationDeg);
+        // only horizontal rotation
         const nextY = wrapAngleSigned(rotationRef.current.y + vX / 200);
-        rotationRef.current = { x: nextX, y: nextY };
-        applyTransform(nextX, nextY);
+        rotationRef.current.y = nextY;
+        applyTransform(rotationRef.current.x, nextY);
         inertiaRAF.current = requestAnimationFrame(step);
       };
+
       stopInertia();
       inertiaRAF.current = requestAnimationFrame(step);
     },
@@ -382,16 +383,16 @@ export default function DomeGallery({
           const dist2 = dxTotal * dxTotal + dyTotal * dyTotal;
           if (dist2 > 16) movedRef.current = true;
         }
-        const nextX = clamp(
-          startRotRef.current.x - dyTotal / dragSensitivity,
-          -maxVerticalRotationDeg,
-          maxVerticalRotationDeg
-        );
-        const nextY = wrapAngleSigned(startRotRef.current.y + dxTotal / dragSensitivity);
-        if (rotationRef.current.x !== nextX || rotationRef.current.y !== nextY) {
-          rotationRef.current = { x: nextX, y: nextY };
-          applyTransform(nextX, nextY);
+        // Only rotate dome on horizontal drag
+        if (Math.abs(dxTotal) > Math.abs(dyTotal)) { // horizontal movement
+          const nextY = wrapAngleSigned(startRotRef.current.y + dxTotal / dragSensitivity);
+          rotationRef.current.y = nextY;
+          applyTransform(rotationRef.current.x, nextY);
+        } else {
+          // vertical movement → do nothing, allow page scroll
+          return;
         }
+
         if (last) {
           draggingRef.current = false;
           let [vMagX, vMagY] = velocity;
@@ -656,11 +657,12 @@ export default function DomeGallery({
         ['--tile-radius']: imageBorderRadius,
         ['--enlarge-radius']: openedImageBorderRadius,
         ['--image-filter']: grayscale ? 'grayscale(1)' : 'none',
-       backgroundImage: "url('/aboutUsbg2.png')" }}
+        backgroundImage: "url('/aboutUsbg2.png')"
+      }}
     >
       <main ref={mainRef} className="sphere-main">
         <div className="stage flex flex-row justify-between ">
-         
+
           <div ref={sphereRef} className="sphere">
             {items.map((it, i) => (
               <div
@@ -692,26 +694,26 @@ export default function DomeGallery({
               </div>
             ))}
           </div>
-          <div className={`${styles.tit} px-8`}>
-                    <div>
-                      <h1 className={styles.atmos}>INFINITO</h1>
-                      <h1 className={styles.atmos}>2025</h1>
-                      {/* <h2 className={styles.bupal}>Coming Soon...</h2> */}
-                    </div>
-                    <div className="flex flex-wrap gap-4 mt-4">
-    <Link
-      to="/event/ins"
-      className="border-2 border-[#e0bfbc]  bg-gradient-to-r from-[#8B2E2E] to-[#D96666] text-white font-semibold px-6 py-3 rounded-lg hover:scale-105 transition-transform duration-300 shadow-lg"
-    >
-      Events
-    </Link>
-    <Link
-      to="/accom"
-      className="border-2 border-[#e0bfbc]  bg-gradient-to-r from-[#8B2E2E] to-[#D96666] text-white font-semibold px-6 py-3 rounded-lg hover:scale-105 transition-transform duration-300 shadow-lg"
-    >
-      Accommodation
-    </Link>
-  </div>
+          <div className={`${styles.tit} px-8 `}>
+            <div>
+              <h1 className={`${styles.atmos} `}>INFINITO</h1>
+              <h1 className={styles.atmos}>2025</h1>
+              {/* <h2 className={styles.bupal}>Coming Soon...</h2> */}
+            </div>
+            <div className="flex flex-wrap gap-4 mt-4">
+              <Link
+                to="/event/ins"
+                className="border-2 border-[#e0bfbc]  bg-gradient-to-r from-[#8B2E2E] to-[#D96666] text-white font-semibold px-6 py-3 rounded-lg hover:scale-105 transition-transform duration-300 shadow-lg"
+              >
+                Events
+              </Link>
+              <Link
+                to="/merch"
+                className="border-2 border-[#e0bfbc]  bg-gradient-to-r from-[#8B2E2E] to-[#D96666] text-white font-semibold px-6 py-3 rounded-lg hover:scale-105 transition-transform duration-300 shadow-lg"
+              >
+                Merch
+              </Link>
+            </div>
           </div>
         </div>
 

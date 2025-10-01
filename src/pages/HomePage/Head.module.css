@@ -155,7 +155,7 @@ img {
 @media (max-width: 930px) {
   .tit {
     position: absolute;
-    bottom: 1px;
+    bottom: 80px;
     left: 4rem;
   }
 }
