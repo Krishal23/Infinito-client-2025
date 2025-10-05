@@ -9,10 +9,28 @@ import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
 import { toast } from "react-toastify";
 import Loader from "../../../components/Loader";
+import TypewriterSafetyNotice from "../forms-centralized/components/SafetyMsg";
+
+
+
+const safetyMessages = [
+  { header: "Player Safety Notice", msg: "Say No to Drugs. Live Clean, Play Strong!" },
+  { header: "Health & Safety Reminder", msg: "Stay Drug-Free. Play Hard, Live Free!" },
+  { header: "Champion’s Code", msg: "Keep your game clean, on and off the field!" },
+  { header: "Fair Play Notice", msg: "Run Away from Drugs, Run Towards Life!" },
+  { header: "Winning Mindset", msg: "Drug-Free Today, Champions Tomorrow!" },
+  { header: "Athlete Safety Alert", msg: "Choose Life, Not Drugs. Stay Strong, Stay Free!" },
+  { header: "Mind & Body Alert", msg: "A Clear Mind Wins. Stay Away from Drugs!" },
+  { header: "Strength Safely", msg: "Build Strength Naturally. Say No to Drugs!" },
+  { header: "Lift Right", msg: "Drug-Free Athletes, Safer Performance!" },
+  { header: "Sprint to Safety", msg: "Run Fast, Live Free. Stay Drug-Free!" },
+];
+
+
 
 const FormStyles = () => (
   <style>{`
-    .event-forms { max-width: 800px; margin: 2rem auto; padding: 2rem; background: #fff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .event-forms { max-width: 800px; margin: 2rem auto; padding: 2rem; background: #ffffffe4; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
     .form-heading { text-align: center; margin-bottom: 2rem; }
     .step-indicator { text-align: center; color: #4a5568; font-weight: bold; margin-bottom: 1.5rem; }
     .form-section { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid #e2e8f0; }
@@ -286,7 +304,10 @@ const handleSubmit = async (e) => {
 
   return <>
     <FormStyles/>
-    <div className="div">
+    <div
+        className="min-h-screen bg-cover bg-center bg-no-repeat relative page-wrap"
+        style={{ backgroundImage: `url(/eveRegBG.png)` }}
+      >
       <Navbar />
       {submitting && <Loader message="Registering your detail..." />}
       <section className="event-forms">
@@ -294,6 +315,14 @@ const handleSubmit = async (e) => {
           <h2>{config.title}</h2>
           <p className="step-indicator">Step {currentStep+1} of {config.steps.length}: {currentStepConfig.title}</p>
         </div>
+        <div className="safety-notice">
+              <TypewriterSafetyNotice
+                messages={safetyMessages} 
+                speed={50}
+                pause={2000}
+              />
+
+            </div>
         <form onSubmit={handleSubmit}>
           {renderStepContent()}
           <div className="form-navigation">

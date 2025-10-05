@@ -29,7 +29,7 @@ function BannerAbout() {
             <p>
               It all started with a spark — a vision to build not just a fest, 
               but a <b>realm of warriors</b>. From its humble beginning, Infinito 
-              rose like an empire, and in just nine editions, it has become 
+              rose like an empire, and in just ten editions, it has become 
               the grandest and most awaited sports saga of Bihar.
             </p>
             <p>

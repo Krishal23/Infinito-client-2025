@@ -9,6 +9,27 @@ import PersonInputGroup from "./PersonInputGroup";
 import CollegeSelector from "./CollegeSelector";
 import "./EventForm.css";
 import Loader from "../../../../components/Loader";
+import TypewriterSafetyNotice from "./SafetyMsg";
+
+
+const safetyMessages = [
+  { header: "Player Safety Notice", msg: "Say No to Drugs. Live Clean, Play Strong!" },
+  { header: "Health & Safety Reminder", msg: "Stay Drug-Free. Play Hard, Live Free!" },
+  { header: "Champion’s Code", msg: "Keep your game clean, on and off the field!" },
+  { header: "Fair Play Notice", msg: "Run Away from Drugs, Run Towards Life!" },
+  { header: "Winning Mindset", msg: "Drug-Free Today, Champions Tomorrow!" },
+  { header: "Athlete Safety Alert", msg: "Choose Life, Not Drugs. Stay Strong, Stay Free!" },
+  { header: "Mind & Body Alert", msg: "A Clear Mind Wins. Stay Away from Drugs!" },
+  { header: "Strength Safely", msg: "Build Strength Naturally. Say No to Drugs!" },
+  { header: "Lift Right", msg: "Drug-Free Athletes, Safer Performance!" },
+  { header: "Sprint to Safety", msg: "Run Fast, Live Free. Stay Drug-Free!" },
+];
+
+
+// const getRandomSafetyMessage = () => {
+//   return safetyMessages[Math.floor(Math.random() * safetyMessages.length)];
+// };
+
 
 /** ---------- Validators ---------- */
 const isValidEmail = (email) =>
@@ -51,7 +72,9 @@ const EventForm = ({ config }) => {
   const navigate = useNavigate();
   const [form, setForm] = useState(createInitialState(config));
   const [currentStep, setCurrentStep] = useState(0);
-  const [touched, setTouched] = useState({}); // for inline errors
+  const [touched, setTouched] = useState({});
+  // const safetyNotice = getRandomSafetyMessage();
+
 
   const { registerEvent, submitting } = useEventRegistration({
     endpoint: config.endpoint,
@@ -63,18 +86,18 @@ const EventForm = ({ config }) => {
   const markTouched = (path) =>
     setTouched((t) => ({ ...t, [path]: true }));
 
-const handleTopLevelChange = (e) => {
-  const { name, type, files, value } = e.target;
+  const handleTopLevelChange = (e) => {
+    const { name, type, files, value } = e.target;
 
-  if (type === "file") {
-    // store the actual File object
-    setForm((prev) => ({ ...prev, [name]: files[0] }));
-  } else {
-    setForm((prev) => ({ ...prev, [name]: value }));
-  }
+    if (type === "file") {
+      // store the actual File object
+      setForm((prev) => ({ ...prev, [name]: files[0] }));
+    } else {
+      setForm((prev) => ({ ...prev, [name]: value }));
+    }
 
-  markTouched(name);
-};
+    markTouched(name);
+  };
 
 
   const handleCoachChange = (field, value) => {
@@ -253,25 +276,25 @@ const handleTopLevelChange = (e) => {
     if (currentStep > 0) setCurrentStep((s) => s - 1);
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  if (!validateAllBeforeSubmit()) {
-    alert("Please fix the highlighted fields before submission.");
-    return;
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validateAllBeforeSubmit()) {
+      alert("Please fix the highlighted fields before submission.");
+      return;
+    }
 
-  const payload = config.buildPayload(form);
+    const payload = config.buildPayload(form);
 
-  const formData = new FormData();
-  formData.append("registrationData", JSON.stringify(payload));
+    const formData = new FormData();
+    formData.append("registrationData", JSON.stringify(payload));
 
-  if (form.paymentProof) {
-    formData.append("paymentProof", form.paymentProof); // send raw File object
-    registerEvent(formData, navigate);
-  } else {
-    toast.error("Payment proof is required");
-  }
-};
+    if (form.paymentProof) {
+      formData.append("paymentProof", form.paymentProof); // send raw File object
+      registerEvent(formData, navigate);
+    } else {
+      toast.error("Payment proof is required");
+    }
+  };
 
 
 
@@ -518,22 +541,32 @@ const handleSubmit = async (e) => {
 
   return (
     <>
-       <div
-  className="min-h-screen bg-cover bg-center bg-no-repeat relative page-wrap"
-  style={{ backgroundImage: `url(/eveRegBG.png)` }}
->
+      <div
+        className="min-h-screen bg-cover bg-center bg-no-repeat relative page-wrap"
+        style={{ backgroundImage: `url(/eveRegBG.png)` }}
+      >
         <Navbar />
-              {submitting && <Loader message="Registering your detail..." />}
-        
+        {submitting && <Loader message="Registering your detail..." />}
+
         <section className="event-forms bg-white/90" >
           <div className="form-heading">
             <h2 className="title">{config.title}</h2>
             <pre className="step-indicator">{config.msg}</pre>
+            
+
             <p className="step-indicator">
               Step {currentStep + 1} of {config.steps.length}:{" "}
               {currentStepConfig.title}
             </p>
           </div>
+          <div className="safety-notice">
+              <TypewriterSafetyNotice
+                messages={safetyMessages} 
+                speed={50}
+                pause={2000}
+              />
+
+            </div>
 
           <form onSubmit={handleSubmit} noValidate>
             {renderStepContent()}
