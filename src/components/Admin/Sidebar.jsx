@@ -8,6 +8,7 @@ export function Sidebar({ activeTab, onTabChange }) {
     { id: "ca", label: "CA" },
     { id: "events", label: "Events" },
     { id: "accom", label: "Accomodation" },
+    { id: "pronites", label: "Pronite Passes" },
   ]
 
   return (

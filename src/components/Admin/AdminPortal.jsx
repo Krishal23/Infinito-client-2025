@@ -12,6 +12,7 @@ import axiosInstance from "../../utils/axios.js"
 import { FaBars, FaTimes } from "react-icons/fa"
 import AccommodationDetails from "./AccomDetails.jsx"
 import EventRegistrations from "./EventRegistrationsFallback.jsx"
+import ProniteRegistrations from "./ProniteRegistrations.jsx"
 
 export default function AdminPortal() {
   const [activeTab, setActiveTab] = useState("home")
@@ -54,6 +55,9 @@ export default function AdminPortal() {
         return <EventRegistrations data={eventsData} />
       case "accom":
         return <AccommodationDetails endpoint={'/accommodation'}/>
+      case "pronites":
+        return <ProniteRegistrations />;
+
       default:
         return <div>Select a section from the sidebar</div>
     }

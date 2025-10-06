@@ -702,10 +702,10 @@ export default function DomeGallery({
             </div>
             <div className="flex flex-wrap gap-4 mt-4">
               <Link
-                to="/event/ins"
+                to="/pronite"
                 className="border-2 border-[#e0bfbc]  bg-gradient-to-r from-[#8B2E2E] to-[#D96666] text-white font-semibold px-6 py-3 rounded-lg hover:scale-105 transition-transform duration-300 shadow-lg"
               >
-                Events
+                Pronite
               </Link>
               <Link
                 to="/merch"
