@@ -190,7 +190,6 @@ export default function DomeGallery({
   openedImageBorderRadius = '30px',
   grayscale = true
 }) {
-  console.log("HELLO")
   const rootRef = useRef(null);
   const mainRef = useRef(null);
   const sphereRef = useRef(null);

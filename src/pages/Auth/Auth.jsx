@@ -5,13 +5,11 @@ import { motion } from 'framer-motion';
 import Tilt from 'react-parallax-tilt';
 import confetti from 'canvas-confetti';
 import '../../styles/Auth/authstyles.css';
-import Navbar from '../../components/Navbar';
+import Navbar from '../../components/Navbar'; // Import Navbar again
 import { AuthContext } from '../../context/AuthContext';
 import axiosInstance from '../../utils/axios';
 import RegisterForm from './RegisterForm';
 import LoginForm from './LoginForm';
-
-
 
 function getErrorMessage(error, fallback = 'Something went wrong') {
   if (error?.response?.data?.message) return error.response.data.message;
@@ -124,9 +122,6 @@ function Auth() {
     }
   };
 
-  // console.log(user)
-
-
   useEffect(() => {
     const interval = setInterval(() => {
       setArrows(prev => [...prev, {
@@ -144,7 +139,7 @@ function Auth() {
   return (
     <div className="page-wrapper">
       <ToastContainer position="top-center" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick pauseOnFocusLoss draggable pauseOnHover />
-      <Navbar />
+      <Navbar /> {/* The Navbar component has been added back here */}
       <div className="smoke" />
       {arrows.map(a => (
         <div key={a.id} className="arrow" style={{ left: `${a.left}px`, top: `${a.top}px`, animationDuration: `${a.duration}s` }} />
@@ -205,9 +200,6 @@ function Auth() {
     </div>
   );
 }
-
-
-
 
 export default Auth;
 

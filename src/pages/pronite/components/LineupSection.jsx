@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Music, Mic2 } from 'lucide-react';
-import performer1 from '/avneet.png';
-import performer2 from '/melody.png';
+import performer2 from '/avneet.png';
+import performer1 from '/melody.png';
 import performer3 from '/dj.jpg';
 import warriorBg from '/proniteBG.jpg';
 

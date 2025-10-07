@@ -9,12 +9,12 @@ const previousPerformers = [
     description: "An electrifying performance that set the stage on fire"
   },
   {
-    year: "2023",
+    year: "2024",
     name: "DJ Tejas",
     description: "Beats that resonated throughout the night"
   },
   {
-    year: "2022",
+    year: "2023",
     name: "Progressive Brothers",
     description: "A legendary duo that left the crowd mesmerized"
   },
