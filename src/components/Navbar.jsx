@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef, useContext } from "react";
 import "./Navbar.css";
 import { Link, useNavigate } from "react-router-dom";
-import logo from "../pages/assets/infinito-logo.png";
+// import logo from "../pages/assets/infinito-logo.png";
+import logo from "/infinito-logo.png";
 import axiosInstance from "../utils/axios";
 import { AuthContext } from "../context/AuthContext";
 

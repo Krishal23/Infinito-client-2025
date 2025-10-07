@@ -56,6 +56,8 @@ import Merch from "./pages/Merchandise/merch.jsx";
 import PrivacyPolicy from "./components/PrivacyPolicy.jsx";
 import ProniteRegister from "./pages/Pronite.jsx";
 import MyProniteRegistration from "./pages/MyProniteRegistration.jsx";
+import PronitePage from "./pages/pronite/ProniteHead.jsx";
+import ProniteIndex from "./pages/pronite/Index.jsx";
 
 // import Gallery from "./pages/Gallery/components/content";
 
@@ -156,6 +158,14 @@ const router = createBrowserRouter([
   },
   {
     path: "/pronite",
+    element: (
+      // <ProtectedRoute>
+        <ProniteIndex />
+      // </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/book-ticket",
     element: (
       <ProtectedRoute>
         <ProniteRegister />

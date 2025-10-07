@@ -6,7 +6,7 @@ import Navbar from "../components/Navbar";
 import Loader from "../components/Loader";
 import colleges from "./Events/forms-centralized/components/collegeData";
 
-const FIXED_PRICE = 500;
+const FIXED_PRICE = 499;
 
 const handleUploadToCloudinary = async (file) => {
   if (!file) return null;
