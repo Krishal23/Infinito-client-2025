@@ -9,7 +9,7 @@ const Volleyball = ({isAlreadyRegistered}) => {
       title="Volleyball Championship"
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating Table Tennis championship where teams will compete for the ultimate prize."
-      isRegistrationOpen={true}
+      isRegistrationOpen={false}
       rulebookUrl={"https://drive.google.com/file/d/1Vxy5M3GPb3vqIooTq6pr5RsatlNFJWN0/view?usp=drive_link"}
       registrationurl="/events/volleyball"
 

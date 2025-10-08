@@ -9,7 +9,7 @@ const CODM = ({isAlreadyRegistered}) => {
       title="CODM Championship"
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating Squash championship where teams will compete for the ultimate prize."
-      isRegistrationOpen={true}
+      isRegistrationOpen={false}
       rulebookUrl={'https://drive.google.com/file/d/1E4Tkay3NeQrgoJjPyBto_BQuUv1_SnkV/view'}
       registrationurl={'https://docs.google.com/forms/d/e/1FAIpQLSfKMzAvLuHVXvrr-B43fBJz7_NLbu-7wrsfxf_121tVQS75mw/viewform'}
       // registrationurl={'/events/codm'}

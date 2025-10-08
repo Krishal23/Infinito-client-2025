@@ -29,7 +29,7 @@ const EventTemplate = ({
             Register Now
           </Link>
         ) : (
-          <a className={styles.workButton}>Registrations Opening Soon</a>
+          <a className={styles.workButton}>Registrations Closed</a>
         )}
         {rulebookUrl && (
           <a

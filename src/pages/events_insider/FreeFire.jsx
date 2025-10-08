@@ -9,7 +9,7 @@ const FreeFire = ({isAlreadyRegistered}) => {
       title="Free Fire Championship"
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating Free Fire championship where teams will compete for the ultimate prize."
-      isRegistrationOpen={true}
+      isRegistrationOpen={false}
       rulebookUrl={'https://drive.google.com/file/d/1C-7WA9UABfBbJqOjAtJ9C8Pm7ymwl21T/view'}
       registrationurl={'https://docs.google.com/forms/d/e/1FAIpQLSfGl6T3ma6UIlKbnWeJqnk0UFF088buVwo3Zr3WGuydv8QL1w/viewform'}
       // registrationurl={'/events/freefire'}

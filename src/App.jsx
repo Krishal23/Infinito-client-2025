@@ -213,129 +213,129 @@ const router = createBrowserRouter([
       </ProtectedRoute>
     ),
   },
-  {
-    path: "/events/athletics",
-    element: (
-      <ProtectedRoute>
-        <Athletics />
-      </ProtectedRoute>
-    ),
-  },
+  // {
+  //   path: "/events/athletics",
+  //   element: (
+  //     <ProtectedRoute>
+  //       <Athletics />
+  //     </ProtectedRoute>
+  //   ),
+  // },
 
-  {
-    path: "/events/badminton",
-    element: (
-      <ProtectedRoute>
-        <Badminton_ />
-      </ProtectedRoute>
-    ),
-  },
+  // {
+  //   path: "/events/badminton",
+  //   element: (
+  //     <ProtectedRoute>
+  //       <Badminton_ />
+  //     </ProtectedRoute>
+  //   ),
+  // },
 
-  {
-    path: "/events/basketball",
-    element: (
-      <ProtectedRoute>
-        <Basketball_ />
-      </ProtectedRoute>
-    ),
-  },
+  // {
+  //   path: "/events/basketball",
+  //   element: (
+  //     <ProtectedRoute>
+  //       <Basketball_ />
+  //     </ProtectedRoute>
+  //   ),
+  // },
 
-  {
-    path: "/events/football",
-    element: (
-      <ProtectedRoute>
-        <Football_ />
-      </ProtectedRoute>
-    ),
-  },
+  // {
+  //   path: "/events/football",
+  //   element: (
+  //     <ProtectedRoute>
+  //       <Football_ />
+  //     </ProtectedRoute>
+  //   ),
+  // },
 
-  {
-    path: "/events/kabbadi",
-    element: (
-      <ProtectedRoute>
-        <Kabbadi_ />
-      </ProtectedRoute>
-    ),
-  },
+  // {
+  //   path: "/events/kabbadi",
+  //   element: (
+  //     <ProtectedRoute>
+  //       <Kabbadi_ />
+  //     </ProtectedRoute>
+  //   ),
+  // },
 
-  {
-    path: "/events/lawn-tennis",
-    element: (
-      <ProtectedRoute>
-        <Lawn_ />
-      </ProtectedRoute>
-    ),
-  },
+  // {
+  //   path: "/events/lawn-tennis",
+  //   element: (
+  //     <ProtectedRoute>
+  //       <Lawn_ />
+  //     </ProtectedRoute>
+  //   ),
+  // },
 
-  {
-    path: "/events/squash",
-    element: (
-      <ProtectedRoute>
-        <Squash_ />
-      </ProtectedRoute>
-    ),
-  },
+  // {
+  //   path: "/events/squash",
+  //   element: (
+  //     <ProtectedRoute>
+  //       <Squash_ />
+  //     </ProtectedRoute>
+  //   ),
+  // },
 
-  {
-    path: "/events/table_tennis",
-    element: (
-      <ProtectedRoute>
-        <Tt_ />
-      </ProtectedRoute>
-    ),
-  },
+  // {
+  //   path: "/events/table_tennis",
+  //   element: (
+  //     <ProtectedRoute>
+  //       <Tt_ />
+  //     </ProtectedRoute>
+  //   ),
+  // },
 
-  {
-    path: "/events/volleyball",
-    element: (
-      <ProtectedRoute>
-        <Volleyball_ />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/events/mr-infinito",
-    element: (
-      <ProtectedRoute>
-        <MrInfinito_ />
-      </ProtectedRoute>
-    ),
-  },
+  // {
+  //   path: "/events/volleyball",
+  //   element: (
+  //     <ProtectedRoute>
+  //       <Volleyball_ />
+  //     </ProtectedRoute>
+  //   ),
+  // },
+  // {
+  //   path: "/events/mr-infinito",
+  //   element: (
+  //     <ProtectedRoute>
+  //       <MrInfinito_ />
+  //     </ProtectedRoute>
+  //   ),
+  // },
 
-  {
-    path: "/events/chess",
-    element: (
-      <ProtectedRoute>
-        <Chess_ />
-      </ProtectedRoute>
-    ),
-  },
+  // {
+  //   path: "/events/chess",
+  //   element: (
+  //     <ProtectedRoute>
+  //       <Chess_ />
+  //     </ProtectedRoute>
+  //   ),
+  // },
 
-  {
-    path: "/events/cricket",
-    element: (
-      <ProtectedRoute>
-        <Cricket_ />
-      </ProtectedRoute>
-    ),
-  },
+  // {
+  //   path: "/events/cricket",
+  //   element: (
+  //     <ProtectedRoute>
+  //       <Cricket_ />
+  //     </ProtectedRoute>
+  //   ),
+  // },
 
-  {
-    path: "/events/weightlifting",
-    element: (
-      <ProtectedRoute>
-        <Weightlifting_ />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/events/powerlifting",
-    element: (
-      <ProtectedRoute>
-        <Powerlifting_ />
-      </ProtectedRoute>
-    ),
-  },
+  // {
+  //   path: "/events/weightlifting",
+  //   element: (
+  //     <ProtectedRoute>
+  //       <Weightlifting_ />
+  //     </ProtectedRoute>
+  //   ),
+  // },
+  // {
+  //   path: "/events/powerlifting",
+  //   element: (
+  //     <ProtectedRoute>
+  //       <Powerlifting_ />
+  //     </ProtectedRoute>
+  //   ),
+  // },
   // {
   //   path: "/events/codm",
   //   element: (

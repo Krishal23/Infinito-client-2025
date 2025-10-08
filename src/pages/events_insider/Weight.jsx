@@ -9,7 +9,7 @@ const Weight = ({isAlreadyRegistered}) => {
       title="Weight Lifting Championship"
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating Weight championship where teams will compete for the ultimate prize."
-      isRegistrationOpen={true}
+      isRegistrationOpen={false}
       rulebookUrl={url}
       registrationurl={'/events/weightlifting'}
 

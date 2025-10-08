@@ -10,7 +10,7 @@ const Football = ({isAlreadyRegistered}) => {
       title="Football Championship"
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating football championship where teams will compete for the ultimate prize."
-      isRegistrationOpen={true}
+      isRegistrationOpen={false}
       rulebookUrl={"https://drive.google.com/file/d/1XUKYcHWrxgdVeZa1I6hLFMhUNDuC_3J2/view?usp=drive_link"}
       registrationurl= "/events/football"
 

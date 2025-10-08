@@ -8,7 +8,7 @@ const Cricket = ({isAlreadyRegistered}) => {
       title="Cricket Championship"
       date="20/2/2024 - 22/2/2024"
       description="Join us for an exhilarating Cricket championship where teams will compete for the ultimate prize."
-      isRegistrationOpen={true}
+      isRegistrationOpen={false}
       rulebookUrl={'https://drive.google.com/file/d/1bzJLN1W3FTizdjSiONS1IpQXtrThYNJ4/view?usp=sharing'}
       registrationurl={'/events/cricket'}
 
