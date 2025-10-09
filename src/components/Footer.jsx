@@ -59,7 +59,7 @@ const Footer = () => {
               <FaPhone />{' '}
             </div>
             <div>
-              <pre className="upperone">+91 7023740380 </pre>
+              <pre className="upperone">+91 9205036301 </pre>
               <p className="bottomone">Give us a call</p>
             </div>
           </div>

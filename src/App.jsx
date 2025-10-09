@@ -93,7 +93,8 @@ const router = createBrowserRouter([
     path: "/accom",
     element: (
       <ProtectedRoute>
-        <Accommodation />
+        {/* <Accommodation /> */}
+        <MyAccom />
       </ProtectedRoute>
     ),
   },
