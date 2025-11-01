@@ -31,9 +31,10 @@
   display: inline-block; /* Ensure the ::after element only affects the heading */
   font-family: 'Atmospheric', sans-serif;
   padding: 18px;
-  font-size: xxx-large;
+  font-size: 3rem;
   width: fit-content;
   text-align: center;
+  
   transition: color 0.3s; /* Optional: smooth color transition */
 }
 

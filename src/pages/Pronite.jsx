@@ -5,8 +5,9 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Loader from "../components/Loader";
 import colleges from "./Events/forms-centralized/components/collegeData";
+import TypewriterSafetyNotice from "./Events/forms-centralized/components/SafetyMsg";
 
-const FIXED_PRICE = 499;
+const FIXED_PRICE = 599;
 
 const handleUploadToCloudinary = async (file) => {
   if (!file) return null;
@@ -34,6 +35,14 @@ const handleUploadToCloudinary = async (file) => {
     return null;
   }
 };
+
+
+const safetyMessages = [
+  { header: "Accomodation Notice", msg: "Accomodation has been officialy closed." },
+  { header: "Be Careful", msg: "No on spot Accomodation would be available." },
+  // { header: "Coupons", msg: "No on spot Accomodation would be available." },
+];
+
 
 
 
@@ -82,42 +91,42 @@ export default function ProniteRegistration() {
 
   const next = () => { if (step === 1 && !validateStep1()) return; setStep(step + 1); };
   const prev = () => setStep(s => Math.max(1, s - 1));
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  if (!validateStep2()) return;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validateStep2()) return;
 
-  setSubmitting(true);
-  setMessage(null);
+    setSubmitting(true);
+    setMessage(null);
 
-  try {
-    let paymentProofUrl = "";
-    if (paymentProof) {
-      paymentProofUrl = await handleUploadToCloudinary(paymentProof);
-    //   console.log("Uploaded URL:", paymentProofUrl);
+    try {
+      let paymentProofUrl = "";
+      if (paymentProof) {
+        paymentProofUrl = await handleUploadToCloudinary(paymentProof);
+        //   console.log("Uploaded URL:", paymentProofUrl);
+      }
+
+      const payload = {
+        name,
+        email,
+        adhaar,
+        phone,
+        collegeName,
+        address,
+        transactionId,
+        amountPaid: FIXED_PRICE,
+        paymentProof: paymentProofUrl,
+      };
+
+      const res = await axiosInstance.post("/pronite/register", payload);
+      // console.log("Response:", res.data);
+      navigate("/my-pronite");
+    } catch (err) {
+      console.error("AxiosError", err);
+      setMessage({ type: "error", text: err.response?.data?.msg || "Registration failed" });
+    } finally {
+      setSubmitting(false);
     }
-
-    const payload = {
-      name,
-      email,
-      adhaar,
-      phone,
-      collegeName,
-      address,
-      transactionId,
-      amountPaid: FIXED_PRICE,
-      paymentProof: paymentProofUrl, 
-    };
-
-    const res = await axiosInstance.post("/pronite/register", payload);
-    // console.log("Response:", res.data);
-    navigate("/my-pronite");
-  } catch (err) {
-    console.error("AxiosError", err);
-    setMessage({ type: "error", text: err.response?.data?.msg || "Registration failed" });
-  } finally {
-    setSubmitting(false);
-  }
-};
+  };
 
 
 
@@ -130,16 +139,26 @@ const handleSubmit = async (e) => {
 
       <div className="relative z-10 m-2 max-w-3xl mx-auto p-6 bg-white/70 backdrop-blur-md rounded-2xl shadow-xl min-h-[80vh] pt-20">
         <h1 className="text-3xl font-extrabold text-center mb-6 text-blue-700">Pronite Registration</h1>
-        <Link
-            to="/my-pronite"
-            className="inline-block px-4 py-2 rounded-lg mb-2
+        <h3 className="text-lg sm:text-xl font-normal text-center mb-6 text-zinc-700">
+          For group discounts, contact 6306243407.
+        </h3>        <Link
+          to="/my-pronite"
+          className="inline-block px-4 py-2 rounded-lg mb-2
   bg-gradient-to-b from-[#4b0f2a]/80 to-[#5c2c29]/80 
   hover:from-[#6b1f3a]/90 hover:to-[#7c3c39]/90
   text-white transition-all duration-300 
   text-lg font-medium shadow-lg hover:shadow-xl"
-          >My Passes
-          </Link>
+        >My Passes
+        </Link>
 
+        <div className="safety-notice">
+          <TypewriterSafetyNotice
+            messages={safetyMessages}
+            speed={50}
+            pause={2000}
+          />
+
+        </div>
         {message && (
           <div className={`mb-4 p-3 rounded ${message.type === "success" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
             {message.text}
@@ -207,7 +226,7 @@ const handleSubmit = async (e) => {
 
               <div className="text-center p-4 bg-gray-100 rounded-lg shadow-md">
                 <p className="mb-2 font-medium">Scan this QR to pay</p>
-                <img src="/gymkhanaQR.jpg" alt="QR Code" className="w-48 mx-auto" />
+                <img src="/qr.jpg" alt="QR Code" className="w-48 mx-auto" />
               </div>
 
               <div>
@@ -219,7 +238,7 @@ const handleSubmit = async (e) => {
 
               <div>
                 <label className="block font-medium text-gray-700">Upload Payment Proof</label>
-                <input type="file" accept="image/png, image/jpeg, application/pdf" onChange={e => setPaymentProof(e.target.files[0])} className="w-full mt-1"/>
+                <input type="file" accept="image/png, image/jpeg, application/pdf" onChange={e => setPaymentProof(e.target.files[0])} className="w-full mt-1" />
                 {errors.paymentProof && <p className="text-red-600 text-sm mt-1">{errors.paymentProof}</p>}
                 {paymentProof && <p className="text-green-700 text-sm mt-1">File selected: {paymentProof.name}</p>}
               </div>

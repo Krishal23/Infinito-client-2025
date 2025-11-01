@@ -79,11 +79,11 @@ const HeroSection = () => {
                 >
                     <Button
                         size="lg"
-                        onClick={() => navigate('/book-ticket')}
+                        onClick={() => navigate('/my-pronite')}
                         className="text-xl  text-shadow text-zinc-900  px-6 md:px-8 py-4 md:py-6 bg-gradient-to-t from-primary to-accent hover:shadow-xl transition-all duration-300 mt-4"
                     >
                         <Sparkles className="mr-2 h-5 w-5" />
-                        Book Your Spot
+                        My passes
                     </Button>
                 </motion.div>
 

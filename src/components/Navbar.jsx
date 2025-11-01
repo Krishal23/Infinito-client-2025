@@ -97,18 +97,18 @@ const Navbar = () => {
             <Link to="/event/ins" onClick={() => setShowMobileMenu(false)}>Events</Link>
             <Link to="/pronite">Pronite Passes</Link>
             <Link to="/sponsor" onClick={() => setShowMobileMenu(false)}>Sponsors</Link>
-            <Link to="/accom">Accomodation</Link>
+            <Link to="/ca">Campus Ambassador</Link>
             <Link to="/merch" onClick={() => setShowMobileMenu(false)}>Merch</Link>
             {(user?.role === "admin" || user?.role === "moderator") && (
               <Link to="/admin" onClick={() => setShowMobileMenu(false)}>Admin</Link>
             )}
-            {isAuth ? (
+            {/* {isAuth ? (
               <Link onClick={handleLogout}>Logout</Link>
             ) : (
               <Link to="/auth" className="login-btn" onClick={() => setShowMobileMenu(false)}>
                 Login
               </Link>
-            )}
+            )} */}
           </div>
         )}
 
@@ -117,25 +117,27 @@ const Navbar = () => {
           <Link to="/event/ins">Events</Link>
           <Link to="/pronite">Pronite Passes</Link>
           <Link to="/sponsor">Sponsors</Link>
-          <Link to="/accom">Accomodation</Link>
+            <Link to="/ca">Campus Ambassador</Link>
+
+          {/* <Link to="/accom">Accomodation</Link> */}
           <Link to="/merch">Merch</Link>
           {(user?.role === "admin" || user?.role === "moderator") && <Link to="/admin">Admin</Link>}
-          {isAuth ? (
+          {/* {isAuth ? (
             <Link onClick={handleLogout}>Logout</Link>
           ) : (
             <Link to="/auth" className="login-btn">
               Login
             </Link>
-          )}
+          )} */}
         </div>
       </div>
 
       {/* 4. Only render the scroller if shouldShowScroller is true */}
-       {shouldShowScroller && showNotice && (
+       {/* {shouldShowScroller && showNotice && (
         <div className="notice-container">
           <NoticeScroller  visible={showNotice}  setVisible={setShowNotice}/>
         </div>
-      )}
+      )} */}
     </>
   );
 };

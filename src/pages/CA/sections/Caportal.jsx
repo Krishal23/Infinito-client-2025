@@ -137,7 +137,10 @@ const Caportal = () => {
         </div>
         presents
         <div className="heading">CAMPUS AMBASSADOR</div>
-        {role === null || applicationStatus === null ? (
+        <button className="gradient-btn" ref={buttonRef}>
+            Application Closed
+          </button>
+        {/* {role === null || applicationStatus === null ? (
           <button className="gradient-btn" ref={buttonRef} onClick={handleApplyClick}>
             Apply
           </button>
@@ -161,7 +164,7 @@ const Caportal = () => {
           <button className="gradient-btn" ref={buttonRef} onClick={handleApplyClick}>
             Apply
           </button>
-        )}
+        )} */}
       </div>
     </div>
   );

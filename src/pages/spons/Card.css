@@ -34,3 +34,161 @@
   max-width: 200px;
   max-height: 200px;
 }
+
+
+.carddiv {
+  border: 1px solid rgba(255, 215, 0, 0.4);
+  background: linear-gradient(145deg, #0d0d2b 0%, #2b1055 60%, #fcb045 100%);
+  border-radius: 1rem;
+  width: 230px;
+  height: 320px;
+  font-family: 'aAtmospheric', sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 1rem;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  box-shadow: 0 0 15px rgba(252, 176, 69, 0.3),
+              inset 0 0 10px rgba(13, 13, 43, 0.8);
+  will-change: transform;
+  transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1);
+}
+
+/* 🔥 Hover effect for a heroic glow */
+.carddiv:hover {
+  transform: perspective(1000px) rotateX(5deg) rotateY(5deg) scale3d(1.05, 1.05, 1);
+  box-shadow: 0 0 30px rgba(252, 176, 69, 0.6),
+              inset 0 0 15px rgba(255, 215, 0, 0.3);
+  border-color: rgba(255, 215, 0, 0.8);
+}
+
+/* ✨ Text styling */
+.cardproptop {
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #ffd700;
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+}
+
+.cardpropbottom {
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 0.75rem;
+  color: #e6e6e6;
+  letter-spacing: 0.5px;
+}
+
+/* 🏅 Image styling */
+.cardimg img {
+  height: auto;
+  width: auto;
+  max-width: 200px;
+  max-height: 200px;
+  filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.5));
+  transition: transform 0.3s ease;
+}
+
+.carddiv:hover .cardimg img {
+  transform: scale(1.05);
+}
+
+/* Optional subtle gradient overlay for depth */
+.carddiv::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top left, rgba(255, 215, 0, 0.15), transparent 70%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.carddiv * {
+  position: relative;
+  z-index: 1;
+}
+
+
+.carddiv {
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  background: linear-gradient(145deg, #0d0d2b 0%, #2b1055 60%, #fcb045 100%);
+  border-radius: 1rem;
+  width: 230px;
+  height: 320px;
+  font-family: 'aAtmospheric', sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 1rem;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  will-change: transform;
+  transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1);
+}
+
+/* Smooth elegant hover */
+.carddiv:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  border-color: rgba(255, 215, 0, 0.6);
+}
+
+/* 🪶 Text styling — toned down gold, no glow */
+.cardproptop {
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #f2c94c; /* softer gold */
+}
+
+.cardpropbottom {
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 0.75rem;
+  color: #e0e0e0;
+  letter-spacing: 0.5px;
+}
+
+/* 🏅 Image styling */
+.cardimg img {
+  height: auto;
+  width: auto;
+  max-width: 200px;
+  max-height: 200px;
+  transition: transform 0.3s ease;
+}
+
+.carddiv:hover .cardimg img {
+  transform: scale(1.05);
+}
+
+/* Soft overlay for subtle depth */
+.carddiv::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top left, rgba(255, 215, 0, 0.05), transparent 70%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.carddiv * {
+  position: relative;
+  z-index: 1;
+}

@@ -10,8 +10,8 @@ export default function ProtectedRoute({ children, allowedRoles }) {
     return <p>Loading...</p>;
   }
   if (!user) {
-    alert("Please Login First!!")
-    return <Navigate to="/auth" replace />;
+    alert("Not available!!")
+    return <Navigate to="/" replace />;
   }
 
   if (allowedRoles && !allowedRoles.includes(user.role)) {

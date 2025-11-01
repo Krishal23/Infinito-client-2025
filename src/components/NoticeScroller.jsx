@@ -5,11 +5,11 @@ import { IoClose } from "react-icons/io5";
 const NoticeScroller = ({visible,setVisible}) => {
 
   const notices = [
-    "⚡ Early Bird Passes just @ ₹499 — Hurry, Ends Soon!",
-    "📢 Pronite Pass sales are now live! Grab yours before they run out.",
-    "🚀 Registrations for flagship events are closing soon. Register now!",
+    "📢 Pronite Pass sales are live! Grab yours before they run out. Closing soon!!",
     "👕 Official merchandise is available at the store. Check out the new designs.",
-    "🏨 Accommodation details have been updated. Please check the portal.",
+    "🚀 Events Registrations has been closed now",
+    "🏨 Accommodation booking has been closed now.",
+    "🧾 No on spot Accomodation available.",
   ];
 
   // Duplicate for seamless loop
