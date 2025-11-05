@@ -98,7 +98,7 @@ export const products = [
     image: b5,
     inStock: true,
     description: "Isme tera Ghar chala jaaega.",
-    sku: "Signed by Kholi"
+    sku: "Signed by "
   }
 ];
 
